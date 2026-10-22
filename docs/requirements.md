@@ -27,20 +27,20 @@ Bahan kuliah yang diaudit menyebut kelompok berisi 6-7 orang. PM mengonfirmasi t
 
 Bahan juga meminta setiap orang mengerjakan setidaknya satu fitur dengan kompleksitas sedang/tinggi di setiap sprint formal, dan setiap fitur memiliki minimal tiga PBI. Dengan asumsi satu fitur minimum per orang per sprint dan dua sprint formal, hitungan dasarnya adalah 3 PBI/orang/sprint, 6 PBI/orang untuk dua sprint, atau 30 untuk lima orang. Itu bukan pengganti keputusan dosen atau bukti kompleksitas pada story.
 
-Backlog Jira sekarang lebih besar: 9 story per anggota. Semua anggota menerima minimal satu kelompok tiga story pada masing-masing Sprint 1 dan Sprint 2.
+Backlog Jira sekarang berisi 9 story per anggota. Rencana sprint yang ditinjau ulang memberi tiap orang 4-5 story per sprint; story dibagi menurut urutan prasyarat dan beban estimasi, sehingga tiga story dari satu modul tidak selalu berada di sprint yang sama. Rincian issue dan jam usulan ada di [baseline estimasi](effort-estimates.md). Pastikan dosen menerima pemetaan ini bila ketentuan tugas meminta tiga PBI satu fitur dikerjakan dalam setiap sprint formal.
 
 ## Pembagian sprint
 
 | Anggota | Sprint 1 | Sprint 2 | Total |
 | --- | ---: | ---: | ---: |
-| Yoga | 6 | 3 | 9 |
-| Rofii | 6 | 3 | 9 |
-| Bitari | 6 | 3 | 9 |
-| Arif | 6 | 3 | 9 |
-| Wira | 3 | 6 | 9 |
-| **Total** | **27** | **18** | **45** |
+| Yoga | 5 | 4 | 9 |
+| Rofii | 5 | 4 | 9 |
+| Bitari | 4 | 5 | 9 |
+| Arif | 4 | 5 | 9 |
+| Wira | 4 | 5 | 9 |
+| **Total** | **22** | **23** | **45** |
 
-Sprint 0 adalah persiapan dan bukan sprint formal. Sprint 0, Sprint 1, dan Sprint 2 sudah dibuat di board. Per tanggal audit 22 Oktober 2026, tanggal Sprint 0 telah lewat dan tanggal mulai Sprint 1 juga telah tiba, tetapi status Jira ketiganya masih future. Sprint 2 goal dan tanggal akhir diperbaiki menjadi pekan 11-15 dan 27 Desember 2026. PM tetap perlu menyelaraskan state Sprint 0/1 sebelum menganggap sprint berjalan atau selesai.
+Sprint 0 adalah persiapan dan bukan sprint formal. Sprint 0, Sprint 1, dan Sprint 2 sudah dibuat di board. Per tanggal audit 22 Oktober 2026, tanggal Sprint 0 telah lewat dan tanggal mulai Sprint 1 juga telah tiba, tetapi status Jira ketiganya masih future. Sprint 2 goal dan tanggal akhir diperbaiki menjadi pekan 11-15 dan 27 Desember 2026. PM tetap perlu menyelaraskan state Sprint 0/1 sebelum menganggap sprint berjalan atau selesai. Penempatan per story dan jumlah estimasi usulan per orang ada di [baseline estimasi](effort-estimates.md); semua angka tetap perlu refinement oleh pemilik modul.
 
 ## Epic aktif dan scope
 

@@ -5,7 +5,7 @@
 - Epic fondasi: HAP-1 - Fondasi & Infrastruktur.
 - Task Sprint 0: HAP-61 - SETUP-001.
 - Assignee HAP-61: Yoga.
-- Status HAP-1 dan HAP-61: To Do sampai PM menerima hasil dan acceptance terpenuhi.
+- Status Jira saat ini: HAP-1 To Do; HAP-61 In Progress. PM memperbarui status setelah review dan acceptance.
 - Kriteria HAP-61 sudah diperbarui: 5 anggota, 5 epic, 45 story, scope M01-M15, HAP-6 dihapus dan M16-M18 di luar scope, dokumen arsitektur, starter Laravel/Filament, role gate/Policy, dan alur PR.
 
 ## Acceptance HAP-61
@@ -40,4 +40,4 @@
 
 ## Catatan status
 
-Pemeriksaan lokal menunjukkan template dapat dibangun dan dites; status CI GitHub diperiksa setelah perubahan dipush. Issue tetap To Do sampai PM menyetujui review dan mengubah statusnya di Jira. Sprint 0 tidak otomatis ditutup karena masih ada keputusan dosen dan status board yang perlu dikelola PM.
+CI GitHub memeriksa template setelah perubahan dipush. HAP-61 masih In Progress dan PR Sprint 0 belum digabung; HAP-1 tetap To Do. PM memperbarui status setelah review dan acceptance. Sprint 0 tidak otomatis ditutup karena masih ada keputusan dosen dan status board yang perlu dikelola PM.

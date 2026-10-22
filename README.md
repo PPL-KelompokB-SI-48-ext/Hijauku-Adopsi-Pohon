@@ -75,6 +75,7 @@ Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR harus
 | --- | --- |
 | [Arsitektur](docs/architecture.md) | Batas sistem, panel, modul, aturan akses, dan keputusan teknis |
 | [Kebutuhan dan backlog](docs/requirements.md) | Tim, hitungan story, owner modul, sprint, dan status deferred |
+| [Baseline estimasi](docs/effort-estimates.md) | Estimasi per story, ringkasan per anggota/sprint, dan aturan refinement |
 | [Skema database](docs/database.md) | Tabel, relasi, constraint, dan aturan transaksi |
 | [Panduan desain UI](docs/ui-design.md) | Referensi Stitch, batas desain, dan cara menerapkan frame ke PBI |
 | [Audit sumber](docs/source-audit.md) | Hasil pemeriksaan proposal, bahan kuliah, Jira, GitHub, dan Stitch |

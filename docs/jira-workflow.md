@@ -65,6 +65,8 @@ Setiap pelaksana mencatat **work log** untuk waktu yang benar-benar ia gunakan p
 
 Sebelum sprint, periksa jumlah Original estimate per orang terhadap waktu yang memang tersedia. Sembilan story per anggota adalah pembagian backlog (3 modul × 3 story), bukan bukti semua story punya ukuran atau jam yang sama. Jangan membuat estimasi seragam hanya agar total terlihat rapi. Sprint 1/Sprint 2 menunjukkan periode tim; jangan memberi due date individual kecuali tenggat itu disepakati.
 
+Pada 22 Oktober 2026, Original estimate untuk 45 story merupakan **proposal awal PM** dan belum dianggap hasil refinement pemilik modul. Angkanya ada pada [baseline estimasi](effort-estimates.md). Story dan Task kini menampilkan field Original estimate serta Time tracking. HAP-61 memiliki estimate awal 18 jam dan remaining estimate 4 jam untuk pemeriksaan akhir. Sebelum pekerjaan sprint dimulai, pemilik modul meninjau estimasi Jira dan memperbarui dokumen snapshot bila ada perubahan. Pada tanggal audit belum ada work log aktual untuk story atau HAP-61.
+
 Jika estimasi berubah, tulis alasan di issue dan sesuaikan remaining estimate. Jika scope/acceptance berubah, PM memperbarui deskripsi dan rencana sprint sebelum tim mengerjakan tambahan itu. Work log yang sudah mencatat waktu aktual tidak diubah agar cocok dengan rencana baru.
 
 ## Menghubungkan Jira, branch, commit, dan PR

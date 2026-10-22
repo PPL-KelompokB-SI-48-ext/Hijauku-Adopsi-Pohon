@@ -15,7 +15,7 @@
 - Aturan kelas menyebut kelompok 6-7 orang; status tim lima orang masih menunggu konfirmasi dosen.
 - Scope Jira aktif: 5 epic dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15. Setiap anggota memegang tiga modul × tiga story = sembilan story.
 - HAP-6 untuk M16 sampai M18 sudah dihapus permanen atas keputusan PM. Model/tabelnya masih scaffold awal; jangan menambahkan UI atau workflow sampai PM membuka scope baru.
-- HAP-61 adalah task SETUP-001 Sprint 0. Acceptance criteria telah diselaraskan ke roster dan backlog aktual. HAP-1/HAP-61 tetap To Do sampai PM menerima hasil.
+- HAP-61 adalah task SETUP-001 Sprint 0, status Jira In Progress dan parent HAP-1. HAP-1 masih To Do. Acceptance criteria telah diselaraskan ke roster dan backlog aktual; hanya PM yang mengubah status setelah penerimaan.
 - Issue keys HAP dan ID HJK yang sudah diterbitkan tidak dinomori ulang.
 - Sprint 0, 1, dan 2 ada di Jira; state masih future walaupun tanggal Sprint 0 lewat dan Sprint 1 mulai 19 Oktober 2026. Jangan mulai/menutup sprint tanpa keputusan PM.
 - Stack: PHP 8.3+, Laravel 13, Filament 5, Blade, Vite, Eloquent, MySQL 8+ untuk development, SQLite cepat dan MySQL di CI.
