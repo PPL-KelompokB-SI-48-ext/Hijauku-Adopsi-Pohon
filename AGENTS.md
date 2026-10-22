@@ -7,7 +7,7 @@ Before changing application code, read `docs/project-context.md` and the relevan
 - The stack is Laravel 13, Filament 5, Blade, Vite, and Eloquent.
 - Jira HAP and the Stitch project required sign-in during the last audit. Do not invent or claim their contents were reviewed.
 - Five members are listed on the proposal cover and have GitHub access; the course rule says groups have 6–7 people; architecture and SETUP-001 assume six. Treat 18 modules / 54 PBI as provisional until the roster is confirmed.
-- The course asks every member to deliver at least one medium/high-complexity feature per formal sprint, with at least three PBI per feature. It does not state three PBI per person.
+- The course asks every member to deliver at least one medium/high-complexity feature per formal sprint, with at least three PBI per feature. This derives to at least 3 PBI/person/sprint (6 per person across two sprints for one minimum feature each), not 3 PBI/person for the whole project.
 - The MySQL setting in `.env.example` is a local convenience. The original architecture proposes PostgreSQL 18. The team has not confirmed a shared engine.
 
 ## Implementation rules

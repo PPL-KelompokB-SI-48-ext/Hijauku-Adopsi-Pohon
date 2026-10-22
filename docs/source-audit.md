@@ -7,8 +7,8 @@ Audit ini memisahkan ketentuan yang tertulis dari asumsi teknis dan hal yang bel
 | Area | Temuan | Status |
 | --- | --- | --- |
 | Jumlah anggota | Sampul proposal dan daftar kolaborator GitHub menunjukkan 5 orang. Ketentuan PPL menyebut kelompok 6–7 orang. Rancangan arsitektur dan issue SETUP-001 menghitung 6 orang dan mencantumkan Dinda sebagai anggota keenam. | Konflik perlu diselesaikan dengan dosen/tim |
-| Beban fitur | Ketentuan kuliah menyebut tiap anggota mengerjakan minimal satu fitur dengan kompleksitas sedang/tinggi per sprint; satu fitur harus dipecah menjadi sedikitnya 3 PBI. | Tertulis di bahan kuliah |
-| Hitungan 18/54 | Rancangan mengasumsikan rumus CRUD minimal = 3 × 6 anggota, sehingga 18 modul. Masing-masing dibuat 3 PBI: 54 story. Dengan 6 orang, rata-rata 9 story/orang. Ini tidak berarti setiap orang hanya wajib membuat 3 PBI, dan rumus 3 × anggota tidak ditemukan di PDF aturan yang diberikan. | Rumus ada pada rancangan; asal aturan dosen belum terkonfirmasi |
+| Beban fitur | Ketentuan kuliah menyebut tiap anggota mengerjakan minimal satu fitur dengan kompleksitas sedang/tinggi per sprint; satu fitur harus dipecah menjadi sedikitnya 3 PBI. Turunannya: minimal 3 PBI/orang/sprint atau 6 PBI/orang untuk dua sprint jika satu fitur minimum dikerjakan tiap sprint. | Aturan tertulis; angka per orang adalah hasil hitung turunannya |
+| Hitungan 18/54 | Rancangan mengasumsikan rumus CRUD minimal = 3 × 6 anggota, sehingga 18 modul. Masing-masing dibuat 3 PBI: 54 story atau rata-rata 9 per orang. Batas dasar dari aturan satu fitur per orang per sprint selama dua sprint adalah 6 PBI/orang (36 untuk 6 orang). Rumus 3 × anggota tidak ditemukan di PDF aturan yang diberikan. | 18/54 ada pada rancangan; asal aturan 3 × anggota belum terkonfirmasi |
 | Roster | Lima nama di proposal adalah Muhammad Yoga Adi Saputra, I Gusti Agung Ayu Bitari Damar Ratih, Muhammad Arif Sobriyanto, Ni Made Ayu Wira Salindri, dan Rofii Sultan. “Dinda Putri Maulida” muncul di rancangan dan isi proposal, tetapi tidak pada sampul/daftar lima nama. | Perlu cocokkan roster resmi |
 | Jira | Jira mengharuskan login pada saat audit. Isi HAP, HAP-1, HAP-61, sprint, epic, dan story tidak terbaca, jadi daftar pekerjaan Jira belum dapat dibandingkan satu per satu dengan 54 PBI rancangan. | Belum diverifikasi |
 | Stitch | Proyek Stitch meminta login Google. Mockup dan komponen tidak terbaca. Halaman depan repo adalah placeholder, belum diverifikasi terhadap desain Stitch. | Belum diverifikasi |
@@ -26,9 +26,9 @@ Dengan demikian, hitungan yang dapat disimpulkan dari rancangan adalah:
 | 6 | 18 | 54 | 9 |
 | 5 | 15 | 45 | 9 |
 
-Baris 5 orang hanyalah hitungan aritmetika, bukan konfirmasi bahwa tim beranggotakan lima orang memenuhi ketentuan kelas. Dosen perlu mengesahkan perubahan jumlah anggota atau memberi arahan lain. Jangan menghapus 3 modul hanya untuk membuat rancangan selaras sebelum keputusan itu ada.
+Aturan satu fitur minimal per orang pada masing-masing dua sprint menghasilkan 6 PBI/orang (36 PBI untuk 6 orang; 30 untuk 5 orang), dengan asumsi 3 PBI per fitur. Baris 5 orang hanyalah hitungan aritmetika, bukan konfirmasi bahwa tim beranggotakan lima orang memenuhi ketentuan kelas. Dosen perlu mengesahkan perubahan jumlah anggota atau memberi arahan lain. Jangan menghapus 3 modul hanya untuk membuat rancangan selaras sebelum keputusan itu ada.
 
-Enam epic dan 54 story adalah struktur kerja rancangan/Jira, bukan angka yang secara eksplisit diwajibkan bahan kuliah. HJK-001 hingga HJK-054 adalah ID logis rancangan, bukan Jira issue key. Key proyek yang tampak pada URL adalah HAP.
+Enam epic dan 54 story adalah struktur kerja rancangan/Jira, bukan angka yang secara eksplisit diwajibkan bahan kuliah. Untuk tim 6 orang, target 54 lebih besar daripada batas dasar 36 yang diturunkan dari aturan sprint. HJK-001 hingga HJK-054 adalah ID logis rancangan, bukan Jira issue key. Key proyek yang tampak pada URL adalah HAP.
 
 ## Dokumen yang ditelaah
 

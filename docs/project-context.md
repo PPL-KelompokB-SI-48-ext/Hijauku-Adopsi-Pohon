@@ -21,7 +21,7 @@
 
 - Lima nama pada sampul proposal dan lima kolaborator repo: Yoga, Bitari, Arif, Wira, Rofii.
 - Ketentuan kelas menyebut kelompok 6–7 orang. Rancangan arsitektur dan issue SETUP-001 menyebut 6 orang dan memasukkan Dinda yang tidak tampak pada sampul/daftar 5 nama.
-- Ketentuan kelas: minimal satu fitur kompleksitas sedang/tinggi tiap orang pada masing-masing dua sprint; setiap fitur perlu sedikitnya tiga PBI. Rumus 3 CRUD per orang tidak tertulis pada PDF aturan yang diberikan.
+- Ketentuan kelas: minimal satu fitur kompleksitas sedang/tinggi tiap orang pada masing-masing dua sprint; setiap fitur perlu sedikitnya tiga PBI. Ini berarti minimal 3 PBI/orang/sprint atau 6 PBI/orang untuk dua sprint bila tiap orang mengambil satu fitur minimal per sprint. Rumus 3 CRUD per orang tidak tertulis pada PDF aturan yang diberikan.
 - Target rancangan 18 modul × 3 PBI = 54 story mengandaikan 6 orang. HJK-001–054 ialah ID logis, bukan Jira key.
 - Jira HAP dan Stitch belum dapat dibuka karena meminta login. HAP-1 dan HAP-61 belum diaudit langsung.
 - Dokumen arsitektur menyebut PostgreSQL 18. `.env.example` MySQL hanyalah keputusan setup sementara dan perlu diselaraskan setelah tim memilih DB.

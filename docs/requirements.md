@@ -12,7 +12,11 @@ Dokumen ini menerjemahkan aturan tugas kuliah dan rancangan awal menjadi peta ba
 
 ## Mengurai hitungan tim
 
-Rancangan arsitektur menggunakan 6 anggota untuk menghitung `3 CRUD × 6 anggota = 18 modul`. Tiga tujuan per modul menghasilkan 54 PBI; dibagi 6 menghasilkan rata-rata 9 PBI per orang. Bahan kuliah yang tersedia tidak menyebut rumus 3 CRUD per anggota. Materi hanya menetapkan minimal satu fitur per anggota per sprint dan minimal tiga PBI per fitur.
+Rancangan arsitektur menggunakan 6 anggota untuk menghitung `3 CRUD × 6 anggota = 18 modul`. Tiga tujuan per modul menghasilkan 54 PBI; dibagi 6 menghasilkan rata-rata 9 PBI per orang. Bahan kuliah yang tersedia tidak menyebut rumus 3 CRUD per anggota.
+
+Aturan sprint kuliah meminta minimal satu fitur sedang/tinggi per orang pada setiap sprint, dan setiap fitur perlu dipecah menjadi sekurangnya 3 PBI. Jika tiap orang mengerjakan tepat satu fitur minimal per sprint, hasil turunannya adalah sekurangnya 3 PBI/orang/sprint, atau 6 PBI/orang untuk dua sprint. Untuk 6 orang, batas dasar dari aturan itu adalah 36 PBI. Target 54 pada arsitektur lebih besar; ia berasal dari 18 modul × 3 PBI, bukan dari aturan satu fitur per sprint saja.
+
+Rumusnya adalah **1 fitur → minimal 3 PBI**. Bukan “1 PBI terdiri dari 3 modul”.
 
 Lima nama ada di sampul proposal dan lima orang memiliki akses ke repo. Sebaliknya, instruksi kelas menyebut 6–7 orang, sedangkan arsitektur dan HAP-1 menganggap 6. Karena itu 18 modul/54 PBI layak dipertahankan sebagai target sementara, sampai roster resmi disahkan.
 
