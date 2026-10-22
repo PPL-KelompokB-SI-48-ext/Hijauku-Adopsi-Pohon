@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hijauku Project"
+  short_description: "Work with Hijauku requirements and Laravel code"
+  default_prompt: "Read the Hijauku project context, then help with the supplied issue without inventing Jira or Stitch details."
