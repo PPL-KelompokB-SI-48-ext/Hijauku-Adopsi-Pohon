@@ -41,7 +41,7 @@ Story memiliki ID HJK-001 sampai HJK-045 berurutan dan issue Jira HAP-7 sampai H
 - Semua story aktif mempunyai acceptance criteria dan dialokasikan per modul/owner; Parent story HAP-7 sampai HAP-51 tertaut ke HAP-2 sampai HAP-5 sesuai modul. HAP-61 tertaut ke HAP-1.
 - Deskripsi 45 story sekarang memuat acceptance criteria asli, scope, owner, sprint, parent epic, arahan implementasi/tes untuk anggota dan AI agent, Definition of Done, Original estimate, dan aturan work log aktual. Field waktu adalah proposal awal dan masih perlu refinement pemilik.
 - Penempatan Sprint 1/2 diperbarui pada 17 story untuk merapikan urutan prasyarat dan beban awal per orang. Baseline hasil audit adalah 22 story/105h di Sprint 1 dan 23 story/106h di Sprint 2. Rincian per issue ada di [baseline estimasi](effort-estimates.md); semua angka tetap proposal PM sampai refinement anggota.
-- Panel Jira Development pada HAP-61 menampilkan commit `ca55ec6`, draft PR #1, dan build GitHub Actions. Integrasi commit/PR terdeteksi setelah push.
+- Pada audit awal, panel Development HAP-61 menampilkan commit `ca55ec6`, draft PR #1, dan build. Setelah commit `5aabee9` dipush dan Jira dibuka ulang, panel Development terlihat kosong walaupun key HAP-61 ada pada commit dan judul PR; CI GitHub untuk `5aabee9` lulus. PM perlu memeriksa koneksi GitHub for Atlassian serta izin View development tools sebelum menyatakan tautan commit terbaru sudah muncul.
 - Jangan mulai atau menyelesaikan sprint hanya untuk menyamakan status; tindakan itu dapat mengubah status issue dan memindahkan pekerjaan. PM menentukan tanggal/state setelah melihat kondisi tim.
 
 ## GitHub
