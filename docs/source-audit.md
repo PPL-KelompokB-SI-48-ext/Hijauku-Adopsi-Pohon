@@ -14,7 +14,7 @@ Audit ini mencatat kondisi repo, GitHub, Jira, Stitch, proposal, dan bahan kulia
 | Jira setup | HAP-61 tetap task Sprint 0, To Do, assigned Yoga; acceptance criteria kini menyebut lima orang, 45 story, role panel, CI dan alur PR. |
 | Sprints | Sprint 0, 1, 2 ada dan masih state future. Sprint 0 berakhir 18 Okt; Sprint 1 berjalan 19 Okt–22 Nov; Sprint 2 diselaraskan ke pekan 11–15 dan berakhir 27 Des. PM masih perlu memutuskan state Sprint 0/1 sebelum board dianggap berjalan/selesai. |
 | Database | Baseline development MySQL 8+, berdasar konfigurasi lokal yang sudah berjalan. CI memeriksa MySQL dan SQLite. File .env lokal pemilik tidak diubah dan tidak dijalankan migrasi. |
-| UI | Stitch memuat frame publik dan panel Pengelola, Warga, Petugas. Beranda mengikuti copy/alur utama; desain semua layar belum diimplementasikan. |
+| UI | Stitch berisi 25 frame. Frame 21 (Beranda Publik) dan frame 24 (Kesepakatan Saya/Warga, M11) teridentifikasi; beranda starter mengikuti headline, ilustrasi, CTA, dan tiga langkah. Katalog dan layar modul belum terhubung. |
 | Starter | Laravel 13, Filament 5, tiga panel gate, Policy dasar, schema/seeder, dokumentasi dan CI. Belum ada Resource/domain workflow lengkap. |
 
 ## Perhitungan backlog Jira
@@ -54,7 +54,7 @@ Jangan simpan API token pada repo, dokumen, atau CI. Gunakan secret manager GitH
 
 ## Stitch
 
-Proyek Stitch Hijauku Admin UI Batch 01 berisi frame publik serta panel role. Arahan terakhir tidak memasukkan artikel, galeri, atau usulan aksi sebagai domain aktif. Halaman beranda mengikuti isi dan alur utama frame; logo/aset merek dan pemeriksaan visual seluruh frame masih belum selesai.
+Proyek Stitch Hijauku Admin UI Batch 01 berisi 25 frame. Frame 21 adalah Beranda Publik; frame 24 menunjukkan Kesepakatan Saya untuk Warga pada M11. Beranda kode memiliki headline utama, ilustrasi pohon, CTA, dan alur tiga langkah yang terlihat pada frame publik. Bagian katalog dan angka pada desain belum memakai sumber data; jangan tampilkan sebagai fakta produksi. Arahan kanvas mengecualikan M16–M18 dan meminta keadaan overlay tertutup serta kamus data/seed konsisten. Pemeriksaan pixel-per-pixel untuk seluruh frame belum dilakukan. Rincian implementasi ada di [panduan desain UI](ui-design.md).
 
 ## Sumber yang diperiksa
 
@@ -72,5 +72,5 @@ Proyek Stitch Hijauku Admin UI Batch 01 berisi frame publik serta panel role. Ar
 
 1. Dosen mengonfirmasi apakah tim lima orang memenuhi aturan kelompok 6–7 orang.
 2. PM menyelaraskan state Sprint 0 dan Sprint 1 yang belum cocok dengan tanggal board. Sprint 2 kini berakhir 27 Desember 2026 sesuai pekan 11–15 pada materi.
-3. Tim melakukan review visual terhadap semua frame Stitch sebelum mengklaim UI final.
+3. Pemilik modul memetakan semua frame Stitch yang relevan ke story aktif dan melakukan review visual sebelum mengklaim UI modul final.
 4. PM dan pemilik modul melengkapi Resource, query scope, workflow transaksi, dan tes untuk story aktif.

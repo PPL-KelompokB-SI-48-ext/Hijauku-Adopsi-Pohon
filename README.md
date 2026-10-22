@@ -14,7 +14,7 @@ Fondasi teknis yang tersedia:
 - Login/panel terpisah untuk Pengelola (/app), Petugas (/petugas), dan Warga (/warga).
 - Gate panel berdasarkan role, kebijakan akses dasar, tabel/model awal, dan akun demo.
 - CI GitHub Actions untuk pemeriksaan aplikasi, migrasi/seeder, tes, dan aset.
-- Beranda publik mengikuti isi dan alur utama frame Stitch; halaman domain dan pencocokan visual penuh belum dibuat.
+- Beranda publik mengikuti headline, ilustrasi, CTA, dan alur utama frame publik Stitch. Panduan pemetaan 25 frame ke PBI ada di [docs/ui-design.md](docs/ui-design.md); Resource dan pencocokan pixel seluruh layar belum dibuat.
 
 ## Perangkat yang diperlukan
 
@@ -103,6 +103,7 @@ Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR harus
 | [Arsitektur](docs/architecture.md) | Batas sistem, panel, modul, aturan akses, dan keputusan teknis |
 | [Kebutuhan dan backlog](docs/requirements.md) | Tim, hitungan story, owner modul, sprint, dan status deferred |
 | [Skema database](docs/database.md) | Tabel, relasi, constraint, dan aturan transaksi |
+| [Panduan desain UI](docs/ui-design.md) | Referensi Stitch, batas desain, dan cara menerapkan frame ke PBI |
 | [Audit sumber](docs/source-audit.md) | Hasil pemeriksaan proposal, bahan kuliah, Jira, GitHub, dan Stitch |
 | [Rencana Sprint 0](docs/sprint-plan.md) | Acceptance HAP-1/HAP-61 dan checklist fondasi |
 | [Onboarding agent](docs/agent-onboarding.md) | Konteks dan prompt kerja AI agent |
