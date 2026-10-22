@@ -17,6 +17,7 @@ Audit ini mencatat kondisi repo, GitHub, Jira, Stitch, proposal, dan bahan kulia
 | UI | Stitch berisi 25 frame. Frame 21 (Beranda Publik) dan frame 24 (Kesepakatan Saya/Warga, M11) teridentifikasi; beranda starter mengikuti headline, ilustrasi, CTA, dan tiga langkah. Katalog dan layar modul belum terhubung. |
 | Starter | Laravel 13, Filament 5, tiga panel gate, Policy dasar, schema/seeder, setup lokal Windows, panduan tim, tes autentikasi/session, dan CI. Belum ada Resource/domain workflow lengkap. |
 | Estimasi Jira | 45 story memiliki Original estimate proposal awal PM dengan total 211 jam; HAP-61 memiliki Original estimate 18 jam dan remaining estimate 4 jam. Belum ada work log aktual. Rincian ada di [baseline estimasi](effort-estimates.md). |
+| Jadwal issue | 45 story memiliki Start date Senin dan Due date Minggu sesuai pekan Sprint 1/2. HAP-61 dan HAP-1 memakai rentang Sprint 0, 12-18 Oktober. Lihat [jadwal mingguan](task-schedule.md). |
 
 ## Perhitungan backlog Jira
 
@@ -41,14 +42,14 @@ Story memiliki ID HJK-001 sampai HJK-045 berurutan dan issue Jira HAP-7 sampai H
 - Semua story aktif mempunyai acceptance criteria dan dialokasikan per modul/owner; Parent story HAP-7 sampai HAP-51 tertaut ke HAP-2 sampai HAP-5 sesuai modul. HAP-61 tertaut ke HAP-1.
 - Deskripsi 45 story sekarang memuat acceptance criteria asli, scope, owner, sprint, parent epic, arahan implementasi/tes untuk anggota dan AI agent, Definition of Done, Original estimate, dan aturan work log aktual. Field waktu adalah proposal awal dan masih perlu refinement pemilik.
 - Penempatan Sprint 1/2 diperbarui pada 17 story untuk merapikan urutan prasyarat dan beban awal per orang. Baseline hasil audit adalah 22 story/105h di Sprint 1 dan 23 story/106h di Sprint 2. Rincian per issue ada di [baseline estimasi](effort-estimates.md); semua angka tetap proposal PM sampai refinement anggota.
-- Pada audit awal, panel Development HAP-61 menampilkan commit `ca55ec6`, draft PR #1, dan build. Setelah commit `5aabee9` dipush dan Jira dibuka ulang, panel Development terlihat kosong walaupun key HAP-61 ada pada commit dan judul PR; CI GitHub untuk `5aabee9` lulus. PM perlu memeriksa koneksi GitHub for Atlassian serta izin View development tools sebelum menyatakan tautan commit terbaru sudah muncul.
+- Integrasi GitHub for Atlassian sudah tersambung ke organisasi `PPL-KelompokB-SI-48-ext` dengan akses semua enam repo, akses penuh, dan backfill selesai. Daftar connected repositories memuat `Hijauku-Adopsi-Pohon` dengan status backfill Finished. Pada pemeriksaan ulang HAP-61, Development menampilkan 3 commits, PR #1, dan 1 successful build. PR #1 tetap draft dan belum digabung.
 - Jangan mulai atau menyelesaikan sprint hanya untuk menyamakan status; tindakan itu dapat mengubah status issue dan memindahkan pekerjaan. PM menentukan tanggal/state setelah melihat kondisi tim.
 
 ## GitHub
 
 Repo: https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon
 
-Roster yang terverifikasi: PM Yoga (@mygads), Bitari, Arif, Wira, dan Rofii. Dinda bukan kolaborator. Empat anggota memiliki write; Yoga satu-satunya admin. Branch main mewajibkan CI install-and-build, satu approval, penyelesaian percakapan, dan membatasi push/merge ke Yoga. CODEOWNERS mencatat PM; anggota tetap meminta @mygads secara eksplisit. Draft PR #1 belum digabung.
+Roster yang terverifikasi: PM Yoga (@mygads), Bitari, Arif, Wira, dan Rofii. Dinda bukan kolaborator. Empat anggota memiliki write; Yoga satu-satunya admin. Branch main mewajibkan CI install-and-build, satu approval, penyelesaian percakapan, dan membatasi push/merge ke Yoga. CODEOWNERS mencatat PM; anggota tetap meminta @mygads secara eksplisit. Draft PR #1 belum digabung. GitHub for Atlassian menampilkan repository ini sebagai connected dan backfill Finished.
 
 ## Database dan keamanan
 

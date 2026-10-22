@@ -42,6 +42,8 @@ Backlog Jira sekarang berisi 9 story per anggota. Rencana sprint yang ditinjau u
 
 Sprint 0 adalah persiapan dan bukan sprint formal. Sprint 0, Sprint 1, dan Sprint 2 sudah dibuat di board. Per tanggal audit 22 Oktober 2026, tanggal Sprint 0 telah lewat dan tanggal mulai Sprint 1 juga telah tiba, tetapi status Jira ketiganya masih future. Sprint 2 goal dan tanggal akhir diperbaiki menjadi pekan 11-15 dan 27 Desember 2026. PM tetap perlu menyelaraskan state Sprint 0/1 sebelum menganggap sprint berjalan atau selesai. Penempatan per story dan jumlah estimasi usulan per orang ada di [baseline estimasi](effort-estimates.md); semua angka tetap perlu refinement oleh pemilik modul.
 
+Jadwal Start date dan Due date per story mengikuti minggu Senin-Minggu dalam [jadwal mingguan backlog](task-schedule.md). Setiap anggota mendapat maksimal dua story dalam minggu yang sama; pasangan paralel dipilih setelah prasyaratnya tersedia. Minggu akhir tiap sprint disediakan untuk integrasi, demo, dan review.
+
 ## Epic aktif dan scope
 
 | Jira | Isi | Modul |

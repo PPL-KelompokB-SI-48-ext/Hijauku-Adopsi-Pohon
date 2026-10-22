@@ -6,6 +6,7 @@
 - Task Sprint 0: HAP-61 - SETUP-001.
 - Assignee HAP-61: Yoga.
 - Status Jira saat ini: HAP-1 To Do; HAP-61 In Progress. PM memperbarui status setelah review dan acceptance.
+- Rentang Sprint 0 pada Jira: 12-18 Oktober 2026. Start date dan Due date HAP-1/HAP-61 mengikuti pekan tersebut; karena HAP-61 masih In Progress pada 22 Oktober, Jira menampilkannya lewat tenggat.
 - Kriteria HAP-61 sudah diperbarui: 5 anggota, 5 epic, 45 story, scope M01-M15, HAP-6 dihapus dan M16-M18 di luar scope, dokumen arsitektur, starter Laravel/Filament, role gate/Policy, dan alur PR.
 
 ## Acceptance HAP-61
@@ -32,6 +33,7 @@
 - [x] Siapkan script setup Windows dengan konfirmasi database, panduan lokal, dan alur login/logout panel.
 - [x] Siapkan CI SQLite + MySQL, tes PHP, Dusk beranda, dan build aset.
 - [x] Lindungi main: satu approval, CI wajib, percakapan selesai, anggota write, dan push/merge hanya PM.
+- [x] Isi Start date dan Due date per story untuk 45 item mengikuti pekan pada timeline; rinciannya di [jadwal mingguan backlog](task-schedule.md).
 - [ ] Minta review dan approval PM/tim pada pull request Sprint 0.
 - [ ] Dosen mengonfirmasi komposisi tim lima orang.
 - [ ] PM menyelaraskan state Sprint 0/1 yang terlambat.

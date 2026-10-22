@@ -18,6 +18,8 @@
 - HAP-61 adalah task SETUP-001 Sprint 0, status Jira In Progress dan parent HAP-1. HAP-1 masih To Do. Acceptance criteria telah diselaraskan ke roster dan backlog aktual; hanya PM yang mengubah status setelah penerimaan.
 - Issue keys HAP dan ID HJK yang sudah diterbitkan tidak dinomori ulang.
 - Sprint 0, 1, dan 2 ada di Jira; state masih future walaupun tanggal Sprint 0 lewat dan Sprint 1 mulai 19 Oktober 2026. Jangan mulai/menutup sprint tanpa keputusan PM.
+- 45 story memiliki Start date hari Senin dan Due date hari Minggu sesuai minggu pada Sprint 1/2. Jadwal per issue ada di docs/task-schedule.md. Tanggal adalah rencana, bukan actual time; jangan membuat work log dari rentang tanggal.
+- GitHub for Atlassian sudah terhubung ke organisasi PPL-KelompokB-SI-48-ext dengan akses semua enam repositori dan backfill selesai. Repo Hijauku-Adopsi-Pohon tercantum sebagai connected dengan backfill Finished. Setelah push, cek Development pada issue untuk memastikan commit, PR, dan build benar-benar tertaut.
 - Stack: PHP 8.3+, Laravel 13, Filament 5, Blade, Vite, Eloquent, MySQL 8+ untuk development, SQLite cepat dan MySQL di CI.
 - Tiga panel login terpisah: manager /app, field_staff /petugas, citizen /warga.
 - Role gate dan Policy dasar tersedia. Resource, query ownership, workflow, transaksi dan dashboard bisnis masih perlu dibuat per story.

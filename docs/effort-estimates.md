@@ -53,3 +53,5 @@ Penempatan diperbarui pada 22 Oktober 2026 untuk menaruh pekerjaan prasyarat leb
 5. Setelah push, periksa panel Development pada issue. Branch/commit lokal belum tertaut ke Jira sebelum push dan sinkronisasi repository.
 
 Lihat [alur Jira dan pencatatan waktu](jira-workflow.md) untuk format deskripsi, commit, PR, dan review.
+
+Start date dan Due date per story mengikuti rentang mingguan di [jadwal backlog](task-schedule.md). Tanggal merupakan target perencanaan dan tidak mengubah angka Original estimate maupun work log.
