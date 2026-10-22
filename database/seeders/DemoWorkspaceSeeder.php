@@ -43,15 +43,16 @@ class DemoWorkspaceSeeder extends Seeder
             return [$account['role']->value => $user];
         });
 
-        $program = Program::query()->updateOrCreate(
-            ['name' => 'Program Percontohan Hijauku'],
-            [
-                'objective' => 'Data contoh untuk memeriksa alur dasar aplikasi.',
-                'starts_on' => now()->toDateString(),
-                'ends_on' => now()->addMonths(6)->toDateString(),
-                'status' => 'active',
-            ],
-        );
+        $program = Program::query()->firstOrNew(['name' => 'Program Percontohan Hijauku']);
+        $program->fill([
+            'objective' => 'Data contoh untuk memeriksa alur dasar aplikasi.',
+            'starts_on' => now()->toDateString(),
+            'ends_on' => now()->addMonths(6)->toDateString(),
+        ]);
+        $program->forceFill([
+            'created_by' => $users[UserRole::Manager->value]->getKey(),
+            'status' => 'active',
+        ])->save();
 
         $site = Site::query()->updateOrCreate(
             ['program_id' => $program->id, 'name' => 'Lokasi Percontohan'],
