@@ -31,6 +31,7 @@ use App\Policies\CareRecordPolicy;
 use App\Policies\FieldAssignmentPolicy;
 use App\Policies\GrowthObservationPolicy;
 use App\Policies\ManagerOnlyPolicy;
+use App\Policies\ProgramPolicy;
 use App\Policies\TreeIssuePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -69,6 +70,8 @@ class AppServiceProvider extends ServiceProvider
         foreach ($managerOnlyModels as $model) {
             Gate::policy($model, ManagerOnlyPolicy::class);
         }
+
+        Gate::policy(Program::class, ProgramPolicy::class);
 
         Gate::policy(ActivityRegistration::class, ActivityRegistrationPolicy::class);
         Gate::policy(AdoptionAgreement::class, AdoptionAgreementPolicy::class);
