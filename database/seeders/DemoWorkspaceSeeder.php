@@ -55,7 +55,7 @@ class DemoWorkspaceSeeder extends Seeder
 
         $site = Site::query()->updateOrCreate(
             ['program_id' => $program->id, 'name' => 'Lokasi Percontohan'],
-            ['address' => 'Alamat demo — ganti dengan lokasi yang sudah divalidasi tim.'],
+            ['address' => 'Alamat demo - ganti dengan lokasi yang sudah divalidasi tim.'],
         );
 
         $plot = Plot::query()->updateOrCreate(

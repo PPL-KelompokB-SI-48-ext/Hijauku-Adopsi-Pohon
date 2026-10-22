@@ -25,7 +25,7 @@ class FieldStaffPanelProvider extends PanelProvider
         return $panel
             ->id('petugas')
             ->path('petugas')
-            ->brandName('Hijauku — Petugas')
+            ->brandName('Hijauku - Petugas')
             ->login()
             ->colors(['primary' => Color::Green])
             ->discoverResources(in: app_path('Filament/FieldStaff/Resources'), for: 'App\\Filament\\FieldStaff\\Resources')

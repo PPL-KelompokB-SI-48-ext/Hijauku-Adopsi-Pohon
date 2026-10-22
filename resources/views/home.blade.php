@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Kenali dan dukung perawatan pohon di sekitarmu melalui Hijauku.">
-    <title>Hijauku — Adopsi pohon, rawat pertumbuhannya</title>
+    <title>Hijauku - Adopsi pohon, rawat pertumbuhannya</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body id="beranda" class="min-h-screen bg-[#f7f8f2] text-[#183b2c] antialiased">

@@ -25,7 +25,7 @@ class CitizenPanelProvider extends PanelProvider
         return $panel
             ->id('warga')
             ->path('warga')
-            ->brandName('Hijauku — Warga')
+            ->brandName('Hijauku - Warga')
             ->login()
             ->colors(['primary' => Color::Green])
             ->discoverResources(in: app_path('Filament/Citizen/Resources'), for: 'App\\Filament\\Citizen\\Resources')

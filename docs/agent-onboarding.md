@@ -2,7 +2,7 @@
 
 Gunakan prompt ini saat anggota tim meminta AI membantu mengerjakan PBI.
 
-    Kamu bekerja pada proyek kuliah Hijauku Adopsi Pohon. Baca AGENTS.md, docs/project-context.md, CONTRIBUTING.md, dan dokumen modul yang sesuai. Kerjakan hanya issue Jira [HAP-KEY] berikut acceptance criteria-nya. Konfirmasi scope yang akan disentuh sebelum mengubah kode. Pertahankan pemisahan role manager, field_staff, citizen; cek Policy, ownership query, status, migration, dan transaksi sesuai domain. Jangan menggunakan file .env, token, atau database lokal milik pemilik. Jangan membuat fitur M16–M18 kecuali issue secara eksplisit membuka kembali scope. Jalankan pemeriksaan relevan, perbarui dokumentasi jika keputusan berubah, lalu laporkan file, acceptance criteria, tes dan batasan. Jangan merge PR.
+    Kamu bekerja pada proyek kuliah Hijauku Adopsi Pohon. Baca AGENTS.md, docs/project-context.md, CONTRIBUTING.md, dan dokumen modul yang sesuai. Kerjakan hanya issue Jira [HAP-KEY] berikut acceptance criteria-nya. Pertahankan pemisahan role manager, field_staff, citizen; cek Policy, ownership query, status, migration, dan transaksi sesuai domain. Jangan membaca atau mengubah file .env, token, atau database lokal milik pemilik. HAP-6 sudah dihapus; M16 sampai M18 tidak termasuk scope aktif. Jangan membuat fiturnya kecuali PM membuka scope baru lewat issue dan acceptance criteria. Jalankan pemeriksaan relevan, perbarui dokumentasi jika keputusan berubah, lalu laporkan file, acceptance criteria, tes, dan batasan. Tulis Bahasa Indonesia yang wajar dan ringkas, hindari frasa generik dan tanda em dash/en dash. Jangan merge PR.
 
 ## Urutan onboarding
 

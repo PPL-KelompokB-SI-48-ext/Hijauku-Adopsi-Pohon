@@ -11,7 +11,7 @@ class PublicHomeTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser): void {
             $browser->visit('/')
-                ->assertTitle('Hijauku — Adopsi pohon, rawat pertumbuhannya')
+                ->assertTitle('Hijauku - Adopsi pohon, rawat pertumbuhannya')
                 ->assertSee('Kenali dan Dukung Perawatan Pohon di Sekitarmu')
                 ->assertSeeLink('Jelajahi Pohon')
                 ->assertSeeLink('Lihat Kegiatan')

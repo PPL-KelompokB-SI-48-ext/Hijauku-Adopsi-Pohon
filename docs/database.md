@@ -2,7 +2,7 @@
 
 Skema berada di migration Laravel dan ditujukan untuk MySQL 8+. File migration tidak mengubah database saat dibuat. Jalankan hanya pada database pengembangan yang sudah diperiksa di .env.
 
-Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01–M15 (M11 menggunakan tabel agreement dan allocation), tiga tabel scaffold tertunda M16–M18, dan satu tabel activity_logs. Tabel akun dan infrastruktur Laravel dibuat pada migration terpisah.
+Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01-M15 (M11 menggunakan tabel agreement dan allocation), tiga tabel scaffold tertunda M16-M18, dan satu tabel activity_logs. Tabel akun dan infrastruktur Laravel dibuat pada migration terpisah.
 
 ## Tabel aktif
 
@@ -29,11 +29,11 @@ Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01–M15 (M11 mengg
 
 | Tabel | Isi | Status |
 | --- | --- | --- |
-| environment_articles | Artikel, penulis dan waktu publikasi | M16 — deferred |
-| gallery_entries | Foto kegiatan dan pengunggah | M17 — deferred |
-| green_action_proposals | Usulan warga dan keputusan | M18 — deferred |
+| environment_articles | Artikel, penulis dan waktu publikasi | M16, di luar scope aktif |
+| gallery_entries | Foto kegiatan dan pengunggah | M17, di luar scope aktif |
+| green_action_proposals | Usulan warga dan keputusan | M18, di luar scope aktif |
 
-Tabel tersebut tersisa dari rancangan 18 modul. HAP-6 di Jira sudah diarsipkan dan M16–M18 tidak mempunyai story aktif. Jangan membuat Resource, route, atau workflow untuk tabel ini sampai PM membuka scope beserta acceptance criteria.
+Tabel tersebut tersisa dari rancangan 18 modul. HAP-6 sudah dihapus permanen dari Jira dan M16 sampai M18 tidak mempunyai story aktif. Jangan membuat Resource, route, atau workflow untuk tabel ini sampai PM menetapkan scope baru beserta acceptance criteria.
 
 ```mermaid
 erDiagram

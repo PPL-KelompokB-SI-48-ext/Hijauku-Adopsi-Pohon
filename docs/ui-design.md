@@ -6,7 +6,7 @@ Referensi utama adalah [Hijauku Admin UI Batch 01 di Stitch](https://stitch.goog
 
 Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 
-- Antarmuka aktif hanya untuk M01–M15. Jangan menambahkan Artikel, Galeri, atau Usulan Aksi dari M16–M18 ke navigasi, sidebar, atau footer.
+- Antarmuka aktif hanya untuk M01-M15. Jangan menambahkan Artikel, Galeri, atau Usulan Aksi dari M16-M18 ke navigasi, sidebar, atau footer.
 - Gunakan tiga area akses: Pengelola, Petugas, dan Warga. Panel role bukan pengganti pemeriksaan Policy dan kepemilikan data.
 - Kondisi awal drawer, modal, accordion, dan split view harus tertutup. Aksi cepat tidak boleh menyamarkan status tugas atau perawatan.
 - Label, status, dan nilai seed harus berasal dari kamus data yang disepakati, bukan teks sementara yang tampak seperti data produksi.
@@ -24,7 +24,7 @@ Pemeriksaan ini mengonfirmasi arah visual dan cakupan, bukan audit pixel-perfect
 
 ## Cara membawa frame ke kode
 
-1. Catat nomor/judul frame Stitch dan tautkan ke HJK story serta modul M01–M15 di Jira.
+1. Catat nomor/judul frame Stitch dan tautkan ke HJK story serta modul M01-M15 di Jira.
 2. Pastikan aktor, route/panel, aksi, status awal, kondisi kosong, validasi, dan hasil sukses/gagal cocok dengan acceptance criteria story.
 3. Implementasikan tampilan di panel role yang tepat. Taruh Resource, Page, dan Widget dalam namespace panel masing-masing; jangan mengandalkan menu untuk mengamankan data.
 4. Terapkan Policy, scope query, validasi field, dan service transaksi sebelum menghubungkan data nyata. `viewAny` saja tidak membatasi baris yang dikirim ke browser.
@@ -35,6 +35,6 @@ Pemeriksaan ini mengonfirmasi arah visual dan cakupan, bukan audit pixel-perfect
 ## Batas scope dan penerimaan
 
 - Beranda publik adalah template; ia tidak boleh mengklaim jumlah pohon/lokasi dari contoh visual sebagai data aktual.
-- Pekerjaan layar setelah starter harus menunjuk ke HJK story aktif. Detail interaksi M16–M18 menunggu keputusan scope dan tidak masuk implementasi sekarang.
+- Pekerjaan layar setelah starter harus menunjuk ke HJK story aktif. Detail interaksi M16-M18 menunggu keputusan scope dan tidak masuk implementasi sekarang.
 - Satu layar diterima ketika tampilan, akses role, query kepemilikan, validasi, status kosong/error, dan acceptance criteria story selaras.
 - Perubahan besar pada alur Stitch atau desain memerlukan pembaruan story/acceptance criteria dan catatan PR; perubahan arsitektur lintas modul dicatat sebagai ADR.

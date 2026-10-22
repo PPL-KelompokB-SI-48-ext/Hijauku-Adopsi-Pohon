@@ -1,12 +1,12 @@
-# Hijauku — Adopsi Pohon
+# Hijauku - Adopsi Pohon
 
 Hijauku membantu pengelola program penghijauan mencatat pohon, mengatur kegiatan lapangan, menerima permohonan adopsi, serta memantau perawatan dan pertumbuhan.
 
 ## Status proyek
 
-Starter ini menyiapkan fondasi Sprint 0, bukan aplikasi dengan seluruh fitur selesai. Scope Jira aktif sekarang adalah 5 epic, 45 story ber-ID HJK-001–HJK-045, dan 15 modul M01–M15. Tim aktif terdiri dari Yoga, Bitari, Arif, Wira, dan Rofii. Pembagiannya 3 modul × 3 story = 9 story per orang. M16–M18 ditunda; epic lamanya diarsipkan tanpa menghapus riwayat. Dinda bukan anggota tim.
+Starter ini menyiapkan fondasi Sprint 0, bukan aplikasi dengan seluruh fitur selesai. Scope Jira aktif adalah 5 epic dan 45 story dengan label kebutuhan HJK-001 sampai HJK-045, untuk modul M01 sampai M15. Tim terdiri dari Yoga, Bitari, Arif, Wira, dan Rofii. Pembagiannya 3 modul × 3 story = 9 story per orang. HAP-6 sudah dihapus permanen atas keputusan PM. M16 sampai M18 berada di luar scope aktif; beberapa model dan tabelnya masih berupa scaffold dari rancangan awal. Dinda bukan anggota tim.
 
-Materi kuliah menyebut kelompok 6–7 orang. Kesesuaian tim lima orang perlu dikonfirmasi kepada dosen. Lihat [audit sumber](docs/source-audit.md) untuk dasar hitungan dan status backlog.
+Materi kuliah menyebut kelompok 6-7 orang. Kesesuaian tim lima orang perlu dikonfirmasi kepada dosen. Lihat [audit sumber](docs/source-audit.md) untuk dasar hitungan dan status backlog.
 
 Fondasi teknis yang tersedia:
 
@@ -26,36 +26,9 @@ Fondasi teknis yang tersedia:
 
 CI juga menguji migrasi dan seeder pada SQLite agar tes aplikasi cepat, serta MySQL agar skema yang digunakan tim ikut diperiksa.
 
-## Menyiapkan salinan lokal
+## Mulai di komputer sendiri
 
-1. Clone repo dan masuk ke foldernya.
-
-    git clone https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon.git
-    cd Hijauku-Adopsi-Pohon
-
-2. Pasang dependensi.
-
-    composer install
-    npm ci
-
-3. Siapkan database khusus pengembangan. SQL contoh ada di docs/database-setup.mysql.sql. Jangan memakai database berisi data penting. Bila Anda sudah punya file .env, pertahankan; jangan menimpanya. Jika belum punya:
-
-    Copy-Item .env.example .env
-
-4. Periksa DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, dan DB_PASSWORD pada .env. Pastikan DB_DATABASE menunjuk ke database pengembangan kosong, misalnya hijauku_dev. Buat application key hanya untuk .env baru yang APP_KEY-nya masih kosong; bila .env sudah ada dan dipakai, jangan mengganti key:
-
-    php artisan key:generate
-
-5. Setelah yakin koneksi menunjuk ke database pengembangan yang benar, buat tabel dan data demo:
-
-    php artisan migrate --seed
-
-6. Build aset dan jalankan aplikasi:
-
-    npm run build
-    php artisan serve
-
-Buka http://127.0.0.1:8000. Gunakan /app, /petugas, atau /warga untuk menguji panel sesuai role. Jangan jalankan migrate:fresh pada database yang berisi data yang ingin dipertahankan.
+Clone repo, buat database MySQL khusus proyek, lalu ikuti [panduan setup lokal](docs/local-setup.md). Untuk setup Windows yang biasa, jalankan `.\scripts\setup.ps1`. Script mempertahankan `.env` yang sudah ada dan meminta konfirmasi sebelum migrasi.
 
 ## Akun demo
 
@@ -67,7 +40,7 @@ Seeder lokal membuat tiga akun:
 | Petugas lapangan | petugas@hijauku.test |
 | Warga | warga@hijauku.test |
 
-Kata sandi dibaca dari DEMO_PASSWORD pada .env; nilai bawaan starter hanya untuk lokal. Ubah untuk penggunaan lokal dan jangan pakai di deployment. Seeder menolak berjalan pada production.
+Kata sandi dibaca dari `DEMO_PASSWORD` pada `.env`; nilai bawaan starter `demo-hijauku` hanya untuk lokal. Ubah sebelum membagikan database dev dan jangan pakai di deployment. Seeder menolak berjalan pada production.
 
 ## Menjalankan pemeriksaan
 
@@ -82,7 +55,7 @@ Untuk Dusk, pastikan ChromeDriver sesuai dengan Chrome, lalu jalankan server di 
     php artisan serve
     php artisan dusk
 
-Periksa tiap kelompok rute panel secara terpisah:
+Panduan setup menjelaskan perintah harian, update `main`, database, seed, dan troubleshooting. Untuk memeriksa route panel:
 
     php artisan route:list --path=app
     php artisan route:list --path=petugas
@@ -106,6 +79,7 @@ Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR harus
 | [Panduan desain UI](docs/ui-design.md) | Referensi Stitch, batas desain, dan cara menerapkan frame ke PBI |
 | [Audit sumber](docs/source-audit.md) | Hasil pemeriksaan proposal, bahan kuliah, Jira, GitHub, dan Stitch |
 | [Rencana Sprint 0](docs/sprint-plan.md) | Acceptance HAP-1/HAP-61 dan checklist fondasi |
+| [Setup lokal](docs/local-setup.md) | Clone, prasyarat, database, `.env`, seed, login, dan perintah harian |
 | [Onboarding agent](docs/agent-onboarding.md) | Konteks dan prompt kerja AI agent |
 | [Keputusan database](docs/adr/0001-database-engine.md) | Alasan memakai MySQL untuk pengembangan tim |
 

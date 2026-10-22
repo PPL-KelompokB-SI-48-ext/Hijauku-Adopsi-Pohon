@@ -10,15 +10,15 @@ Before editing, read AGENTS.md, docs/project-context.md, docs/source-audit.md, a
 ## Verified project facts
 
 - Five members: Yoga, Bitari, Arif, Wira, Rofii. Dinda is not on the roster.
-- The course handout says groups have 6–7 members; lecturer confirmation for five members is open.
-- Jira has 5 active epics and 45 stories HJK-001–045 for M01–M15. Each person owns 3 modules × 3 stories = 9 stories.
-- HAP-6/M16–M18 is archived and deferred. Do not add its screens/workflows before scope and acceptance criteria are reopened.
+- The course handout says groups have 6-7 members; lecturer confirmation for five members is open.
+- Jira has 5 active epics and 45 stories HJK-001 to HJK-045 for M01 to M15. Each person owns 3 modules × 3 stories = 9 stories.
+- HAP-6 was permanently deleted from Jira at the PM's request. M16 to M18 are outside the active scope. Do not add screens or workflows unless the PM opens a new scope with acceptance criteria.
 - HAP-61's acceptance criteria are aligned to the current roster/scope. Existing Jira keys do not get renumbered.
 - Stack: PHP 8.3+, Laravel 13, Filament 5, Blade, Vite, Eloquent, MySQL 8+.
 - Role panels: manager /app, field_staff /petugas, citizen /warga.
 - Gate and base Policies are in place. Resource query ownership and feature workflows still need implementation.
 - MySQL is the development baseline. Preserve the owner's .env and local DB; never run migrations against that DB.
-- Stitch's latest guidance excludes M16–M18. Current starter home copy/flow is aligned but visual review of all frames remains open.
+- Stitch's latest guidance excludes M16-M18. Current starter home copy/flow is aligned but visual review of all frames remains open.
 - Preserve user-owned desain.md and .playwright-mcp/.
 
 ## Implementation guidance
@@ -34,3 +34,9 @@ Before editing, read AGENTS.md, docs/project-context.md, docs/source-audit.md, a
 - Update docs when scope, requirements, or architecture decisions change.
 - Report what works, what is scaffold, tests run, and remaining work.
 - Follow CONTRIBUTING.md; never merge a PR. The PM merges.
+
+## Writing for the team
+
+- Write naturally in Indonesian, with short, specific instructions a teammate can follow.
+- Avoid canned assistant phrasing, promotional language, and repetition. State what was verified and what still needs work.
+- Use an ordinary hyphen `-` in project-authored text. Do not use em dash or en dash.

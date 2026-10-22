@@ -1,4 +1,4 @@
-# Arsitektur Hijauku — Rev 1
+# Arsitektur Hijauku - Rev 1
 
 **Status:** Baseline arsitektur untuk starter Sprint 0.
 **Berlaku:** Scope aktif 15 modul, lima anggota, Laravel 13 + Filament 5.
@@ -10,7 +10,7 @@ Dokumen ini menjelaskan sistem yang akan dibangun. Bagian “sudah tersedia” m
 
 Hijauku membantu pengelola program penghijauan menjaga data program dan pohon, menyelenggarakan kegiatan lapangan, memproses adopsi, serta memantau perawatan dan pertumbuhan. Warga dapat membaca informasi yang dipublikasikan dan mengelola aktivitas miliknya. Petugas lapangan melihat penugasan dan mengirim laporan sesuai tugas.
 
-Backlog aktif berisi 15 modul M01–M15 dan 45 story HJK-001–045. Modul M16 Artikel, M17 Galeri, dan M18 Usulan Aksi ditunda. Epic Jira lama HAP-6 telah diarsipkan, bukan dihapus. Tabel/model terkait masih ada sebagai scaffold tertunda; tidak ada halaman, endpoint, atau workflow aktif untuk area tersebut.
+Backlog aktif berisi 15 modul M01 sampai M15 dan 45 story HJK-001 sampai HJK-045. HAP-6 sudah dihapus permanen dari Jira atas keputusan PM. Modul M16 Artikel, M17 Galeri, dan M18 Usulan Aksi berada di luar scope aktif. Tabel/model terkait masih ada sebagai scaffold dari rancangan awal; tidak ada halaman, endpoint, atau workflow aktif untuk area tersebut.
 
 ## 2. Gambaran sistem
 
@@ -72,10 +72,10 @@ Aksi review, accept, dan verify adalah izin khusus. UI/service yang mengimplemen
 | Epic | Area | Modul aktif | Penanggung jawab |
 | --- | --- | --- | --- |
 | HAP-1 | Fondasi dan infrastruktur | Sprint 0, autentikasi, CI, starter | Yoga / PM |
-| HAP-2 | Data dasar dan inventaris | M01–M06 | Yoga (M01–M03), Rofii (M04–M06) |
-| HAP-3 | Kegiatan dan penugasan | M07–M09 | Bitari |
-| HAP-4 | Adopsi dan masalah pohon | M10–M12 | Arif |
-| HAP-5 | Perawatan dan pengamatan | M13–M15 | Wira |
+| HAP-2 | Data dasar dan inventaris | M01-M06 | Yoga (M01-M03), Rofii (M04-M06) |
+| HAP-3 | Kegiatan dan penugasan | M07-M09 | Bitari |
+| HAP-4 | Adopsi dan masalah pohon | M10-M12 | Arif |
+| HAP-5 | Perawatan dan pengamatan | M13-M15 | Wira |
 
 Setiap modul memiliki tiga story. Dengan tiga modul per anggota, pembagian sekarang menghasilkan sembilan story per orang. Daftar dan pembagian sprint ada di requirements.md.
 
@@ -114,7 +114,7 @@ Rancangan awal mengusulkan PostgreSQL 18. Untuk starter Sprint 0, PM menetapkan 
 
 **Sudah tersedia:** skeleton Laravel/Filament, tiga panel dan gate role, Policy dasar, model/migration awal, seeder demo, halaman beranda publik, dokumentasi, dan workflow CI.
 
-**Belum dianggap selesai:** Resource/domain screen, filter query setiap Resource, service transaksi untuk aturan bisnis, upload bukti privat, dashboard berisi metrik, workflow lengkap per story, desain Stitch halaman lain, deployment, dan integrasi notifikasi. Pekerjaan itu masuk ke story M01–M15; fitur tidak dianggap selesai hanya karena tabel/model atau shell panel tersedia.
+**Belum dianggap selesai:** Resource/domain screen, filter query setiap Resource, service transaksi untuk aturan bisnis, upload bukti privat, dashboard berisi metrik, workflow lengkap per story, desain Stitch halaman lain, deployment, dan integrasi notifikasi. Pekerjaan itu masuk ke story M01-M15; fitur tidak dianggap selesai hanya karena tabel/model atau shell panel tersedia.
 
 ## 9. Perubahan arsitektur
 
