@@ -31,11 +31,13 @@ Gunakan Jira key pada branch. Awalan yang disarankan: `feature/` untuk fitur, `f
 - Jalankan pemeriksaan yang relevan dan catat hasilnya di issue/PR.
 - Jangan masukkan secret, data pribadi, atau foto nyata ke commit.
 
-Pola commit yang disarankan:
+Gunakan Jira key dalam teks commit tanpa tanda kurung agar mudah ditemukan oleh integrasi Jira:
 
     git status --short
     git add app/Models/User.php docs/architecture.md
-    git commit -m "feat: catat pendaftaran kegiatan [HAP-25]"
+    git commit -m "feat: catat pendaftaran kegiatan HAP-25"
+
+Push branch ke GitHub setelah commit. Jira baru dapat menampilkan commit dan pull request pada panel Development jika repository GitHub sudah terhubung ke Jira. Setelah push, buka issue dan periksa panel Development. Jika belum muncul, PM memeriksa koneksi integrasi dan ejaan key; jangan menganggap commit sudah tertaut hanya karena key ada di komputer lokal.
 
 Stage hanya file yang memang menjadi bagian perubahan Anda. Hindari git add . agar file lokal seperti desain.md atau .playwright-mcp tidak ikut ter-commit.
 
@@ -80,6 +82,17 @@ Minta review dari @mygads. Jangan merge PR sendiri. Perubahan oleh PM juga mengi
 - Selesaikan semua komentar dan percakapan review.
 - Hanya PM yang menggabungkan PR ke main. Cara gabung yang dipakai repo adalah squash merge.
 - Setelah merge, hapus branch di GitHub dan tarik main terbaru.
+
+## Estimasi dan catatan waktu
+
+- Original estimate di Jira adalah perkiraan sebelum pekerjaan dimulai. Isi saat story siap masuk sprint, setelah acceptance criteria dan dependensinya jelas.
+- Work log adalah waktu yang benar-benar dipakai oleh orang yang mengerjakan. Catat waktu aktual setelah bekerja, jangan menyalin estimasi, durasi sprint, atau perkiraan dari anggota lain.
+- Perbarui remaining estimate bila rencana berubah. Bila story membesar, belum jelas, atau tidak muat dalam sprint, beri tahu PM sebelum menambah scope.
+- Jangan mengisi waktu aktual untuk pekerjaan yang belum dilakukan. Jangan mengubah work log agar sama dengan estimasi.
+- Jika Jira belum mengaktifkan field Time tracking atau Log work, catat hambatan itu di issue dan minta PM mengatur field/izin. Jangan mengganti work log dengan angka di komentar.
+- Tanggal sprint menunjukkan jendela perencanaan tim; tanggal itu bukan bukti durasi aktual untuk setiap story. Due date hanya dipakai untuk tenggat yang memang disepakati.
+
+Format lengkap untuk isi issue, Original estimate, work log, dan pengecekan tautan commit dijelaskan di [alur Jira dan pencatatan waktu](docs/jira-workflow.md).
 
 ## Konvensi proyek
 

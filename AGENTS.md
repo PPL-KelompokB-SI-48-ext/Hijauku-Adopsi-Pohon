@@ -11,6 +11,8 @@ Read docs/project-context.md and the relevant docs before changing application c
 - HAP-6 was permanently deleted from Jira at the PM's request. M16-M18 are outside the active scope. Three model/table scaffolds remain in the initial migration; do not build their screens or workflows unless the PM opens a new scope.
 - HAP-61 acceptance criteria are aligned to five members and 45 stories. HAP-1 and HAP-61 remain To Do until PM accepts the PR.
 - Existing HAP issue keys and HJK IDs are stable; do not renumber.
+- Read docs/jira-workflow.md before editing backlog-related docs or preparing a feature. Original estimate is a plan; actual work log belongs to the contributor who did the work. Never invent, backfill, or normalize actual hours to match an estimate.
+- Include the uppercase HAP issue key in pushed branch/commit/PR references. Verify Jira's Development panel after push; a key in an unpushed local commit is not a Jira link.
 - Sprint 0/1/2 exist, but all still show future although Sprint 0 end and Sprint 1 start dates have passed. PM decides state changes.
 - Role panels: manager /app, field_staff /petugas, citizen /warga. Panel gates and base policies exist; every new resource needs query ownership, policy tests, and safe actions.
 - MySQL is the development baseline. The owner's local .env already works: never read or overwrite it and never run migrations against that database.
@@ -32,5 +34,6 @@ Read docs/project-context.md and the relevant docs before changing application c
 - State clearly what is implemented and what remains scaffolding.
 - Update docs when requirements or decisions change.
 - Follow CONTRIBUTING.md. Members open PRs and assign Yoga (@mygads); PR authors resolve conflicts; only PM merges.
+- Keep Jira acceptance, sprint assignment, estimate and work log consistent with actual work. The issue is not Done until acceptance, CI, review and PM acceptance are complete.
 - Use installed Laravel Boost and the project skill under .agents/skills/hijauku-project/.
 - Check .env before local migrations; never redirect to a database containing user data without explicit confirmation.

@@ -39,7 +39,8 @@
 2. docs/project-context.md dan docs/source-audit.md.
 3. docs/architecture.md serta docs/database.md untuk pekerjaan backend.
 4. docs/requirements.md dan Jira issue untuk acceptance criteria.
-5. docs/agent-onboarding.md dan CONTRIBUTING.md untuk alur kerja.
+5. docs/jira-workflow.md untuk isi story, estimasi, work log, serta tautan Jira-GitHub.
+6. docs/agent-onboarding.md dan CONTRIBUTING.md untuk alur kerja.
 
 ## Cara menjalankan tugas AI
 

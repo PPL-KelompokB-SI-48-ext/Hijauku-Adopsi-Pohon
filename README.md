@@ -79,6 +79,7 @@ Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR harus
 | [Panduan desain UI](docs/ui-design.md) | Referensi Stitch, batas desain, dan cara menerapkan frame ke PBI |
 | [Audit sumber](docs/source-audit.md) | Hasil pemeriksaan proposal, bahan kuliah, Jira, GitHub, dan Stitch |
 | [Rencana Sprint 0](docs/sprint-plan.md) | Acceptance HAP-1/HAP-61 dan checklist fondasi |
+| [Alur Jira dan pencatatan waktu](docs/jira-workflow.md) | Isi story, estimasi, work log aktual, format commit, dan pemeriksaan tautan Jira-GitHub |
 | [Setup lokal](docs/local-setup.md) | Clone, prasyarat, database, `.env`, seed, login, dan perintah harian |
 | [Onboarding agent](docs/agent-onboarding.md) | Konteks dan prompt kerja AI agent |
 | [Keputusan database](docs/adr/0001-database-engine.md) | Alasan memakai MySQL untuk pengembangan tim |

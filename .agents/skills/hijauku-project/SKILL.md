@@ -6,6 +6,7 @@ description: Project context and implementation rules for auditing requirements,
 # Hijauku project skill
 
 Before editing, read AGENTS.md, docs/project-context.md, docs/source-audit.md, and the relevant architecture, requirements, or database page.
+Read docs/jira-workflow.md when planning a story, estimating work, logging time, or linking commits to Jira.
 
 ## Verified project facts
 
@@ -14,6 +15,8 @@ Before editing, read AGENTS.md, docs/project-context.md, docs/source-audit.md, a
 - Jira has 5 active epics and 45 stories HJK-001 to HJK-045 for M01 to M15. Each person owns 3 modules × 3 stories = 9 stories.
 - HAP-6 was permanently deleted from Jira at the PM's request. M16 to M18 are outside the active scope. Do not add screens or workflows unless the PM opens a new scope with acceptance criteria.
 - HAP-61's acceptance criteria are aligned to the current roster/scope. Existing Jira keys do not get renumbered.
+- Original estimates are plans. Actual Jira work logs are entered only by the person who performed the work; never invent or alter actual hours to fit an estimate.
+- Include the uppercase HAP key in pushed branch, commit, and PR references, then verify the Jira Development panel. Local commits are not linked until pushed and synced through the repository integration.
 - Stack: PHP 8.3+, Laravel 13, Filament 5, Blade, Vite, Eloquent, MySQL 8+.
 - Role panels: manager /app, field_staff /petugas, citizen /warga.
 - Gate and base Policies are in place. Resource query ownership and feature workflows still need implementation.
