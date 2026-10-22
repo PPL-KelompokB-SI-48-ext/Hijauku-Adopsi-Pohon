@@ -1,141 +1,124 @@
 # Hijauku — Adopsi Pohon
 
-Hijauku membantu pengelola program penghijauan mencatat lokasi dan pohon, menerima permohonan adopsi, mengatur kegiatan lapangan, lalu memantau perawatan dan pertumbuhan. Warga dapat melihat informasi yang sudah dibuka untuk publik dan mengikuti kegiatan atau mengadopsi pohon.
+Hijauku membantu pengelola program penghijauan mencatat pohon, mengatur kegiatan lapangan, menerima permohonan adopsi, serta memantau perawatan dan pertumbuhan.
 
-Dokumen ini menyiapkan cara menjalankan starter lokal. Arsitektur, keputusan yang masih perlu disepakati, dan hasil pemeriksaan bahan kuliah ada di folder [`docs/`](docs/).
+## Status proyek
 
-## Status starter
+Starter ini menyiapkan fondasi Sprint 0, bukan aplikasi dengan seluruh fitur selesai. Scope Jira aktif sekarang adalah 5 epic, 45 story ber-ID HJK-001–HJK-045, dan 15 modul M01–M15. Tim aktif terdiri dari Yoga, Bitari, Arif, Wira, dan Rofii. Pembagiannya 3 modul × 3 story = 9 story per orang. M16–M18 ditunda; epic lamanya diarsipkan tanpa menghapus riwayat. Dinda bukan anggota tim.
 
-Ini fondasi Sprint 0 untuk ditinjau tim, bukan aplikasi yang seluruh fiturnya sudah selesai. Kerangka memakai Laravel 13, Filament 5, Blade, dan Vite. Tersedia tabel/model scaffold untuk 18 modul, role dasar, akun/data demo, CI untuk instalasi, migrasi SQLite, route panel, build aset, PHPUnit, dan Dusk. Backlog Jira saat ini berisi 15 modul inti (M01–M15) dan 45 story; M16–M18 belum memiliki story dan sementara dianggap tertunda. Beranda publik sudah mengikuti isi dan alur dasar frame Stitch, sementara pencocokan visual penuh, aset merek, dan halaman lain masih perlu dikerjakan.
+Materi kuliah menyebut kelompok 6–7 orang. Kesesuaian tim lima orang perlu dikonfirmasi kepada dosen. Lihat [audit sumber](docs/source-audit.md) untuk dasar hitungan dan status backlog.
 
-Pemilik proyek menyatakan MySQL lokalnya sudah dikonfigurasi dan berjalan; pertahankan `.env` lokal yang ada. Dokumen arsitektur awal menyebut PostgreSQL 18, sementara starter menggunakan MySQL lokal dan SQLite di CI. Tim tetap perlu menyepakati satu engine bersama. Jangan jalankan migrasi pada database lokal sebelum memeriksa koneksi di `.env` dan izin pemilik.
+Fondasi teknis yang tersedia:
 
-## Kebutuhan perangkat
+- Laravel 13, Filament 5, Blade, Vite, dan Eloquent dalam satu aplikasi.
+- Login/panel terpisah untuk Pengelola (/app), Petugas (/petugas), dan Warga (/warga).
+- Gate panel berdasarkan role, kebijakan akses dasar, tabel/model awal, dan akun demo.
+- CI GitHub Actions untuk pemeriksaan aplikasi, migrasi/seeder, tes, dan aset.
+- Beranda publik mengikuti isi dan alur utama frame Stitch; halaman domain dan pencocokan visual penuh belum dibuat.
 
-- PHP 8.3 atau lebih baru, dengan ekstensi `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `zip`, `xml`, `ctype`, `curl`, dan `tokenizer`. `zip` diperlukan Composer untuk dependensi Dusk.
+## Perangkat yang diperlukan
+
+- PHP 8.3 atau lebih baru dengan ekstensi PDO MySQL, SQLite, mbstring, OpenSSL, fileinfo, zip, XML, ctype, curl, dan tokenizer.
 - Composer 2.
 - Node.js 22 dan npm.
-- MySQL/MariaDB yang dapat diakses dari perangkat pengembang, atau SQLite untuk uji instalasi lokal/CI.
-- Git.
+- MySQL 8 atau lebih baru untuk pengembangan bersama.
+- Git dan browser Google Chrome bila menjalankan tes Dusk.
 
-Laravel 13 memerlukan PHP 8.3 atau lebih baru. Filament 5 dipasang sebagai dependensi Composer dan menyediakan panel pengelola di `/app`.
+CI juga menguji migrasi dan seeder pada SQLite agar tes aplikasi cepat, serta MySQL agar skema yang digunakan tim ikut diperiksa.
 
-## Menjalankan di komputer sendiri
+## Menyiapkan salinan lokal
 
-1. Clone repo dan masuk ke folder proyek.
+1. Clone repo dan masuk ke foldernya.
 
-   ```sh
-   git clone https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon.git
-   cd Hijauku-Adopsi-Pohon
-   ```
+    git clone https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon.git
+    cd Hijauku-Adopsi-Pohon
 
-2. Pasang dependensi PHP dan JavaScript.
+2. Pasang dependensi.
 
-   ```sh
-   composer install
-   npm ci
-   ```
+    composer install
+    npm ci
 
-3. Siapkan konfigurasi lokal. Salin `.env.example` menjadi `.env`, lalu sesuaikan nama database, host, port, username, dan password dengan konfigurasi lokal Anda. Jangan menimpa `.env` yang sudah berisi konfigurasi.
+3. Siapkan database khusus pengembangan. SQL contoh ada di docs/database-setup.mysql.sql. Jangan memakai database berisi data penting. Bila Anda sudah punya file .env, pertahankan; jangan menimpanya. Jika belum punya:
 
-   ```sh
-   cp .env.example .env
-   php artisan key:generate
-   ```
+    Copy-Item .env.example .env
 
-   Pada PowerShell, gunakan `Copy-Item .env.example .env` sebagai pengganti `cp`.
+4. Periksa DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, dan DB_PASSWORD pada .env. Pastikan DB_DATABASE menunjuk ke database pengembangan kosong, misalnya hijauku_dev. Buat application key hanya untuk .env baru yang APP_KEY-nya masih kosong; bila .env sudah ada dan dipakai, jangan mengganti key:
 
-4. Pastikan `DB_*` pada `.env` menunjuk ke database proyek yang benar. Perintah berikut membuat tabel dan mengisi data demo; jangan jalankan sebelum memeriksa konfigurasi koneksinya.
+    php artisan key:generate
 
-   ```sh
-   php artisan migrate --seed
-   ```
+5. Setelah yakin koneksi menunjuk ke database pengembangan yang benar, buat tabel dan data demo:
 
-5. Buat aset front-end, lalu jalankan server Laravel.
+    php artisan migrate --seed
 
-   ```sh
-   npm run build
-   php artisan serve
-   ```
+6. Build aset dan jalankan aplikasi:
 
-   Buka `http://127.0.0.1:8000` untuk halaman publik atau `http://127.0.0.1:8000/app` untuk panel Filament.
+    npm run build
+    php artisan serve
 
-Jika aset panel Filament tidak muncul, jalankan `php artisan filament:assets` lalu muat ulang halaman.
+Buka http://127.0.0.1:8000. Gunakan /app, /petugas, atau /warga untuk menguji panel sesuai role. Jangan jalankan migrate:fresh pada database yang berisi data yang ingin dipertahankan.
 
-## Pemeriksaan browser lokal
+## Akun demo
 
-Starter menyediakan tes PHPUnit untuk akses role ke panel dan satu tes Dusk untuk beranda publik. Tes ini tidak menjalankan migrasi atau seeder. `phpunit.xml` mengarahkan tes PHPUnit ke SQLite in-memory; server web untuk Dusk hanya membuka route publik. Ketiga role aktif dapat masuk ke panel dasar; pembatasan per role dan kepemilikan data melalui Policy belum selesai.
-
-1. Pastikan Google Chrome tersedia dan ekstensi PHP `zip` aktif pada PHP CLI.
-2. Pasang ChromeDriver yang cocok dengan Chrome:
-
-   ```sh
-   php artisan dusk:chrome-driver --detect
-   ```
-
-3. Jalankan `php artisan serve` di terminal pertama. Di terminal kedua, jalankan:
-
-   ```sh
-   php artisan test --testsuite=Unit
-   php artisan dusk
-   ```
-
-CI memasang ChromeDriver, menjalankan server dengan SQLite, lalu menjalankan kedua tes tersebut. Tidak ada migrasi yang diarahkan ke database MySQL lokal.
-
-## Akun demo lokal
-
-Seeder menyiapkan tiga akun lokal:
+Seeder lokal membuat tiga akun:
 
 | Peran | Email |
 | --- | --- |
-| Pengelola | `pengelola@hijauku.test` |
-| Petugas lapangan | `petugas@hijauku.test` |
-| Warga | `warga@hijauku.test` |
+| Pengelola | pengelola@hijauku.test |
+| Petugas lapangan | petugas@hijauku.test |
+| Warga | warga@hijauku.test |
 
-Kata sandi demo dibaca dari `DEMO_PASSWORD` di `.env` dan default starter adalah `demo-hijauku`. Ubah nilai itu untuk lingkungan lokal Anda. Seeder menolak berjalan pada production. Jangan memakai akun atau kata sandi demo untuk deployment.
+Kata sandi dibaca dari DEMO_PASSWORD pada .env; nilai bawaan starter hanya untuk lokal. Ubah untuk penggunaan lokal dan jangan pakai di deployment. Seeder menolak berjalan pada production.
 
-## Peta kode
+## Menjalankan pemeriksaan
 
-| Lokasi | Isi |
+Tes unit dan kebijakan dapat dijalankan tanpa mengarah ke database pengguna:
+
+    php artisan test --testsuite=Unit
+    php artisan test --testsuite=Feature
+
+Untuk Dusk, pastikan ChromeDriver sesuai dengan Chrome, lalu jalankan server di satu terminal dan tes di terminal lain:
+
+    php artisan dusk:chrome-driver --detect
+    php artisan serve
+    php artisan dusk
+
+Periksa tiap kelompok rute panel secara terpisah:
+
+    php artisan route:list --path=app
+    php artisan route:list --path=petugas
+    php artisan route:list --path=warga
+
+CI menjalankan pemeriksaan ini pada runner terisolasi.
+
+## Alur kontribusi
+
+Setiap anggota mengambil issue Jira, bekerja pada branch sendiri, membuka pull request ke main, lalu meminta @mygads sebagai reviewer. Penulis PR memperbaiki kode dan menyelesaikan konflik. PM meninjau dan menggabungkan PR; anggota tidak menggabungkan PR sendiri.
+
+Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR harus lulus CI dan memperoleh satu persetujuan sebelum dapat digabung.
+
+## Peta dokumentasi
+
+| Dokumen | Tujuan |
 | --- | --- |
-| `app/Enums` | Nilai peran yang dipakai aplikasi |
-| `app/Models` | Model Eloquent untuk domain Hijauku |
-| `app/Providers/Filament` | Konfigurasi panel pengelola |
-| `database/migrations` | Tabel framework dan 18 modul domain (M16–M18 masih scaffold tertunda) |
-| `database/seeders` | Akun dan data contoh lokal |
-| `resources/views` | Halaman publik Blade |
-| `routes/web.php` | Rute web awal |
-| `docs/architecture.md` | Rancangan arsitektur rev1 untuk tinjauan tim |
-| `docs/requirements.md` | Aturan tugas, 15 modul/45 story di Jira, dan 3 modul tertunda |
-| `docs/source-audit.md` | Hasil audit bahan kuliah, proposal, Jira, dan Stitch |
-| `docs/database.md` | Skema, constraint, dan batas aturan yang masih perlu service |
-| `docs/project-context.md` | Memori jangka panjang untuk agent proyek |
-| `docs/agent-onboarding.md` | Urutan baca dan prompt awal untuk AI agent |
-| `.agents/skills/hijauku-project/SKILL.md` | Konteks kerja bagi AI agent |
-| `.ai/guidelines/hijauku.md` | Panduan proyek untuk Laravel Boost |
+| [Arsitektur](docs/architecture.md) | Batas sistem, panel, modul, aturan akses, dan keputusan teknis |
+| [Kebutuhan dan backlog](docs/requirements.md) | Tim, hitungan story, owner modul, sprint, dan status deferred |
+| [Skema database](docs/database.md) | Tabel, relasi, constraint, dan aturan transaksi |
+| [Audit sumber](docs/source-audit.md) | Hasil pemeriksaan proposal, bahan kuliah, Jira, GitHub, dan Stitch |
+| [Rencana Sprint 0](docs/sprint-plan.md) | Acceptance HAP-1/HAP-61 dan checklist fondasi |
+| [Onboarding agent](docs/agent-onboarding.md) | Konteks dan prompt kerja AI agent |
+| [Keputusan database](docs/adr/0001-database-engine.md) | Alasan memakai MySQL untuk pengembangan tim |
 
-## Cara kerja tim
+## Konteks untuk AI agent
 
-- Gunakan issue Jira sebagai sumber status pekerjaan; tulis keputusan dan perubahan requirement di sana.
-- Setiap perubahan kode dibuat pada branch dan pull request, lalu diminta review rekan tim.
-- Satu PBI mewakili hasil yang bisa ditinjau. Simpan acceptance criteria, implementasi, dan bukti verifikasi pada issue terkait.
-- Jangan mengerjakan perubahan skema yang belum dibahas dengan pemilik modul dan koordinator teknis.
-- Simpan kredensial, data pribadi, dan foto bukti pada konfigurasi atau storage privat yang sesuai; jangan commit `.env` atau data nyata.
+- AGENTS.md berisi aturan proyek yang berlaku untuk semua coding agent.
+- docs/project-context.md adalah ringkasan memori proyek dan keputusan yang perlu dijaga.
+- docs/agent-onboarding.md berisi prompt awal dan urutan dokumen yang perlu dibaca.
+- .agents/skills/hijauku-project/SKILL.md berisi panduan domain khusus Hijauku.
+- CLAUDE.md dan .github/copilot-instructions.md menyediakan konteks untuk tool terkait.
+- .ai/guidelines/hijauku.md memberi panduan untuk Laravel Boost.
 
-Pembagian modul dan aturan sprint sementara dicatat di [`docs/sprint-plan.md`](docs/sprint-plan.md). Roster proyek sudah dikonfirmasi lima orang (Dinda tidak termasuk), tetapi materi kuliah meminta kelompok 6–7 orang. HAP-61 masih menyebut 6 anggota dan 54 story; catatan audit membandingkan tiket itu dengan backlog aktual.
+Minta agent bekerja pada satu Jira key, membaca acceptance criteria, menjalankan pemeriksaan relevan, dan menjelaskan mana yang sudah berfungsi serta mana yang masih scaffold.
 
-## Bantuan AI
+## Catatan keamanan
 
-Panduan umum ada di `AGENTS.md`, `CLAUDE.md`, dan `.github/copilot-instructions.md`. Skill proyek ada di `.agents/skills/hijauku-project/SKILL.md`; Laravel Boost dipasang sebagai dependensi pengembangan untuk panduan Laravel sesuai versi. Jika editor mendukung MCP, gunakan konfigurasi `.mcp.json` dan pastikan `php` tersedia pada `PATH`.
-
-## CI
-
-GitHub Actions memasang dependensi pada runner, membuat database SQLite sementara, menjalankan migrasi dan seeder, memeriksa daftar rute, membangun aset Vite, menjalankan tes PHPUnit, lalu melakukan smoke test browser dengan Dusk. CI ini memeriksa fondasi instalasi; ia belum menjadi pengganti pengujian acceptance tiap PBI. Dusk menjalankan tes beranda publik, bukan alur autentikasi atau Policy.
-
-## Referensi teknis
-
-- [Laravel 13](https://laravel.com/docs/13.x)
-- [Filament 5](https://filamentphp.com/docs/5.x)
-- [Laravel Boost untuk konteks agent Laravel](https://laravel.com/framework/docs/boost)
-- [Rancangan arsitektur awal](docs/architecture.md)
-- [Audit kebutuhan dan isu terbuka](docs/source-audit.md)
+Jangan commit .env, token API, kredensial, data pribadi, foto asli, atau file konfigurasi mesin lokal. Foto bukti harus disimpan di disk privat dan hanya disajikan setelah otorisasi. Baca aturan Policy dan ownership di dokumen arsitektur sebelum membuat resource atau query.

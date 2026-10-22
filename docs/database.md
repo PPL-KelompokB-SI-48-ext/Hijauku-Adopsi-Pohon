@@ -1,73 +1,89 @@
-# Skema data awal
+# Skema database Hijauku
 
-Migrasi `2026_10_22_000003_create_hijauku_domain_tables.php` membuat 18 tabel domain dan 2 tabel teknis. Jira saat ini hanya memiliki backlog M01–M15; tabel M16–M18 (artikel, galeri, usulan aksi) masih scaffold dari rancangan lama dan belum memiliki story. Perlakukan tiga tabel tersebut sebagai tertunda sampai diputuskan apakah backlog akan ditambah atau skema starter dipangkas. Migrasi hanya kerangka relasi dan beberapa constraint; aturan proses bisnis belum seluruhnya dilaksanakan.
+Skema berada di migration Laravel dan ditujukan untuk MySQL 8+. File migration tidak mengubah database saat dibuat. Jalankan hanya pada database pengembangan yang sudah diperiksa di .env.
 
-## Tabel domain
+Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01–M15 (M11 menggunakan tabel agreement dan allocation), tiga tabel scaffold tertunda M16–M18, dan satu tabel activity_logs. Tabel akun dan infrastruktur Laravel dibuat pada migration terpisah.
 
-| Tabel | Isi dan relasi kunci |
-| --- | --- |
-| `programs` | Tujuan, periode, status; induk `sites`. |
-| `sites` | Lokasi dalam program, alamat, koordinat; induk `plots` dan `activities`. |
-| `plots` | Petak dan kapasitas pada site; kode unik per site. |
-| `tree_species` | Acuan nama dan catatan perawatan. |
-| `planting_batches` | Satu pelaksanaan tanam pada petak; kode unik per petak. |
-| `trees` | Kode, jenis, petak, batch opsional, tanggal tanam, kondisi awal. Constraint gabungan memastikan batch bila diisi berada pada petak yang sama. |
-| `activities` | Agenda lapangan, waktu, lokasi, kuota, status. |
-| `activity_registrations` | Pendaftaran/kehadiran; unik per kombinasi activity dan user. |
-| `field_assignments` | Hubungan aktivitas, pohon dan petugas; status serta tenggat. |
-| `adoption_requests` | Pohon, pemohon, alasan, status, peninjau dan alasan keputusan. |
-| `adoption_agreements` | Syarat/periode untuk satu request; satu kesepakatan maksimal per permohonan. |
-| `tree_adoption_allocations` | Kunci alokasi pohon, request, kesepakatan dan status tunggu/aktif. Unik per pohon pada versi starter. |
-| `tree_issues` | Laporan masalah, bukti, tingkat prioritas, keputusan dan penyelesaian. |
-| `care_plans` | Rencana tindakan pohon; penugasan opsional. |
-| `care_records` | Realisasi perawatan, bukti, pengirim, status dan verifikator. |
-| `growth_observations` | Tinggi, diameter, kondisi, foto dan verifikasi; unik per pohon/tanggal. |
-| `environment_articles` | Artikel edukasi, penulis, status dan waktu terbit. |
-| `gallery_entries` | Foto kegiatan opsional, pengunggah dan status. |
-| `green_action_proposals` | Usulan warga, perkiraan peserta/lokasi/waktu, status dan keputusan. |
+## Tabel aktif
+
+| Tabel | Isi dan relasi utama | Modul |
+| --- | --- | --- |
+| programs | Tujuan, periode, status; satu program memiliki lokasi | M01 |
+| sites | Alamat/koordinat dalam program; memiliki petak dan kegiatan | M02 |
+| plots | Petak dan kapasitas di lokasi | M03 |
+| tree_species | Nama jenis dan catatan perawatan | M04 |
+| planting_batches | Pelaksanaan penanaman pada petak | M05 |
+| trees | Kode, jenis, petak, batch, tanggal tanam, kondisi | M06 |
+| activities | Jadwal, lokasi, kuota, dan status | M07 |
+| activity_registrations | Pendaftaran/kehadiran; unik per warga dan kegiatan | M08 |
+| field_assignments | Kegiatan, pohon, petugas, tenggat, status | M09 |
+| adoption_requests | Pohon, pemohon, alasan, keputusan dan reviewer | M10 |
+| adoption_agreements | Syarat/periode satu permohonan yang disetujui | M11 |
+| tree_adoption_allocations | Lock satu pohon untuk mencegah persetujuan bersamaan | M11 |
+| tree_issues | Laporan masalah, bukti privat, prioritas, resolusi | M12 |
+| care_plans | Rencana tindakan untuk pohon dan assignment | M13 |
+| care_records | Realisasi, pelaksana, bukti, status dan verifikator | M14 |
+| growth_observations | Ukuran/kondisi pohon, bukti dan verifikasi | M15 |
+
+## Tabel yang masih disiapkan untuk scope tertunda
+
+| Tabel | Isi | Status |
+| --- | --- | --- |
+| environment_articles | Artikel, penulis dan waktu publikasi | M16 — deferred |
+| gallery_entries | Foto kegiatan dan pengunggah | M17 — deferred |
+| green_action_proposals | Usulan warga dan keputusan | M18 — deferred |
+
+Tabel tersebut tersisa dari rancangan 18 modul. HAP-6 di Jira sudah diarsipkan dan M16–M18 tidak mempunyai story aktif. Jangan membuat Resource, route, atau workflow untuk tabel ini sampai PM membuka scope beserta acceptance criteria.
+
+```mermaid
+erDiagram
+    PROGRAMS ||--o{ SITES : memiliki
+    SITES ||--o{ PLOTS : memuat
+    PLOTS ||--o{ PLANTING_BATCHES : menampung
+    PLOTS ||--o{ TREES : memuat
+    TREE_SPECIES ||--o{ TREES : mengelompokkan
+    SITES ||--o{ ACTIVITIES : lokasi
+    ACTIVITIES ||--o{ ACTIVITY_REGISTRATIONS : menerima
+    ACTIVITIES ||--o{ FIELD_ASSIGNMENTS : memberi_tugas
+    TREES ||--o{ ADOPTION_REQUESTS : dimohonkan
+    ADOPTION_REQUESTS ||--o| ADOPTION_AGREEMENTS : menghasilkan
+    TREES ||--o| TREE_ADOPTION_ALLOCATIONS : dikunci
+    TREES ||--o{ TREE_ISSUES : dilaporkan
+    TREES ||--o{ CARE_PLANS : direncanakan
+    CARE_PLANS ||--o{ CARE_RECORDS : direalisasikan
+    TREES ||--o{ GROWTH_OBSERVATIONS : diamati
+```
 
 ## Tabel teknis
 
-- `activity_logs`: actor, aksi, perubahan status, metadata, dan subject polimorfik. Gunakan untuk jejak perubahan yang memang perlu ditelusuri, bukan log semua request.
-- `users`: tabel Laravel diperluas dengan `role` dan `is_active`. Password tetap disimpan melalui cast hash Laravel.
-- Tabel bawaan Laravel untuk cache, job queue, dan session disiapkan oleh skeleton.
-
-## Relasi inti
-
-```text
-programs -> sites -> plots -> trees <- tree_species
-                       |       ^
-                       v       |
-                planting_batches
-
-sites -> activities -> activity_registrations -> users
-                    -> field_assignments -> trees / users
-
-trees -> adoption_requests -> adoption_agreements
-      -> tree_adoption_allocations (maksimal satu alokasi tertahan per pohon)
-      -> tree_issues, care_plans -> care_records, growth_observations
-
-users -> environment_articles, gallery_entries, green_action_proposals
-```
+- users menyimpan akun, enum role, dan status aktif. Password memakai cast hash Laravel.
+- activity_logs menyimpan actor, aksi, transisi status, metadata, dan subject polimorfik.
+- Migration Laravel menyiapkan tabel session, cache, queue, dan failed job sesuai konfigurasi proyek.
 
 ## Constraint yang sudah ada
 
-- ID utama memakai bigint; foreign key mencegah orphan dan penghapusan tidak sah.
-- `programs.status`, `activities.status`, dan status dokumen bertipe string agar nilai alur dapat berkembang. Buat enum/constant aplikasi dan aturan transisi sebelum implementasi workflow.
-- Kode pohon unik global; kode petak dan batch unik di lingkup induknya.
-- Satu akun hanya dapat tercatat sekali pada kegiatan yang sama.
-- Satu request maksimal mempunyai satu agreement; satu allocation per pohon menahan persetujuan bersamaan.
-- Pengamatan pohon unik per tanggal.
-- Foto menyimpan path. Pastikan service memakai private disk dan otorisasi saat menyajikan unduhan.
+- Primary/foreign key mencegah relasi orphan; penghapusan master yang masih dipakai dibatasi.
+- Kode pohon unik global; kode petak unik di lokasi; kode batch unik di petak.
+- Foreign key gabungan memastikan pohon dan batch berada pada petak yang sama.
+- Pendaftaran unik pada kombinasi kegiatan dan warga.
+- Satu agreement per permohonan dan satu allocation per pohon.
+- Pengamatan unik untuk pohon pada tanggal yang sama.
+- Indeks status/tanggal/owner disiapkan untuk query umum.
 
-## Batasan yang harus dikerjakan di aplikasi
+## Aturan yang harus ditegakkan oleh aplikasi
 
-Migration tidak dapat sendiri menegakkan kapasitas dinamis, kuota pendaftaran, validasi rentang waktu, transisi status, kepemilikan, nilai tinggi/diameter positif, larangan self-review, dan konsistensi tanggal antar entitas. Letakkan aturan itu pada Request validation, Policy, dan service transaksi. Acceptance criteria per PBI harus menyebut kasus berhasil, penolakan, dan perubahan status.
+Constraint statis tidak cukup untuk memeriksa kuota, kapasitas petak, availability pohon, status yang sah, tanggal lintas record, ownership, ukuran positif, dan self-review. Gunakan:
 
-## Keputusan alokasi dan adopsi ulang
+1. validasi request untuk bentuk/nilai input;
+2. Policy untuk role dan record;
+3. query scope untuk membatasi daftar;
+4. service + database transaction untuk operasi lintas record atau rawan race condition;
+5. tes untuk kondisi diterima dan ditolak.
 
-Tabel awal menggunakan `tree_id` unik di `tree_adoption_allocations`. Baris ini adalah lock untuk permohonan menunggu atau adopsi aktif. Saat agreement berakhir/dihentikan, service harus menghapus baris allocation dalam transaksi sambil mempertahankan status/riwayat pada agreement dan activity log; pohon kemudian dapat dialokasikan lagi. Jika tim membutuhkan riwayat lock yang lebih lengkap, tambah tabel riwayat terpisah. Jangan menghapus constraint unik tanpa mengganti perlindungan konkurensi.
+Setiap Resource Filament harus menyembunyikan field sensitif dan membatasi query, walaupun Policy viewAny mengizinkan role membuka daftar. Untuk upload bukti, gunakan disk privat, validasi tipe/ukuran, dan route download yang memanggil otorisasi.
 
-## Engine database
+## Database lokal dan CI
 
-Dokumen arsitektur awal mengusulkan PostgreSQL 18. Pemilik menyatakan MySQL lokalnya sudah disiapkan dan berjalan; `.env` lokal memakai MySQL dan tidak boleh ditimpa. CI memakai SQLite sementara. Ini belum menjadi keputusan engine seluruh tim. Setelah diputuskan, ubah `.env.example`, workflow CI, README, dan migrasi bila perlu; jangan arahkan migrasi ke database lokal pengguna tanpa izin.
+MySQL 8+ adalah baseline development tim. Lihat SQL setup lokal di database-setup.mysql.sql dan pastikan akun memiliki akses hanya ke database pengembangan. CI memeriksa migration/seeder pada MySQL dan SQLite; tes cepat memakai SQLite in-memory.
+
+Jangan menimpa .env lokal yang sudah bekerja. Sebelum migrate, verifikasi DB_HOST, DB_DATABASE, DB_USERNAME, dan hak akses. Hindari migrate:fresh pada database yang mungkin berisi data yang ingin disimpan.

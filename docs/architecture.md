@@ -1,142 +1,121 @@
-# Arsitektur Hijauku — rancangan rev1 untuk tinjauan
+# Arsitektur Hijauku — Rev 1
 
-**Status: draf rev1 untuk ditinjau tim.** Pemilik proyek sudah mengonfirmasi lima anggota dan akses Jira/Stitch sudah diperiksa. Dokumen belum final karena HAP-61 masih mengasumsikan enam anggota/54 story, Jira baru memiliki 45 story untuk M01–M15, HAP-6 untuk M16–M18 masih kosong, Sprint 0/1 memiliki status yang tertinggal, dan engine bersama belum dipilih.
+**Status:** Baseline arsitektur untuk starter Sprint 0.
+**Berlaku:** Scope aktif 15 modul, lima anggota, Laravel 13 + Filament 5.
+**Pemilik keputusan proyek:** Yoga (PM). Perubahan berikutnya dicatat pada Jira dan pull request.
 
-## Batas scope yang teramati
+Dokumen ini menjelaskan sistem yang akan dibangun. Bagian “sudah tersedia” membedakan fondasi yang benar-benar ada dari fitur bisnis yang masih harus dikerjakan per PBI.
 
-Jira saat ini membagi pekerjaan inti menjadi 15 modul (M01–M15), 3 story per modul, dan 9 story per anggota untuk lima anggota. Itu adalah 45 story aktif. M16 Artikel, M17 Galeri, dan M18 Usulan Aksi masih tercatat di rancangan lama serta tabel starter, tetapi belum memiliki story Jira; arahan Stitch terakhir juga mengecualikan ketiga modul tersebut. Perlakukan M16–M18 sebagai **tertunda**, jangan membuat UI/workflow untuk modul itu sebelum backlog dan acceptance criteria disepakati. Migrasi starter masih memiliki tabelnya sebagai sisa rancangan 18 modul dan perlu diputuskan apakah akan dipertahankan atau dihapus sebelum schema dianggap final.
+## 1. Tujuan dan batas produk
 
-## Tujuan produk
+Hijauku membantu pengelola program penghijauan menjaga data program dan pohon, menyelenggarakan kegiatan lapangan, memproses adopsi, serta memantau perawatan dan pertumbuhan. Warga dapat membaca informasi yang dipublikasikan dan mengelola aktivitas miliknya. Petugas lapangan melihat penugasan dan mengirim laporan sesuai tugas.
 
-Hijauku mencatat program penghijauan beserta lokasi dan inventaris pohonnya, mendukung alur adopsi warga, mengatur kegiatan dan tugas lapangan, serta menyimpan bukti perawatan dan pertumbuhan. Informasi yang sudah ditinjau dapat diterbitkan untuk warga.
+Backlog aktif berisi 15 modul M01–M15 dan 45 story HJK-001–045. Modul M16 Artikel, M17 Galeri, dan M18 Usulan Aksi ditunda. Epic Jira lama HAP-6 telah diarsipkan, bukan dihapus. Tabel/model terkait masih ada sebagai scaffold tertunda; tidak ada halaman, endpoint, atau workflow aktif untuk area tersebut.
 
-## Gambaran sistem
+## 2. Gambaran sistem
+
+Pengguna publik membuka halaman Blade + Vite. Pengelola, Petugas, dan Warga masuk ke panel Filament yang berbeda. Ketiga panel memakai satu aplikasi Laravel 13 dan satu database MySQL; Eloquent mengakses data. Policy, query scope, validasi, dan service menjaga aturan akses serta proses bisnis. Foto dan bukti disimpan di Laravel Storage privat.
 
 ```mermaid
 flowchart LR
-    W[Warga] --> PUB[Halaman publik<br/>Blade]
-    M[Pengelola] --> APP[Panel pengelola<br/>Filament 5]
-    F[Petugas lapangan] --> APP
-    W --> APP
-    PUB --> LAR[Laravel 13<br/>monolit modular]
-    APP --> LAR
-    LAR --> POL[Policies dan validasi]
-    POL --> SVC[Services untuk aturan lintas data]
-    SVC --> ORM[Eloquent]
-    ORM --> DB[(MySQL lokal sementara<br/>engine tim belum diputuskan)]
-    LAR --> FS[Laravel Storage<br/>foto dan bukti]
+    Citizen[Warga] --> Public[Halaman publik<br/>Blade + Vite]
+    Manager[Pengelola] --> ManagerPanel[Filament /app]
+    FieldStaff[Petugas] --> FieldPanel[Filament /petugas]
+    Citizen --> CitizenPanel[Filament /warga]
+    Public --> Laravel[Laravel 13<br/>monolit modular]
+    ManagerPanel --> Laravel
+    FieldPanel --> Laravel
+    CitizenPanel --> Laravel
+    Laravel --> Gate[Login + panel gate]
+    Gate --> Policy[Policy + query scope]
+    Policy --> Service[Validasi + service transaksi]
+    Service --> Models[Eloquent]
+    Models --> MySQL[(MySQL 8+)]
+    Laravel --> PrivateFiles[Storage privat]
 ```
 
-Satu aplikasi Laravel dipilih agar tim dapat berbagi model, validasi, autentikasi, dan deployment tanpa menambah layanan terpisah. Area domain dipisahkan melalui model, policy, service, migration, dan Filament Resource. Blade menyajikan laman publik. Filament menjadi panel internal di `/app`. Pemisahan modul berada di kode dan backlog; starter belum membuat modul sebagai paket/deployment terpisah.
+Alur request:
 
-### Alur request
+1. Route publik atau panel Filament menerima request.
+2. Middleware autentikasi memastikan pengguna masuk.
+3. User::canAccessPanel() hanya membuka panel yang cocok dengan role dan status aktif.
+4. Policy memutuskan izin untuk aksi dan record. Query list juga dibatasi ke data yang boleh dilihat.
+5. Validasi memeriksa input dan aturan lintas field.
+6. Service menjalankan transisi bisnis yang memerlukan transaksi, misalnya kuota, kapasitas petak, alokasi pohon, dan verifikasi.
+7. Eloquent menyimpan data. File bukti disimpan pada disk privat; database hanya menyimpan path.
 
-1. Route atau Filament Resource menerima permintaan.
-2. Autentikasi memastikan identitas pengguna.
-3. Policy membatasi tindakan berdasarkan peran dan kepemilikan data.
-4. Form request/validasi memastikan bentuk dan nilai input benar.
-5. Service mengelola aturan lintas tabel, transisi status dan transaksi database.
-6. Eloquent menyimpan data; Laravel Storage menyimpan foto dan bukti. Lokasi file disimpan di database, konten file tidak.
-7. Query publik hanya mengambil data dengan status terbit/terverifikasi yang sesuai.
+## 3. Peran dan area akses
 
-## Peran dan batas akses
+| Role | Panel | Batas akses dasar |
+| --- | --- | --- |
+| manager | /app | Mengelola master data, memutus permohonan, menyusun penugasan, dan memverifikasi kiriman. |
+| field_staff | /petugas | Melihat penugasan milik sendiri dan mengirim laporan sesuai tanggung jawab. |
+| citizen | /warga | Melihat dan mengelola pendaftaran/permohonan milik sendiri serta mengirim laporan. |
 
-| Peran | Kebutuhan utama |
+Panel gate bukan pengganti Policy. Model baru harus memiliki Policy sebelum Resource atau endpoint dibuat. viewAny mengizinkan role membuka daftar; ia tidak otomatis memfilter record. Query Resource harus menerapkan scope ownership yang sama.
+
+### Policy dasar yang sudah dipasang
+
+- Master data dan akun: pengelola saja.
+- Penugasan: petugas boleh melihat penugasan dengan assignee_id miliknya; tidak dapat mengubah assignment.
+- Pendaftaran kegiatan: warga dapat membuat dan melihat pendaftaran miliknya.
+- Permohonan adopsi: warga dapat membuat dan melihat miliknya; aksi review hanya pengelola dan pelaku tidak boleh meninjau permohonannya sendiri.
+- Kesepakatan: warga hanya melihat miliknya; aksi accept hanya pemilik kesepakatan berstatus awaiting_acceptance.
+- Laporan masalah: warga/petugas dapat membuat serta membaca laporannya sendiri.
+- Rencana perawatan: petugas hanya dapat membaca rencana dari assignment miliknya.
+- Realisasi dan pengamatan: petugas dapat membuat dan membaca kirimannya sendiri; verifikasi hanya pengelola yang bukan pengirim.
+
+Aksi review, accept, dan verify adalah izin khusus. UI/service yang mengimplementasikannya tetap harus mengubah field yang tepat dan menolak perubahan field lain. Sebelum Resource tersedia, query list, validasi input, dan service transaksi masih menjadi pekerjaan PBI.
+
+## 4. Modul aktif dan pembagian pemilik
+
+| Epic | Area | Modul aktif | Penanggung jawab |
+| --- | --- | --- | --- |
+| HAP-1 | Fondasi dan infrastruktur | Sprint 0, autentikasi, CI, starter | Yoga / PM |
+| HAP-2 | Data dasar dan inventaris | M01–M06 | Yoga (M01–M03), Rofii (M04–M06) |
+| HAP-3 | Kegiatan dan penugasan | M07–M09 | Bitari |
+| HAP-4 | Adopsi dan masalah pohon | M10–M12 | Arif |
+| HAP-5 | Perawatan dan pengamatan | M13–M15 | Wira |
+
+Setiap modul memiliki tiga story. Dengan tiga modul per anggota, pembagian sekarang menghasilkan sembilan story per orang. Daftar dan pembagian sprint ada di requirements.md.
+
+## 5. Model data ringkas
+
+Program memiliki lokasi; lokasi memiliki petak; petak menampung batch penanaman dan pohon; pohon memiliki jenis. Lokasi juga menjadi tempat kegiatan. Kegiatan memiliki pendaftaran dan penugasan. Pohon terkait dengan permohonan adopsi, kesepakatan/alokasi, laporan masalah, rencana perawatan, realisasi, dan pengamatan.
+
+activity_logs memakai subject polimorfik sehingga tidak ditampilkan sebagai relasi foreign key pada ringkasan. Skema lengkap dan constraint dijelaskan di database.md.
+
+## 6. Aturan integritas penting
+
+- Satu pendaftaran per warga untuk satu kegiatan; kuota diperiksa di service dalam transaksi.
+- Kapasitas petak diperiksa saat menambah batch/pohon, bukan hanya saat formulir dibuka.
+- Alokasi pohon unik mencegah dua permohonan menahan pohon yang sama. Persetujuan mengunci record di dalam transaksi.
+- Petugas hanya mengirim catatan untuk pohon yang terhubung dengan penugasan miliknya.
+- Pengirim care record/growth observation tidak boleh memverifikasi kirimannya sendiri.
+- Bukti foto privat sampai ada alur publikasi dan izin yang jelas.
+- Perubahan status melalui aksi/service eksplisit; jangan menerima status final dari input bebas pengguna.
+
+## 7. Keputusan teknologi
+
+| Keputusan | Baseline Rev 1 |
 | --- | --- |
-| `manager` / Pengelola | Mengelola master program dan pohon; memutus permohonan/usulan; mengatur tugas; memverifikasi laporan dan mengelola publikasi. |
-| `field_staff` / Petugas lapangan | Melihat kegiatan dan penugasan sendiri; mengirim realisasi, pengamatan, dan laporan masalah sesuai penugasan. |
-| `citizen` / Warga | Membaca katalog yang dibuka; mengelola permohonan dan pendaftaran milik sendiri; mengirim laporan pohon yang diadopsi dan usulan aksi. |
+| Aplikasi | Laravel 13, monolit modular |
+| Panel | Filament 5; panel dipisah sesuai role |
+| Halaman publik | Blade + Vite |
+| Database pengembangan | MySQL 8+ dengan database khusus proyek |
+| Tes cepat | SQLite in-memory |
+| CI integrasi skema | MySQL 8 service dan SQLite |
+| File bukti | Laravel Storage privat |
+| Bahasa dan waktu | Bahasa Indonesia; Asia/Jakarta |
 
-Starter menyimpan role di enum `App\Enums\UserRole`. Gate panel menerima akun aktif untuk ketiga nilai role; itu hanya memberi akses ke shell panel, bukan izin ke data. Pembatasan peran per halaman dan aksi, serta ownership, harus ditambahkan melalui Policies dan konfigurasi Resource sebelum modul dibuka ke pengguna.
+Rancangan awal mengusulkan PostgreSQL 18. Untuk starter Sprint 0, PM menetapkan MySQL sebagai baseline karena konfigurasi pengembangan lokal yang sudah berjalan dan starter telah memakai MySQL. Alasan dan dampaknya dicatat di adr/0001-database-engine.md. File .env lokal pengguna tidak diubah.
 
-## Area domain
+## 8. Yang sudah tersedia dan yang belum
 
-| Area | Modul | Aturan utama |
-| --- | --- | --- |
-| Program dan inventaris | M01–M06 | Lokasi masuk ke program; petak berada di lokasi; batch dan pohon terhubung ke petak; kode unik; kapasitas petak diperiksa saat transaksi. |
-| Kegiatan | M07–M09 | Waktu akhir setelah waktu awal; kuota tidak terlampaui; pendaftaran unik per akun/kegiatan; petugas hanya menjalankan penugasan sendiri. |
-| Adopsi | M10–M11 | Permohonan ditinjau sebelum kesepakatan; satu alokasi tertahan/aktif per pohon; persetujuan berjalan dalam transaksi. |
-| Pemantauan | M12–M15 | Bukti dan laporan terkait pohon; pengirim tidak memverifikasi kiriman sendiri; hanya data terverifikasi masuk ke ringkasan publik. |
-| Publikasi | M16–M17 | Draf tetap privat; foto tidak menjadi publik sebelum diterbitkan; galeri tidak menggantikan bukti perawatan. |
-| Usulan warga | M18 | Usulan memiliki status dan keputusan; diterima tidak otomatis membuat kegiatan inti. |
+**Sudah tersedia:** skeleton Laravel/Filament, tiga panel dan gate role, Policy dasar, model/migration awal, seeder demo, halaman beranda publik, dokumentasi, dan workflow CI.
 
-## Hubungan skema
+**Belum dianggap selesai:** Resource/domain screen, filter query setiap Resource, service transaksi untuk aturan bisnis, upload bukti privat, dashboard berisi metrik, workflow lengkap per story, desain Stitch halaman lain, deployment, dan integrasi notifikasi. Pekerjaan itu masuk ke story M01–M15; fitur tidak dianggap selesai hanya karena tabel/model atau shell panel tersedia.
 
-Diagram menampilkan semua tabel awal, termasuk tabel sistem Laravel dan tabel teknis. Kolom lengkap ada di migrasi; hubungan bisnis disederhanakan agar diagram mudah dibaca.
+## 9. Perubahan arsitektur
 
-```mermaid
-erDiagram
-    USERS ||--o{ ACTIVITY_REGISTRATIONS : mendaftar
-    USERS ||--o{ FIELD_ASSIGNMENTS : menerima
-    USERS ||--o{ ADOPTION_REQUESTS : mengajukan
-    USERS ||--o{ ADOPTION_REQUESTS : meninjau
-    USERS ||--o{ ADOPTION_AGREEMENTS : mengadopsi
-    USERS ||--o{ TREE_ISSUES : melaporkan
-    USERS ||--o{ CARE_RECORDS : mengerjakan
-    USERS ||--o{ GROWTH_OBSERVATIONS : mengamati
-    USERS ||--o{ ENVIRONMENT_ARTICLES : menulis
-    USERS ||--o{ GALLERY_ENTRIES : mengunggah
-    USERS ||--o{ GREEN_ACTION_PROPOSALS : mengusulkan
-    USERS ||--o{ ACTIVITY_LOGS : bertindak
-    PROGRAMS ||--o{ SITES : memiliki
-    SITES ||--o{ PLOTS : memuat
-    SITES ||--o{ ACTIVITIES : menjadi_lokasi
-    PLOTS ||--o{ PLANTING_BATCHES : menampung
-    PLOTS ||--o{ TREES : memuat
-    TREE_SPECIES ||--o{ TREES : mengelompokkan
-    PLANTING_BATCHES o|--o{ TREES : menanam
-    ACTIVITIES ||--o{ ACTIVITY_REGISTRATIONS : memiliki
-    ACTIVITIES ||--o{ FIELD_ASSIGNMENTS : memberi_tugas
-    ACTIVITIES o|--o{ GALLERY_ENTRIES : didokumentasikan
-    TREES ||--o{ FIELD_ASSIGNMENTS : ditugaskan
-    TREES ||--o{ ADOPTION_REQUESTS : dimohonkan
-    ADOPTION_REQUESTS ||--o| ADOPTION_AGREEMENTS : menghasilkan
-    TREES ||--o| TREE_ADOPTION_ALLOCATIONS : dialokasikan
-    ADOPTION_REQUESTS ||--o| TREE_ADOPTION_ALLOCATIONS : mengunci
-    ADOPTION_AGREEMENTS o|--o| TREE_ADOPTION_ALLOCATIONS : mengaktifkan
-    TREES ||--o{ TREE_ISSUES : memiliki
-    TREES ||--o{ CARE_PLANS : dirawat
-    FIELD_ASSIGNMENTS o|--o{ CARE_PLANS : menjadi_dasar
-    CARE_PLANS o|--o{ CARE_RECORDS : direalisasikan
-    TREES ||--o{ CARE_RECORDS : memiliki
-    TREES ||--o{ GROWTH_OBSERVATIONS : diamati
-```
-
-`ACTIVITY_LOGS` juga mempunyai `subject_type` dan `subject_id` polimorfik, sehingga tidak dapat digambarkan sebagai satu relasi foreign key biasa. Tabel default Laravel (`cache`, `jobs`, dan lainnya) tidak ditampilkan di diagram.
-
-## Aturan integritas penting
-
-- Satu pohon hanya punya satu baris `tree_adoption_allocations` selama sedang ditahan/diadopsi. Saat kesepakatan selesai, service menghapus baris lock dalam transaksi; `adoption_agreements` tetap menyimpan riwayat. Jika kelak perlu laporan historis alokasi, buat tabel riwayat terpisah.
-- Saat menerima permohonan, service harus mengunci pohon/alokasi dalam transaksi untuk menolak dua persetujuan bersamaan. Constraint unik adalah lapis perlindungan tambahan, bukan satu-satunya validasi.
-- Kunci unik `(batch_id, plot_id)` pada pohon mencegah pohon menunjuk batch pada petak lain.
-- Indeks unik mencegah pendaftaran ganda, kode pohon ganda, kode petak berulang di lokasi, dan pengamatan ganda pada tanggal yang sama.
-- Batas kapasitas, kuota, status, kepemilikan, nilai positif, dan larangan self-review perlu validasi aplikasi serta transaksi; migrasi saja belum menegakkannya.
-- Bukti foto disimpan memakai disk privat. Rute unduh perlu memeriksa role dan kepemilikan.
-
-> Catatan: penghapusan baris lock saat adopsi berakhir harus dilakukan oleh service dalam transaksi bersama perubahan status agreement. Jangan menghapus constraint unik pohon. Tambahkan riwayat alokasi terpisah bila tim membutuhkan jejak lock.
-
-## Keputusan teknis sementara
-
-| Keputusan | Pilihan starter | Alasan/status |
-| --- | --- | --- |
-| Backend | Laravel 13 monolit | Cocok dengan rancangan dan runtime PHP lokal. |
-| Panel internal | Filament 5 pada `/app` | Mempercepat panel CRUD pengelola; akses final tetap harus dibatasi. |
-| Publik | Blade + Vite | Laman publik dan katalog berada pada aplikasi yang sama. |
-| Database pengembangan | MySQL pada `.env` lokal pemilik | Pemilik menyatakan database lokal sudah berjalan. Pertahankan `.env` dan jangan arahkan migrasi tanpa izin; tim masih perlu memilih engine bersama karena rancangan awal meminta PostgreSQL 18. |
-| CI | SQLite sementara | Menguji migrasi dan seeder tanpa layanan database di runner. Kompatibilitas MySQL/PostgreSQL tetap perlu diperiksa saat engine diputuskan. |
-| Foto dan bukti | Laravel Storage privat | Database hanya menyimpan path; unggahan publik perlu alur eksplisit. |
-| Bahasa/waktu | Locale Indonesia, `Asia/Jakarta` | Sesuai pengguna proyek. Simpan timestamp dengan konvensi konsisten. |
-| UI | Beranda Blade dasar; panel Filament | Isi dan alur utama beranda sudah mengikuti frame publik Stitch (navigasi, adopsi gratis, CTA, tiga langkah). Pencocokan visual penuh, aset merek, katalog/detail, dan shell per role masih perlu dipetakan dan ditinjau terhadap frame. |
-
-### Yang belum termasuk
-
-Starter belum membuat seluruh Filament Resource, policies, services, transaksi adopsi, validasi kuota/kapasitas, workflow verifikasi, dashboard, unggah privat, API, deployment, atau integrasi email. Masing-masing perlu menjadi story Jira dengan acceptance criteria.
-
-## Panduan sebelum menyetujui rev1
-
-1. Minta dosen mengesahkan roster lima orang karena bahan kuliah meminta 6–7 orang; Dinda bukan anggota proyek.
-2. Selaraskan HAP-61 dengan fakta Jira: 5 orang/45 story untuk M01–M15 atau tambahkan 9 story untuk M16–M18. Jangan mengubah Jira tanpa keputusan PM.
-3. Perbarui status/tanggal sprint yang sudah lewat dan cocokkan minggu Sprint 2 dengan kalender kuliah.
-4. Setujui database bersama lalu perbarui konfigurasi dan CI tanpa menimpa `.env` lokal yang sudah bekerja.
-5. Petakan frame Stitch ke route dan role; jangan implementasikan M16–M18 sampai backlog berubah.
-6. Setujui aturan adopsi ulang, retensi bukti, dan status transisi.
+Perubahan requirement atau keputusan harus menyertakan alasan, dampak data/role, migration bila perlu, dan acceptance criteria. Diskusikan perubahan lintas modul di Jira; dokumentasikan keputusan yang memengaruhi tim sebagai ADR di docs/adr/.

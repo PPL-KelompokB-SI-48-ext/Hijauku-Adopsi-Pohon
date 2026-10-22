@@ -1,46 +1,42 @@
-# Persiapan Sprint 0 dan sprint formal
+# Rencana Sprint 0
 
-## Sprint 0: fondasi
+## Jira
 
-HAP-1 adalah epic **Fondasi & Infrastruktur** (To Do). HAP-61 adalah task **SETUP-001** (To Do), parent HAP-1, assignee Yoga, dan masuk Sprint 0 - Persiapan.
+- Epic fondasi: HAP-1 — Fondasi & Infrastruktur.
+- Task Sprint 0: HAP-61 — SETUP-001.
+- Assignee HAP-61: Yoga.
+- Status HAP-1 dan HAP-61: To Do sampai PM menerima hasil dan acceptance terpenuhi.
+- Kriteria HAP-61 sudah diperbarui: 5 anggota, 5 epic, 45 story, scope M01–M15, dokumen arsitektur, starter Laravel/Filament, role gate/Policy, dan alur PR.
 
-### Isi dan penerimaan HAP-61 yang aktual
+## Acceptance HAP-61
 
-HAP-61 meminta repo GitHub, pemetaan tugas, dokumen arsitektur rev1, dan Laravel/Filament starter. Acceptance criteria masih menyebut 6 anggota yang punya akses dan 6 epic + 54 story. Pemilik proyek telah mengonfirmasi ada 5 anggota tanpa Dinda. Jira aktual memiliki 6 epic dan 45 story untuk M01–M15. Rekomendasi audit adalah memperbarui kriteria menjadi lima anggota/45 story dan menahan M16–M18 sampai backlog-nya dibuka; issue Jira sendiri belum diubah.
+1. Repo memiliki lima anggota aktif: Yoga, Bitari, Arif, Wira, dan Rofii. Dinda dikecualikan.
+2. Backlog aktif Jira memiliki 5 epic dan 45 story HJK-001–045; pembagian per anggota adalah 3 modul × 3 story. Epic M16–M18 disimpan sebagai deferred dan diarsipkan.
+3. Sprint 0, Sprint 1, dan Sprint 2 tersedia; Sprint 2 telah diselaraskan ke pekan 11–15 dan tanggal akhir 27 Desember. PM masih menyelaraskan state Sprint 0/1 sebelum menjalankan atau menutup sprint.
+4. Dokumen arsitektur Rev 1, kebutuhan, database, keputusan, audit sumber, dan kontribusi tersedia serta dibagikan lewat repo.
+5. Starter Laravel 13 + Filament 5 bisa di-clone, dikonfigurasi memakai database development khusus, dimigrasi dan di-seed tanpa secret.
+6. Panel manager, field_staff, dan citizen dipisahkan per path serta diuji; Policy dasar role/ownership tersedia.
+7. CI memvalidasi dependency, migrasi/seeder MySQL/SQLite, route, tes, dan build.
+8. Anggota membuka PR ke main dan meminta Yoga sebagai reviewer; CI dan satu approval wajib; hanya PM yang merge; penulis PR menyelesaikan konflik.
 
-| Kriteria HAP-61 | Kondisi saat audit |
-| --- | --- |
-| Repo GitHub dan akses anggota | Repo sudah ada dan audit sebelumnya menemukan 5 kolaborator. Cocok dengan roster pemilik; acceptance criterion masih meminta 6 anggota. |
-| 6 epic + 54 story + sprint di Jira | Ada 6 epic, 45 story aktif, dan 3 sprint. HAP-6/M16–M18 kosong. Selaraskan acceptance criterion dengan backlog yang dipilih PM. |
-| Dokumen arsitektur rev1 final dan dibagikan | Dokumen rev1 tersedia di PR untuk ditinjau tim; statusnya masih draf sampai keputusan database/scope dan persetujuan tim dicatat. |
-| Template Laravel + Filament yang bisa dijalankan | Starter, migration, seeder demo, README, workflow CI, PHPUnit, dan Dusk beranda publik tersedia di PR. PHPUnit, Dusk lokal, serta build aset sudah lolos; CI PR perlu dilihat setelah perubahan dipush. |
+## Checklist starter
 
-### Kondisi starter
+- [x] Audit sumber, roster, Jira, GitHub dan Stitch.
+- [x] Selaraskan HAP-61 ke roster lima orang dan 45 story.
+- [x] Arsipkan HAP-6 deferred tanpa menghapus riwayat.
+- [x] Verifikasi 5 epic aktif, 45 story dan HJK-001–045 berurutan.
+- [x] Pertahankan konfigurasi database lokal pengguna; CI memakai DB terisolasi.
+- [x] Siapkan Laravel 13 + Filament 5 dan tiga panel role.
+- [x] Siapkan Policy dasar dan tes izin/ownership.
+- [x] Siapkan migration, seeder demo, .env.example aman, README dan panduan kontribusi.
+- [x] Siapkan CI SQLite + MySQL, tes PHP, Dusk beranda, dan build aset.
+- [x] Lindungi main: satu approval, CI wajib, percakapan selesai, anggota write, dan push/merge hanya PM.
+- [ ] Minta review dan approval PM/tim pada pull request Sprint 0.
+- [ ] Dosen mengonfirmasi komposisi tim lima orang.
+- [ ] PM menyelaraskan state Sprint 0/1 yang terlambat.
+- [ ] Pemilik modul meninjau arsitektur, acceptance criteria dan query ownership sebelum membangun Resource.
+- [ ] Lengkapi pemeriksaan visual Stitch; beranda saat ini belum cocok penuh dan layar lain belum diimplementasikan.
 
-- [x] Audit bahan kuliah, rancangan arsitektur, proposal, dan `desain.md`.
-- [x] Siapkan skeleton Laravel 13 + Filament 5, model, migration, role dasar, dan seeder demo.
-- [x] Tambahkan CI instalasi, migrasi/seeder SQLite, pemeriksaan route panel, dan build Vite.
-- [x] Tulis README, requirement, rancangan arsitektur, skema database, serta konteks agent.
-- [x] Buat dan push draft PR untuk review tim.
-- [x] Baca HAP-1, HAP-61, 45 story, 6 epic, dan 3 sprint dalam Jira.
-- [x] Baca struktur frame dan instruksi UI pada proyek Stitch.
-- [x] Selaraskan isi utama beranda publik dengan frame Stitch 21 dan pasang smoke test Dusk.
-- [ ] Selaraskan kriteria HAP-61 (5 orang/45 story atau putuskan tambahan M16–M18).
-- [ ] Minta konfirmasi dosen tentang syarat kelompok 6–7 orang.
-- [ ] Lengkapi pencocokan visual beranda, aset merek, dan shell tiap role sesuai frame Stitch.
-- [ ] Tambah Policy dan pembatasan role/ownership pada resource sebelum membuka data melalui panel.
-- [ ] Perbarui status/tanggal sprint yang telah lewat.
-- [ ] Putuskan apakah tabel M16–M18 dipertahankan sebagai scope tertunda.
-- [ ] Sepakati database tim; jangan menimpa `.env` lokal yang sudah bekerja.
-- [ ] Minta review arsitektur dari tim dan tandai final setelah disetujui.
-- [ ] Jangan tandai HAP-1/HAP-61 selesai sebelum acceptance criteria tersisa dipenuhi.
+## Catatan status
 
-HAP-1 secara khusus memuat autentikasi, RBAC tiga peran, panel Filament `/app`, dashboard dasar, GitHub Actions + Dusk, dan seeder demo. Starter punya login/panel dasar, enum tiga role, seeder, workflow CI, tes akses panel, dan smoke test Dusk untuk beranda publik. Gate panel menerima akun aktif dari ketiga role; pembatasan policy per halaman/resource, kepemilikan data, dan dashboard sesuai peran belum lengkap. Karena itu HAP-1 belum dapat dianggap selesai.
-
-## Dua sprint formal
-
-Materi kuliah yang dibaca menyebut dua sprint formal pada minggu 6–10 dan 11–15. Jira memiliki Sprint 1 - Modul inti dan Sprint 2 - Lanjutan. Sprint 1 direncanakan untuk M02, M03, M04, M06, M07, M08, M10, M11, M15; Sprint 2 untuk M01, M05, M09, M12, M13, M14 plus hardening/demo. M16–M18 tidak mempunyai story di Jira.
-
-Jira menempatkan masing-masing lima anggota pada tiga modul dan 9 story. Setiap anggota memiliki 3 atau 6 story per sprint. Pemilik/PM tetap perlu memperbarui sprint state: pada audit 22 Oktober 2026 Sprint 0 sudah melewati tanggal akhir 18 Oktober dan Sprint 1 mulai 19 Oktober, tetapi Jira masih menunjukkan keduanya `future`. Sprint 2 pada goal Jira menyebut minggu 11–14, bukan 11–15.
-
-Rincian rumus, daftar story, dan pembagian anggota ada di [`requirements.md`](requirements.md). Temuan sumber dan acceptance criteria per ticket ada di [`source-audit.md`](source-audit.md).
+Pemeriksaan lokal menunjukkan template dapat dibangun dan dites; status CI GitHub diperiksa setelah perubahan dipush. Issue tetap To Do sampai PM menyetujui review dan mengubah statusnya di Jira. Sprint 0 tidak otomatis ditutup karena masih ada keputusan dosen dan status board yang perlu dikelola PM.

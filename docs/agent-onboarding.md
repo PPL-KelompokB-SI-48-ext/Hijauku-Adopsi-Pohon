@@ -1,19 +1,16 @@
-# Panduan agent untuk Hijauku
+# Prompt onboarding AI agent
 
-Berikan instruksi ini pada AI agent saat memulai tugas:
+Gunakan prompt ini saat anggota tim meminta AI membantu mengerjakan PBI.
 
-> Kamu membantu proyek kuliah Hijauku Adopsi Pohon. Baca `AGENTS.md`, `docs/project-context.md`, `docs/source-audit.md`, dan dokumen modul sebelum mengubah kode. Stack starter Laravel 13 + Filament 5 + Blade. Pemilik proyek mengonfirmasi tim berisi lima orang (Yoga, Bitari, Arif, Wira, Rofii); Dinda tidak termasuk. Bahan kuliah meminta 6–7 orang, jadi jangan mengklaim kepatuhan sebelum dosen memberi arahan. Jira aktual berisi 6 epic dan 45 story untuk M01–M15 (9 per anggota); HAP-6 kosong, HAP-61 masih meminta 6 anggota/54 story. Sprint 0/1 punya status yang tertinggal. Stitch dapat dibaca; jangan membuat UI M16–M18 sebelum scope itu kembali dibuka. Pemilik menyatakan MySQL lokal sudah berjalan: jangan menimpa `.env` atau menjalankan migrasi ke DB itu tanpa izin. Pertahankan `desain.md`. Gunakan branch/PR, jangan commit secret/data nyata, dan sebutkan dengan jelas apa yang scaffold dan apa yang sudah berfungsi.
+    Kamu bekerja pada proyek kuliah Hijauku Adopsi Pohon. Baca AGENTS.md, docs/project-context.md, CONTRIBUTING.md, dan dokumen modul yang sesuai. Kerjakan hanya issue Jira [HAP-KEY] berikut acceptance criteria-nya. Konfirmasi scope yang akan disentuh sebelum mengubah kode. Pertahankan pemisahan role manager, field_staff, citizen; cek Policy, ownership query, status, migration, dan transaksi sesuai domain. Jangan menggunakan file .env, token, atau database lokal milik pemilik. Jangan membuat fitur M16–M18 kecuali issue secara eksplisit membuka kembali scope. Jalankan pemeriksaan relevan, perbarui dokumentasi jika keputusan berubah, lalu laporkan file, acceptance criteria, tes dan batasan. Jangan merge PR.
 
-## Urutan membaca
+## Urutan onboarding
 
-1. `AGENTS.md` — aturan kerja singkat.
-2. `docs/project-context.md` — keputusan dan konteks jangka panjang.
-3. `docs/source-audit.md` — apa yang sudah diperiksa dan apa yang belum.
-4. `docs/requirements.md` atau `docs/architecture.md` — sesuai modul.
-5. Issue Jira aktual dan frame Stitch yang relevan; hasil akses dan selisihnya dicatat di `docs/source-audit.md`.
+1. AGENTS.md untuk aturan kerja.
+2. docs/project-context.md untuk fakta yang harus dijaga.
+3. docs/source-audit.md untuk status Jira, repo, Stitch dan aturan kuliah.
+4. docs/architecture.md dan docs/database.md untuk batas teknis.
+5. docs/requirements.md serta issue Jira yang ditugaskan untuk acceptance criteria.
+6. CONTRIBUTING.md untuk branch, konflik, pull request dan review.
 
-## Prompt ringkas untuk tugas implementasi
-
-```text
-Kerjakan [JIRA KEY] sesuai acceptance criteria yang saya berikan. Baca AGENTS.md dan docs yang relevan. Sebelum mengubah kode, sebutkan singkat alur dan file yang akan disentuh. Jaga akses peran/pemilik data, status, constraint, dan transaksi sesuai domain. Perbarui dokumentasi bila requirement atau keputusan berubah. Jangan menebak detail Jira/Stitch yang belum saya berikan. Laporkan perubahan dan batas yang belum tertangani.
-```
+Issue Jira dan Stitch adalah sumber terkini untuk pekerjaan masing-masing. Jangan menebak desain/acceptance criteria yang tidak terbaca. Jika akses berbeda, catat fakta baru dan beri tahu PM.

@@ -1,28 +1,29 @@
 # Project instructions for AI agents
 
-Before changing application code, read `docs/project-context.md` and the relevant documents in `docs/`. Use `docs/source-audit.md` for facts about the course rules, roster, Jira, and Stitch.
+Read docs/project-context.md and the relevant docs before changing application code. Use docs/source-audit.md for verified course, roster, Jira, GitHub, and Stitch facts.
 
-## Project-specific facts
+## Project facts
 
-- The stack is Laravel 13, Filament 5, Blade, Vite, and Eloquent.
-- The project owner has confirmed a five-person roster: Yoga, Bitari, Arif, Wira, and Rofii. Dinda is not a team member. The course handout says groups have 6–7 people, so the five-person team still needs lecturer approval for course compliance.
-- Jira was inspected in the authenticated session. It currently has 6 epics and 45 stories for M01–M15, assigned as 3 modules × 3 stories per person (9 stories each). HAP-6 for M16–M18 has no stories. HAP-61 still says 6 members and 54 stories; treat that acceptance criterion as stale until the project owner updates it.
-- Stitch was inspected. Its 25-frame project includes public, citizen, manager, and field-staff screens. Its latest handoff excludes the article, gallery, and citizen-proposal modules (architecture M16–M18). The public home template now follows the latest frame's copy, CTA labels, and three-step flow; the supplied brand image and full frame-by-frame visual review are still outstanding.
-- The course asks every member to deliver at least one medium/high-complexity feature per formal sprint, with at least three PBI per feature. This derives to at least 3 PBI/person/sprint (6 per person across two sprints for one minimum feature each), not 3 PBI/person for the whole project.
-- The owner reports that the local MySQL database is already configured and working. Preserve the existing `.env`; the original architecture proposes PostgreSQL 18, so the shared team engine is still undecided.
-- Laravel Dusk 8.7 is installed as a dev dependency; CI runs a browser smoke test. Active users in all three role enum cases may enter the base panel, but role-specific Resource/Policy authorization is not implemented yet.
-- Jira currently has three future-state sprints. As of the 2026-10-22 audit, Sprint 0's date had ended and Sprint 1's start date had passed, but both still showed `future`; Sprint 2's goal also says weeks 11–14 while the course plan says weeks 11–15.
+- Stack: Laravel 13, Filament 5, Blade, Vite, Eloquent, MySQL 8+.
+- Five members: Yoga, Bitari, Arif, Wira, and Rofii. Dinda is not a member.
+- Class handout says teams have 6–7 members; lecturer confirmation for this five-person team is still open.
+- Active Jira: 5 epics and 45 stories HJK-001–045 across M01–M15. Each member has 3 modules × 3 stories = 9 stories.
+- HAP-6/M16–M18 is archived and deferred. Its models/tables are reserved scaffolding only; do not build screens or workflows without an explicit scope change.
+- HAP-61 acceptance criteria are aligned to five members and 45 stories. HAP-1 and HAP-61 remain To Do until PM accepts the PR.
+- Existing HAP issue keys and HJK IDs are stable; do not renumber.
+- Sprint 0/1/2 exist, but all still show future although Sprint 0 end and Sprint 1 start dates have passed. PM decides state changes.
+- Role panels: manager /app, field_staff /petugas, citizen /warga. Panel gates and base policies exist; every new resource needs query ownership, policy tests, and safe actions.
+- MySQL is the development baseline. The owner's local .env already works: never read or overwrite it and never run migrations against that database.
+- Preserve the user-owned desain.md and .playwright-mcp/. Do not commit credentials or private personal data.
 
 ## Implementation rules
 
-- Keep the application as one Laravel monolith with clear domain boundaries.
-- Enforce roles and record ownership in Policies and server-side queries, not only by hiding UI controls.
-- Protect adoption allocations, activity quotas, and plot capacity with database transactions and constraints.
-- Keep evidence photos private unless a specific publication workflow grants access.
-- Preserve the user-owned `desain.md`. Never commit `.env`, credentials, or real personal data.
-- Update the relevant documents in `docs/` when requirements or decisions change. Say which work is scaffolding and which behavior is implemented.
-- Use the installed Laravel Boost and `.agents/skills/` guidance for framework-specific work. Do not install more packages without a clear project need.
-
-## Running the application
-
-Follow the setup instructions in `README.md`. Check `.env` before running migrations; do not redirect migrations to a database containing user data unless the project owner has confirmed the target.
+- Keep one Laravel monolith with clear domain boundaries.
+- Enforce role and record ownership in Policies and query scopes, not by hiding controls.
+- Use transactions and database constraints for adoption allocation, activity quota, and plot capacity.
+- Keep evidence photos private unless a reviewed publication workflow allows access.
+- State clearly what is implemented and what remains scaffolding.
+- Update docs when requirements or decisions change.
+- Follow CONTRIBUTING.md. Members open PRs and assign Yoga (@mygads); PR authors resolve conflicts; only PM merges.
+- Use installed Laravel Boost and the project skill under .agents/skills/hijauku-project/.
+- Check .env before local migrations; never redirect to a database containing user data without explicit confirmation.

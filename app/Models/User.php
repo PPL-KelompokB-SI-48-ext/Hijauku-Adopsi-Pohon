@@ -36,7 +36,30 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->is_active
-            && $this->role instanceof UserRole;
+        if (! $this->is_active || ! ($this->role instanceof UserRole)) {
+            return false;
+        }
+
+        return match ($panel->getId()) {
+            'app' => $this->role === UserRole::Manager,
+            'petugas' => $this->role === UserRole::FieldStaff,
+            'warga' => $this->role === UserRole::Citizen,
+            default => false,
+        };
+    }
+
+    public function isManager(): bool
+    {
+        return $this->is_active && $this->role === UserRole::Manager;
+    }
+
+    public function isFieldStaff(): bool
+    {
+        return $this->is_active && $this->role === UserRole::FieldStaff;
+    }
+
+    public function isCitizen(): bool
+    {
+        return $this->is_active && $this->role === UserRole::Citizen;
     }
 }
