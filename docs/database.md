@@ -1,6 +1,6 @@
 # Skema data awal
 
-Migrasi `2026_10_22_000003_create_hijauku_domain_tables.php` membuat 18 tabel domain dan 2 tabel teknis. Migrasi hanya kerangka relasi dan beberapa constraint; aturan proses bisnis belum seluruhnya dilaksanakan.
+Migrasi `2026_10_22_000003_create_hijauku_domain_tables.php` membuat 18 tabel domain dan 2 tabel teknis. Jira saat ini hanya memiliki backlog M01–M15; tabel M16–M18 (artikel, galeri, usulan aksi) masih scaffold dari rancangan lama dan belum memiliki story. Perlakukan tiga tabel tersebut sebagai tertunda sampai diputuskan apakah backlog akan ditambah atau skema starter dipangkas. Migrasi hanya kerangka relasi dan beberapa constraint; aturan proses bisnis belum seluruhnya dilaksanakan.
 
 ## Tabel domain
 
@@ -70,4 +70,4 @@ Tabel awal menggunakan `tree_id` unik di `tree_adoption_allocations`. Baris ini 
 
 ## Engine database
 
-Dokumen arsitektur awal mengusulkan PostgreSQL 18. Starter memakai MySQL sebagai contoh lokal dan SQLite di CI sementara, karena driver MySQL tersedia pada runtime yang diperiksa. Ini bukan keputusan tim. Setelah diputuskan, ubah `.env.example`, workflow CI, README, dan migrasi bila perlu, lalu jalankan migrasi pada engine tersebut.
+Dokumen arsitektur awal mengusulkan PostgreSQL 18. Pemilik menyatakan MySQL lokalnya sudah disiapkan dan berjalan; `.env` lokal memakai MySQL dan tidak boleh ditimpa. CI memakai SQLite sementara. Ini belum menjadi keputusan engine seluruh tim. Setelah diputuskan, ubah `.env.example`, workflow CI, README, dan migrasi bila perlu; jangan arahkan migrasi ke database lokal pengguna tanpa izin.

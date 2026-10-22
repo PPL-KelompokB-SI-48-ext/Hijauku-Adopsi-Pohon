@@ -37,6 +37,6 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->is_active
-            && in_array($this->role, [UserRole::Manager, UserRole::FieldStaff], true);
+            && $this->role instanceof UserRole;
     }
 }

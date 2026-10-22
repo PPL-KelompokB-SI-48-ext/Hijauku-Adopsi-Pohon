@@ -13,19 +13,19 @@
 - PHP 8.3+, Laravel 13, Filament 5, Blade, Vite, Eloquent.
 - Panel Filament di `/app`; halaman publik Blade.
 - Migrasi awal mencakup 18 modul bisnis dan dua tabel teknis.
-- `.env.example` memakai MySQL untuk awal lokal; keputusan engine proyek belum dikonfirmasi. CI memakai SQLite.
-- Role awal: `manager`, `field_staff`, `citizen`. Saat ini hanya scaffolding; policies dan pembatasan tiap Resource masih perlu dibuat.
-- Role admin dapat masuk panel selama aktif; aturan pembatasan final wajib dikerjakan sebelum panel dibuka.
+- Pemilik menyatakan DB MySQL lokal sudah berjalan; `.env` lokal memakai host localhost. Jangan mengubah atau menimpa `.env`. Engine tim belum diputuskan karena rancangan awal mengusulkan PostgreSQL 18. CI memakai SQLite.
+- Role awal: `manager`, `field_staff`, `citizen`. Ketiga role aktif dapat masuk ke panel dasar; Policies dan pembatasan tiap Resource/ownership masih perlu dibuat.
 
 ## Fakta dan konflik yang harus diingat
 
-- Lima nama pada sampul proposal dan lima kolaborator repo: Yoga, Bitari, Arif, Wira, Rofii.
-- Ketentuan kelas menyebut kelompok 6–7 orang. Rancangan arsitektur dan issue SETUP-001 menyebut 6 orang dan memasukkan Dinda yang tidak tampak pada sampul/daftar 5 nama.
+- Pemilik proyek mengonfirmasi lima anggota: Yoga, Bitari, Arif, Wira, dan Rofii. Dinda tidak masuk tim. Lima nama juga tampak di sampul proposal dan audit GitHub sebelumnya melihat lima kolaborator.
+- Ketentuan kelas menyebut kelompok 6–7 orang; penerimaan dosen atas tim lima orang masih perlu dikonfirmasi.
 - Ketentuan kelas: minimal satu fitur kompleksitas sedang/tinggi tiap orang pada masing-masing dua sprint; setiap fitur perlu sedikitnya tiga PBI. Ini berarti minimal 3 PBI/orang/sprint atau 6 PBI/orang untuk dua sprint bila tiap orang mengambil satu fitur minimal per sprint. Rumus 3 CRUD per orang tidak tertulis pada PDF aturan yang diberikan.
-- Target rancangan 18 modul × 3 PBI = 54 story mengandaikan 6 orang. HJK-001–054 ialah ID logis, bukan Jira key.
-- Jira HAP dan Stitch belum dapat dibuka karena meminta login. HAP-1 dan HAP-61 belum diaudit langsung.
-- Dokumen arsitektur menyebut PostgreSQL 18. `.env.example` MySQL hanyalah keputusan setup sementara dan perlu diselaraskan setelah tim memilih DB.
-- Halaman beranda starter adalah placeholder, tidak diklaim cocok dengan Stitch.
+- Jira aktual: 6 epic dan 45 story HJK-001–045 untuk M01–M15. Lima orang masing-masing memiliki 9 story pada tiga modul. HAP-6 (M16–M18) belum memiliki story; HAP-61 masih meminta enam anggota dan 54 story.
+- HAP-1 adalah epic To Do; HAP-61 adalah task To Do di Sprint 0, parent HAP-1 dan assignee Yoga. HAP-1 mencantumkan Dusk; workflow CI kini menjalankan smoke test Dusk beranda publik serta tes PHPUnit.
+- Jira memiliki tiga sprint berstatus `future`; Sprint 0 berakhir 18 Okt dan Sprint 1 mulai 19 Okt walau audit dilakukan 22 Okt. Sprint 2 ditulis pekan 11–14, sementara materi kuliah menyebut pekan 11–15.
+- Stitch dapat dibaca. Desain memuat landing/detail/katalog publik dan panel role Pengelola, Warga, Petugas. Panduan batch terakhir mengecualikan domain M16–M18. Isi dan alur utama beranda kini mengikuti frame Stitch; pencocokan visual penuh, aset merek, dan halaman lain belum selesai.
+- Dokumen arsitektur lama menyebut 18 modul/54 PBI. Rekomendasi scope aktif dari Jira adalah 15 modul/45 story; M16–M18 ditandai tertunda sampai ada backlog.
 - `desain.md` adalah file proyek pengguna dan berisi salinan detail tugas awal; jangan menghapus atau menimpanya.
 
 ## Aturan domain utama
@@ -41,7 +41,7 @@
 
 ## Cara bekerja
 
-- Gunakan issue Jira aktual sebagai sumber scope. Kalau tidak tersedia, nyatakan apa yang belum bisa diverifikasi.
+- Gunakan issue Jira aktual sebagai sumber scope. Jangan mengarang data, dan catat selisih HAP-61 dengan isi Jira sebelum perubahan.
 - Jangan mengubah batas tugas karena asumsi jumlah anggota.
 - Perbarui `docs/architecture.md`, `docs/requirements.md`, dan `docs/source-audit.md` ketika keputusan berubah.
 - Jangan menaruh kredensial/data nyata di repo; jangan arahkan migrasi ke database lokal pengguna tanpa persetujuan jelas dan verifikasi `.env`.

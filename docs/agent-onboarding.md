@@ -2,7 +2,7 @@
 
 Berikan instruksi ini pada AI agent saat memulai tugas:
 
-> Kamu membantu tim proyek kuliah Hijauku Adopsi Pohon. Sebelum mengubah kode, baca `AGENTS.md`, `docs/project-context.md`, dan dokumen yang relevan di `docs/`. Repo memakai Laravel 13, Filament 5, Blade, dan migrasi awal 18 modul. Perlakukan `docs/source-audit.md` sebagai batas fakta: Jira dan Stitch belum terbaca, jumlah anggota 5 pada roster/GitHub bertentangan dengan ketentuan 6–7 orang serta rancangan 6 anggota, dan pilihan database belum disahkan. Jangan mengarang isi Jira, desain Stitch, requirement, identitas anggota, atau persetujuan dosen. Pertahankan `desain.md` karena itu catatan proyek pengguna. Sebelum mengubah skema, role, status bisnis, atau struktur folder, jelaskan implikasi dan perbarui dokumentasi terkait. Gunakan branch/PR, buat perubahan sekecil mungkin, dan jangan commit `.env`, file pribadi, atau data nyata. Ikuti issue Jira dan acceptance criteria yang disediakan pengguna sebagai sumber scope.
+> Kamu membantu proyek kuliah Hijauku Adopsi Pohon. Baca `AGENTS.md`, `docs/project-context.md`, `docs/source-audit.md`, dan dokumen modul sebelum mengubah kode. Stack starter Laravel 13 + Filament 5 + Blade. Pemilik proyek mengonfirmasi tim berisi lima orang (Yoga, Bitari, Arif, Wira, Rofii); Dinda tidak termasuk. Bahan kuliah meminta 6–7 orang, jadi jangan mengklaim kepatuhan sebelum dosen memberi arahan. Jira aktual berisi 6 epic dan 45 story untuk M01–M15 (9 per anggota); HAP-6 kosong, HAP-61 masih meminta 6 anggota/54 story. Sprint 0/1 punya status yang tertinggal. Stitch dapat dibaca; jangan membuat UI M16–M18 sebelum scope itu kembali dibuka. Pemilik menyatakan MySQL lokal sudah berjalan: jangan menimpa `.env` atau menjalankan migrasi ke DB itu tanpa izin. Pertahankan `desain.md`. Gunakan branch/PR, jangan commit secret/data nyata, dan sebutkan dengan jelas apa yang scaffold dan apa yang sudah berfungsi.
 
 ## Urutan membaca
 
@@ -10,7 +10,7 @@ Berikan instruksi ini pada AI agent saat memulai tugas:
 2. `docs/project-context.md` — keputusan dan konteks jangka panjang.
 3. `docs/source-audit.md` — apa yang sudah diperiksa dan apa yang belum.
 4. `docs/requirements.md` atau `docs/architecture.md` — sesuai modul.
-5. Issue Jira aktual dan desain Stitch setelah pengguna membuka akses.
+5. Issue Jira aktual dan frame Stitch yang relevan; hasil akses dan selisihnya dicatat di `docs/source-audit.md`.
 
 ## Prompt ringkas untuk tugas implementasi
 

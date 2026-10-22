@@ -6,13 +6,13 @@ Dokumen ini menyiapkan cara menjalankan starter lokal. Arsitektur, keputusan yan
 
 ## Status starter
 
-Ini fondasi Sprint 0 untuk ditinjau tim, bukan aplikasi yang seluruh fiturnya sudah selesai. Kerangka memakai Laravel 13, Filament 5, Blade, dan Vite. Sudah tersedia skema awal 18 modul, role dasar, akun dan data demo, serta alur CI untuk instalasi, migrasi, dan build aset. Halaman depan sekarang adalah placeholder responsif; tim perlu membukanya berdampingan dengan proyek Stitch dan menyesuaikannya setelah mendapat akses.
+Ini fondasi Sprint 0 untuk ditinjau tim, bukan aplikasi yang seluruh fiturnya sudah selesai. Kerangka memakai Laravel 13, Filament 5, Blade, dan Vite. Tersedia tabel/model scaffold untuk 18 modul, role dasar, akun/data demo, CI untuk instalasi, migrasi SQLite, route panel, build aset, PHPUnit, dan Dusk. Backlog Jira saat ini berisi 15 modul inti (M01–M15) dan 45 story; M16–M18 belum memiliki story dan sementara dianggap tertunda. Beranda publik sudah mengikuti isi dan alur dasar frame Stitch, sementara pencocokan visual penuh, aset merek, dan halaman lain masih perlu dikerjakan.
 
-Dokumen awal menyebut PostgreSQL 18. Lingkungan lokal yang terdeteksi saat menyiapkan starter menggunakan PHP/Laragon dan menyediakan driver MySQL. Karena itu `.env.example` memakai MySQL sebagai konfigurasi awal sementara. Sebelum Sprint 1, tim harus memilih satu basis data bersama dan menyelaraskan semua perangkat.
+Pemilik proyek menyatakan MySQL lokalnya sudah dikonfigurasi dan berjalan; pertahankan `.env` lokal yang ada. Dokumen arsitektur awal menyebut PostgreSQL 18, sementara starter menggunakan MySQL lokal dan SQLite di CI. Tim tetap perlu menyepakati satu engine bersama. Jangan jalankan migrasi pada database lokal sebelum memeriksa koneksi di `.env` dan izin pemilik.
 
 ## Kebutuhan perangkat
 
-- PHP 8.3 atau lebih baru, dengan ekstensi `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `zip`, `xml`, `ctype`, `curl`, dan `tokenizer`.
+- PHP 8.3 atau lebih baru, dengan ekstensi `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `zip`, `xml`, `ctype`, `curl`, dan `tokenizer`. `zip` diperlukan Composer untuk dependensi Dusk.
 - Composer 2.
 - Node.js 22 dan npm.
 - MySQL/MariaDB yang dapat diakses dari perangkat pengembang, atau SQLite untuk uji instalasi lokal/CI.
@@ -62,6 +62,26 @@ Laravel 13 memerlukan PHP 8.3 atau lebih baru. Filament 5 dipasang sebagai depen
 
 Jika aset panel Filament tidak muncul, jalankan `php artisan filament:assets` lalu muat ulang halaman.
 
+## Pemeriksaan browser lokal
+
+Starter menyediakan tes PHPUnit untuk akses role ke panel dan satu tes Dusk untuk beranda publik. Tes ini tidak menjalankan migrasi atau seeder. `phpunit.xml` mengarahkan tes PHPUnit ke SQLite in-memory; server web untuk Dusk hanya membuka route publik. Ketiga role aktif dapat masuk ke panel dasar; pembatasan per role dan kepemilikan data melalui Policy belum selesai.
+
+1. Pastikan Google Chrome tersedia dan ekstensi PHP `zip` aktif pada PHP CLI.
+2. Pasang ChromeDriver yang cocok dengan Chrome:
+
+   ```sh
+   php artisan dusk:chrome-driver --detect
+   ```
+
+3. Jalankan `php artisan serve` di terminal pertama. Di terminal kedua, jalankan:
+
+   ```sh
+   php artisan test --testsuite=Unit
+   php artisan dusk
+   ```
+
+CI memasang ChromeDriver, menjalankan server dengan SQLite, lalu menjalankan kedua tes tersebut. Tidak ada migrasi yang diarahkan ke database MySQL lokal.
+
 ## Akun demo lokal
 
 Seeder menyiapkan tiga akun lokal:
@@ -81,12 +101,12 @@ Kata sandi demo dibaca dari `DEMO_PASSWORD` di `.env` dan default starter adalah
 | `app/Enums` | Nilai peran yang dipakai aplikasi |
 | `app/Models` | Model Eloquent untuk domain Hijauku |
 | `app/Providers/Filament` | Konfigurasi panel pengelola |
-| `database/migrations` | Tabel framework dan 18 modul domain |
+| `database/migrations` | Tabel framework dan 18 modul domain (M16–M18 masih scaffold tertunda) |
 | `database/seeders` | Akun dan data contoh lokal |
 | `resources/views` | Halaman publik Blade |
 | `routes/web.php` | Rute web awal |
 | `docs/architecture.md` | Rancangan arsitektur rev1 untuk tinjauan tim |
-| `docs/requirements.md` | Aturan tugas kuliah dan katalog 18 modul / 54 PBI |
+| `docs/requirements.md` | Aturan tugas, 15 modul/45 story di Jira, dan 3 modul tertunda |
 | `docs/source-audit.md` | Hasil audit bahan kuliah, proposal, Jira, dan Stitch |
 | `docs/database.md` | Skema, constraint, dan batas aturan yang masih perlu service |
 | `docs/project-context.md` | Memori jangka panjang untuk agent proyek |
@@ -102,7 +122,7 @@ Kata sandi demo dibaca dari `DEMO_PASSWORD` di `.env` dan default starter adalah
 - Jangan mengerjakan perubahan skema yang belum dibahas dengan pemilik modul dan koordinator teknis.
 - Simpan kredensial, data pribadi, dan foto bukti pada konfigurasi atau storage privat yang sesuai; jangan commit `.env` atau data nyata.
 
-Pembagian modul dan aturan sprint sementara dicatat di [`docs/sprint-plan.md`](docs/sprint-plan.md). Roster dan struktur Jira masih perlu dicocokkan dengan akses tim.
+Pembagian modul dan aturan sprint sementara dicatat di [`docs/sprint-plan.md`](docs/sprint-plan.md). Roster proyek sudah dikonfirmasi lima orang (Dinda tidak termasuk), tetapi materi kuliah meminta kelompok 6–7 orang. HAP-61 masih menyebut 6 anggota dan 54 story; catatan audit membandingkan tiket itu dengan backlog aktual.
 
 ## Bantuan AI
 
@@ -110,7 +130,7 @@ Panduan umum ada di `AGENTS.md`, `CLAUDE.md`, dan `.github/copilot-instructions.
 
 ## CI
 
-GitHub Actions memasang dependensi pada runner, membuat database SQLite sementara, menjalankan migrasi dan seeder, memeriksa daftar rute, lalu membangun aset Vite. CI ini memeriksa fondasi instalasi; ia belum menjadi pengganti pengujian acceptance tiap PBI.
+GitHub Actions memasang dependensi pada runner, membuat database SQLite sementara, menjalankan migrasi dan seeder, memeriksa daftar rute, membangun aset Vite, menjalankan tes PHPUnit, lalu melakukan smoke test browser dengan Dusk. CI ini memeriksa fondasi instalasi; ia belum menjadi pengganti pengujian acceptance tiap PBI. Dusk menjalankan tes beranda publik, bukan alur autentikasi atau Policy.
 
 ## Referensi teknis
 

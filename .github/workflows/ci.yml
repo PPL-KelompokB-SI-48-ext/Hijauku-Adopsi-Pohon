@@ -47,3 +47,33 @@ jobs:
 
       - name: Build frontend assets
         run: npm run build
+
+      - name: Install ChromeDriver matching the runner browser
+        run: php artisan dusk:chrome-driver --detect
+
+      - name: Run Dusk browser smoke test
+        shell: bash
+        run: |
+          php artisan test --testsuite=Unit
+          google-chrome --version
+          APP_ENV=testing DB_CONNECTION=sqlite DB_DATABASE=:memory: CACHE_STORE=array SESSION_DRIVER=array QUEUE_CONNECTION=sync php artisan serve --host=127.0.0.1 --port=8000 --no-reload > /tmp/hijauku-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8000 > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          curl --fail --silent http://127.0.0.1:8000 > /dev/null
+          php artisan dusk
+
+      - name: Upload Dusk screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dusk-screenshots
+          path: tests/Browser/screenshots
+          if-no-files-found: ignore

@@ -1,6 +1,10 @@
 # Arsitektur Hijauku — rancangan rev1 untuk tinjauan
 
-**Status: draf teknis untuk dibahas.** Dokumen ini merapikan rancangan awal menjadi dasar implementasi. Ia belum layak disebut final sampai roster anggota, engine basis data, backlog Jira, dan tampilan Stitch dikonfirmasi bersama.
+**Status: draf rev1 untuk ditinjau tim.** Pemilik proyek sudah mengonfirmasi lima anggota dan akses Jira/Stitch sudah diperiksa. Dokumen belum final karena HAP-61 masih mengasumsikan enam anggota/54 story, Jira baru memiliki 45 story untuk M01–M15, HAP-6 untuk M16–M18 masih kosong, Sprint 0/1 memiliki status yang tertinggal, dan engine bersama belum dipilih.
+
+## Batas scope yang teramati
+
+Jira saat ini membagi pekerjaan inti menjadi 15 modul (M01–M15), 3 story per modul, dan 9 story per anggota untuk lima anggota. Itu adalah 45 story aktif. M16 Artikel, M17 Galeri, dan M18 Usulan Aksi masih tercatat di rancangan lama serta tabel starter, tetapi belum memiliki story Jira; arahan Stitch terakhir juga mengecualikan ketiga modul tersebut. Perlakukan M16–M18 sebagai **tertunda**, jangan membuat UI/workflow untuk modul itu sebelum backlog dan acceptance criteria disepakati. Migrasi starter masih memiliki tabelnya sebagai sisa rancangan 18 modul dan perlu diputuskan apakah akan dipertahankan atau dihapus sebelum schema dianggap final.
 
 ## Tujuan produk
 
@@ -43,7 +47,7 @@ Satu aplikasi Laravel dipilih agar tim dapat berbagi model, validasi, autentikas
 | `field_staff` / Petugas lapangan | Melihat kegiatan dan penugasan sendiri; mengirim realisasi, pengamatan, dan laporan masalah sesuai penugasan. |
 | `citizen` / Warga | Membaca katalog yang dibuka; mengelola permohonan dan pendaftaran milik sendiri; mengirim laporan pohon yang diadopsi dan usulan aksi. |
 
-Starter menyimpan role di enum `App\Enums\UserRole`. Filament saat ini hanya menolak akun tidak aktif; pembatasan peran per halaman dan aksi harus ditambahkan melalui policies serta konfigurasi Resource sebelum modul dibuka ke pengguna.
+Starter menyimpan role di enum `App\Enums\UserRole`. Gate panel menerima akun aktif untuk ketiga nilai role; itu hanya memberi akses ke shell panel, bukan izin ke data. Pembatasan peran per halaman dan aksi, serta ownership, harus ditambahkan melalui Policies dan konfigurasi Resource sebelum modul dibuka ke pengguna.
 
 ## Area domain
 
@@ -118,11 +122,11 @@ erDiagram
 | Backend | Laravel 13 monolit | Cocok dengan rancangan dan runtime PHP lokal. |
 | Panel internal | Filament 5 pada `/app` | Mempercepat panel CRUD pengelola; akses final tetap harus dibatasi. |
 | Publik | Blade + Vite | Laman publik dan katalog berada pada aplikasi yang sama. |
-| Database pengembangan | MySQL di `.env.example` | Sementara, disesuaikan dengan driver Laragon yang ditemukan di mesin pemilik. Tim perlu memilih engine bersama. |
+| Database pengembangan | MySQL pada `.env` lokal pemilik | Pemilik menyatakan database lokal sudah berjalan. Pertahankan `.env` dan jangan arahkan migrasi tanpa izin; tim masih perlu memilih engine bersama karena rancangan awal meminta PostgreSQL 18. |
 | CI | SQLite sementara | Menguji migrasi dan seeder tanpa layanan database di runner. Kompatibilitas MySQL/PostgreSQL tetap perlu diperiksa saat engine diputuskan. |
 | Foto dan bukti | Laravel Storage privat | Database hanya menyimpan path; unggahan publik perlu alur eksplisit. |
 | Bahasa/waktu | Locale Indonesia, `Asia/Jakarta` | Sesuai pengguna proyek. Simpan timestamp dengan konvensi konsisten. |
-| UI | Placeholder | Belum dibaca dari Stitch karena sign-in Google diperlukan. |
+| UI | Beranda Blade dasar; panel Filament | Isi dan alur utama beranda sudah mengikuti frame publik Stitch (navigasi, adopsi gratis, CTA, tiga langkah). Pencocokan visual penuh, aset merek, katalog/detail, dan shell per role masih perlu dipetakan dan ditinjau terhadap frame. |
 
 ### Yang belum termasuk
 
@@ -130,8 +134,9 @@ Starter belum membuat seluruh Filament Resource, policies, services, transaksi a
 
 ## Panduan sebelum menyetujui rev1
 
-1. Sahkan roster dan target 18 modul/54 PBI.
-2. Cocokkan epics/stories dan sprint Jira dengan katalog requirement.
-3. Setujui database bersama lalu perbarui konfigurasi dan CI.
-4. Baca proyek Stitch dan petakan halaman ke peran serta route.
-5. Setujui aturan adopsi ulang, retensi bukti, dan status transisi.
+1. Minta dosen mengesahkan roster lima orang karena bahan kuliah meminta 6–7 orang; Dinda bukan anggota proyek.
+2. Selaraskan HAP-61 dengan fakta Jira: 5 orang/45 story untuk M01–M15 atau tambahkan 9 story untuk M16–M18. Jangan mengubah Jira tanpa keputusan PM.
+3. Perbarui status/tanggal sprint yang sudah lewat dan cocokkan minggu Sprint 2 dengan kalender kuliah.
+4. Setujui database bersama lalu perbarui konfigurasi dan CI tanpa menimpa `.env` lokal yang sudah bekerja.
+5. Petakan frame Stitch ke route dan role; jangan implementasikan M16–M18 sampai backlog berubah.
+6. Setujui aturan adopsi ulang, retensi bukti, dan status transisi.

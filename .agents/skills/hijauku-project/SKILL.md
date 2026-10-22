@@ -11,9 +11,11 @@ Before changing code, read `docs/project-context.md` and the relevant `docs/arch
 
 - The stack is Laravel 13, Filament 5, Blade, Vite, and Eloquent.
 - `manager`, `field_staff`, and `citizen` are the starting roles. Policies and resource-specific permissions still need implementation.
-- Five members are on the proposal cover and GitHub; the class rules specify 6–7, and the architecture and SETUP-001 assume six. Treat the 18-module/54-PBI target as provisional until the roster is approved.
+- The owner confirms five members (Yoga, Bitari, Arif, Wira, Rofii); Dinda is excluded. The class rules specify 6–7, so lecturer approval remains open. Jira currently has 45 stories for M01–M15; HAP-61's six-member/54-story target is stale. Treat M16–M18 as deferred until the owner opens that scope and Jira stories are created.
 - Course material says each person should deliver at least one medium/high-complexity feature in each formal sprint, and each feature has at least three PBI. This derives to at least 3 PBI/person/sprint (6 across two sprints for one minimum feature each), not 3 PBI/person for the whole project.
-- Jira HAP and Stitch content were not available to inspect at the last audit. Never claim they were reviewed or infer their contents.
+- Jira and Stitch have been inspected read-only. Jira has 45 stories on M01–M15 and a stale 54-story/six-member HAP-61 target; Stitch's latest guidance excludes domain modules M16–M18. Check `docs/source-audit.md` before changing either scope.
+- The public-home template follows the latest Stitch frame's copy, CTA labels, and three-step flow. Its supplied brand image and complete visual review remain outstanding.
+- Laravel Dusk 8.7 is installed; CI runs a browser smoke test. Active users in all three role enum cases may enter the base panel, but per-resource Policy/ownership enforcement is still required.
 - MySQL in `.env.example` is provisional. The original architecture proposes PostgreSQL 18; use the team's confirmed engine when they decide.
 - `desain.md` belongs to the user. Preserve it.
 

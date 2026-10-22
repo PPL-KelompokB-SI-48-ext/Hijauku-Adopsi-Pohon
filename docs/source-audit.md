@@ -1,62 +1,90 @@
 # Audit sumber dan status keputusan
 
-Audit ini memisahkan ketentuan yang tertulis dari asumsi teknis dan hal yang belum dapat diverifikasi. Dokumen sumber dipertahankan di folder kuliah pemilik proyek; ringkasan ini tidak menggantikannya.
+Audit ini memisahkan isi dokumen, isi Jira yang terbaca, koreksi dari pemilik proyek, dan rekomendasi. Dokumen kuliah tetap menjadi sumber untuk aturan tugas; Jira menjadi sumber status kerja; Stitch menjadi sumber desain UI. Pemeriksaan Jira dilakukan secara read-only pada 22 Oktober 2026.
 
 ## Ringkasan hasil
 
 | Area | Temuan | Status |
 | --- | --- | --- |
-| Jumlah anggota | Sampul proposal dan daftar kolaborator GitHub menunjukkan 5 orang. Ketentuan PPL menyebut kelompok 6–7 orang. Rancangan arsitektur dan issue SETUP-001 menghitung 6 orang dan mencantumkan Dinda sebagai anggota keenam. | Konflik perlu diselesaikan dengan dosen/tim |
-| Beban fitur | Ketentuan kuliah menyebut tiap anggota mengerjakan minimal satu fitur dengan kompleksitas sedang/tinggi per sprint; satu fitur harus dipecah menjadi sedikitnya 3 PBI. Turunannya: minimal 3 PBI/orang/sprint atau 6 PBI/orang untuk dua sprint jika satu fitur minimum dikerjakan tiap sprint. | Aturan tertulis; angka per orang adalah hasil hitung turunannya |
-| Hitungan 18/54 | Rancangan mengasumsikan rumus CRUD minimal = 3 × 6 anggota, sehingga 18 modul. Masing-masing dibuat 3 PBI: 54 story atau rata-rata 9 per orang. Batas dasar dari aturan satu fitur per orang per sprint selama dua sprint adalah 6 PBI/orang (36 untuk 6 orang). Rumus 3 × anggota tidak ditemukan di PDF aturan yang diberikan. | 18/54 ada pada rancangan; asal aturan 3 × anggota belum terkonfirmasi |
-| Roster | Lima nama di proposal adalah Muhammad Yoga Adi Saputra, I Gusti Agung Ayu Bitari Damar Ratih, Muhammad Arif Sobriyanto, Ni Made Ayu Wira Salindri, dan Rofii Sultan. “Dinda Putri Maulida” muncul di rancangan dan isi proposal, tetapi tidak pada sampul/daftar lima nama. | Perlu cocokkan roster resmi |
-| Jira | Jira mengharuskan login pada saat audit. Isi HAP, HAP-1, HAP-61, sprint, epic, dan story tidak terbaca, jadi daftar pekerjaan Jira belum dapat dibandingkan satu per satu dengan 54 PBI rancangan. | Belum diverifikasi |
-| Stitch | Proyek Stitch meminta login Google. Mockup dan komponen tidak terbaca. Halaman depan repo adalah placeholder, belum diverifikasi terhadap desain Stitch. | Belum diverifikasi |
-| Repo | Repo publik sudah ada di organisasi kelas, dengan 5 kolaborator yang dapat menulis. Repositori awal berisi README saja. | Terverifikasi saat audit |
-| Basis data | Rancangan menyebut PostgreSQL 18. Mesin pengembangan yang diperiksa memiliki PHP/Laragon, ekstensi PDO MySQL, dan MySQL 8.4. Driver PostgreSQL PHP belum aktif. Tidak ada server database aktif yang terdeteksi pada saat pemeriksaan. | Belum ada keputusan bersama; jangan anggap database lokal sedang berjalan |
+| Roster | Pemilik proyek mengonfirmasi ada 5 anggota: Yoga, Bitari, Arif, Wira, dan Rofii. Dinda tidak masuk. Sampul proposal dan daftar kolaborator repo juga berisi 5 orang. | Roster proyek terkonfirmasi; pengecualian terhadap aturan kelas belum disahkan dosen |
+| Aturan anggota | Ketentuan Proyek PPL meminta kelompok 6–7 orang. | Konflik kebijakan kelas, perlu arahan dosen |
+| Dasar jumlah PBI | Satu fitur kompleksitas sedang/tinggi per orang per sprint; tiap fitur minimal 3 PBI. Dua sprint menghasilkan turunan 6 PBI/orang atau 30 untuk lima orang bila tiap orang mengambil satu fitur minimum per sprint. | Aturan tertulis dan hitungan turunannya |
+| Hitungan rancangan lama | Rancangan lama menghitung 18 modul × 3 story = 54 PBI dengan asumsi enam anggota dan tiga modul per orang. Rumus tiga modul/orang tidak ada pada bahan kuliah. | Perlu diselaraskan dengan roster baru |
+| Jira aktual | 6 epic dan 45 story, HJK-001–045 untuk M01–M15. Lima orang masing-masing mendapat 9 story pada 3 modul; HAP-6 M16–M18 kosong. | Terbaca langsung; tidak sama dengan kriteria HAP-61 |
+| HAP-1 dan HAP-61 | HAP-1 adalah epic To Do. HAP-61 adalah task To Do, parent HAP-1, assigned kepada Yoga dan masuk Sprint 0. HAP-61 masih meminta 6 anggota serta 54 story. | Terbaca langsung; acceptance criteria jumlah anggota/story stale terhadap kondisi sekarang |
+| Sprint | Sprint 0, Sprint 1, dan Sprint 2 ada; ketiganya `future`. Sprint 0 berakhir 18 Okt 2026 dan Sprint 1 mulai 19 Okt, tetapi status belum berubah per 22 Okt. Sprint 2 menyebut minggu 11–14, sementara materi kuliah menyebut minggu 11–15. | Perlu PM memperbarui status/tanggal dan mengonfirmasi kalender |
+| Acceptance criteria story | Semua 45 story yang terbaca punya deskripsi user story dan kriteria penerimaan. Setiap anggota mendapat 3 atau 6 story per sprint; pembagian tersebut memberi satu kelompok tiga story pada tiap sprint. | Struktur cukup rapi; kualitas bisnis tetap perlu review tim per modul |
+| Stitch | Proyek `Hijauku Admin UI Batch 01` dapat dibaca. Snapshot menampilkan 25 frame dengan shell publik, Pengelola, Warga, dan Petugas. Instruksi batch terbaru mengecualikan artikel, galeri, dan usulan aksi. | Isi/alur beranda sudah diselaraskan; pemeriksaan visual penuh dan frame lain masih terbuka |
+| Repo | Repo publik GitHub sudah ada; audit sebelumnya melihat 5 kolaborator dengan akses. | Sudah ada; cocok dengan roster pemilik proyek |
+| Database lokal | `.env` yang ada memakai MySQL di localhost dan database `hijauku`; pemilik menyatakan setup lokal sudah berjalan. `.env` dibiarkan utuh. | Dikonfirmasi pemilik; koneksi tidak diuji/diubah dalam audit ini |
+| Engine bersama | Dokumen awal meminta PostgreSQL 18, sementara setup lokal menggunakan MySQL dan CI memakai SQLite. | Belum diputuskan untuk seluruh tim |
 
-## Ketentuan dari bahan kuliah
+## Hitungan yang sedang dipakai
 
-Ketentuan Proyek PPL menyebut tim terdiri dari 6–7 orang dan setiap anggota berperan sebagai pengembang. Bagian pembagian sprint menyatakan setiap anggota perlu menyelesaikan minimal satu fitur/fungsi dengan kompleksitas sedang hingga tinggi dalam setiap sprint. Fitur perlu terdiri dari sedikitnya tiga PBI dan tiap PBI ditulis sebagai user story. Contoh materi menunjukkan CRUD dapat dipecah menjadi empat PBI. Materi mengarahkan tim membangun, menguji, dan meninjau hasil pada tiap sprint.
+Jira membagi pekerjaan aktif ke lima anggota dengan pola:
 
-Dengan demikian, hitungan yang dapat disimpulkan dari rancangan adalah:
+| Anggota | Modul | PBI Jira | Sprint 1 | Sprint 2 |
+| --- | --- | ---: | ---: | ---: |
+| Yoga | M01–M03 | 9 | 6 | 3 |
+| Rofii | M04–M06 | 9 | 6 | 3 |
+| Bitari | M07–M09 | 9 | 6 | 3 |
+| Arif | M10–M12 | 9 | 6 | 3 |
+| Wira | M13–M15 | 9 | 3 | 6 |
+| **Total** | **M01–M15** | **45** | **27** | **18** |
 
-| Asumsi jumlah anggota | Modul CRUD jika aturan 3×anggota berlaku | PBI bila 3 per modul | PBI rata-rata per orang |
-| ---: | ---: | ---: | ---: |
-| 6 | 18 | 54 | 9 |
-| 5 | 15 | 45 | 9 |
+Jadi hitungan backlog saat ini adalah **5 orang × 3 modul/orang × 3 story/modul = 45 story**. Ini lebih besar daripada batas dasar 30 PBI yang diturunkan dari dua fitur minimal per orang selama dua sprint. Tidak tepat mengatakan satu PBI memiliki tiga modul; modul memuat tiga story.
 
-Aturan satu fitur minimal per orang pada masing-masing dua sprint menghasilkan 6 PBI/orang (36 PBI untuk 6 orang; 30 untuk 5 orang), dengan asumsi 3 PBI per fitur. Baris 5 orang hanyalah hitungan aritmetika, bukan konfirmasi bahwa tim beranggotakan lima orang memenuhi ketentuan kelas. Dosen perlu mengesahkan perubahan jumlah anggota atau memberi arahan lain. Jangan menghapus 3 modul hanya untuk membuat rancangan selaras sebelum keputusan itu ada.
+HAP-61 mencantumkan 6 anggota dan 54 story, tetapi pemilik mengonfirmasi roster lima orang dan Jira aktual menunjukkan 45 story. Ada sembilan story rancangan yang belum dibuat: HJK-046–054 (M16–M18). Rekomendasi audit adalah memperbarui kriteria HAP-61 menjadi lima orang/45 story dan menahan M16–M18 sampai scope itu dibuka lewat keputusan dan backlog. Jangan menambahkan Dinda.
 
-Enam epic dan 54 story adalah struktur kerja rancangan/Jira, bukan angka yang secara eksplisit diwajibkan bahan kuliah. Untuk tim 6 orang, target 54 lebih besar daripada batas dasar 36 yang diturunkan dari aturan sprint. HJK-001 hingga HJK-054 adalah ID logis rancangan, bukan Jira issue key. Key proyek yang tampak pada URL adalah HAP.
+## Isi issue dan rencana Jira
+
+- **HAP-1 — Fondasi & Infrastruktur:** Epic, status To Do, assignee Yoga. Kriteria: autentikasi, RBAC tiga peran, panel Filament di `/app`, dashboard dasar, GitHub Actions + Dusk, dan seeder akun demo. Starter menyediakan panel/login dasar, gate bagi akun aktif pada ketiga role, seeder, CI, tes PHPUnit, dan smoke test Dusk untuk beranda publik. Pembatasan Policy/ownership per resource dan dashboard per peran belum penuh; HAP-1 belum dapat dianggap selesai.
+- **HAP-61 — SETUP-001:** Task To Do, parent HAP-1, assignee Yoga, Sprint 0 - Persiapan. Repo starter, dokumentasi dan CI ada di draft PR. Kriteria akses GitHub masih menyebut 6 anggota padahal roster terkonfirmasi 5; audit repo sebelumnya menemukan 5 kolaborator. Target Jira 54 story padahal ada 45. Arsitektur belum disetujui final; Dusk kini berjalan di CI tetapi hanya menguji beranda. Tiket belum selesai.
+- **Epic HAP-2–HAP-5:** mengelompokkan M01–M15: Data Dasar & Inventaris (M01–M06), Kegiatan & Penugasan (M07–M09), Adopsi (M10–M12), Perawatan & Pengamatan (M13–M15).
+- **Epic HAP-6:** Konten & Publikasi (M16–M18), belum memiliki story. Stitch batch terbaru secara eksplisit menghindari artikel, galeri, dan usulan aksi.
+- **Sprint 0:** HAP-61 masuk sprint ini.
+- **Sprint 1:** M02, M03, M04, M06, M07, M08, M10, M11, M15. Lima anggota menerima total 27 story.
+- **Sprint 2:** M01, M05, M09, M12, M13, M14 + hardening/demo. Lima anggota menerima total 18 story.
+
+## UI Stitch yang dibaca
+
+Proyek Stitch bernama `Hijauku Admin UI Batch 01` dan menampilkan 25 frame. Frame halaman yang tampak mencakup:
+
+- halaman publik: Beranda Publik, Detail Pohon Publik, dan Katalog Pohon;
+- panel Warga: Adopsi Saya dan Kesepakatan Saya;
+- panel Petugas: Tugas Saya, Realisasi Perawatan, dan Pengamatan Pertumbuhan;
+- panel Pengelola: shell navigasi dan dashboard/data M01–M15.
+
+Instruksi batch terakhir menetapkan lima layar tambahan (frame 21–25), memakai identitas merek dan shell per role, tanpa membuka modal/form. Beranda publik memiliki navigasi Beranda/Katalog Pohon/Kegiatan/Masuk, penjelasan bahwa adopsi tidak berbayar, CTA Jelajahi Pohon dan Lihat Kegiatan, serta tiga langkah Pilih Pohon → Ajukan Adopsi → Pantau Perawatan. Panel Warga hanya menampilkan data milik sendiri. Tugas Petugas hanya menampilkan penugasan miliknya. Aksi ditampilkan dalam keadaan tertutup.
+
+Instruksi itu mengecualikan **modul domain** M16 Artikel, M17 Galeri, dan M18 Usulan Aksi. Stitch juga memakai nomor frame M16–M20 untuk Login, Dashboard, dan Katalog; nomor frame ini bukan nomor modul domain yang sama. `resources/views/home.blade.php` kini mengikuti isi dan alur utama frame beranda: nav Beranda/Katalog Pohon/Kegiatan/Masuk, adopsi tanpa biaya, CTA Jelajahi Pohon/Lihat Kegiatan, dan langkah pilih-ajukan-pantau. Pencocokan visual belum penuh; logo/panduan merek tersedia di proyek Stitch dan belum disalin ke repo.
 
 ## Dokumen yang ditelaah
 
-- `Rancangan_Arsitektur_Hijauku_PPL.docx` — arsitektur, 18 modul, 54 PBI, tabel domain, sprint, peran, dan dua diagram. Catatan: uraian M02 menyebut kontak pengelola, sedangkan ringkasan kolom `sites` tidak mencantumkan kolom kontak; perlu diklarifikasi sebelum migration dianggap final.
-- `Ketentuan Proyek PPL.pdf` — ketentuan tim pada halaman 2 dan aturan fitur/PBI/sprint pada halaman 7.
-- `[SI-48-EXT A-B] Proposal Tugas Besar PPL.pdf` — sampul berisi lima anggota; uraian pembagian pada halaman 36 menyebut enam anggota/54 PBI; daftar modul dan tugas tersebar pada halaman 37–41.
-- `MODUL 1 Reguler Praktikum Proyek Perangkat Lunak 2026.pdf` — issue management, Jira, version control, kontribusi, testing, peer review.
-- `Slide Requirement Engineering-SRL.pdf`, `Slide Requirement Management-SRL.pdf`, `Slide Scrum Framework.pptx-SRL.pdf`, `Slide Sprinting.pptx-SRL.pdf`, dan `01 Agile Principles_v02.pptx-SRL.pdf` — materi pendukung tentang PBI, requirement, sprint, Scrum, dan prinsip agile.
-- `desain.md` — catatan lokal berisi salinan deskripsi setup awal; file dipertahankan.
+- `Rancangan_Arsitektur_Hijauku_PPL.docx` — rancangan lama, 18 modul dan 54 PBI, relasi domain, role, sprint. M02 menyebut kontak pengelola, sementara daftar kolom sites pada rancangan belum jelas soal field itu.
+- `Ketentuan Proyek PPL.pdf` — syarat jumlah anggota, sprint formal, kompleksitas fitur, dan minimal PBI per fitur.
+- `[SI-48-EXT A-B] Proposal Tugas Besar PPL.pdf` — sampul berisi lima anggota; uraian pembagian tugas masih memuat hitungan enam anggota/54 PBI.
+- `MODUL 1 Reguler Praktikum Proyek Perangkat Lunak 2026.pdf` dan lima bahan requirement/agile — materi Jira, requirement, Scrum, dan sprint.
+- `desain.md` — salinan deskripsi ticket SETUP-001. File user ini tetap dipertahankan.
+- Jira project HAP: daftar issue, HAP-1, HAP-61, seluruh story, dan sprint; diperiksa read-only melalui sesi pengguna.
+- Stitch project `Hijauku Admin UI Batch 01`; snapshot frame/narasi dibaca, file desain tidak diekspor.
 
-## Audit arsitektur dan dokumen
+## Temuan arsitektur dan pekerjaan berikutnya
 
-Rancangan menggambarkan satu aplikasi Laravel dengan panel internal Filament, halaman publik Blade, tiga peran, dan relasi domain yang cukup koheren untuk menjadi monolit modular. Pembagian M01–M18 dan aturan status memberi dasar yang baik untuk memecah pekerjaan menjadi stories.
+- Aplikasi satu Laravel monolith dengan Blade publik dan Filament `/app` tetap sesuai arah umum rancangan.
+- Starter saat ini membuat tabel/model untuk 18 modul, meski Jira hanya punya story M01–M15. M16–M18 perlu ditandai tertunda atau diberi backlog sebelum dibuka ke pengguna.
+- Constraint dasar sudah disiapkan, tetapi kapasitas petak, kuota, kepemilikan, transisi status, verifikasi, dan publikasi tetap memerlukan Policy/service/transaksi.
+- Kriteria HAP-1 menyebut Dusk; paket dan job smoke test Dusk kini dipasang di workflow. Cakupan browser masih satu tes beranda publik.
+- README, migrasi, seeder, branch, dan workflow CI ada pada draft PR. Pull request belum merged dan status HAP tetap To Do.
+- Jangan jalankan migrasi ke MySQL lokal pemilik tanpa izin eksplisit. Pemilik menyatakan DB lokal sudah jalan; `.env` harus tetap dipertahankan.
 
-Perbaikan yang masuk starter:
+## Keputusan yang dibutuhkan sebelum menyebut Sprint 0 selesai
 
-- Menyediakan tabel awal 18 modul dan dua tabel teknis untuk alokasi adopsi serta catatan aktivitas.
-- Menambahkan kunci unik pohon di tabel alokasi agar aturan “satu pohon hanya punya satu alokasi aktif/terpesan” dapat dijaga lintas MySQL dan SQLite. Alur persetujuan tetap perlu memakai transaksi dan penguncian baris.
-- Menambahkan kolom peran dan status aktif pada pengguna.
-- Menandai basis data, roster, dan keterhubungan Stitch sebagai keputusan yang belum selesai.
-- Mengganti gambar ERD ringkas di dokumen ini dengan daftar hubungan skema lengkap; gambar ERD pada dokumen arsitektur awal tidak menampilkan seluruh tabel bisnis.
-
-Rancangan belum cukup menjadi spesifikasi implementasi final. Beberapa batasan bisnis harus diwujudkan pada validasi, policy, service, dan acceptance criteria: kapasitas petak, kuota kegiatan, pembatasan petugas ke penugasan sendiri, aturan transisi status, verifikasi pengamatan/perawatan, publikasi konten, dan audit koreksi. Rancangan skema starter belum mengimplementasikan semua alur tersebut.
-
-## Yang perlu dicocokkan saat akses tersedia
-
-1. Buka HAP-1 dan HAP-61; salin kriteria, subtasks, dependensi, status, dan assignee yang aktual ke catatan audit.
-2. Ekspor/list semua epic, stories, dan sprint. Cocokkan tiap story ke modul M01–M18 dan ID HJK-001–054; tandai duplikat, story yang hilang, atau story tanpa kriteria penerimaan.
-3. Pastikan total anggota resmi ke-6 dan peran tiap orang. Minta dosen mengonfirmasi bila lima nama memang jumlah tim yang sah.
-4. Buka proyek Stitch dan petakan halaman, state, dan komponen UI ke rute serta peran. Ganti placeholder publik setelah rancangan dibaca.
-5. Putuskan satu engine database untuk tim dan CI sebelum mengunci konfigurasi `.env.example` serta dokumentasi deployment.
+1. Perbarui kriteria HAP-61: 5 orang dan 45 story, atau putuskan menambah 9 story untuk M16–M18. Jangan memasukkan Dinda.
+2. Minta dosen menyetujui apakah tim lima orang memenuhi ketentuan kelas 6–7 orang.
+3. Koreksi status/tanggal sprint: Sprint 0 sudah berakhir dan Sprint 1 telah dimulai menurut tanggal Jira, tetapi keduanya masih `future`; cocokkan durasi Sprint 2 dengan minggu kuliah 11–15.
+4. Putuskan apakah M16–M18 tetap deferred dan perbarui starter schema/doc sesuai keputusan tim.
+5. Implementasikan halaman publik dan shell per role dari Stitch; gunakan hanya role/data/aksi pada desain, jangan mengarang fitur pembayaran atau publikasi.
+6. Perluas cakupan Dusk ke alur login/panel hanya setelah role policies dan halaman terkait tersedia.
+7. Pilih engine database bersama. MySQL lokal milik pemilik sudah dikonfigurasi; PostgreSQL 18 tetap tercantum pada rancangan lama.
+8. Minta tim meninjau dan menyetujui rev1 sebelum mengganti status dokumen menjadi final.
