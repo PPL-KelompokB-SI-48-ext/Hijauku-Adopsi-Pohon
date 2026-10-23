@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class TreeSpecies extends Model
 {
@@ -17,5 +18,10 @@ class TreeSpecies extends Model
     public function trees(): HasMany
     {
         return $this->hasMany(Tree::class, 'species_id');
+    }
+
+    public function activityLogs(): MorphMany
+    {
+        return $this->morphMany(ActivityLog::class, 'subject');
     }
 }
