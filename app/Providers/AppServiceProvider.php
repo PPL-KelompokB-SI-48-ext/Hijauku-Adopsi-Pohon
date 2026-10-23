@@ -33,6 +33,7 @@ use App\Policies\GrowthObservationPolicy;
 use App\Policies\ManagerOnlyPolicy;
 use App\Policies\ProgramPolicy;
 use App\Policies\TreeIssuePolicy;
+use App\Policies\TreeSpeciesPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -72,6 +73,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::policy(Program::class, ProgramPolicy::class);
+        Gate::policy(TreeSpecies::class, TreeSpeciesPolicy::class);
 
         Gate::policy(ActivityRegistration::class, ActivityRegistrationPolicy::class);
         Gate::policy(AdoptionAgreement::class, AdoptionAgreementPolicy::class);
