@@ -36,6 +36,8 @@ Empat warna pertama tercantum pada aset identitas di Stitch. Latar terang mengik
 
 Utamakan komponen standar Filament untuk Resource, form, tabel, modal, notifikasi, dan validasi. Gunakan Stitch untuk arah warna, hierarki informasi, dan alur; jangan membangun ulang komponen hanya agar identik dengan gambar. Status harus memiliki label, bukan mengandalkan warna saja.
 
+M08 mengikuti HAP-28/HAP-30: warga mendaftar dan menarik pendaftaran sendiri; pengelola mencatat kehadiran pada HAP-29. Petugas menangani penugasan M09, bukan menjadi pendaftar M08. Dua teks lama pada presentasi dan satu uraian proposal dikoreksi agar tidak memperluas aktor tanpa requirement.
+
 ## Pemetaan seluruh modul untuk proposal dan video
 
 | Modul | Pemilik | PBI / Jira | Frame yang ditunjukkan |

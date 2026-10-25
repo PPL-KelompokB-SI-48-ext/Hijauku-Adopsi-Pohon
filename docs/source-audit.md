@@ -59,7 +59,7 @@ Repo: <https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon>.
 - Aturan kontribusi memakai satu branch personal per anggota: `yoga`, `bitari`, `arif`, `wira`, atau `rofii`. Setiap commit dan PR tetap menyebut key HAP kapital. Penulis menyelesaikan konflik; anggota meminta Yoga untuk review; hanya PM yang merge. PR PM tidak memerlukan self-approval, tetapi CI harus lulus.
 - GitHub for Atlassian terhubung ke organisasi `PPL-KelompokB-SI-48-ext`. Setelah push terakhir, Jira Development menampilkan satu build sukses dan nol build gagal pada HAP-7 dan HAP-61. Tautan yang tampil harus tetap diperiksa pada issue setelah push.
 
-Kolaborator repo yang diperiksa pada audit terdahulu adalah Yoga sebagai admin dan empat anggota sebagai write. Dinda tidak termasuk roster. Jangan menambahkan atau menghapus kolaborator berdasarkan asumsi; perubahan akses dilakukan dengan memeriksa daftar aktual GitHub.
+Pembacaan ulang kolaborator pada 25 Oktober 2026 menunjukkan `mygads` sebagai admin; `ayuwirasalindri`, `Rofii29`, `bitaridmr`, dan `ArifSobriyanto` memiliki write. Jumlahnya lima dan Dinda tidak termasuk. Jangan menambahkan atau menghapus kolaborator berdasarkan asumsi; perubahan akses memerlukan pemeriksaan daftar aktual GitHub.
 
 ## Arsitektur, database, dan keamanan
 

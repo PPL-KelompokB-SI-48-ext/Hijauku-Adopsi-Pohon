@@ -18,6 +18,7 @@ Audit ini membandingkan proposal Google Docs, desain Canva, 25 frame Stitch, mig
 - Diagram proses, aktor, arsitektur, data, kelas, dan Gantt diperbarui. Diagram kelas membedakan model/fondasi yang ada dari workflow yang masih direncanakan. Gambar sumber tersedia di `docs/diagrams/`.
 - Dua puluh lima gambar UI proposal diganti dengan render frame Stitch yang diberi label mockup/data contoh. Presentasi memakai 15 mockup modul; M09 memakai Tugas Saya, M10 Adopsi Saya, dan M11 Kesepakatan Saya agar aktornya jelas.
 - Palet mengacu pada aset merek Stitch: #15803D, #22C55E, #A7F3D0, #1F2937; #F8FAFC dipakai sebagai latar presentasi. Form yang belum memiliki frame memakai komponen standar Filament. Ini belum berarti seluruh tampilan aplikasi identik dengan mockup.
+- Aktor pendaftaran M08 dipertegas menjadi warga sesuai HAP-28/HAP-30. Pengelola menangani kehadiran HAP-29, sedangkan petugas menangani penugasan. Izin daftar manager pada M08 masih menjadi bagian implementasi HAP-29, karena Policy scaffold membatasi daftar ke warga.
 
 ## Koreksi Jira dan skema
 

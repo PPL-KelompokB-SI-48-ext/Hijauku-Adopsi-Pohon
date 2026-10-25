@@ -60,6 +60,7 @@ Panel gate bukan pengganti Policy. Model baru harus memiliki Policy sebelum Reso
 - Master data dan akun: pengelola saja.
 - Penugasan: petugas boleh melihat penugasan dengan assignee_id miliknya; tidak dapat mengubah assignment.
 - Pendaftaran kegiatan: warga dapat membuat dan melihat pendaftaran miliknya.
+- Kehadiran M08 direncanakan untuk pengelola pada HAP-29. `ActivityRegistrationPolicy::viewAny()` pada scaffold masih membatasi daftar ke warga; implementasi HAP-29 harus menyesuaikan izin/query yang diperlukan dan menguji manager serta batas record. Panel manager saja tidak mengizinkan daftar secara otomatis.
 - Permohonan adopsi: warga dapat membuat dan melihat miliknya; aksi review hanya pengelola dan pelaku tidak boleh meninjau permohonannya sendiri.
 - Kesepakatan: warga hanya melihat miliknya; aksi accept hanya pemilik kesepakatan berstatus awaiting_acceptance.
 - Laporan masalah: warga/petugas dapat membuat serta membaca laporannya sendiri.
