@@ -17,6 +17,7 @@ Read docs/jira-workflow.md when planning a story, estimating work, logging time,
 - HAP-61's acceptance criteria are aligned to the current roster/scope. Existing Jira keys do not get renumbered.
 - Original estimates are plans. Actual Jira work logs are entered only by the person who performed the work; never invent or alter actual hours to fit an estimate.
 - Use one personal branch per member: `yoga`, `bitari`, `arif`, `wira`, or `rofii`. The branch name is the exception to the HAP-key rule; every commit and PR must include its uppercase HAP issue key. Verify Jira's Development panel after push.
+- Jangan menghapus atau mengganti nama branch anggota lain selama PR masih terbuka atau commit belum ada di `main`. Pemilik branch memindahkan commit unik ke branch personal dan membuka PR pengganti dulu. Hapus branch remote hanya setelah memastikan tidak ada PR terbuka dan commit unik; pertahankan branch personal setelah merge.
 - Sprint 0 is preparation. Sprint 1 follows weeks 6-10, Sprint 2 weeks 11-15. Week 6 is backlog/refinement without coding; implementation starts week 7. Keep the three stories for one module in the same sprint unless the PM records an approved dependency exception.
 - CI is configured to run Laravel Dusk against a seeded, isolated SQLite file. The manager program-creation test needs a passing CI result before reporting it as verified.
 - Stack: PHP 8.3+, Laravel 13, Filament 5, Blade, Vite, Eloquent, MySQL 8+.

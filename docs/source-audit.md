@@ -49,11 +49,15 @@ Beberapa fitur memiliki dependensi lintas anggota. Pemilik perlu menyepakati kon
 
 Repo: <https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon>.
 
+- `main` protected pada commit `d683407`.
 - PR #1 berisi starter Sprint 0 dan PR #2 berisi HJK-001. Keduanya tercatat merged ke `main`.
 - PM meminta perubahan kedua PR direvert dari `main`. PR draft #5 sudah dibuat untuk ditinjau. Isinya membalik PR #2 dan #1, termasuk menghapus starter Laravel dan workflow CI. Revert belum digabung; `main` masih menyimpan kedua PR. PR #5 tidak memiliki CI check karena workflow dihapus pada hasil revert. Jangan gabungkan sebelum rencana pemulihan kode/CI diputuskan.
-- Branch personal `yoga` dibuat dari `main`, dipush pada 25 Oktober 2026, dan PR draft #4 terbuka untuk Dusk serta penyelarasan dokumentasi. Commit `7e59f30` mencatat hasil CI `40170424971` yang lulus. Branch ini mempertahankan basis kode PR #1/#2 untuk pekerjaan Yoga.
+- Branch personal `yoga` dibuat dari `main`, dipush pada 25 Oktober 2026, dan PR draft #4 terbuka untuk Dusk serta penyelarasan dokumentasi. Commit `45e3666` lulus CI `40170795177`. Branch ini mempertahankan basis kode PR #1/#2 untuk pekerjaan Yoga.
+- Branch `feature/HAP-16-jenis-pohon` menjadi head PR #3 yang masih terbuka, dibuat oleh Rofii29. Satu-satunya commit yang belum ada di `main` adalah `ed658a3` untuk HAP-16. Pemilik perlu memindahkannya ke branch personal `rofii` dan membuka PR pengganti; jangan hapus atau rename head branch sebelum penggantinya siap. Rename head branch dari GitHub akan menutup PR terbuka.
+- Branch remote lama `codex/sprint-0-starter-pack` dan `feature/HAP-7-program-penghijauan` masing-masing terkait PR #1 dan #2 yang sudah merged. Perbandingan terhadap `main` menunjukkan nol commit unik di kedua branch dan tidak ada PR terbuka. Remote branch keduanya dihapus pada 25 Oktober 2026 atas permintaan PM. Checkout lokal tidak dihapus.
+- Branch `revert/HAP-61-HAP-7` adalah branch administrasi untuk PR draft #5, bukan branch personal anggota. Pertahankan selama PR itu terbuka.
 - Aturan kontribusi memakai satu branch personal per anggota: `yoga`, `bitari`, `arif`, `wira`, atau `rofii`. Setiap commit dan PR tetap menyebut key HAP kapital. Penulis menyelesaikan konflik; anggota meminta Yoga untuk review; hanya PM yang merge. PR PM tidak memerlukan self-approval, tetapi CI harus lulus.
-- GitHub for Atlassian sebelumnya terverifikasi terhubung ke organisasi `PPL-KelompokB-SI-48-ext`, dengan `Hijauku-Adopsi-Pohon` dalam daftar repository terhubung. Setelah push, panel Development pada issue harus diperiksa lagi untuk tautan commit/PR yang nyata.
+- GitHub for Atlassian terhubung ke organisasi `PPL-KelompokB-SI-48-ext`. Setelah push terakhir, Jira Development menampilkan satu build sukses dan nol build gagal pada HAP-7 dan HAP-61. Tautan yang tampil harus tetap diperiksa pada issue setelah push.
 
 Kolaborator repo yang diperiksa pada audit terdahulu adalah Yoga sebagai admin dan empat anggota sebagai write. Dinda tidak termasuk roster. Jangan menambahkan atau menghapus kolaborator berdasarkan asumsi; perubahan akses dilakukan dengan memeriksa daftar aktual GitHub.
 

@@ -63,6 +63,8 @@ CI menjalankan pemeriksaan ini pada runner terisolasi.
 
 Setiap anggota memakai satu branch personal (`yoga`, `bitari`, `arif`, `wira`, atau `rofii`) untuk seluruh story miliknya. Key HAP dicantumkan di setiap commit dan PR supaya Jira dapat menautkan pekerjaan. Anggota membuka PR ke `main` dan meminta @mygads sebagai reviewer. Penulis PR menyelesaikan konflik; hanya PM yang merge. PR Yoga tidak memerlukan self-approval, tetapi CI tetap harus hijau.
 
+Branch lama bernama `feature/HAP-...` hanya merupakan sisa pekerjaan sebelumnya. Jangan membuat branch fitur baru. Pemilik memindahkan pekerjaan pada PR aktif ke branch personal bersama PM; branch remote lama dihapus setelah PR dan commit uniknya aman. Lihat [panduan migrasi branch](CONTRIBUTING.md#pindahkan-pekerjaan-dari-branch-lama).
+
 Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR anggota harus lulus CI dan mendapat satu approval PM. PR Yoga dapat melewati approval melalui admin bypass, tetapi tetap harus menunggu CI hijau.
 
 ## Peta dokumentasi

@@ -34,7 +34,7 @@ Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke
 - [x] Laravel 13 + Filament 5 dan tiga panel role disiapkan.
 - [x] Policy dasar, migration, seeder demo, `.env.example`, README, dan panduan kontribusi tersedia.
 - [x] CI memiliki pemeriksaan SQLite dan MySQL, tes PHP, build aset, dan Dusk.
-- [x] Tes Dusk HJK-001 berjalan pada branch personal Yoga. Run CI `40170424971` di commit `7e59f30` lulus untuk login, pengisian form, pemilihan tanggal di kalender, penyimpanan program Draf, serta pemeriksaan hasil pada daftar.
+- [x] Tes Dusk HJK-001 berjalan pada branch personal Yoga. Run CI `40170795177` di commit `45e3666` lulus untuk login, pengisian form, pemilihan tanggal di kalender, penyimpanan program Draf, serta pemeriksaan hasil pada daftar.
 - [ ] Pemilik modul dan dosen mengonfirmasi pemetaan fitur/kompleksitas per sprint dan roster lima orang.
 - [ ] PM meninjau serta menerima PR yang sesuai sebelum HAP-1 diubah dari To Do.
 

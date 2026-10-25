@@ -33,6 +33,8 @@ git push --set-upstream origin yoga
 
 Gunakan `yoga`, `bitari`, `arif`, `wira`, atau `rofii` sesuai nama anggota. Buat branch satu kali saja. Jangan membuat branch baru untuk setiap story.
 
+Jika Anda sudah memiliki branch lama bernama `feature/HAP-...` dengan PR terbuka, jangan mulai branch fitur lain atau menghapus branch tersebut. Pindahkan commit unik ke branch personal bersama PM dan buat PR pengganti. Langkah migrasi ada di [panduan kontribusi](../CONTRIBUTING.md#pindahkan-pekerjaan-dari-branch-lama).
+
 ## Siapkan database MySQL
 
 1. Buat database dan user lokal khusus Hijauku. Contoh SQL ada di [database-setup.mysql.sql](database-setup.mysql.sql). Ganti password contoh sebelum dijalankan.

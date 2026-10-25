@@ -29,6 +29,21 @@ Ganti `yoga` dengan nama branch pribadi Anda. Jika branch personal sudah ada, pi
 
 Jangan commit atau push langsung ke `main`. Branch personal tidak memakai Jira key karena satu branch memuat beberapa issue. Cantumkan key HAP yang sesuai pada setiap commit dan PR agar Jira dapat menautkan pekerjaan. Jangan mulai dua perubahan yang perlu PR terpisah pada waktu bersamaan di branch yang sama; selesaikan dan gabungkan PR lebih dulu, lalu sinkronkan branch. Dengan begitu isi PR berikutnya tidak ikut membawa pekerjaan yang belum siap.
 
+### Pindahkan pekerjaan dari branch lama
+
+Beberapa PR lama mungkin masih memakai nama `feature/HAP-...`. Jangan memakai pola itu untuk story baru. Jika PR Anda masih terbuka, pindahkan commit yang belum tergabung ke branch personal Anda, lalu buat PR pengganti. Periksa commit yang belum ada di `main` sebelum migrasi. Jangan menghapus atau mengganti nama branch yang masih menjadi head PR sebelum PR pengganti siap. GitHub menutup PR terbuka ketika head branch-nya diganti nama ([dokumentasi GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch)), jadi ikuti proses migrasi ini bersama PM dan tutup PR lama setelah perubahan serta issue link pada PR baru sudah diperiksa.
+
+Jika branch personal belum ada, contoh pemindahan satu commit yang belum tergabung:
+
+```powershell
+git fetch origin
+git switch --create rofii origin/main
+git cherry-pick SHA_COMMIT_HAP_16
+git push --set-upstream origin rofii
+```
+
+Ganti `rofii` dengan nama branch personal Anda dan `SHA_COMMIT_HAP_16` dengan hash yang benar setelah membandingkan branch lama dengan `origin/main`. Jangan menyalin placeholder tanpa pemeriksaan. Jika branch personal sudah ada, pindah ke branch itu sebelum cherry-pick. Buat PR baru dengan semua key HAP yang dibawa, lalu minta PM memeriksa commit dan acceptance sebelum menutup PR lama.
+
 ## 3. Implementasikan dan periksa
 
 - Baca AGENTS.md dan dokumen modul terkait.
@@ -91,6 +106,7 @@ Anggota meminta review dari @mygads dan tidak merge PR sendiri. PR Yoga tidak me
 - Selesaikan semua komentar dan percakapan review.
 - Hanya PM yang menggabungkan PR ke `main`. Riwayat PR repo saat ini memakai merge commit; pertahankan cara itu agar branch personal dapat disinkronkan tanpa force push.
 - Jangan hapus branch personal setelah merge. Tarik `main` terbaru ke branch personal sebelum mengambil story berikutnya.
+- Hapus remote branch sementara hanya setelah PR terkait merged/closed, tidak ada PR terbuka lain yang memakai branch itu, dan `git log origin/main..branch-lama` tidak menunjukkan commit unik. Pemilik branch mengonfirmasi tidak ada pekerjaan lokal yang belum dipindahkan. Jangan hapus branch personal.
 
 ## Estimasi dan catatan waktu
 
