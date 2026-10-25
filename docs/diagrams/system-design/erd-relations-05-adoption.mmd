@@ -1,0 +1,60 @@
+---
+config:
+  theme: base
+  look: classic
+  themeVariables:
+    background: '#FFFFFF'
+    primaryColor: '#F0FDF4'
+    primaryTextColor: '#1F2937'
+    primaryBorderColor: '#15803D'
+    lineColor: '#64748B'
+    fontFamily: Arial
+  flowchart:
+    curve: basis
+    nodeSpacing: 45
+    rankSpacing: 55
+    diagramPadding: 28
+---
+flowchart LR
+%% Garis menghubungkan kolom FK ke kolom PK atau UK yang dirujuk.
+  subgraph tbl_users["users"]
+    direction TB
+    field_users_id["id · PK"]:::pk
+  end
+  subgraph tbl_trees["trees"]
+    direction TB
+    field_trees_id["id · PK"]:::pk
+  end
+  subgraph tbl_adoption_requests["adoption_requests"]
+    direction TB
+    field_adoption_requests_id["id · PK"]:::pk
+    field_adoption_requests_requester_id["requester_id · FK"]:::fk
+    field_adoption_requests_reviewer_id["reviewer_id · FK"]:::fk
+    field_adoption_requests_tree_id["tree_id · FK"]:::fk
+  end
+  subgraph tbl_adoption_agreements["adoption_agreements"]
+    direction TB
+    field_adoption_agreements_id["id · PK"]:::pk
+    field_adoption_agreements_adopter_id["adopter_id · FK"]:::fk
+    field_adoption_agreements_request_id["request_id · FK/UK"]:::fk
+    field_adoption_agreements_tree_id["tree_id · FK"]:::fk
+  end
+  subgraph tbl_tree_adoption_allocations["tree_adoption_allocations"]
+    direction TB
+    field_tree_adoption_allocations_id["id · PK"]:::pk
+    field_tree_adoption_allocations_agreement_id["agreement_id · FK/UK"]:::fk
+    field_tree_adoption_allocations_request_id["request_id · FK/UK"]:::fk
+    field_tree_adoption_allocations_tree_id["tree_id · FK/UK"]:::fk
+  end
+  field_trees_id -->|"1 : 0..*"| field_adoption_requests_tree_id
+  field_users_id -->|"1 : 0..*"| field_adoption_requests_requester_id
+  field_users_id -->|"1 : 0..*"| field_adoption_requests_reviewer_id
+  field_adoption_requests_id -->|"1 : 0..1"| field_adoption_agreements_request_id
+  field_trees_id -->|"1 : 0..*"| field_adoption_agreements_tree_id
+  field_users_id -->|"1 : 0..*"| field_adoption_agreements_adopter_id
+  field_trees_id -->|"1 : 0..1"| field_tree_adoption_allocations_tree_id
+  field_adoption_requests_id -->|"1 : 0..1"| field_tree_adoption_allocations_request_id
+  field_adoption_agreements_id -->|"1 : 0..1"| field_tree_adoption_allocations_agreement_id
+  classDef pk fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#14532D
+  classDef fk fill:#EFF6FF,stroke:#2563EB,stroke-width:1.5px,color:#1E3A8A
+  linkStyle default stroke:#64748B,stroke-width:1.8px

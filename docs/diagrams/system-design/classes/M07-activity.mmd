@@ -1,0 +1,56 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M07 - Kegiatan lapangan | HJK-019-HJK-021
+direction LR
+class Activity:::model {
+  +bigint id
+  +bigint site_id
+  +string title
+  +string kind
+  +datetime starts_at
+  +datetime ends_at
+  +smallint quota
+  +string status
+  +site() BelongsTo
+  +registrations() HasMany
+  +fieldAssignments() HasMany
+}
+class Site:::shared {
+  +bigint id
+  +bigint program_id
+  +string name
+}
+class ActivityRegistration:::shared {
+  +bigint id
+  +bigint activity_id
+  +bigint user_id
+  +string status
+}
+class FieldAssignment:::shared {
+  +bigint id
+  +bigint activity_id
+  +bigint tree_id
+  +bigint assignee_id
+  +string status
+}
+Site "1" --> "0..*" Activity : hosts
+Activity "1" --> "0..*" ActivityRegistration : receives
+Activity "1" --> "0..*" FieldAssignment : schedules
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

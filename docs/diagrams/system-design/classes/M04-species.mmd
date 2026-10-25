@@ -1,0 +1,37 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M04 - Jenis pohon | HJK-010-HJK-012
+direction LR
+class TreeSpecies:::model {
+  +bigint id
+  +string name
+  +text care_notes
+  +boolean is_active
+  +trees() HasMany
+}
+class Tree:::shared {
+  +bigint id
+  +bigint species_id
+  +bigint plot_id
+  +string code
+  +string initial_condition
+}
+TreeSpecies "1" --> "0..*" Tree : classifies
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

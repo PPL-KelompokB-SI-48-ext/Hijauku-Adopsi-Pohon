@@ -1,0 +1,44 @@
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  usecase:
+    actorFontFamily: Arial
+    usecaseFontFamily: Arial
+    actorFontSize: 15
+    usecaseFontSize: 13
+    nodeSpacing: 34
+    rankSpacing: 44
+    diagramPadding: 24
+  themeVariables:
+    background: "#FFFFFF"
+    primaryTextColor: "#1F2937"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+usecase-beta
+direction LR
+accTitle: Aktor dan use case adopsi M10-M12
+
+actor Manager("Pengelola")
+actor Citizen("Warga")
+actor Staff("Petugas lapangan")
+systemBoundary Hijauku["Hijauku - adopsi dan laporan"]@{ type: package }
+  M10("M10 - Ajukan dan tinjau adopsi")
+  M11("M11 - Siapkan dan terima kesepakatan")
+  M12("M12 - Laporkan dan tindak lanjuti masalah")
+end
+Citizen --> M10
+Manager --> M10
+Manager --> M11
+Citizen --> M11
+Citizen --> M12
+Staff --> M12
+Manager --> M12
+
+classDef roleactor fill:#A7F3D0,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef feature fill:#F0FDF4,stroke:#15803D,color:#1F2937
+class Manager,Citizen,Staff roleactor
+class M10,M11,M12 feature
+style Hijauku fill:#F8FAFC,stroke:#15803D,stroke-width:2px,color:#1F2937

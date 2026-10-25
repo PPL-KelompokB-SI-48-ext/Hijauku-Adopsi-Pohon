@@ -1,0 +1,42 @@
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  usecase:
+    actorFontFamily: Arial
+    usecaseFontFamily: Arial
+    actorFontSize: 15
+    usecaseFontSize: 13
+    nodeSpacing: 34
+    rankSpacing: 44
+    diagramPadding: 24
+  themeVariables:
+    background: "#FFFFFF"
+    primaryTextColor: "#1F2937"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+usecase-beta
+direction LR
+accTitle: Aktor dan use case kegiatan M07-M09
+
+actor Manager("Pengelola")
+actor Citizen("Warga")
+actor Staff("Petugas lapangan")
+systemBoundary Hijauku["Hijauku - kegiatan dan penugasan"]@{ type: package }
+  M07("M07 - Kelola kegiatan")
+  M08("M08 - Daftar kegiatan dan catat kehadiran")
+  M09("M09 - Atur penugasan lapangan")
+end
+Manager --> M07
+Citizen --> M08
+Manager --> M08
+Manager --> M09
+Staff --> M09
+
+classDef roleactor fill:#A7F3D0,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef feature fill:#F0FDF4,stroke:#15803D,color:#1F2937
+class Manager,Citizen,Staff roleactor
+class M07,M08,M09 feature
+style Hijauku fill:#F8FAFC,stroke:#15803D,stroke-width:2px,color:#1F2937

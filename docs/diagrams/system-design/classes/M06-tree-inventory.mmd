@@ -1,0 +1,52 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M06 - Inventaris pohon | HJK-016-HJK-018
+direction LR
+class Tree:::model {
+  +bigint id
+  +bigint species_id
+  +bigint plot_id
+  +bigint batch_id
+  +string code
+  +date planted_on
+  +string initial_condition
+  +species() BelongsTo
+  +plot() BelongsTo
+  +plantingBatch() BelongsTo
+}
+class TreeSpecies:::shared {
+  +bigint id
+  +string name
+  +boolean is_active
+}
+class Plot:::shared {
+  +bigint id
+  +bigint site_id
+  +string code
+  +smallint capacity
+}
+class PlantingBatch:::shared {
+  +bigint id
+  +bigint plot_id
+  +string code
+  +date planted_on
+}
+TreeSpecies "1" --> "0..*" Tree : classifies
+Plot "1" --> "0..*" Tree : locates
+PlantingBatch "0..1" --> "0..*" Tree : groups
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937

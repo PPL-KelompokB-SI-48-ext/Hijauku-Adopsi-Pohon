@@ -1,0 +1,55 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M02 - Lokasi tanam | HJK-004-HJK-006
+direction LR
+class Site:::model {
+  +bigint id
+  +bigint program_id
+  +string name
+  +text address
+  +decimal latitude
+  +decimal longitude
+  +program() BelongsTo
+  +plots() HasMany
+  +activities() HasMany
+}
+class Program:::shared {
+  +bigint id
+  +bigint created_by
+  +string name
+  +string status
+}
+class Plot:::shared {
+  +bigint id
+  +bigint site_id
+  +string code
+  +smallint capacity
+}
+class Activity:::shared {
+  +bigint id
+  +bigint site_id
+  +string title
+  +datetime starts_at
+  +string status
+}
+Program "1" --> "0..*" Site : contains
+Site "1" --> "0..*" Plot : contains
+Site "1" --> "0..*" Activity : hosts
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

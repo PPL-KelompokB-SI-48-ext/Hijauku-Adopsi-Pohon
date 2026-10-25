@@ -1,0 +1,41 @@
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  usecase:
+    actorFontFamily: Arial
+    usecaseFontFamily: Arial
+    actorFontSize: 15
+    usecaseFontSize: 13
+    nodeSpacing: 34
+    rankSpacing: 44
+    diagramPadding: 24
+  themeVariables:
+    background: "#FFFFFF"
+    primaryTextColor: "#1F2937"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+usecase-beta
+direction LR
+accTitle: Aktor dan use case perawatan M13-M15
+
+actor Manager("Pengelola")
+actor Staff("Petugas lapangan")
+systemBoundary Hijauku["Hijauku - perawatan dan pertumbuhan"]@{ type: package }
+  M13("M13 - Susun rencana perawatan")
+  M14("M14 - Kirim dan verifikasi realisasi")
+  M15("M15 - Catat dan verifikasi pertumbuhan")
+end
+Manager --> M13
+Staff --> M14
+Manager --> M14
+Staff --> M15
+Manager --> M15
+
+classDef roleactor fill:#A7F3D0,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef feature fill:#F0FDF4,stroke:#15803D,color:#1F2937
+class Manager,Staff roleactor
+class M13,M14,M15 feature
+style Hijauku fill:#F8FAFC,stroke:#15803D,stroke-width:2px,color:#1F2937

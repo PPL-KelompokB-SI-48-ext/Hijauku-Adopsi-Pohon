@@ -35,26 +35,16 @@ Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01-M15 (M11 menggun
 
 Tabel tersebut tersisa dari rancangan 18 modul. HAP-6 sudah dihapus permanen dari Jira dan M16 sampai M18 tidak mempunyai story aktif. Jangan membuat Resource, route, atau workflow untuk tabel ini sampai PM menetapkan scope baru beserta acceptance criteria.
 
-```mermaid
-erDiagram
-    USERS |o--o{ PROGRAMS : membuat
-    PROGRAMS ||--o{ SITES : memiliki
-    SITES ||--o{ PLOTS : memuat
-    PLOTS ||--o{ PLANTING_BATCHES : menampung
-    PLOTS ||--o{ TREES : memuat
-    TREE_SPECIES ||--o{ TREES : mengelompokkan
-    SITES ||--o{ ACTIVITIES : lokasi
-    ACTIVITIES ||--o{ ACTIVITY_REGISTRATIONS : menerima
-    ACTIVITIES ||--o{ FIELD_ASSIGNMENTS : memberi_tugas
-    TREES ||--o{ ADOPTION_REQUESTS : dimohonkan
-    ADOPTION_REQUESTS ||--o| ADOPTION_AGREEMENTS : menghasilkan
-    TREES ||--o| TREE_ADOPTION_ALLOCATIONS : dikunci
-    TREES ||--o{ TREE_ISSUES : dilaporkan
-    TREES ||--o{ CARE_PLANS : direncanakan
-    FIELD_ASSIGNMENTS |o--o{ CARE_PLANS : dirujuk
-    CARE_PLANS |o--o{ CARE_RECORDS : direalisasikan
-    TREES ||--o{ GROWTH_OBSERVATIONS : diamati
-```
+## ERD relasi antartabel
+
+ERD dibagi per alur supaya garis relasi mudah diikuti. Setiap garis menghubungkan kolom PK/UK yang dirujuk langsung ke kolom FK, bukan ke kotak tabel secara umum. Untuk FK gabungan pada pohon dan batch, kedua pasangan kolom ditampilkan. Diagram relasi menunjukkan kunci, sedangkan daftar kolom lengkap ada pada skema tabel.
+
+Lihat diagram ERD per kelompok di diagrams/system-design/exports/erd-relations-*.png. Sumber Mermaid-nya ada di diagrams/system-design/erd-relations-*.mmd. activity_logs.subject_type dan subject_id merupakan pasangan polimorfik, bukan foreign key.
+
+## Skema tabel tanpa data
+
+File diagrams/system-design/erd-schema.mysql.sql berisi perintah CREATE TABLE saja, tanpa INSERT, data akun, atau data seeder. Skema mencakup users dan 20 tabel domain yang dibuat migration. Kelompok SVG/PNG di diagrams/system-design/exports/schema-rel-*.png menampilkan seluruh kolom dan tipe MySQL, dengan penanda PK/FK/UK serta garis yang menghubungkan kolom FK ke PK/UK yang dirujuk. File SQL menjadi acuan untuk panjang tipe, nullability, default, indeks, dan constraint.
+
 
 ## Tabel teknis
 
