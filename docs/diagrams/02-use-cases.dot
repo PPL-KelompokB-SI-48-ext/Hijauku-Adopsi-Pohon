@@ -1,0 +1,12 @@
+digraph G {graph [bgcolor="white",pad="0.3",nodesep="0.4",ranksep="0.55",fontname="Arial",fontsize=22,labeljust=l,labelloc=t]; node [shape=box,style="rounded,filled",fillcolor="#F0FDF4",color="#15803D",fontname="Arial",fontsize=16,margin="0.18,0.12"]; edge [fontname="Arial",fontsize=12,color="#64748B"]; rankdir=LR;label="Aktor dan fitur aktif Hijauku";node[shape=ellipse];
+ manager[shape=box,label="Pengelola\nmanager /app"];staff[shape=box,label="Petugas\nfield_staff /petugas"];citizen[shape=box,label="Warga\ncitizen /warga"];public[shape=box,label="Pengunjung publik"];
+ data[label="M01-M06\nProgram, lokasi, petak, jenis,\nkelompok penanaman, inventaris"];
+ activity[label="M07-M09\nKegiatan, pendaftaran,\npenugasan dan kehadiran"];
+ adoption[label="M10-M11\nPermohonan dan kesepakatan adopsi"];
+ issues[label="M12\nPelaporan dan penyelesaian masalah"];
+ care[label="M13-M15\nRencana, realisasi, pengamatan\ndan verifikasi oleh pihak lain"];
+ catalog[label="Beranda dan katalog pohon\nData publik yang diizinkan"];
+ manager->data;manager->activity;manager->adoption;manager->issues;manager->care;
+ staff->activity[label="tugas sendiri"];staff->issues;staff->care[label="pohon ditugaskan"];
+ citizen->activity[label="pendaftaran sendiri"];citizen->adoption[label="data sendiri"];citizen->issues[label="pohon adopsi sendiri"];public->catalog;
+ auth[shape=box,label="Autentikasi dan dashboard adalah fondasi.\nAkses dibatasi role, ownership, dan status; bukan sekadar menyembunyikan tombol.\nM16-M18 tidak termasuk scope aktif.",fillcolor="#F8FAFC"];catalog->auth[style=invis];}

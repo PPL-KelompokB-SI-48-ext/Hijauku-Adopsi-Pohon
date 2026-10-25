@@ -16,7 +16,7 @@
 - Scope Jira aktif: 5 epic dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15. Setiap anggota memegang tiga modul × tiga story = sembilan story.
 - HAP-6 untuk M16 sampai M18 sudah dihapus permanen atas keputusan PM. Model/tabelnya masih scaffold awal; jangan menambahkan UI atau workflow sampai PM membuka scope baru.
 - HAP-61 adalah task SETUP-001 Sprint 0, status Jira In Progress dan parent HAP-1. HAP-1 masih To Do. PR #1 dan #2 masih merged ke `main`; revert keduanya disiapkan pada PR draft #5. PM menerima hasil dan memperbarui status setelah mengevaluasi acceptance serta perubahan di `main`.
-- HAP-7/HJK-001 saat ini To Do agar pengerjaan sesuai jadwal mulai minggu 7. PR #2 masih tercatat merged; PM meminta revert PR #1 dan #2. Sampai revert digabung, `main` masih memuat kedua merge tersebut.
+- HAP-7/HJK-001 berstatus In Progress pada pembacaan ulang Jira 25 Oktober 2026; tanggal target tetap mulai minggu 7. PR #2 masih tercatat merged; PM meminta revert PR #1 dan #2. Sampai revert digabung, `main` masih memuat kedua merge tersebut. Status aktif tidak menjadi dasar mengarang work log.
 - Issue keys HAP dan ID HJK yang sudah diterbitkan tidak dinomori ulang.
 - Sprint 0 ditutup, Sprint 1 aktif, dan Sprint 2 future. Sprint 1 tetap minggu 6-10, Sprint 2 tetap minggu 11-15. Minggu 6 (19-25 Okt) digunakan untuk backlog/refinement tanpa coding; coding Sprint 1 mulai minggu 7 (26 Okt).
 - 45 story memiliki Start date Senin dan Due date Minggu sesuai docs/task-schedule.md. Tiga story satu modul ditempatkan utuh dalam satu sprint: setiap anggota mendapat 3 story di Sprint 1 dan 6 di Sprint 2. Tanggal adalah rencana, bukan actual time; jangan membuat work log dari rentang tanggal.
@@ -39,6 +39,8 @@
 - Informasi/bukti tetap privat kecuali workflow publikasi dan otorisasi mengizinkan.
 
 ## Urutan baca
+
+Proposal Google Docs, Canva 27 slide, dan naskah video sudah diselaraskan dengan baseline Jira pada 25 Oktober 2026. Lihat docs/proposal-audit.md untuk tautan, koreksi skema/acceptance, serta batas verifikasi. Presentasi membahas rancangan dengan data contoh, bukan menyatakan 45 fitur telah selesai. Naskah lokal ada di docs/video-script.md.
 
 1. AGENTS.md.
 2. docs/project-context.md dan docs/source-audit.md.

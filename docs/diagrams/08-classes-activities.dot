@@ -1,0 +1,8 @@
+digraph G {graph [bgcolor="white",pad="0.3",nodesep="0.4",ranksep="0.55",fontname="Arial",fontsize=22,labeljust=l,labelloc=t]; node [shape=box,style="rounded,filled",fillcolor="#F0FDF4",color="#15803D",fontname="Arial",fontsize=16,margin="0.18,0.12"]; edge [fontname="Arial",fontsize=12,color="#64748B"]; rankdir=TB;label="Kelas domain kegiatan dan penugasan";
+ Activity[label="Activity : Eloquent\nsite_id | title | starts_at | ends_at | quota | status"];
+ Registration[label="ActivityRegistration : Eloquent\nactivity_id | user_id | status | attended_at"];
+ Assignment[label="FieldAssignment : Eloquent\nactivity_id | tree_id | assignee_id | due_at | status"];
+ Policy[label="Policy + query ownership\nPengelola mengatur kegiatan\nWarga mengakses pendaftaran sendiri\nPetugas mengakses tugas sendiri"];
+ Workflow[label="<<rancangan workflow>>\nBuka / batalkan kegiatan\nDaftar / tarik diri / hadir\nKonfirmasi / alihkan penugasan",fillcolor="#F8FAFC"];
+ Activity->Registration[label="1 : N"];Activity->Assignment[label="1 : N"];Policy->Workflow;Workflow->Activity[style=dashed,label="akan diimplementasikan"];
+ note[label="Pendaftaran memakai constraint unik + transaksi / row lock kuota.\nPohon yang ditugaskan harus sesuai lokasi kegiatan.\nModel dan Policy dasar bukan bukti workflow sudah selesai.",fillcolor="#F8FAFC"];Assignment->note[style=invis];}

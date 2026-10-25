@@ -78,6 +78,8 @@ Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR anggo
 | [Skema database](docs/database.md) | Tabel, relasi, constraint, dan aturan transaksi |
 | [Panduan desain UI](docs/ui-design.md) | Referensi Stitch, batas desain, dan cara menerapkan frame ke PBI |
 | [Audit sumber](docs/source-audit.md) | Hasil pemeriksaan proposal, bahan kuliah, Jira, GitHub, dan Stitch |
+| [Audit proposal dan presentasi](docs/proposal-audit.md) | Perubahan Google Docs/Canva, koreksi Jira, rujukan, dan hal yang masih perlu konfirmasi |
+| [Naskah video](docs/video-script.md) | Pembicara, urutan 27 slide, 45 PBI, dan petunjuk menunjukkan mockup |
 | [Rencana Sprint 0](docs/sprint-plan.md) | Acceptance HAP-1/HAP-61 dan checklist fondasi |
 | [Alur Jira dan pencatatan waktu](docs/jira-workflow.md) | Isi story, estimasi, work log aktual, format commit, dan pemeriksaan tautan Jira-GitHub |
 | [Setup lokal](docs/local-setup.md) | Clone, prasyarat, database, `.env`, seed, login, dan perintah harian |

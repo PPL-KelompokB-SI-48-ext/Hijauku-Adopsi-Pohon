@@ -1,0 +1,10 @@
+digraph G {graph [bgcolor="white",pad="0.3",nodesep="0.4",ranksep="0.55",fontname="Arial",fontsize=22,labeljust=l,labelloc=t]; node [shape=box,style="rounded,filled",fillcolor="#F0FDF4",color="#15803D",fontname="Arial",fontsize=16,margin="0.18,0.12"]; edge [fontname="Arial",fontsize=12,color="#64748B"]; rankdir=TB;label="ERD inti - program dan inventaris";
+ users[label="users\nid PK | role | name | email"];
+ programs[label="programs\nid PK | created_by FK -> users\nname | objective | starts_on | ends_on | status"];
+ sites[label="sites\nid PK | program_id FK\nname | address | latitude | longitude"];
+ plots[label="plots\nid PK | site_id FK\ncode | capacity | status\nUNIQUE(site_id, code)"];
+ species[label="tree_species\nid PK | name UNIQUE\ncare_notes | is_active"];
+ batches[label="planting_batches\nid PK | plot_id FK\ncode | planted_on | notes\nUNIQUE(plot_id, code), UNIQUE(id, plot_id)"];
+ trees[label="trees\nid PK | species_id FK | plot_id FK\nbatch_id nullable | code UNIQUE\nplanted_on | initial_condition"];
+ users->programs[label="1 : N"];programs->sites[label="1 : N"];sites->plots[label="1 : N"];plots->batches[label="1 : N"];plots->trees[label="1 : N"];species->trees[label="1 : N"];batches->trees[label="0..1 : N\nFK(batch_id,plot_id)"];
+ note[label="Pohon dalam kelompok harus berada di petak yang sama.\nKapasitas petak memerlukan transaksi / lock saat penambahan pohon.\nKolom ini diringkas dari migration; PK/FK/timestamps lain tidak ditampilkan.",fillcolor="#F8FAFC"];trees->note[style=invis];}

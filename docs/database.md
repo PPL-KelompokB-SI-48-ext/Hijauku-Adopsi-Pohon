@@ -20,8 +20,8 @@ Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01-M15 (M11 menggun
 | adoption_requests | Pohon, pemohon, alasan, keputusan dan reviewer | M10 |
 | adoption_agreements | Syarat/periode satu permohonan yang disetujui | M11 |
 | tree_adoption_allocations | Lock satu pohon untuk mencegah persetujuan bersamaan | M11 |
-| tree_issues | Laporan masalah, bukti privat, prioritas, resolusi | M12 |
-| care_plans | Rencana tindakan untuk pohon dan assignment | M13 |
+| tree_issues | Laporan masalah, bukti privat, severity, resolusi | M12 |
+| care_plans | Rencana tindakan untuk pohon dan `assignment_id` opsional | M13 |
 | care_records | Realisasi, pelaksana, bukti, status dan verifikator | M14 |
 | growth_observations | Ukuran/kondisi pohon, bukti dan verifikasi | M15 |
 
@@ -37,7 +37,7 @@ Tabel tersebut tersisa dari rancangan 18 modul. HAP-6 sudah dihapus permanen dar
 
 ```mermaid
 erDiagram
-    USERS ||--o{ PROGRAMS : membuat
+    USERS |o--o{ PROGRAMS : membuat
     PROGRAMS ||--o{ SITES : memiliki
     SITES ||--o{ PLOTS : memuat
     PLOTS ||--o{ PLANTING_BATCHES : menampung
@@ -51,7 +51,8 @@ erDiagram
     TREES ||--o| TREE_ADOPTION_ALLOCATIONS : dikunci
     TREES ||--o{ TREE_ISSUES : dilaporkan
     TREES ||--o{ CARE_PLANS : direncanakan
-    CARE_PLANS ||--o{ CARE_RECORDS : direalisasikan
+    FIELD_ASSIGNMENTS |o--o{ CARE_PLANS : dirujuk
+    CARE_PLANS |o--o{ CARE_RECORDS : direalisasikan
     TREES ||--o{ GROWTH_OBSERVATIONS : diamati
 ```
 
@@ -74,6 +75,15 @@ erDiagram
 - Indeks status/tanggal/owner disiapkan untuk query umum.
 
 ## Aturan yang harus ditegakkan oleh aplikasi
+
+### Batas scaffold pada audit 25 Oktober 2026
+
+- `care_plans` belum memiliki kolom prioritas. HAP-44 harus menambahkannya melalui migration yang aman, disertai validasi dan audit; kolom pada mockup bukan bukti skema sudah tersedia.
+- Riwayat perubahan memakai `activity_logs` dengan `actor_id`, subject, aksi, dan metadata. Jangan menganggap semua tabel memiliki `updated_by` atau kolom alasan tersendiri.
+- Alokasi yang menunggu penerimaan maupun aktif membatasi penawaran pohon. HAP-23, HAP-36, dan HAP-38 menggunakan alokasi yang masih berlaku, bukan hanya memeriksa label status pada katalog. Gunakan transaksi/row lock dan constraint MySQL, bukan partial unique index PostgreSQL.
+- `care_plans.assignment_id` dan `care_records.plan_id` bersifat opsional pada skema. Policy dan validasi story tetap memeriksa pohon, aktor, dan hubungan record yang dipilih.
+
+Diagram yang dipakai pada proposal tersedia di [diagrams/](diagrams/). Diagram adalah ringkasan; migration dan kode merupakan sumber nama kolom yang sebenarnya.
 
 Constraint statis tidak cukup untuk memeriksa kuota, kapasitas petak, availability pohon, status yang sah, tanggal lintas record, ownership, ukuran positif, dan self-review. Gunakan:
 

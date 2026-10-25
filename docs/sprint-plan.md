@@ -40,7 +40,7 @@ Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke
 
 ## Status dan aturan kerja
 
-PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. HAP-7 berstatus To Do agar pengerjaan mengikuti jadwal minggu 7. HAP-61 tetap In Progress sampai PM menerima acceptance dan memperbarui status berdasarkan kode yang ada di `main`.
+PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. Pembacaan ulang 25 Oktober 2026 menunjukkan HAP-7 In Progress, dengan tanggal target tetap mengikuti minggu 7. HAP-61 tetap In Progress sampai PM menerima acceptance dan memperbarui status berdasarkan kode yang ada di `main`.
 
 Original estimate adalah rencana. Jira HAP-61 masih menampilkan remaining estimate 4 jam dan belum memiliki work log aktual. Jangan mengubah nilai itu menjadi actual time. Waktu aktual hanya dicatat pelaksana setelah bekerja.
 

@@ -1,0 +1,11 @@
+digraph G {graph [bgcolor="white",pad="0.3",nodesep="0.4",ranksep="0.55",fontname="Arial",fontsize=22,labeljust=l,labelloc=t]; node [shape=box,style="rounded,filled",fillcolor="#F0FDF4",color="#15803D",fontname="Arial",fontsize=16,margin="0.18,0.12"]; edge [fontname="Arial",fontsize=12,color="#64748B"]; rankdir=TB;label="Kelas domain program dan adopsi";
+ User[label="User : Eloquent\nrole | name | email"];
+ Program[label="Program : Eloquent\nname | objective | starts_on | ends_on | status\ncreated_by\ncreator() | sites()"];
+ Site[label="Site : Eloquent\nprogram_id | name\nprogram() | plots()"];
+ Tree[label="Tree : Eloquent\nspecies_id | plot_id | batch_id | code\nplot() | species() | plantingBatch()"];
+ Request[label="AdoptionRequest : Eloquent\ntree_id | requester_id | reviewer_id | status"];
+ Agreement[label="AdoptionAgreement : Eloquent\nrequest_id | tree_id | adopter_id | status"];
+ Allocation[label="TreeAdoptionAllocation : Eloquent\ntree_id | request_id | agreement_id | status"];
+ Action[label="CreateDraftProgram : Action\nhandle(actor, attributes)\nValidasi + otorisasi + draft + audit",fillcolor="#DCFCE7"];
+ User->Program[label="creator"];Program->Site;Site->Tree[label="melalui petak"];Tree->Request;Request->Agreement;Agreement->Allocation;Action->Program;
+ note[label="Model, relasi dan Action diperiksa pada starter.\nAction bisnis M02-M15 masih direncanakan; tidak dianggap tersedia.\nDiagram ringkas; daftar metode lengkap tetap mengacu kode.",fillcolor="#F8FAFC"];Allocation->note[style=invis];}

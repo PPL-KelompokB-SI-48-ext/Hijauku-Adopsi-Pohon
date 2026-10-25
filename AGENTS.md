@@ -9,7 +9,7 @@ Read docs/project-context.md and the relevant docs before changing application c
 - Class handout says teams have 6-7 members; lecturer confirmation for this five-person team is still open.
 - Active Jira: 5 epics and 45 stories HJK-001 to HJK-045 across M01 to M15. Each member has 3 modules × 3 stories = 9 stories.
 - HAP-6 was permanently deleted from Jira at the PM's request. M16-M18 are outside the active scope. Three model/table scaffolds remain in the initial migration; do not build their screens or workflows unless the PM opens a new scope.
-- HAP-61 is In Progress under HAP-1; HAP-1 remains To Do. PR #1 and PR #2 are merged, and the PM requested separate revert PRs. HAP-7 is To Do to match the revised start date. Recheck HAP-61 and HAP-7 against the code on `main` after the revert decision.
+- HAP-61 is In Progress under HAP-1; HAP-1 remains To Do. PR #1 and PR #2 are merged, and the PM requested their revert. HAP-7 is In Progress in the latest Jira read on 25 October 2026; its planned dates still start in week 7. Recheck acceptance against `main` after the revert decision; never infer work logs from a status or date.
 - Existing HAP issue keys and HJK IDs are stable; do not renumber.
 - Read docs/jira-workflow.md before editing backlog-related docs or preparing a feature. Original estimate is a plan; actual work log belongs to the contributor who did the work. Never invent, backfill, or normalize actual hours to match an estimate.
 - Team workflow uses one long-lived personal branch per member: `yoga`, `bitari`, `arif`, `wira`, and `rofii`. The branch name is the exception to the HAP-key rule; commits and PRs must include uppercase HAP keys. Verify Jira's Development panel after push.

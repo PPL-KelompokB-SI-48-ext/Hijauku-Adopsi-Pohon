@@ -11,10 +11,10 @@ Audit ini memisahkan fakta dari bahan kuliah, keputusan tim, dan kondisi Jira/Gi
 | Backlog | Jira memiliki 5 epic aktif dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15. Tiap anggota memegang 3 modul × 3 story = 9 story. |
 | Sprint dan PBI | Tiga story pembentuk satu modul sudah ditempatkan utuh dalam satu sprint. Tiap orang mendapat 3 story pada Sprint 1 dan 6 pada Sprint 2, bukan 9 story pada satu sprint. |
 | Scope di luar backlog | HAP-6 sudah dihapus permanen. M16-M18 tidak memiliki story aktif; beberapa model dan tabel awal masih berupa scaffold. |
-| Jira setup | HAP-61 berstatus In Progress di Sprint 0; HAP-1 tetap To Do. HAP-7/HJK-001 berstatus To Do untuk mulai sesuai jadwal minggu 7. |
+| Jira setup | HAP-61 dan HAP-7 berstatus In Progress pada pembacaan ulang 25 Oktober 2026; HAP-1 tetap To Do. Tanggal target story tetap mengikuti jadwal minggu 7. |
 | Sprint | Sprint 0 closed, Sprint 1 active, Sprint 2 future. Sprint 1 tetap minggu 6-10 dan Sprint 2 minggu 11-15. Minggu 6 dipakai untuk backlog/refinement tanpa coding; story coding mulai Senin, 26 Oktober. |
 | Database | MySQL 8+ menjadi baseline pengembangan. CI menjalankan pemeriksaan MySQL dan SQLite. File `.env` pemilik tidak dibaca atau diubah. |
-| UI | Stitch berisi 25 frame. Frame 21 (Beranda Publik) dan frame 24 (Kesepakatan Saya/Warga, M11) sudah dipetakan. Layar modul lain belum dianggap implementasi final. |
+| UI | Seluruh 25 frame Stitch diperiksa sebagai rancangan. Lima belas modul dipetakan ke PBI dan pembicara video; penerimaan implementasi UI tetap mengikuti story. |
 | Starter | Laravel 13, Filament 5, tiga panel dan Policy dasar, schema/seeder, README, panduan setup dan CI tersedia di hasil merge PR #1/#2. Resource bisnis yang sudah ada pada `main` saat audit adalah alur pencatatan program HJK-001. |
 | Estimasi | 45 story memiliki Original estimate proposal berjumlah 211 jam. HAP-61 memiliki Original estimate 18 jam dan remaining estimate 4 jam, tanpa work log aktual. Tidak ada work log yang dibuat dalam pembaruan ini. |
 | Pengujian browser | CI menjalankan Laravel Dusk dan smoke test beranda. Tes manager membuat program lewat panel Filament dan memeriksa nama, tujuan, periode, serta status Draf. Run CI `40170424971` pada commit `7e59f30` lulus. |
@@ -41,7 +41,7 @@ Beberapa fitur memiliki dependensi lintas anggota. Pemilik perlu menyepakati kon
 - HAP-1 sampai HAP-5 adalah lima epic aktif. HAP-6 sudah dihapus permanen atas keputusan PM.
 - HJK-001 sampai HJK-045 tetap berpasangan dengan HAP-7 sampai HAP-51. Issue key tidak dinomori ulang.
 - HAP-61 adalah SETUP-001 di Sprint 0 dan berstatus In Progress. HAP-1 tetap To Do sampai PM menerima keseluruhan hasil.
-- HAP-7 sampai HAP-51 saat ini To Do. Issue tersebut sudah dipetakan ke Sprint 1/Sprint 2, diberi label sprint, start date Senin, due date Minggu, dan petunjuk branch personal pemilik. Coding Sprint 1 mulai minggu 7.
+- Pembacaan ulang 25 Oktober 2026 menunjukkan HAP-7 In Progress; HAP-8 sampai HAP-51 To Do. Status itu dipertahankan sesuai Jira. Seluruh story sudah dipetakan ke Sprint 1/Sprint 2, start date Senin dan due date Minggu; coding direncanakan mulai minggu 7. Status aktif tidak mengubah tanggal target menjadi work log aktual.
 - Sprint 1 goal menjelaskan bahwa minggu 6 adalah backlog, coding M01/M04/M07/M10/M13 berjalan minggu 7-9, lalu minggu 10 untuk integrasi. Sprint 2 memuat sepuluh modul utuh dan enam story per anggota.
 - Original estimate merupakan rencana. Jangan mencatat actual time dari estimasi atau rentang tanggal; pelaksana menulis work log hanya untuk jam kerja yang benar-benar dilakukan.
 
@@ -75,11 +75,13 @@ Kolaborator repo yang diperiksa pada audit terdahulu adalah Yoga sebagai admin d
 - Dusk menggunakan database SQLite sementara yang terpisah dari database pengembangan. CI menjalankan migrasi dan seeder pada file database tersebut sebelum menyalakan server browser.
 - `tests/Browser/ProgramCreationTest.php` menjalankan login manager, mengisi nama dan tujuan, memilih tanggal dari kalender Filament, menyimpan program, lalu memeriksa nama, tujuan, periode, dan status Draf. Run CI [40170424971](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/40170424971) lulus pada commit `7e59f30`. CI juga lulus untuk tes unit, feature, migration SQLite/MySQL, route panel, dan build aset.
 - Feature tests HJK-001 tetap memeriksa validasi dan aturan aplikasi di luar browser. Dusk tidak menggantikan tes policy, kepemilikan, dan kondisi penolakan.
-- Shell lokal untuk audit ini belum menyediakan PHP, Composer, Chrome, atau ChromeDriver. Karena itu tes lokal Dusk tidak dapat dijalankan; gunakan hasil CI sebagai bukti untuk tes tersebut.
+- PHP dan Composer belum tersedia pada PATH shell audit. Chrome ditemukan di `C:/Program Files/Google/Chrome/Application/chrome.exe` dan dipakai untuk merender mockup melalui Playwright. Tes aplikasi/Dusk lokal tidak dijalankan; hasil CI menjadi bukti pengujian aplikasi yang disebut di atas.
 
 ## Stitch dan bahan kuliah
 
-Proyek Stitch Hijauku Admin UI Batch 01 memiliki 25 frame. Frame yang dipetakan adalah Beranda Publik dan Kesepakatan Saya/Warga. Desain katalog atau halaman modul lain belum dijadikan klaim implementasi. Pemeriksaan visual seluruh frame belum dilakukan. Lihat [panduan desain UI](ui-design.md).
+Proyek Stitch Hijauku Admin UI Batch 01 memiliki 25 frame. Seluruh frame diperiksa dan dirender sebagai mockup pada 25 Oktober 2026; pemetaan 15 modul, aktor, dan PBI dicatat pada [panduan desain UI](ui-design.md). Ini pemeriksaan rancangan, bukan bukti implementasi, tes interaksi, atau penerimaan seluruh layar aplikasi.
+
+Proposal Google Docs direvisi langsung dan presentasi Canva 27 slide disimpan setelah persetujuan PM pada audit ini. Naskah terpisah memuat pembicara, 45 PBI, dan petunjuk visual. Lihat [catatan audit proposal](proposal-audit.md) untuk tautan, koreksi ilmiah, perubahan Jira, serta batas verifikasi. Sprint 2 memiliki start/end date resmi 23 November-27 Desember 2026.
 
 Sumber yang diperiksa: rancangan arsitektur, Ketentuan Proyek PPL, Modul 1 Reguler 2026, proposal tugas besar, materi requirement/Scrum/agile/sprint/version control/issues, Jira, repo GitHub, Stitch, dan `desain.md`. Proposal masih boleh direvisi agar mengikuti roster dan rencana terbaru; keputusan backlog resmi tetap dicatat di Jira.
 
@@ -87,6 +89,6 @@ Sumber yang diperiksa: rancangan arsitektur, Ketentuan Proyek PPL, Modul 1 Regul
 
 1. Dosen mengonfirmasi perbedaan jumlah anggota antara PDF dan LMS untuk roster lima orang.
 2. Pemilik modul memeriksa kompleksitas tiap fitur, kesiapan story, dan kontrak data lintas modul saat refinement.
-3. Pemilik modul memetakan frame Stitch yang relevan dan meninjau hasil UI sebelum menyatakan desain sesuai.
-4. PM meninjau PR draft revert #5. HAP-61 tetap In Progress dan HAP-7 tetap To Do sambil menunggu keputusan penerimaan serta perubahan di `main`.
-5. Dusk HJK-001 sudah lulus di CI pada commit `7e59f30`. Tes lokal belum dijalankan karena shell audit tidak memiliki PHP, Composer, Chrome, atau ChromeDriver. Setiap perubahan berikutnya tetap perlu menunggu CI terbaru.
+3. Pemilik modul meninjau implementasi terhadap frame yang sudah dipetakan; mockup tidak membuktikan validasi, ownership, atau workflow aplikasi.
+4. PM meninjau PR draft revert #5. HAP-61 dan HAP-7 berstatus In Progress pada pembacaan ulang; keputusan penerimaan dan perubahan `main` tetap mengikuti PM.
+5. Dusk HJK-001 sudah lulus pada run CI yang ditautkan di atas. Audit ini tidak menjalankan ulang tes aplikasi lokal; setiap commit berikutnya mengikuti hasil CI terbaru pada PR.

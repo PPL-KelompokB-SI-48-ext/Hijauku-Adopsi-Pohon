@@ -24,7 +24,9 @@ Read docs/jira-workflow.md when planning a story, estimating work, logging time,
 - Role panels: manager /app, field_staff /petugas, citizen /warga.
 - Gate and base Policies are in place. Resource query ownership and feature workflows still need implementation.
 - MySQL is the development baseline. Preserve the owner's .env and local DB; never run migrations against that DB.
-- Stitch's latest guidance excludes M16-M18. Current starter home copy/flow is aligned but visual review of all frames remains open.
+- Stitch's guidance excludes M16-M18. The 25 mockup frames were inspected for proposal/presentation work; acceptance of each implemented screen remains part of its PBI.
+- For proposal, presentation, or video work, read docs/proposal-audit.md and docs/video-script.md. The 25 Stitch frames were inspected as mockups with sample data; this is not acceptance of implemented UI. Frame numbers 16-25 are screen numbers, not new business modules.
+- care_plans has optional assignment_id and no priority column in the scaffold. HAP-44 adds priority through a safe migration. Audit changes through activity_logs.actor_id; do not invent updated_by columns.
 - Preserve user-owned desain.md and .playwright-mcp/.
 
 ## Implementation guidance
