@@ -16,7 +16,7 @@ Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 | Area | Implementasi sekarang | Batas starter |
 | --- | --- | --- |
 | Beranda publik | `resources/views/home.blade.php` memakai identitas hijau, headline Frame 21, ilustrasi pohon, CTA, dan alur tiga langkah | Belum tersambung ke katalog, hitungan, atau data pohon. Angka dan daftar pada frame Stitch tidak boleh disajikan sebagai fakta produksi sebelum sumber datanya tersedia. |
-| Pengelola | Panel Filament `/app`; daftar program dan pembuatan draf M01 tersedia untuk HJK-001 | Resource M02-M15 dan alur bisnis lain tetap dikerjakan lewat story aktif. |
+| Pengelola | Panel Filament `/app` | Kerangka login dan dashboard; belum ada Resource/workflow domain. |
 | Petugas | Panel Filament `/petugas` | Kerangka login dan dashboard; assignment dan laporan dikerjakan melalui story aktif. |
 | Warga | Panel Filament `/warga` | Kerangka login dan dashboard; pendaftaran dan adopsi dikerjakan melalui story aktif. |
 
@@ -31,12 +31,6 @@ Pemeriksaan ini mengonfirmasi arah visual dan cakupan, bukan audit pixel-perfect
 5. Pakai komponen, warna, jarak, dan hierarki yang konsisten dengan frame. Simpan aset proyek pada `public/images/` atau `resources/images/` dengan nama yang menjelaskan isinya.
 6. Sertakan keadaan loading, kosong, error, berhasil, dan layar kecil. Jangan membuka modal/drawer otomatis tanpa tindakan pengguna.
 7. Minta pemilik modul membandingkan hasil dengan frame Stitch pada PR; lampirkan tangkapan layar hanya jika diperlukan untuk menilai perbedaan visual.
-
-## Pemetaan M01
-
-- HJK-001 memakai frame **M01 - Program Penghijauan** untuk halaman daftar di panel Pengelola.
-- Frame menampilkan nama program, ringkasan tujuan, periode, status, dan area aksi. Tombol **Tambah Program** membuka alur pembuatan.
-- Stitch tidak menyediakan frame formulir pembuatan program. HJK-001 memakai halaman CreateRecord standar Filament 5 dengan validasi di server. Formulir mengikuti alur panel yang sama, tetapi belum dapat diklaim cocok pixel dengan Stitch; minta pemilik modul/PM memeriksanya pada PR.
 
 ## Batas scope dan penerimaan
 

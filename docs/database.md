@@ -8,7 +8,7 @@ Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01-M15 (M11 menggun
 
 | Tabel | Isi dan relasi utama | Modul |
 | --- | --- | --- |
-| programs | Tujuan, periode, status, dan pembuat; satu program memiliki lokasi | M01 |
+| programs | Tujuan, periode, status; satu program memiliki lokasi | M01 |
 | sites | Alamat/koordinat dalam program; memiliki petak dan kegiatan | M02 |
 | plots | Petak dan kapasitas di lokasi | M03 |
 | tree_species | Nama jenis dan catatan perawatan | M04 |
@@ -37,7 +37,6 @@ Tabel tersebut tersisa dari rancangan 18 modul. HAP-6 sudah dihapus permanen dar
 
 ```mermaid
 erDiagram
-    USERS ||--o{ PROGRAMS : membuat
     PROGRAMS ||--o{ SITES : memiliki
     SITES ||--o{ PLOTS : memuat
     PLOTS ||--o{ PLANTING_BATCHES : menampung
@@ -64,8 +63,6 @@ erDiagram
 ## Constraint yang sudah ada
 
 - Primary/foreign key mencegah relasi orphan; penghapusan master yang masih dipakai dibatasi.
-- `programs.created_by` menyimpan akun pengelola yang membuat program. Kolom nullable menjaga kompatibilitas data lama; alur pembuatan baru wajib mengisinya dan foreign key mencegah akun pembuat dihapus selama masih menjadi pencatat.
-- Pembuatan program menyimpan status awal `draft` dan event `program.created` dalam satu transaksi. Form mewajibkan nama, tujuan, tanggal mulai, dan tanggal akhir; tanggal akhir harus lebih besar dari tanggal mulai.
 - Kode pohon unik global; kode petak unik di lokasi; kode batch unik di petak.
 - Foreign key gabungan memastikan pohon dan batch berada pada petak yang sama.
 - Pendaftaran unik pada kombinasi kegiatan dan warga.
