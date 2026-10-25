@@ -1,47 +1,51 @@
 # Catatan Sprint 0 dan jadwal development
 
-Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke pengerjaan fitur. Jira adalah sumber status dan tanggal live.
+Dokumen ini merangkum hasil Sprint 0 dan jadwal pengembangan. Jira tetap menjadi sumber status dan tanggal issue.
 
-## Sprint 0 - Persiapan
+## Sprint 0 - persiapan
 
-- Epic: HAP-1 - Fondasi & Infrastruktur, status Jira tetap To Do sampai PM menerima keseluruhan acceptance.
-- Task: HAP-61 - SETUP-001, assignee Yoga, status Jira Done pada pembacaan akhir 25 Oktober 2026. Status epic dan PR diperiksa terpisah.
+- Epic HAP-1 - Fondasi & Infrastruktur: Done setelah PM memeriksa dan menerima kriteria fondasi.
+- Task HAP-61 - SETUP-001: Done, assignee Yoga.
 - Sprint 0 berlangsung pada minggu 5, 12-18 Oktober 2026, dan sudah ditutup.
-- PR #1 berisi starter Sprint 0 dan tercatat merged ke `main`.
-- PM meminta PR #1 dan #2 direvert dari `main`, dengan hasil kerja dipertahankan di branch personal Yoga. Sampai revert PR diterima, `main` masih memuat kedua hasil merge.
+- PR #1 berisi starter Sprint 0. PR #4 menambahkan tes Dusk dan melengkapi dokumentasi fondasi. Keduanya sudah merged ke `main`.
+- PR #5 yang membalik PR #1 dan #2 ditutup tanpa merge. `main` tetap memiliki starter dan alur HJK-001.
 
-## Acceptance HAP-61
+## Hasil HAP-61
 
-1. Repo memiliki lima anggota aktif: Yoga, Bitari, Arif, Wira, dan Rofii. Dinda dikecualikan.
-2. Backlog aktif memiliki 5 epic dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15. HAP-6 dihapus permanen; M16 sampai M18 tidak memiliki story aktif.
-3. Sprint 0 ditutup, Sprint 1 aktif pada minggu 6-10, dan Sprint 2 future pada minggu 11-15.
-4. Dokumen arsitektur Rev 1, kebutuhan, database, keputusan, audit sumber, kontribusi, dan setup tersedia di repo.
-5. Starter Laravel 13 + Filament 5 memiliki `.env.example`, migrasi, seeder demo, tiga panel role, Policy dasar, dan panduan setup lokal.
-6. CI memvalidasi dependency, migrasi/seeder SQLite dan MySQL, route, tes PHP, build aset, serta tes Dusk beranda dan pembuatan program lewat panel.
-7. Panduan tim menjelaskan satu branch per anggota, commit dengan key HAP, PR, penyelesaian konflik, review anggota, merge oleh PM, dan work log yang jujur.
+1. Repo memiliki lima anggota aktif: Yoga, Bitari, Arif, Wira, dan Rofii. Dinda tidak termasuk.
+2. Backlog aktif Jira memiliki 5 epic dan 45 story HJK-001 sampai HJK-045 pada M01 sampai M15. HAP-6 sudah dihapus; M16 sampai M18 tidak punya story aktif.
+3. Sprint 0 ditutup; Sprint 1 aktif pada minggu 6-10; Sprint 2 masih future pada minggu 11-15.
+4. Dokumen arsitektur, kebutuhan, database, keputusan, audit sumber, kontribusi, dan setup tersedia di repo.
+5. Starter Laravel 13 + Filament 5 memiliki `.env.example`, migration, seeder demo, tiga panel role, Policy dasar, dan panduan setup.
+6. CI memeriksa dependency, migration/seeder SQLite dan MySQL, route, tes PHP, build aset, serta tes Dusk.
+7. Panduan tim menjelaskan satu branch per anggota, commit dengan key HAP, PR, konflik, review, merge oleh PM, dan pencatatan work log yang jujur.
+
+HAP-61 mempertahankan Original estimate 18 jam dan remaining estimate 0 jam. Tidak ada work log aktual yang dibuat. HAP-1 ditutup setelah pemeriksaan fondasi, sedangkan pertanyaan dosen tentang jumlah anggota tetap menjadi tindak lanjut tim.
 
 ## Sprint 1 dan Sprint 2
 
-- Kalender kuliah tidak berubah: Sprint 1 minggu 6-10 (19 Okt-22 Nov 2026), Sprint 2 minggu 11-15 (23 Nov-27 Des 2026).
-- Minggu 6, 19-25 Oktober, dipakai menyusun dan refine backlog. Tidak ada coding yang direncanakan.
-- Pengerjaan story Sprint 1 dimulai minggu 7, 26 Oktober. Tanggal story Sprint 1 disesuaikan hingga minggu 9; minggu 10 untuk integrasi, demo, review, dan retrospektif.
-- Setiap anggota mendapat tiga story satu modul di Sprint 1, lalu enam story dari dua modul utuh di Sprint 2. Detail dan tanggal ada di [jadwal mingguan](task-schedule.md).
-- Pemilik modul memeriksa kompleksitas fitur dan dependensi lintas anggota pada refinement. Story tidak dinyatakan siap hanya berdasarkan jumlahnya.
+- Kalender formal mengikuti materi kuliah: Sprint 1 minggu 6-10, 19 Oktober-22 November 2026; Sprint 2 minggu 11-15, 23 November-27 Desember 2026.
+- Rencana awal memakai minggu 6, 19-25 Oktober, untuk backlog dan refinement, lalu mulai coding pada minggu 7, 26 Oktober.
+- Alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober. PR #4 menambahkan tes Dusk dan perbaikan terkait; setelah CI lulus, PM menerima HAP-7 pada 25 Oktober. HAP-16 dan HAP-25 juga sudah In Progress di akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Pemilik perlu mencocokkan tanggal mulai Jira dengan pekerjaan nyata; kalender sprint tetap.
+- Setiap anggota memiliki tiga story dari satu modul pada Sprint 1, lalu enam story dari dua modul utuh pada Sprint 2. Detail tanggal ada di [jadwal mingguan](task-schedule.md).
+- Pemilik modul tetap perlu menilai kompleksitas fitur dan dependensi saat refinement. Jumlah PBI saja belum membuktikan pemenuhan rubrik kelas.
 
-## Yang tersedia di starter
+## Pemeriksaan yang sudah tersedia
 
-- [x] Roster lima orang dan 45 story aktif diverifikasi.
-- [x] Laravel 13 + Filament 5 dan tiga panel role disiapkan.
+- [x] Roster lima orang dan 45 story aktif dicocokkan dengan Jira.
+- [x] Laravel 13 + Filament 5 serta tiga panel role disiapkan.
 - [x] Policy dasar, migration, seeder demo, `.env.example`, README, dan panduan kontribusi tersedia.
-- [x] CI memiliki pemeriksaan SQLite dan MySQL, tes PHP, build aset, dan Dusk.
-- [x] Tes Dusk HJK-001 berjalan pada branch personal Yoga. Run CI `40170795177` di commit `45e3666` lulus untuk login, pengisian form, pemilihan tanggal di kalender, penyimpanan program Draf, serta pemeriksaan hasil pada daftar.
-- [ ] Pemilik modul dan dosen mengonfirmasi pemetaan fitur/kompleksitas per sprint dan roster lima orang.
-- [ ] PM meninjau serta menerima PR yang sesuai sebelum HAP-1 diubah dari To Do.
+- [x] CI memeriksa SQLite, MySQL, route panel, tes PHP, build aset, dan Dusk.
+- [x] Dusk menguji login manager, pengisian form HJK-001, kalender Filament, penyimpanan program Draf, dan hasil pada daftar.
+- [x] HAP-61 dan HAP-1 diterima; HAP-7 diterima setelah tes, review PM, dan merge PR #4.
+- [ ] Dosen mengonfirmasi bahwa roster lima orang memenuhi ketentuan kelas.
+- [ ] Pemilik modul memastikan pemetaan fitur memenuhi tingkat kompleksitas yang diminta.
+- [ ] PR #6 Rofii disinkronkan ke `main` terbaru dan mendapat tes Dusk untuk alur M04 sebelum review/merge.
 
-## Status dan aturan kerja
+CI PR #4 pada head `7a5efae` lulus di [run 40181326721](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/40181326721): 11 tes Unit, 20 tes Feature dengan 99 assertions, 2 tes Dusk dengan 9 assertions, migration/seeder SQLite dan MySQL, route panel, serta build Vite.
 
-PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. Pembacaan akhir 25 Oktober 2026 menunjukkan HAP-7 In Progress, HAP-61 Done, dan HAP-1 To Do. Tanggal target HAP-7 tetap mengikuti minggu 7. Status task tidak otomatis menerima perubahan pada PR draft.
+HAP-7 mempertahankan Original estimate 4 jam dan remaining 0 jam. HAP-61 mempertahankan Original estimate 18 jam dan remaining 0 jam. Keduanya tidak memiliki work log aktual dari pembaruan ini. Jangan mengubah tanggal rencana menjadi jam kerja.
 
-Original estimate adalah rencana. Jira HAP-61 masih menampilkan remaining estimate 4 jam dan belum memiliki work log aktual. Jangan mengubah nilai itu menjadi actual time. Waktu aktual hanya dicatat pelaksana setelah bekerja.
+HAP-16 masih In Progress dengan Original estimate 3 jam dan remaining 3 jam. PR #6 Rofii sudah punya CI yang lulus untuk branch lama, tetapi belum ada Dusk M04 dan branch belum memakai `main` terbaru. HAP-25 milik Bitari juga In Progress. Epic HAP-2 dan HAP-3 tetap In Progress sampai story aktifnya diterima.
 
-Jangan membaca atau mengganti `.env` pemilik dan jangan menjalankan migrasi ke database lokal pemilik. Dusk CI memakai database SQLite file sementara yang terisolasi.
+Jangan membaca atau mengganti `.env` pemilik dan jangan menjalankan migration ke database lokal pemilik. Dusk CI memakai database SQLite sementara yang terisolasi.

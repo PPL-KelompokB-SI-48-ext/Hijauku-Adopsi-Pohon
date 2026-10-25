@@ -63,9 +63,9 @@ Gunakan field Jira **Original estimate** untuk rencana waktu bila time tracking 
 
 Setiap pelaksana mencatat **work log** untuk waktu yang benar-benar ia gunakan pada issue, mengikuti resolusi waktu Jira. Catat setelah pekerjaan dilakukan dan gunakan angka yang jujur. Work log tidak boleh disamakan otomatis dengan Original estimate, lama sprint, ataupun rentang tanggal. Bila pekerjaan belum mulai, jangan masukkan waktu aktual. Jika Jira tidak menampilkan Log work, jangan mengakalinya dengan komentar; minta PM memeriksa konfigurasi dan izin time tracking.
 
-Sebelum sprint, periksa jumlah Original estimate per orang terhadap waktu yang memang tersedia. Sembilan story per anggota dibagi menjadi tiga story di Sprint 1 dan enam di Sprint 2; tiga story pembentuk satu modul ditempatkan utuh pada sprint yang sama. Angka story bukan ukuran beban yang sama. Minggu 6 digunakan untuk backlog/refinement tanpa coding; pengerjaan Sprint 1 dimulai minggu 7. Start date Jira adalah hari Senin dan Due date hari Minggu, sebagai target koordinasi, bukan actual time atau janji durasi. Lihat [jadwal mingguan backlog](task-schedule.md). Pemilik meninjau ulang tanggal dan estimate saat refinement.
+Sebelum sprint, periksa jumlah Original estimate per orang terhadap waktu yang memang tersedia. Sembilan story per anggota dibagi menjadi tiga story di Sprint 1 dan enam di Sprint 2; tiga story pembentuk satu modul ditempatkan utuh pada sprint yang sama. Angka story bukan ukuran beban yang sama. Rencana awal memakai minggu 6 untuk backlog/refinement dan menjadwalkan coding mulai minggu 7. Alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober; tes Dusk dan penerimaan PM dilakukan lewat PR #4 pada 25 Oktober. HAP-16 dan HAP-25 juga tercatat In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Pemilik perlu mencocokkan tanggal mulai dengan pekerjaan sebenarnya. Start date Jira adalah hari Senin dan Due date hari Minggu sebagai target koordinasi, bukan actual time atau janji durasi. Lihat [jadwal mingguan backlog](task-schedule.md). Pemilik meninjau ulang tanggal dan estimate saat refinement.
 
-Pada 25 Oktober 2026, Original estimate 45 story masih **proposal awal PM** dan perlu ditinjau pemilik. Angkanya ada pada [baseline estimasi](effort-estimates.md). Pembacaan akhir menunjukkan HAP-61 Done dengan Original estimate 18 jam, remaining estimate 4 jam, dan tanpa work log. Pelaksana/PM perlu merekonsiliasi remaining estimate terhadap sisa kerja nyata tanpa mengarang actual time. PR #1 dan #2 masih merged ke `main`; revert keduanya ada dalam PR draft #5. Setelah keputusan revert, PM menilai kembali acceptance berdasarkan kondisi kode; status task bukan izin merge otomatis.
+Pada 25 Oktober 2026, Original estimate 45 story masih **proposal awal PM** dan perlu ditinjau pemilik. Angkanya ada pada [baseline estimasi](effort-estimates.md). Setelah PR #4 lulus CI dan di-merge, PM menerima HAP-61, HAP-1, serta HAP-7. Remaining estimate HAP-61 dan HAP-7 menjadi 0 jam; Original estimate tetap 18 jam dan 4 jam. HAP-16 milik Rofii dan HAP-25 milik Bitari berstatus In Progress, begitu juga epic HAP-2 dan HAP-3. Tidak ada work log aktual yang dibuat oleh pembaruan dokumentasi. PR #5 ditutup tanpa merge sehingga PR #1 dan #2 tetap ada di `main`.
 
 Jika estimasi berubah, tulis alasan di issue dan sesuaikan remaining estimate. Jika scope/acceptance berubah, PM memperbarui deskripsi dan rencana sprint sebelum tim mengerjakan tambahan itu. Work log yang sudah mencatat waktu aktual tidak diubah agar cocok dengan rencana baru.
 
@@ -75,8 +75,8 @@ Gunakan branch personal sesuai nama anggota. Sertakan issue key HAP pada setiap 
 
 ```text
 Branch: bitari
-Commit: feat: catat pendaftaran kegiatan HAP-25
-PR title: [HAP-25] Pendaftaran kegiatan warga
+Commit: feat: catat rencana kegiatan HAP-25
+PR title: [HAP-25] Catat rencana kegiatan
 PR body: https://myogaadi1234567.atlassian.net/browse/HAP-25
 ```
 

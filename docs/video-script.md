@@ -324,7 +324,7 @@ Petunjuk visual: Tunjuk tanggal, tinggi, diameter, kondisi, dan status verifikas
 
 ## Slide 27 - Yoga | Jadwal dan penutup
 
-Persiapan berada di minggu 5, tanggal 12-18 Oktober 2026. Sprint 1 mengikuti minggu 6-10, yaitu 19 Oktober-22 November. Minggu 6 untuk backlog dan refinement; coding dimulai minggu 7, lalu minggu 10 dipakai untuk integrasi, pengujian, review, dan retrospektif. Sprint 2 berlangsung 23 November-27 Desember pada minggu 11-15. Setiap PBI memiliki tanggal mulai Senin dan target Minggu di Jira, dan dua PBI boleh berjalan paralel sesuai rencana.
+Persiapan berada di minggu 5, tanggal 12-18 Oktober 2026. Sprint 1 mengikuti minggu 6-10, yaitu 19 Oktober-22 November. Rencana awal memakai minggu 6 untuk backlog dan refinement, lalu menjadwalkan coding mulai minggu 7. Alur HJK-001 sudah masuk ke `main` lewat PR #2 pada 22 Oktober; tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober. HAP-16 dan HAP-25 juga berstatus In Progress di akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Pemilik perlu mencocokkan tanggal mulai Jira dengan pekerjaan sebenarnya; kalender sprint tetap. Minggu 10 dipakai untuk integrasi, pengujian, review, dan retrospektif. Sprint 2 berlangsung 23 November-27 Desember pada minggu 11-15. Setiap PBI memiliki tanggal mulai Senin dan target Minggu di Jira, dan dua PBI boleh berjalan paralel sesuai rencana.
 
 Setiap anggota menggunakan satu branch personal. Commit dan PR mencantumkan key HAP agar dapat ditautkan ke Jira. Penulis menyelesaikan konflik; anggota meminta review saya, dan hanya PM yang melakukan merge setelah CI dan acceptance terpenuhi. Tanggal tersebut adalah rencana, sedangkan waktu aktual dicatat sesuai pekerjaan yang benar-benar dilakukan. Terima kasih.
 

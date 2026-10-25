@@ -2,7 +2,7 @@
 
 Dokumen ini mencatat proposal estimasi awal yang diisikan ke field **Original estimate** Jira pada 22 Oktober 2026. Angka ini dipakai untuk refinement dan perencanaan. Anggota pemilik modul perlu meninjau setiap angka sebelum mulai mengerjakan story. Estimasi bukan janji durasi presisi dan bukan waktu aktual.
 
-Jira tetap menjadi sumber status dan field kerja harian. Jika pemilik mengubah Original estimate atau sprint setelah refinement, perbarui tabel ini pada PR yang sama. Waktu aktual hanya dicatat oleh orang yang benar-benar mengerjakan melalui work log Jira. Pada tanggal audit, 45 story dan HAP-61 belum memiliki work log aktual.
+Jira tetap menjadi sumber status dan field kerja harian. Jika pemilik mengubah Original estimate atau sprint setelah refinement, perbarui tabel ini pada PR yang sama. Waktu aktual hanya dicatat oleh orang yang benar-benar mengerjakan melalui work log Jira. Pada audit ini, 45 story dan HAP-61 tidak memiliki work log aktual yang dibuat oleh pembaruan dokumentasi.
 
 ## Estimasi per story
 
@@ -27,7 +27,7 @@ Angka dalam kolom estimasi mengikuti urutan HJK pada kolom key. Seluruh story HA
 | M15 Pengamatan pertumbuhan | HAP-5 | Wira | - | HAP-49 / HJK-043 (5h), HAP-50 / HJK-044 (5h), HAP-51 / HJK-045 (4h) | 14h |
 | **Total 45 story** |  | **5 anggota** | **66h / 15 story** | **145h / 30 story** | **211h** |
 
-HAP-61 adalah task Sprint 0 di bawah HAP-1. Pembacaan akhir Jira 25 Oktober 2026 menunjukkan Done; PR #1 dan #2 masih merged ke `main`, sementara revert keduanya menunggu keputusan PM. Remaining estimate masih 4h dan belum ada work log. Nilai sisa itu belum selaras dengan status Done dan perlu direkonsiliasi pelaksana/PM berdasarkan sisa kerja nyata, bukan diubah menjadi actual time. Original estimate awal HAP-61 adalah 18h, terpisah dari subtotal story, sehingga total rencana awal backlog bersama HAP-61 adalah 229h.
+HAP-61 adalah task Sprint 0 di bawah HAP-1. PM menerima fondasi pada 25 Oktober 2026 setelah PR #4 lulus CI dan di-merge. Original estimate 18h tetap sebagai estimasi awal dan remaining estimate kini 0h. Tidak ada work log aktual yang dibuat. Total rencana awal backlog bersama HAP-61 tetap 229h.
 
 ## Rencana per orang dan sprint
 
@@ -42,7 +42,7 @@ Tabel berikut menjumlahkan estimasi per story berdasarkan penempatan sprint yang
 | Wira | 15h / 3 story | 28h / 6 story | 43h / 9 story |
 | **Tim** | **66h / 15 story** | **145h / 30 story** | **211h / 45 story** |
 
-Penempatan diperbarui pada 25 Oktober 2026 agar setiap modul tetap utuh dalam satu sprint dan pekerjaan coding Sprint 1 dimulai pada minggu 7. Total estimasi Sprint 2 lebih besar karena tiap orang merencanakan dua modul di sana; pemilik perlu menilai kapasitas dan refinement sebelum mulai. Minggu 6 dipakai untuk backlog tanpa coding. Sprint 1 mengikuti kalender kuliah dan aktif, Sprint 2 berlangsung pada minggu 11-15. Jangan mengisi work log dari angka estimasi.
+Penempatan diperbarui pada 25 Oktober 2026 agar setiap modul tetap utuh dalam satu sprint. Rencana awal memakai minggu 6 untuk backlog dan menjadwalkan coding Sprint 1 mulai minggu 7. Alur HJK-001 masuk ke `main` melalui PR #2 pada 22 Oktober; tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober. HAP-16 dan HAP-25 juga sudah In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Pemilik perlu mencocokkan tanggal mulai Jira dengan waktu kerja sebenarnya. Total estimasi Sprint 2 lebih besar karena tiap orang merencanakan dua modul di sana, jadi pemilik perlu menilai kapasitas saat refinement. Sprint 1 mengikuti kalender kuliah dan aktif, Sprint 2 berlangsung pada minggu 11-15. Jangan mengisi work log dari angka estimasi.
 
 ## Cara memperbarui angka
 
