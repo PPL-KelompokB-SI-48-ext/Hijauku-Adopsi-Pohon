@@ -11,8 +11,12 @@ class ProgramCreationTest extends DuskTestCase
     public function test_manager_can_create_a_draft_program_from_the_filament_panel(): void
     {
         $programName = 'Program Browser '.Str::upper(Str::random(8));
+        $startsOn = now()->startOfMonth()->addDay();
+        $endsOn = $startsOn->copy()->addDay();
+        $startsOnValue = $startsOn->toDateString();
+        $endsOnValue = $endsOn->toDateString();
 
-        $this->browse(function (Browser $browser) use ($programName): void {
+        $this->browse(function (Browser $browser) use ($programName, $startsOnValue, $endsOnValue, $startsOn, $endsOn): void {
             $browser->visit('/app/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
@@ -22,41 +26,38 @@ class ProgramCreationTest extends DuskTestCase
                 ->type('input[wire\\:model="data.name"]', $programName)
                 ->type('textarea[wire\\:model="data.objective"]', 'Menguji pencatatan tujuan program melalui browser.');
 
-            $browser->script(<<<'JS'
-                const dates = {
-                    'data.starts_on': '2026-10-26',
-                    'data.ends_on': '2026-10-31',
-                };
-
-                for (const [name, value] of Object.entries(dates)) {
-                    const input = document.querySelector(`[wire\\:model="${name}"]`);
-
-                    if (! input) {
-                        throw new Error(`Kolom tanggal ${name} tidak ditemukan.`);
-                    }
-
-                    if (input._flatpickr) {
-                        input._flatpickr.setDate(value, true);
-                        continue;
-                    }
-
-                    const setter = Object.getOwnPropertyDescriptor(
-                        HTMLInputElement.prototype,
-                        'value',
-                    ).set;
-
-                    setter.call(input, value);
-                    input.dispatchEvent(new Event('input', { bubbles: true }));
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-                JS);
+            $this->selectProgramDate($browser, 'Tanggal mulai', $startsOnValue);
+            $this->selectProgramDate($browser, 'Tanggal akhir', $endsOnValue);
 
             $browser->press('Simpan sebagai draf')
                 ->waitForText($programName)
                 ->assertSee($programName)
                 ->assertSee('Menguji pencatatan tujuan program melalui browser.')
-                ->assertSee('26/10/2026 - 31/10/2026')
+                ->assertSee($startsOn->format('d/m/Y').' - '.$endsOn->format('d/m/Y'))
                 ->assertSee('Draf');
         });
+    }
+
+    private function selectProgramDate(Browser $browser, string $labelText, string $date): void
+    {
+        $labelText = json_encode($labelText, JSON_THROW_ON_ERROR);
+
+        $browser->script(<<<JS
+            const label = Array.from(document.querySelectorAll('label'))
+                .find((element) => element.textContent.includes({$labelText}));
+            const field = label?.closest('[data-field-wrapper]');
+            const trigger = field?.querySelector('.fi-fo-date-time-picker-trigger');
+
+            if (! trigger) {
+                throw new Error(`Pemilih tanggal {$labelText} tidak ditemukan.`);
+            }
+
+            trigger.click();
+            JS);
+
+        $selector = 'div[role="gridcell"][data-date="'.$date.'"]';
+
+        $browser->waitFor($selector)
+            ->click($selector);
     }
 }
