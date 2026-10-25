@@ -5,7 +5,7 @@ Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke
 ## Sprint 0 - Persiapan
 
 - Epic: HAP-1 - Fondasi & Infrastruktur, status Jira tetap To Do sampai PM menerima keseluruhan acceptance.
-- Task: HAP-61 - SETUP-001, assignee Yoga, status Jira In Progress sampai acceptance diterima PM.
+- Task: HAP-61 - SETUP-001, assignee Yoga, status Jira Done pada pembacaan akhir 25 Oktober 2026. Status epic dan PR diperiksa terpisah.
 - Sprint 0 berlangsung pada minggu 5, 12-18 Oktober 2026, dan sudah ditutup.
 - PR #1 berisi starter Sprint 0 dan tercatat merged ke `main`.
 - PM meminta PR #1 dan #2 direvert dari `main`, dengan hasil kerja dipertahankan di branch personal Yoga. Sampai revert PR diterima, `main` masih memuat kedua hasil merge.
@@ -40,7 +40,7 @@ Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke
 
 ## Status dan aturan kerja
 
-PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. Pembacaan ulang 25 Oktober 2026 menunjukkan HAP-7 In Progress, dengan tanggal target tetap mengikuti minggu 7. HAP-61 tetap In Progress sampai PM menerima acceptance dan memperbarui status berdasarkan kode yang ada di `main`.
+PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. Pembacaan akhir 25 Oktober 2026 menunjukkan HAP-7 In Progress, HAP-61 Done, dan HAP-1 To Do. Tanggal target HAP-7 tetap mengikuti minggu 7. Status task tidak otomatis menerima perubahan pada PR draft.
 
 Original estimate adalah rencana. Jira HAP-61 masih menampilkan remaining estimate 4 jam dan belum memiliki work log aktual. Jangan mengubah nilai itu menjadi actual time. Waktu aktual hanya dicatat pelaksana setelah bekerja.
 

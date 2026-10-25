@@ -11,7 +11,7 @@ Audit ini memisahkan fakta dari bahan kuliah, keputusan tim, dan kondisi Jira/Gi
 | Backlog | Jira memiliki 5 epic aktif dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15. Tiap anggota memegang 3 modul × 3 story = 9 story. |
 | Sprint dan PBI | Tiga story pembentuk satu modul sudah ditempatkan utuh dalam satu sprint. Tiap orang mendapat 3 story pada Sprint 1 dan 6 pada Sprint 2, bukan 9 story pada satu sprint. |
 | Scope di luar backlog | HAP-6 sudah dihapus permanen. M16-M18 tidak memiliki story aktif; beberapa model dan tabel awal masih berupa scaffold. |
-| Jira setup | HAP-61 dan HAP-7 berstatus In Progress pada pembacaan ulang 25 Oktober 2026; HAP-1 tetap To Do. Tanggal target story tetap mengikuti jadwal minggu 7. |
+| Jira setup | Pembacaan akhir 25 Oktober 2026: HAP-61 Done, HAP-7 In Progress, HAP-1 To Do. Tanggal target story tetap mengikuti jadwal minggu 7. |
 | Sprint | Sprint 0 closed, Sprint 1 active, Sprint 2 future. Sprint 1 tetap minggu 6-10 dan Sprint 2 minggu 11-15. Minggu 6 dipakai untuk backlog/refinement tanpa coding; story coding mulai Senin, 26 Oktober. |
 | Database | MySQL 8+ menjadi baseline pengembangan. CI menjalankan pemeriksaan MySQL dan SQLite. File `.env` pemilik tidak dibaca atau diubah. |
 | UI | Seluruh 25 frame Stitch diperiksa sebagai rancangan. Lima belas modul dipetakan ke PBI dan pembicara video; penerimaan implementasi UI tetap mengikuti story. |
@@ -40,7 +40,7 @@ Beberapa fitur memiliki dependensi lintas anggota. Pemilik perlu menyepakati kon
 
 - HAP-1 sampai HAP-5 adalah lima epic aktif. HAP-6 sudah dihapus permanen atas keputusan PM.
 - HJK-001 sampai HJK-045 tetap berpasangan dengan HAP-7 sampai HAP-51. Issue key tidak dinomori ulang.
-- HAP-61 adalah SETUP-001 di Sprint 0 dan berstatus In Progress. HAP-1 tetap To Do sampai PM menerima keseluruhan hasil.
+- HAP-61 adalah SETUP-001 di Sprint 0 dan berstatus Done pada pembacaan akhir. HAP-1 tetap To Do. Remaining estimate HAP-61 masih 4 jam, Original estimate 18 jam, dan work log kosong. Pelaksana/PM perlu memeriksa nilai remaining terhadap sisa kerja nyata; audit tidak mengubah status atau membuat work log.
 - Pembacaan ulang 25 Oktober 2026 menunjukkan HAP-7 In Progress; HAP-8 sampai HAP-51 To Do. Status itu dipertahankan sesuai Jira. Seluruh story sudah dipetakan ke Sprint 1/Sprint 2, start date Senin dan due date Minggu; coding direncanakan mulai minggu 7. Status aktif tidak mengubah tanggal target menjadi work log aktual.
 - Sprint 1 goal menjelaskan bahwa minggu 6 adalah backlog, coding M01/M04/M07/M10/M13 berjalan minggu 7-9, lalu minggu 10 untuk integrasi. Sprint 2 memuat sepuluh modul utuh dan enam story per anggota.
 - Original estimate merupakan rencana. Jangan mencatat actual time dari estimasi atau rentang tanggal; pelaksana menulis work log hanya untuk jam kerja yang benar-benar dilakukan.
@@ -90,5 +90,5 @@ Sumber yang diperiksa: rancangan arsitektur, Ketentuan Proyek PPL, Modul 1 Regul
 1. Dosen mengonfirmasi perbedaan jumlah anggota antara PDF dan LMS untuk roster lima orang.
 2. Pemilik modul memeriksa kompleksitas tiap fitur, kesiapan story, dan kontrak data lintas modul saat refinement.
 3. Pemilik modul meninjau implementasi terhadap frame yang sudah dipetakan; mockup tidak membuktikan validasi, ownership, atau workflow aplikasi.
-4. PM meninjau PR draft revert #5. HAP-61 dan HAP-7 berstatus In Progress pada pembacaan ulang; keputusan penerimaan dan perubahan `main` tetap mengikuti PM.
+4. PM meninjau PR draft revert #5. HAP-61 Done dan HAP-7 In Progress pada pembacaan akhir; status tersebut tidak otomatis menerima PR draft #4/#5. Pelaksana/PM merekonsiliasi remaining estimate HAP-61 yang masih 4 jam tanpa mengarang waktu aktual.
 5. Dusk HJK-001 sudah lulus pada run CI yang ditautkan di atas. Audit ini tidak menjalankan ulang tes aplikasi lokal; setiap commit berikutnya mengikuti hasil CI terbaru pada PR.

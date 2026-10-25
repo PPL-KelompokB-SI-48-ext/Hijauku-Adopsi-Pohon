@@ -53,5 +53,6 @@ Komentar lama pada proposal tetap menjadi riwayat diskusi. Beberapa tautannya te
 3. Pemilik modul menyepakati kontrak data dan fixture untuk dependensi dari modul Sprint 2. Jika acceptance tidak bisa diuji pada sprint yang sama, jadwal diperbaiki sebelum coding.
 4. PR draft #4 dan #5 tetap memerlukan keputusan PM. Revisi proposal/presentasi tidak menyatakan revert sudah merged atau HAP-61/HAP-7 sudah diterima.
 5. Mockup berisi data contoh. Perilaku seperti validasi, izin record, locking, dan unggahan privat harus dibuktikan melalui implementasi serta tes, bukan tangkapan layar.
+6. Pembacaan akhir menunjukkan HAP-61 Done, tetapi remaining estimate masih 4 jam dan work log kosong. Pelaksana/PM perlu merekonsiliasi nilai sisa dengan pekerjaan nyata. Audit mempertahankan data Jira dan tidak membuat waktu aktual.
 
 Audit ini tidak membaca/menulis `.env`, menjalankan migration pada database pemilik, atau membuat work log aktual.

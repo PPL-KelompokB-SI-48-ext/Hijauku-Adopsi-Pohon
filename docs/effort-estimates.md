@@ -27,7 +27,7 @@ Angka dalam kolom estimasi mengikuti urutan HJK pada kolom key. Seluruh story HA
 | M15 Pengamatan pertumbuhan | HAP-5 | Wira | - | HAP-49 / HJK-043 (5h), HAP-50 / HJK-044 (5h), HAP-51 / HJK-045 (4h) | 14h |
 | **Total 45 story** |  | **5 anggota** | **66h / 15 story** | **145h / 30 story** | **211h** |
 
-HAP-61 adalah task Sprint 0 di bawah HAP-1. Jira mencatat In Progress; PR #1 dan #2 masih merged ke `main`, sementara revert keduanya menunggu keputusan PM. Remaining estimate masih 4h dan belum ada work log. Remaining estimate itu angka lama yang perlu diperiksa PM; jangan membacanya sebagai waktu aktual. Original estimate awal HAP-61 adalah 18h, terpisah dari subtotal story, sehingga total rencana awal backlog bersama HAP-61 adalah 229h.
+HAP-61 adalah task Sprint 0 di bawah HAP-1. Pembacaan akhir Jira 25 Oktober 2026 menunjukkan Done; PR #1 dan #2 masih merged ke `main`, sementara revert keduanya menunggu keputusan PM. Remaining estimate masih 4h dan belum ada work log. Nilai sisa itu belum selaras dengan status Done dan perlu direkonsiliasi pelaksana/PM berdasarkan sisa kerja nyata, bukan diubah menjadi actual time. Original estimate awal HAP-61 adalah 18h, terpisah dari subtotal story, sehingga total rencana awal backlog bersama HAP-61 adalah 229h.
 
 ## Rencana per orang dan sprint
 
