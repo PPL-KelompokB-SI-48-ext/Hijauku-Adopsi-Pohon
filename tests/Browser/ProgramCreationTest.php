@@ -19,8 +19,8 @@ class ProgramCreationTest extends DuskTestCase
                 ->press('Masuk')
                 ->waitForLocation('/app')
                 ->visit('/app/programs/create')
-                ->type('input[id="data.name"]', $programName)
-                ->type('textarea[id="data.objective"]', 'Menguji pencatatan tujuan program melalui browser.');
+                ->type('input[wire\\:model="data.name"]', $programName)
+                ->type('textarea[wire\\:model="data.objective"]', 'Menguji pencatatan tujuan program melalui browser.');
 
             $browser->script(<<<'JS'
                 const dates = {
@@ -29,7 +29,7 @@ class ProgramCreationTest extends DuskTestCase
                 };
 
                 for (const [name, value] of Object.entries(dates)) {
-                    const input = document.getElementById(name);
+                    const input = document.querySelector(`[wire\\:model="${name}"]`);
 
                     if (! input) {
                         throw new Error(`Kolom tanggal ${name} tidak ditemukan.`);
