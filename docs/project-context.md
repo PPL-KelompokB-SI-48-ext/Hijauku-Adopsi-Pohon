@@ -15,7 +15,7 @@
 - Ketentuan Proyek PPL menyebut kelompok 6-7 orang, sedangkan teks LMS Sprint 00 menyebut 5-6 orang. Konfirmasi dosen untuk tim lima orang masih terbuka.
 - Scope Jira aktif: 5 epic dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15. Setiap anggota memegang tiga modul × tiga story = sembilan story.
 - HAP-6 untuk M16 sampai M18 sudah dihapus permanen atas keputusan PM. Model/tabelnya masih scaffold awal; jangan menambahkan UI atau workflow sampai PM membuka scope baru.
-- HAP-61 adalah task SETUP-001 Sprint 0, status Jira Done dan parent HAP-1. HAP-1 masih To Do. PR #1 merged; hanya PM yang menerima hasil dan mengubah status epic.
+- HAP-61 adalah task SETUP-001 Sprint 0, status Jira In Progress dan parent HAP-1. HAP-1 masih To Do. PR #1 dan #2 masih merged ke `main`; revert keduanya disiapkan pada PR draft #5. PM menerima hasil dan memperbarui status setelah mengevaluasi acceptance serta perubahan di `main`.
 - HAP-7/HJK-001 saat ini To Do agar pengerjaan sesuai jadwal mulai minggu 7. PR #2 masih tercatat merged; PM meminta revert PR #1 dan #2. Sampai revert digabung, `main` masih memuat kedua merge tersebut.
 - Issue keys HAP dan ID HJK yang sudah diterbitkan tidak dinomori ulang.
 - Sprint 0 ditutup, Sprint 1 aktif, dan Sprint 2 future. Sprint 1 tetap minggu 6-10, Sprint 2 tetap minggu 11-15. Minggu 6 (19-25 Okt) digunakan untuk backlog/refinement tanpa coding; coding Sprint 1 mulai minggu 7 (26 Okt).

@@ -5,7 +5,7 @@ Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke
 ## Sprint 0 - Persiapan
 
 - Epic: HAP-1 - Fondasi & Infrastruktur, status Jira tetap To Do sampai PM menerima keseluruhan acceptance.
-- Task: HAP-61 - SETUP-001, assignee Yoga, status Jira Done.
+- Task: HAP-61 - SETUP-001, assignee Yoga, status Jira In Progress sampai acceptance diterima PM.
 - Sprint 0 berlangsung pada minggu 5, 12-18 Oktober 2026, dan sudah ditutup.
 - PR #1 berisi starter Sprint 0 dan tercatat merged ke `main`.
 - PM meminta PR #1 dan #2 direvert dari `main`, dengan hasil kerja dipertahankan di branch personal Yoga. Sampai revert PR diterima, `main` masih memuat kedua hasil merge.
@@ -40,8 +40,8 @@ Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke
 
 ## Status dan aturan kerja
 
-PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. HAP-7 sudah dikembalikan ke To Do agar pengerjaan mengikuti jadwal minggu 7. HAP-61 masih Done sampai perubahan di `main` benar-benar diterapkan; PM perlu mengevaluasi ulang acceptance setelah revert.
+PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. HAP-7 berstatus To Do agar pengerjaan mengikuti jadwal minggu 7. HAP-61 tetap In Progress sampai PM menerima acceptance dan memperbarui status berdasarkan kode yang ada di `main`.
 
-Original estimate adalah rencana. Jira HAP-61 masih menampilkan remaining estimate 4 jam walaupun statusnya Done; belum ada work log aktual. Jangan mengubah nilai itu menjadi actual time. Waktu aktual hanya dicatat pelaksana setelah bekerja.
+Original estimate adalah rencana. Jira HAP-61 masih menampilkan remaining estimate 4 jam dan belum memiliki work log aktual. Jangan mengubah nilai itu menjadi actual time. Waktu aktual hanya dicatat pelaksana setelah bekerja.
 
 Jangan membaca atau mengganti `.env` pemilik dan jangan menjalankan migrasi ke database lokal pemilik. Dusk CI memakai database SQLite file sementara yang terisolasi.

@@ -15,7 +15,7 @@ Jira adalah sumber tanggal, sprint, dan status issue. Dokumen ini mencatat pemba
 | Issue | Pemilik | Start date | Due date | Status dan catatan |
 | --- | --- | --- | --- | --- |
 | HAP-1 | Yoga (PM) | Senin, 12 Okt 2026 | Minggu, 18 Okt 2026 | Epic fondasi, tetap To Do sampai PM menerima keseluruhan hasil. |
-| HAP-61 | Yoga (PM) | Senin, 12 Okt 2026 | Minggu, 18 Okt 2026 | SETUP-001. Jira mencatat Done; PR #1 sudah merged. |
+| HAP-61 | Yoga (PM) | Senin, 12 Okt 2026 | Minggu, 18 Okt 2026 | SETUP-001. Jira mencatat In Progress sampai PM menerima acceptance. |
 
 Sprint 0 adalah persiapan tim dan bukan sprint development formal. Minggu 6 dipakai untuk menyusun/refine backlog dan merapikan rencana; tidak ada pekerjaan coding yang dijadwalkan.
 
