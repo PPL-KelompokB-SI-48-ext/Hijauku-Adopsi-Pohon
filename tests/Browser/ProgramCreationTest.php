@@ -16,7 +16,7 @@ class ProgramCreationTest extends DuskTestCase
             $browser->visit('/app/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
-                ->press('Sign in')
+                ->press('Masuk')
                 ->waitForLocation('/app')
                 ->visit('/app/programs/create')
                 ->type('input[name="data.name"]', $programName)
