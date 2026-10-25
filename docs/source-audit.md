@@ -32,14 +32,15 @@ Sprint 1 tetap berjalan pada minggu 6-10, 19 Oktober-22 November 2026. Sprint 2 
 
 ## GitHub dan branch
 
-PR #7 digabung pada 25 Oktober 2026 dengan merge commit `d59db13`.
+PR #7 digabung pada 25 Oktober 2026 dengan merge commit `d59db13`. PR #9 digabung pada tanggal yang sama dengan merge commit `55b4724`.
 
 - PR #1 menambahkan starter Sprint 0 dan PR #2 menambahkan alur HJK-001. Keduanya tetap merged di `main`.
 - PR #4 menambah Dusk untuk pembuatan program, memperketat validasi tanggal, dan menyegarkan dokumentasi. PR ini merged pada 25 Oktober 2026 setelah CI lulus.
 - PR #7 memperjelas proposal dan menyelaraskan catatan status/timeline. PR dokumentasi ini merged pada 25 Oktober 2026 di `d59db13`; CI run `40190337974` lulus.
+- PR #9 menambahkan sumber serta hasil render 49 diagram rancangan, SQL schema-only, gambar skema dengan garis FK ke PK/UK, dan bab proposal yang sudah disegarkan. Merge commit `55b4724` masuk pada 25 Oktober 2026 setelah CI run `40194679835` lulus pada head `7de32cf`.
 - PR #5 yang berisi revert PR #1 dan #2 ditutup tanpa merge. Branch revert tidak digunakan untuk pengembangan.
 - PR #3 Rofii ditutup dengan perubahan yang diminta. PR pengganti #6 dibuka pada branch personal `rofii` dengan commit `22737f8`.
-- PR #6 CI-nya lulus pada run `40184824535`, tetapi branch tersebut dibuat dari `d683407`, sebelum PR #4 dan PR #7 masuk. PR ini belum mendapat approval dan berstatus changes requested. CI menjalankan Dusk halaman publik, bukan alur M04. Pemilik branch perlu mengambil `origin/main` terbaru dan menambahkan Laravel Dusk untuk alur M04 sebelum meminta review lagi. Langkahnya ada di [panduan migrasi PR Rofii](rofii-pr-update.md).
+- PR #6 CI-nya lulus pada run `40184824535`, tetapi branch tersebut dibuat dari `d683407`, sebelum PR #4, #7, dan #9 masuk. PR ini belum mendapat approval dan berstatus changes requested. CI menjalankan Dusk halaman publik, bukan alur M04. Pemilik branch perlu mengambil `origin/main` terbaru dan menambahkan Laravel Dusk untuk alur M04 sebelum meminta review lagi. Langkahnya ada di [panduan migrasi PR Rofii](rofii-pr-update.md).
 - Branch lama `feature/HAP-16-jenis-pohon` masih dipertahankan sampai pemilik memastikan PR #6 aman dan tidak ada perubahan yang hilang. Jangan menghapus atau mengganti branch anggota saat PR pengganti belum diterima.
 - Branch personal tetap `yoga`, `bitari`, `arif`, `wira`, dan `rofii`. Commit dan PR tetap mencantumkan key HAP kapital agar bisa ditautkan ke Jira.
 
