@@ -49,11 +49,7 @@ Tes unit dan kebijakan dapat dijalankan tanpa mengarah ke database pengguna:
     php artisan test --testsuite=Unit
     php artisan test --testsuite=Feature
 
-Untuk Dusk, pastikan ChromeDriver sesuai dengan Chrome, lalu jalankan server di satu terminal dan tes di terminal lain:
-
-    php artisan dusk:chrome-driver --detect
-    php artisan serve
-    php artisan dusk
+Tes Dusk membuka aplikasi di browser sungguhan. Siapkan `.env.dusk.local` dengan database SQLite khusus Dusk sebelum menjalankannya; jangan arahkan Dusk ke database development bersama. Langkah lengkap ada di [panduan setup lokal](docs/local-setup.md#menjalankan-laravel-dusk).
 
 Panduan setup menjelaskan perintah harian, update `main`, database, seed, dan troubleshooting. Untuk memeriksa route panel:
 
@@ -65,9 +61,11 @@ CI menjalankan pemeriksaan ini pada runner terisolasi.
 
 ## Alur kontribusi
 
-Setiap anggota mengambil issue Jira, bekerja pada branch sendiri, membuka pull request ke main, lalu meminta @mygads sebagai reviewer. Penulis PR memperbaiki kode dan menyelesaikan konflik. PM meninjau dan menggabungkan PR; anggota tidak menggabungkan PR sendiri.
+Setiap anggota memakai satu branch personal (`yoga`, `bitari`, `arif`, `wira`, atau `rofii`) untuk seluruh story miliknya. Key HAP dicantumkan di setiap commit dan PR supaya Jira dapat menautkan pekerjaan. Anggota membuka PR ke `main` dan meminta @mygads sebagai reviewer. Penulis PR menyelesaikan konflik; hanya PM yang merge. PR Yoga tidak memerlukan self-approval, tetapi CI tetap harus hijau.
 
-Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR harus lulus CI dan memperoleh satu persetujuan sebelum dapat digabung.
+Branch lama bernama `feature/HAP-...` hanya merupakan sisa pekerjaan sebelumnya. Jangan membuat branch fitur baru. Pemilik memindahkan pekerjaan pada PR aktif ke branch personal bersama PM; branch remote lama dihapus setelah PR dan commit uniknya aman. Lihat [panduan migrasi branch](CONTRIBUTING.md#pindahkan-pekerjaan-dari-branch-lama).
+
+Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR anggota harus lulus CI dan mendapat satu approval PM. PR Yoga dapat melewati approval melalui admin bypass, tetapi tetap harus menunggu CI hijau.
 
 ## Peta dokumentasi
 
@@ -80,6 +78,8 @@ Langkah dan perintah lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md). PR harus
 | [Skema database](docs/database.md) | Tabel, relasi, constraint, dan aturan transaksi |
 | [Panduan desain UI](docs/ui-design.md) | Referensi Stitch, batas desain, dan cara menerapkan frame ke PBI |
 | [Audit sumber](docs/source-audit.md) | Hasil pemeriksaan proposal, bahan kuliah, Jira, GitHub, dan Stitch |
+| [Audit proposal dan presentasi](docs/proposal-audit.md) | Perubahan Google Docs/Canva, koreksi Jira, rujukan, dan hal yang masih perlu konfirmasi |
+| [Naskah video](docs/video-script.md) | Pembicara, urutan 27 slide, 45 PBI, dan petunjuk menunjukkan mockup |
 | [Rencana Sprint 0](docs/sprint-plan.md) | Acceptance HAP-1/HAP-61 dan checklist fondasi |
 | [Alur Jira dan pencatatan waktu](docs/jira-workflow.md) | Isi story, estimasi, work log aktual, format commit, dan pemeriksaan tautan Jira-GitHub |
 | [Setup lokal](docs/local-setup.md) | Clone, prasyarat, database, `.env`, seed, login, dan perintah harian |

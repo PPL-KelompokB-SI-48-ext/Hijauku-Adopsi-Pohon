@@ -73,13 +73,22 @@ jobs:
       - name: Install ChromeDriver matching the runner browser
         run: php artisan dusk:chrome-driver --detect
 
-      - name: Run automated tests and browser smoke test
+      - name: Run automated tests and browser tests
         shell: bash
         run: |
           php artisan test --testsuite=Unit
           php artisan test --testsuite=Feature
           google-chrome --version
-          APP_ENV=testing DB_CONNECTION=sqlite DB_DATABASE=:memory: CACHE_STORE=array SESSION_DRIVER=array QUEUE_CONNECTION=sync php artisan serve --host=127.0.0.1 --port=8000 --no-reload > /tmp/hijauku-server.log 2>&1 &
+          export APP_ENV=testing
+          export APP_URL=http://127.0.0.1:8000
+          export DB_CONNECTION=sqlite
+          export DB_DATABASE="$RUNNER_TEMP/hijauku-dusk.sqlite"
+          export CACHE_STORE=array
+          export SESSION_DRIVER=file
+          export QUEUE_CONNECTION=sync
+          touch "$DB_DATABASE"
+          php artisan migrate:fresh --seed --force
+          php artisan serve --host=127.0.0.1 --port=8000 --no-reload > /tmp/hijauku-server.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
 

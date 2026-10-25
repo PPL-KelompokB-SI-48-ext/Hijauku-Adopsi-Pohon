@@ -9,11 +9,13 @@ Read docs/project-context.md and the relevant docs before changing application c
 - Class handout says teams have 6-7 members; lecturer confirmation for this five-person team is still open.
 - Active Jira: 5 epics and 45 stories HJK-001 to HJK-045 across M01 to M15. Each member has 3 modules × 3 stories = 9 stories.
 - HAP-6 was permanently deleted from Jira at the PM's request. M16-M18 are outside the active scope. Three model/table scaffolds remain in the initial migration; do not build their screens or workflows unless the PM opens a new scope.
-- HAP-61 is In Progress under HAP-1; HAP-1 remains To Do. Keep these Jira statuses accurate until PM accepts the PR and updates the epic/task.
+- The latest Jira read on 25 October 2026 shows HAP-61 Done, HAP-1 To Do, and HAP-7 In Progress. PR #1/#2 are merged; the requested revert remains draft PR #5. Recheck live status and acceptance against `main` before acting. A Jira Done status does not authorize merging pending PRs or inventing work logs. HAP-61 still has an old 4h remaining estimate and no work logs; its contributor/PM must reconcile that estimate against real remaining work.
 - Existing HAP issue keys and HJK IDs are stable; do not renumber.
 - Read docs/jira-workflow.md before editing backlog-related docs or preparing a feature. Original estimate is a plan; actual work log belongs to the contributor who did the work. Never invent, backfill, or normalize actual hours to match an estimate.
-- Include the uppercase HAP issue key in pushed branch/commit/PR references. Verify Jira's Development panel after push; a key in an unpushed local commit is not a Jira link.
-- Sprint 0/1/2 exist, but all still show future although Sprint 0 end and Sprint 1 start dates have passed. PM decides state changes.
+- Team workflow uses one long-lived personal branch per member: `yoga`, `bitari`, `arif`, `wira`, and `rofii`. The branch name is the exception to the HAP-key rule; commits and PRs must include uppercase HAP keys. Verify Jira's Development panel after push.
+- Do not delete or rename a teammate's branch with an open PR or commits missing from `main`. The branch owner migrates legacy feature branches into their personal branch and opens a replacement PR before closing the old one. Delete remote branches only after confirming no open PR and no unique commits; keep personal branches after merge.
+- Sprint 0 is closed, Sprint 1 is active, and Sprint 2 is future. Week 6 was for backlog/refinement without coding; Sprint 1 story work starts in week 7. Keep the formal course calendar: Sprint 1 weeks 6-10 and Sprint 2 weeks 11-15.
+- CI is configured to run Laravel Dusk against a seeded, isolated SQLite file. The manager program-creation test is present, but do not call it passing until the latest CI run confirms it.
 - Role panels: manager /app, field_staff /petugas, citizen /warga. Panel gates and base policies exist; every new resource needs query ownership, policy tests, and safe actions.
 - MySQL is the development baseline. The owner's local .env already works: never read or overwrite it and never run migrations against that database.
 - Preserve the user-owned desain.md and .playwright-mcp/. Do not commit credentials or private personal data.
@@ -33,7 +35,7 @@ Read docs/project-context.md and the relevant docs before changing application c
 - Keep evidence photos private unless a reviewed publication workflow allows access.
 - State clearly what is implemented and what remains scaffolding.
 - Update docs when requirements or decisions change.
-- Follow CONTRIBUTING.md. Members open PRs and assign Yoga (@mygads); PR authors resolve conflicts; only PM merges.
+- Follow CONTRIBUTING.md. Members work on their personal branch and open PRs to main; PR authors resolve conflicts; only PM merges. Member PRs need PM approval; a PM-authored PR may skip self-approval, but CI must pass.
 - Keep Jira acceptance, sprint assignment, estimate and work log consistent with actual work. The issue is not Done until acceptance, CI, review and PM acceptance are complete.
 - Use installed Laravel Boost and the project skill under .agents/skills/hijauku-project/.
 - Check .env before local migrations; never redirect to a database containing user data without explicit confirmation.

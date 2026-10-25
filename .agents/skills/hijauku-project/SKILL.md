@@ -16,12 +16,17 @@ Read docs/jira-workflow.md when planning a story, estimating work, logging time,
 - HAP-6 was permanently deleted from Jira at the PM's request. M16 to M18 are outside the active scope. Do not add screens or workflows unless the PM opens a new scope with acceptance criteria.
 - HAP-61's acceptance criteria are aligned to the current roster/scope. Existing Jira keys do not get renumbered.
 - Original estimates are plans. Actual Jira work logs are entered only by the person who performed the work; never invent or alter actual hours to fit an estimate.
-- Include the uppercase HAP key in pushed branch, commit, and PR references, then verify the Jira Development panel. Local commits are not linked until pushed and synced through the repository integration.
+- Use one personal branch per member: `yoga`, `bitari`, `arif`, `wira`, or `rofii`. The branch name is the exception to the HAP-key rule; every commit and PR must include its uppercase HAP issue key. Verify Jira's Development panel after push.
+- Jangan menghapus atau mengganti nama branch anggota lain selama PR masih terbuka atau commit belum ada di `main`. Pemilik branch memindahkan commit unik ke branch personal dan membuka PR pengganti dulu. Hapus branch remote hanya setelah memastikan tidak ada PR terbuka dan commit unik; pertahankan branch personal setelah merge.
+- Sprint 0 is preparation. Sprint 1 follows weeks 6-10, Sprint 2 weeks 11-15. Week 6 is backlog/refinement without coding; implementation starts week 7. Keep the three stories for one module in the same sprint unless the PM records an approved dependency exception.
+- CI is configured to run Laravel Dusk against a seeded, isolated SQLite file. The manager program-creation test needs a passing CI result before reporting it as verified.
 - Stack: PHP 8.3+, Laravel 13, Filament 5, Blade, Vite, Eloquent, MySQL 8+.
 - Role panels: manager /app, field_staff /petugas, citizen /warga.
 - Gate and base Policies are in place. Resource query ownership and feature workflows still need implementation.
 - MySQL is the development baseline. Preserve the owner's .env and local DB; never run migrations against that DB.
-- Stitch's latest guidance excludes M16-M18. Current starter home copy/flow is aligned but visual review of all frames remains open.
+- Stitch's guidance excludes M16-M18. The 25 mockup frames were inspected for proposal/presentation work; acceptance of each implemented screen remains part of its PBI.
+- For proposal, presentation, or video work, read docs/proposal-audit.md and docs/video-script.md. The 25 Stitch frames were inspected as mockups with sample data; this is not acceptance of implemented UI. Frame numbers 16-25 are screen numbers, not new business modules.
+- care_plans has optional assignment_id and no priority column in the scaffold. HAP-44 adds priority through a safe migration. Audit changes through activity_logs.actor_id; do not invent updated_by columns.
 - Preserve user-owned desain.md and .playwright-mcp/.
 
 ## Implementation guidance
@@ -36,7 +41,7 @@ Read docs/jira-workflow.md when planning a story, estimating work, logging time,
 - Write Indonesian user-facing text.
 - Update docs when scope, requirements, or architecture decisions change.
 - Report what works, what is scaffold, tests run, and remaining work.
-- Follow CONTRIBUTING.md; never merge a PR. The PM merges.
+- Follow CONTRIBUTING.md; never merge a PR. The PM merges. Member PRs need PM approval; a PM-authored PR skips self-approval but still requires green CI.
 
 ## Writing for the team
 

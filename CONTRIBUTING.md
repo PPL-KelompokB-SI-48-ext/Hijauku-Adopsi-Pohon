@@ -1,6 +1,6 @@
 # Panduan kontribusi Hijauku
 
-Panduan ini dipakai semua anggota tim agar issue, branch, perubahan, dan review tetap mudah ditelusuri. PM adalah Yoga (@mygads). Anggota menulis kode dan memperbaiki konflik; PM meninjau dan menggabungkan perubahan ke main.
+Panduan ini dipakai semua anggota tim agar issue, branch, perubahan, dan review tetap mudah ditelusuri. PM adalah Yoga (@mygads). Setiap anggota memakai satu branch personal untuk seluruh story miliknya. Penulis menyelesaikan konflik; PM meninjau dan menggabungkan PR ke main.
 
 ## 1. Ambil satu PBI
 
@@ -11,15 +11,38 @@ Panduan ini dipakai semua anggota tim agar issue, branch, perubahan, dan review 
 
 Satu story harus menghasilkan perubahan yang dapat ditinjau. Bila story terlalu besar atau acceptance criteria berubah, minta PM memecah atau memperbarui issue terlebih dahulu.
 
-## 2. Buat branch dari main terbaru
+## 2. Gunakan satu branch personal
 
-Jangan commit atau push langsung ke main.
+Branch personal dibuat satu kali dari `main` dan dipakai untuk semua story anggota tersebut. Jangan membuat branch baru untuk setiap fitur. Nama branch tim adalah `yoga`, `bitari`, `arif`, `wira`, dan `rofii`, ditulis dengan huruf kecil.
 
-    git switch main
-    git pull --ff-only origin main
-    git switch -c feature/HAP-25-nama-singkat
+Pada clone pertama, buat branch personal dari `main` terbaru:
 
-Gunakan Jira key pada branch. Awalan yang disarankan: `feature/` untuk fitur, `fix/` untuk perbaikan, `docs/` untuk dokumentasi, dan `chore/` untuk konfigurasi.
+    git fetch origin
+    git switch --create yoga origin/main
+    git push --set-upstream origin yoga
+
+Ganti `yoga` dengan nama branch pribadi Anda. Jika branch personal sudah ada, pindah ke branch itu dan ambil commit terbaru:
+
+    git fetch origin
+    git switch yoga
+    git pull --ff-only origin yoga
+
+Jangan commit atau push langsung ke `main`. Branch personal tidak memakai Jira key karena satu branch memuat beberapa issue. Cantumkan key HAP yang sesuai pada setiap commit dan PR agar Jira dapat menautkan pekerjaan. Jangan mulai dua perubahan yang perlu PR terpisah pada waktu bersamaan di branch yang sama; selesaikan dan gabungkan PR lebih dulu, lalu sinkronkan branch. Dengan begitu isi PR berikutnya tidak ikut membawa pekerjaan yang belum siap.
+
+### Pindahkan pekerjaan dari branch lama
+
+Beberapa PR lama mungkin masih memakai nama `feature/HAP-...`. Jangan memakai pola itu untuk story baru. Jika PR Anda masih terbuka, pindahkan commit yang belum tergabung ke branch personal Anda, lalu buat PR pengganti. Periksa commit yang belum ada di `main` sebelum migrasi. Jangan menghapus atau mengganti nama branch yang masih menjadi head PR sebelum PR pengganti siap. GitHub menutup PR terbuka ketika head branch-nya diganti nama ([dokumentasi GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch)), jadi ikuti proses migrasi ini bersama PM dan tutup PR lama setelah perubahan serta issue link pada PR baru sudah diperiksa.
+
+Jika branch personal belum ada, contoh pemindahan satu commit yang belum tergabung:
+
+```powershell
+git fetch origin
+git switch --create rofii origin/main
+git cherry-pick SHA_COMMIT_HAP_16
+git push --set-upstream origin rofii
+```
+
+Ganti `rofii` dengan nama branch personal Anda dan `SHA_COMMIT_HAP_16` dengan hash yang benar setelah membandingkan branch lama dengan `origin/main`. Jangan menyalin placeholder tanpa pemeriksaan. Jika branch personal sudah ada, pindah ke branch itu sebelum cherry-pick. Buat PR baru dengan semua key HAP yang dibawa, lalu minta PM memeriksa commit dan acceptance sebelum menutup PR lama.
 
 ## 3. Implementasikan dan periksa
 
@@ -43,12 +66,12 @@ Stage hanya file yang memang menjadi bagian perubahan Anda. Hindari git add . ag
 
 ## 4. Sinkronkan branch dan selesaikan konflik
 
-Penulis branch bertanggung jawab menyelesaikan konflik sebelum meminta review, atau setelah PM meminta perubahan. Jangan meminta reviewer menyelesaikan konflik untuk Anda.
+Pemilik branch menyinkronkan branch personal dengan `main` terbaru setelah PR digabung dan sebelum melanjutkan pekerjaan. Pemilik branch bertanggung jawab menyelesaikan konflik; jangan meminta reviewer menyelesaikannya.
 
     git fetch origin
     git merge origin/main
 
-Jika Git memberi konflik, buka file yang disebut oleh git status, pilih hasil gabungan yang benar, hapus penanda konflik, lalu:
+Jika Git memberi konflik, buka file yang disebut oleh `git status`, pilih hasil gabungan yang benar, hapus penanda konflik, lalu:
 
     git add path/file-yang-selesai
     git commit
@@ -56,32 +79,34 @@ Jika Git memberi konflik, buka file yang disebut oleh git status, pilih hasil ga
 
 Jangan memakai git push --force. Bila konflik menyentuh skema, aturan role, atau kontrak bersama, koordinasikan keputusan dengan PM sebelum memilih hasilnya.
 
-Penulis branch menyelesaikan konflik sebelum meminta review dan memperbarui PR setelah push. Reviewer memberi masukan; ia tidak mengambil alih branch penulis.
+Selesaikan konflik pada branch personal, jalankan pemeriksaan yang relevan, lalu push hasilnya. Jangan memakai `git push --force`. Reviewer memberi masukan; ia tidak mengambil alih branch pemilik.
 
 ## 5. Buka pull request
 
-Push branch dan buat PR ke main. Pakai judul seperti:
+Push branch personal dan buat PR ke `main` setelah story atau kelompok story yang dibawa PR memenuhi acceptance criteria. Sertakan semua key HAP yang dibawa PR. Sebelum membuka PR baru, pastikan tidak ada perubahan issue lain yang belum siap di branch personal. Contoh satu story:
 
     [HAP-25] Pendaftaran kegiatan oleh warga
 
 Di isi PR, sertakan:
 
-- tautan issue Jira dan ringkasan hasil;
+- tautan semua issue Jira yang dibawa PR dan ringkasan hasil;
 - acceptance criteria yang dipenuhi;
 - perubahan skema atau konfigurasi;
 - pemeriksaan yang dijalankan dan hasilnya;
 - screenshot bila UI berubah;
 - risiko, batasan, atau pekerjaan lanjutan.
 
-Minta review dari @mygads. Jangan merge PR sendiri. Perubahan oleh PM juga mengikuti aturan satu persetujuan; PM meminta satu anggota lain meninjau PR tersebut.
+Anggota meminta review dari @mygads dan tidak merge PR sendiri. PR Yoga tidak memerlukan self-approval; Yoga memakai admin bypass setelah CI hijau. Admin bypass juga melewati enforcement branch protection, jadi aturan tim tetap mewajibkan CI lulus sebelum merge.
 
 ## 6. Review dan merge
 
 - CI wajib hijau.
-- PR wajib mendapat satu approval.
+- PR anggota wajib mendapat satu approval dari PM.
+- PR yang dibuat PM tidak memerlukan approval; PM memakai admin bypass hanya setelah CI lulus.
 - Selesaikan semua komentar dan percakapan review.
-- Hanya PM yang menggabungkan PR ke main. Cara gabung yang dipakai repo adalah squash merge.
-- Setelah merge, hapus branch di GitHub dan tarik main terbaru.
+- Hanya PM yang menggabungkan PR ke `main`. Riwayat PR repo saat ini memakai merge commit; pertahankan cara itu agar branch personal dapat disinkronkan tanpa force push.
+- Jangan hapus branch personal setelah merge. Tarik `main` terbaru ke branch personal sebelum mengambil story berikutnya.
+- Hapus remote branch sementara hanya setelah PR terkait merged/closed, tidak ada PR terbuka lain yang memakai branch itu, dan `git log origin/main..branch-lama` tidak menunjukkan commit unik. Pemilik branch mengonfirmasi tidak ada pekerjaan lokal yang belum dipindahkan. Jangan hapus branch personal.
 
 ## Estimasi dan catatan waktu
 

@@ -1,45 +1,47 @@
-# Rencana Sprint 0
+# Catatan Sprint 0 dan jadwal development
 
-## Jira
+Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke pengerjaan fitur. Jira adalah sumber status dan tanggal live.
 
-- Epic fondasi: HAP-1 - Fondasi & Infrastruktur.
-- Task Sprint 0: HAP-61 - SETUP-001.
-- Assignee HAP-61: Yoga.
-- Status Jira saat ini: HAP-1 To Do; HAP-61 In Progress. PM memperbarui status setelah review dan acceptance.
-- Rentang Sprint 0 pada Jira: 12-18 Oktober 2026. Start date dan Due date HAP-1/HAP-61 mengikuti pekan tersebut; karena HAP-61 masih In Progress pada 22 Oktober, Jira menampilkannya lewat tenggat.
-- Kriteria HAP-61 sudah diperbarui: 5 anggota, 5 epic, 45 story, scope M01-M15, HAP-6 dihapus dan M16-M18 di luar scope, dokumen arsitektur, starter Laravel/Filament, role gate/Policy, dan alur PR.
+## Sprint 0 - Persiapan
+
+- Epic: HAP-1 - Fondasi & Infrastruktur, status Jira tetap To Do sampai PM menerima keseluruhan acceptance.
+- Task: HAP-61 - SETUP-001, assignee Yoga, status Jira Done pada pembacaan akhir 25 Oktober 2026. Status epic dan PR diperiksa terpisah.
+- Sprint 0 berlangsung pada minggu 5, 12-18 Oktober 2026, dan sudah ditutup.
+- PR #1 berisi starter Sprint 0 dan tercatat merged ke `main`.
+- PM meminta PR #1 dan #2 direvert dari `main`, dengan hasil kerja dipertahankan di branch personal Yoga. Sampai revert PR diterima, `main` masih memuat kedua hasil merge.
 
 ## Acceptance HAP-61
 
 1. Repo memiliki lima anggota aktif: Yoga, Bitari, Arif, Wira, dan Rofii. Dinda dikecualikan.
-2. Backlog aktif Jira memiliki 5 epic dan 45 story HJK-001 sampai HJK-045; pembagian per anggota adalah 3 modul × 3 story. HAP-6 sudah dihapus permanen. M16 sampai M18 tidak termasuk scope aktif.
-3. Sprint 0, Sprint 1, dan Sprint 2 tersedia; Sprint 2 telah diselaraskan ke pekan 11-15 dan tanggal akhir 27 Desember. PM masih menyelaraskan state Sprint 0/1 sebelum menjalankan atau menutup sprint.
-4. Dokumen arsitektur Rev 1, kebutuhan, database, keputusan, audit sumber, dan kontribusi tersedia serta dibagikan lewat repo.
-5. Starter Laravel 13 + Filament 5 bisa di-clone, dikonfigurasi memakai database development khusus, dimigrasi dan di-seed tanpa secret.
-6. Panel manager, field_staff, dan citizen dipisahkan per path serta diuji; Policy dasar role/ownership tersedia.
-7. CI memvalidasi dependency, migrasi/seeder MySQL/SQLite, route, tes, dan build.
-8. Anggota membuka PR ke main dan meminta Yoga sebagai reviewer; CI dan satu approval wajib; hanya PM yang merge; penulis PR menyelesaikan konflik.
+2. Backlog aktif memiliki 5 epic dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15. HAP-6 dihapus permanen; M16 sampai M18 tidak memiliki story aktif.
+3. Sprint 0 ditutup, Sprint 1 aktif pada minggu 6-10, dan Sprint 2 future pada minggu 11-15.
+4. Dokumen arsitektur Rev 1, kebutuhan, database, keputusan, audit sumber, kontribusi, dan setup tersedia di repo.
+5. Starter Laravel 13 + Filament 5 memiliki `.env.example`, migrasi, seeder demo, tiga panel role, Policy dasar, dan panduan setup lokal.
+6. CI memvalidasi dependency, migrasi/seeder SQLite dan MySQL, route, tes PHP, build aset, serta tes Dusk beranda dan pembuatan program lewat panel.
+7. Panduan tim menjelaskan satu branch per anggota, commit dengan key HAP, PR, penyelesaian konflik, review anggota, merge oleh PM, dan work log yang jujur.
 
-## Checklist starter
+## Sprint 1 dan Sprint 2
 
-- [x] Audit sumber, roster, Jira, GitHub dan Stitch.
-- [x] Selaraskan HAP-61 ke roster lima orang dan 45 story.
-- [x] Hapus HAP-6 secara permanen dari Jira atas permintaan PM.
-- [x] Verifikasi 5 epic aktif, 45 story dan HJK-001 sampai HJK-045 berurutan.
-- [x] Pertahankan konfigurasi database lokal pengguna; CI memakai DB terisolasi.
-- [x] Siapkan Laravel 13 + Filament 5 dan tiga panel role.
-- [x] Siapkan Policy dasar dan tes izin/ownership.
-- [x] Siapkan migration, seeder demo, .env.example aman, README dan panduan kontribusi.
-- [x] Siapkan script setup Windows dengan konfirmasi database, panduan lokal, dan alur login/logout panel.
-- [x] Siapkan CI SQLite + MySQL, tes PHP, Dusk beranda, dan build aset.
-- [x] Lindungi main: satu approval, CI wajib, percakapan selesai, anggota write, dan push/merge hanya PM.
-- [x] Isi Start date dan Due date per story untuk 45 item mengikuti pekan pada timeline; rinciannya di [jadwal mingguan backlog](task-schedule.md).
-- [ ] Minta review dan approval PM/tim pada pull request Sprint 0.
-- [ ] Dosen mengonfirmasi komposisi tim lima orang.
-- [ ] PM menyelaraskan state Sprint 0/1 yang terlambat.
-- [ ] Pemilik modul meninjau arsitektur, acceptance criteria dan query ownership sebelum membangun Resource.
-- [ ] Lengkapi pemeriksaan visual Stitch; beranda belum dicocokkan pixel-per-pixel dan layar lain belum diimplementasikan.
+- Kalender kuliah tidak berubah: Sprint 1 minggu 6-10 (19 Okt-22 Nov 2026), Sprint 2 minggu 11-15 (23 Nov-27 Des 2026).
+- Minggu 6, 19-25 Oktober, dipakai menyusun dan refine backlog. Tidak ada coding yang direncanakan.
+- Pengerjaan story Sprint 1 dimulai minggu 7, 26 Oktober. Tanggal story Sprint 1 disesuaikan hingga minggu 9; minggu 10 untuk integrasi, demo, review, dan retrospektif.
+- Setiap anggota mendapat tiga story satu modul di Sprint 1, lalu enam story dari dua modul utuh di Sprint 2. Detail dan tanggal ada di [jadwal mingguan](task-schedule.md).
+- Pemilik modul memeriksa kompleksitas fitur dan dependensi lintas anggota pada refinement. Story tidak dinyatakan siap hanya berdasarkan jumlahnya.
 
-## Catatan status
+## Yang tersedia di starter
 
-CI GitHub memeriksa template setelah perubahan dipush. HAP-61 masih In Progress dan PR Sprint 0 belum digabung; HAP-1 tetap To Do. PM memperbarui status setelah review dan acceptance. Sprint 0 tidak otomatis ditutup karena masih ada keputusan dosen dan status board yang perlu dikelola PM.
+- [x] Roster lima orang dan 45 story aktif diverifikasi.
+- [x] Laravel 13 + Filament 5 dan tiga panel role disiapkan.
+- [x] Policy dasar, migration, seeder demo, `.env.example`, README, dan panduan kontribusi tersedia.
+- [x] CI memiliki pemeriksaan SQLite dan MySQL, tes PHP, build aset, dan Dusk.
+- [x] Tes Dusk HJK-001 berjalan pada branch personal Yoga. Run CI `40170795177` di commit `45e3666` lulus untuk login, pengisian form, pemilihan tanggal di kalender, penyimpanan program Draf, serta pemeriksaan hasil pada daftar.
+- [ ] Pemilik modul dan dosen mengonfirmasi pemetaan fitur/kompleksitas per sprint dan roster lima orang.
+- [ ] PM meninjau serta menerima PR yang sesuai sebelum HAP-1 diubah dari To Do.
+
+## Status dan aturan kerja
+
+PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. Pembacaan akhir 25 Oktober 2026 menunjukkan HAP-7 In Progress, HAP-61 Done, dan HAP-1 To Do. Tanggal target HAP-7 tetap mengikuti minggu 7. Status task tidak otomatis menerima perubahan pada PR draft.
+
+Original estimate adalah rencana. Jira HAP-61 masih menampilkan remaining estimate 4 jam dan belum memiliki work log aktual. Jangan mengubah nilai itu menjadi actual time. Waktu aktual hanya dicatat pelaksana setelah bekerja.
+
+Jangan membaca atau mengganti `.env` pemilik dan jangan menjalankan migrasi ke database lokal pemilik. Dusk CI memakai database SQLite file sementara yang terisolasi.

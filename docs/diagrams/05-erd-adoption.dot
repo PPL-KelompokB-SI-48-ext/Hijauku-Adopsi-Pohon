@@ -1,0 +1,8 @@
+digraph G {graph [bgcolor="white",pad="0.3",nodesep="0.4",ranksep="0.55",fontname="Arial",fontsize=22,labeljust=l,labelloc=t]; node [shape=box,style="rounded,filled",fillcolor="#F0FDF4",color="#15803D",fontname="Arial",fontsize=16,margin="0.18,0.12"]; edge [fontname="Arial",fontsize=12,color="#64748B"]; rankdir=TB;label="ERD adopsi dan laporan masalah";
+ users[label="users\nid PK"];trees[label="trees\nid PK"];
+ requests[label="adoption_requests\nid PK | tree_id FK | requester_id FK\nreviewer_id nullable FK\nreason | status | decision_reason"];
+ agreements[label="adoption_agreements\nid PK | request_id UNIQUE FK\ntree_id FK | adopter_id FK\nterms | starts_on | ends_on | status | accepted_at"];
+ allocations[label="tree_adoption_allocations\nid PK | tree_id UNIQUE FK\nrequest_id UNIQUE FK\nagreement_id nullable UNIQUE FK\nstatus | reserved_at"];
+ issues[label="tree_issues\nid PK | tree_id FK | reporter_id FK\nreviewer_id nullable FK\ndescription | severity | evidence_path\nstatus | resolution"];
+ users->requests[label="pemohon / peninjau"];trees->requests;requests->agreements[label="0..1"];trees->allocations[label="0..1 alokasi kini"];requests->allocations;agreements->allocations[label="0..1"];users->issues[label="pelapor / peninjau"];trees->issues;
+ note[label="Tabel alokasi menjaga satu pemegang alokasi per pohon di MySQL.\nTransaksi dan row lock mencegah penerimaan ganda.\nRiwayat kesepakatan disimpan saat alokasi yang berlaku dilepas.",fillcolor="#F8FAFC"];allocations->note[style=invis];}

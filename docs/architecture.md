@@ -22,13 +22,14 @@ flowchart LR
     Manager[Pengelola] --> ManagerPanel[Filament /app]
     FieldStaff[Petugas] --> FieldPanel[Filament /petugas]
     Citizen --> CitizenPanel[Filament /warga]
-    Public --> Laravel[Laravel 13<br/>monolit modular]
+    Public --> PublicAccess[Data publik yang diizinkan]
     ManagerPanel --> Laravel
     FieldPanel --> Laravel
-    CitizenPanel --> Laravel
+    CitizenPanel --> Laravel[Laravel 13<br/>monolit modular]
     Laravel --> Gate[Login + panel gate]
     Gate --> Policy[Policy + query scope]
     Policy --> Service[Validasi + service transaksi]
+    PublicAccess --> Service
     Service --> Models[Eloquent]
     Models --> MySQL[(MySQL 8+)]
     Laravel --> PrivateFiles[Storage privat]
@@ -37,8 +38,8 @@ flowchart LR
 Alur request:
 
 1. Route publik atau panel Filament menerima request.
-2. Middleware autentikasi memastikan pengguna masuk.
-3. User::canAccessPanel() hanya membuka panel yang cocok dengan role dan status aktif.
+2. Request panel berakun melewati middleware autentikasi. Route publik hanya menyajikan field yang diizinkan untuk publik dan tidak mewajibkan login.
+3. Untuk panel, User::canAccessPanel() hanya membuka panel yang cocok dengan role dan status aktif.
 4. Policy memutuskan izin untuk aksi dan record. Query list juga dibatasi ke data yang boleh dilihat.
 5. Validasi memeriksa input dan aturan lintas field.
 6. Service menjalankan transisi bisnis yang memerlukan transaksi, misalnya kuota, kapasitas petak, alokasi pohon, dan verifikasi.
@@ -59,6 +60,7 @@ Panel gate bukan pengganti Policy. Model baru harus memiliki Policy sebelum Reso
 - Master data dan akun: pengelola saja.
 - Penugasan: petugas boleh melihat penugasan dengan assignee_id miliknya; tidak dapat mengubah assignment.
 - Pendaftaran kegiatan: warga dapat membuat dan melihat pendaftaran miliknya.
+- Kehadiran M08 direncanakan untuk pengelola pada HAP-29. `ActivityRegistrationPolicy::viewAny()` pada scaffold masih membatasi daftar ke warga; implementasi HAP-29 harus menyesuaikan izin/query yang diperlukan dan menguji manager serta batas record. Panel manager saja tidak mengizinkan daftar secara otomatis.
 - Permohonan adopsi: warga dapat membuat dan melihat miliknya; aksi review hanya pengelola dan pelaku tidak boleh meninjau permohonannya sendiri.
 - Kesepakatan: warga hanya melihat miliknya; aksi accept hanya pemilik kesepakatan berstatus awaiting_acceptance.
 - Laporan masalah: warga/petugas dapat membuat serta membaca laporannya sendiri.
@@ -119,5 +121,7 @@ Rancangan awal mengusulkan PostgreSQL 18. Untuk starter Sprint 0, PM menetapkan 
 HJK-001 menambahkan alur pembuatan program pada panel manager. Program adalah master data yang bisa dilihat lintas pengelola, sementara `created_by` tetap mencatat siapa yang membuatnya. Status awal ditetapkan server sebagai `draft`; event pencatatan program disimpan bersama record dalam transaksi. Pengubahan/penghapusan program dan perubahan status tetap di luar HJK-001.
 
 ## 9. Perubahan arsitektur
+
+Diagram proposal, koreksi acceptance/skema, serta sumber rancangan UI yang diselaraskan pada 25 Oktober 2026 dicatat di [audit proposal dan presentasi](proposal-audit.md). Naskah video menjelaskan rancangan; ia tidak menggantikan acceptance atau bukti pengujian.
 
 Perubahan requirement atau keputusan harus menyertakan alasan, dampak data/role, migration bila perlu, dan acceptance criteria. Diskusikan perubahan lintas modul di Jira; dokumentasikan keputusan yang memengaruhi tim sebagai ADR di docs/adr/.

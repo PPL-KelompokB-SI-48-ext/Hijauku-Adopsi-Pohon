@@ -20,7 +20,47 @@ Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 | Petugas | Panel Filament `/petugas` | Kerangka login dan dashboard; assignment dan laporan dikerjakan melalui story aktif. |
 | Warga | Panel Filament `/warga` | Kerangka login dan dashboard; pendaftaran dan adopsi dikerjakan melalui story aktif. |
 
-Pemeriksaan ini mengonfirmasi arah visual dan cakupan, bukan audit pixel-perfect untuk seluruh 25 frame. Semua frame selain sampel yang disebut di atas masih perlu dicocokkan ke story dan diperiksa sebelum UI modul dianggap selesai.
+Pada 25 Oktober 2026, seluruh 25 frame diperiksa sebagai rancangan dan dirender untuk proposal/presentasi. Pemeriksaan mencakup identitas layar, aktor, scope, serta pemetaan PBI; ini belum merupakan tes responsif, aksesibilitas, interaksi, atau penerimaan UI aplikasi yang sudah diimplementasikan.
+
+## Palet dan batas penerapan
+
+| Warna | Penggunaan rancangan |
+| --- | --- |
+| `#15803D` | Hijau utama dari aset merek Stitch, tombol utama dan navigasi aktif |
+| `#22C55E` | Aksen hijau |
+| `#A7F3D0` | Latar sorotan dan badge |
+| `#1F2937` | Teks utama |
+| `#F8FAFC` | Latar terang proposal visual/presentasi |
+
+Empat warna pertama tercantum pada aset identitas di Stitch. Latar terang mengikuti presentasi. Beranda starter masih memiliki variasi warna hijau yang tercatat di Blade; audit dokumen ini tidak mengubah CSS aplikasi atau menyatakan seluruh layar sudah seragam. Perubahan visual kode tetap dibahas dan diperiksa pada PR terkait.
+
+Utamakan komponen standar Filament untuk Resource, form, tabel, modal, notifikasi, dan validasi. Gunakan Stitch untuk arah warna, hierarki informasi, dan alur; jangan membangun ulang komponen hanya agar identik dengan gambar. Status harus memiliki label, bukan mengandalkan warna saja.
+
+M08 mengikuti HAP-28/HAP-30: warga mendaftar dan menarik pendaftaran sendiri; pengelola mencatat kehadiran pada HAP-29. Petugas menangani penugasan M09, bukan menjadi pendaftar M08. Dua teks lama pada presentasi dan satu uraian proposal dikoreksi agar tidak memperluas aktor tanpa requirement.
+
+## Pemetaan seluruh modul untuk proposal dan video
+
+| Modul | Pemilik | PBI / Jira | Frame yang ditunjukkan |
+| --- | --- | --- | --- |
+| M01 | Yoga | HJK-001-003 / HAP-7-9 | M01 Program Penghijauan |
+| M02 | Yoga | HJK-004-006 / HAP-10-12 | M02 Lokasi Tanam |
+| M03 | Yoga | HJK-007-009 / HAP-13-15 | M03 Petak Tanam |
+| M04 | Rofii | HJK-010-012 / HAP-16-18 | M04 Jenis Pohon |
+| M05 | Rofii | HJK-013-015 / HAP-19-21 | M05 Kelompok Penanaman |
+| M06 | Rofii | HJK-016-018 / HAP-22-24 | M06 Inventaris Pohon |
+| M07 | Bitari | HJK-019-021 / HAP-25-27 | M07 Kegiatan Lapangan |
+| M08 | Bitari | HJK-022-024 / HAP-28-30 | M08 Pendaftaran Kegiatan |
+| M09 | Bitari | HJK-025-027 / HAP-31-33 | Frame 25 Tugas Saya, petugas |
+| M10 | Arif | HJK-028-030 / HAP-34-36 | Frame 23 Adopsi Saya, warga |
+| M11 | Arif | HJK-031-033 / HAP-37-39 | Frame 24 Kesepakatan Saya, warga |
+| M12 | Arif | HJK-034-036 / HAP-40-42 | M12 Laporan Masalah Pohon |
+| M13 | Wira | HJK-037-039 / HAP-43-45 | M13 Rencana Perawatan |
+| M14 | Wira | HJK-040-042 / HAP-46-48 | M14 Realisasi Perawatan |
+| M15 | Wira | HJK-043-045 / HAP-49-51 | M15 Pengamatan Pertumbuhan |
+
+Frame pengelola M09-M11 juga ada pada proposal. Frame 16 adalah login; 17-19 dashboard pengelola/petugas/warga; 20 katalog publik; 21 beranda; 22 detail pohon. Angka 16-25 adalah nomor layar, bukan modul bisnis baru M16-M25.
+
+Render yang dipakai pada presentasi tersedia di `docs/assets/mockups/`, dengan label data contoh. Diagram proposal ada di `docs/diagrams/`. Kolom/aksi dalam mockup adalah sasaran desain, bukan bukti migration atau workflow sudah tersedia. Misalnya prioritas M13 memerlukan migration HAP-44.
 
 ## Cara membawa frame ke kode
 

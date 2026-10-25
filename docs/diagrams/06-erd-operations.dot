@@ -1,0 +1,9 @@
+digraph G {graph [bgcolor="white",pad="0.3",nodesep="0.4",ranksep="0.55",fontname="Arial",fontsize=22,labeljust=l,labelloc=t]; node [shape=box,style="rounded,filled",fillcolor="#F0FDF4",color="#15803D",fontname="Arial",fontsize=16,margin="0.18,0.12"]; edge [fontname="Arial",fontsize=12,color="#64748B"]; rankdir=TB;label="ERD kegiatan, perawatan, dan pengamatan";
+ activities[label="activities\nid PK | site_id FK\ntitle | kind | starts_at | ends_at | quota | status"];
+ registrations[label="activity_registrations\nid PK | activity_id FK | user_id FK\nstatus | attended_at\nUNIQUE(activity_id, user_id)"];
+ assignments[label="field_assignments\nid PK | activity_id FK | tree_id FK\nassignee_id FK | due_at | status"];
+ plans[label="care_plans\nid PK | tree_id FK | assignment_id nullable FK\nplanned_on | action | status"];
+ records[label="care_records\nid PK | tree_id FK | plan_id nullable FK\nperformed_by FK | performed_on | action\nphoto_path | status | verified_by / at | review_note"];
+ growth[label="growth_observations\nid PK | tree_id FK | observed_by FK | observed_on\nheight_cm | diameter_cm | condition | photo_path\nstatus | verified_by / at | review_note\nUNIQUE(tree_id, observed_on)"];
+ activities->registrations[label="1 : N"];activities->assignments[label="1 : N"];assignments->plans[label="0..1 : N"];plans->records[label="0..1 : N"];records->growth[style=invis];
+ note[label="Setiap tree_id mengacu ke trees; actor mengacu ke users.\nPrioritas care_plans belum ada pada scaffold: migration HAP-44 diperlukan.\nAudit perubahan menggunakan activity_logs. Bukti disimpan privat.",fillcolor="#F8FAFC"];growth->note[style=invis];}

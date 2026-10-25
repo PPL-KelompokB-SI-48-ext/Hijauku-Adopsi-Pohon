@@ -63,28 +63,28 @@ Gunakan field Jira **Original estimate** untuk rencana waktu bila time tracking 
 
 Setiap pelaksana mencatat **work log** untuk waktu yang benar-benar ia gunakan pada issue, mengikuti resolusi waktu Jira. Catat setelah pekerjaan dilakukan dan gunakan angka yang jujur. Work log tidak boleh disamakan otomatis dengan Original estimate, lama sprint, ataupun rentang tanggal. Bila pekerjaan belum mulai, jangan masukkan waktu aktual. Jika Jira tidak menampilkan Log work, jangan mengakalinya dengan komentar; minta PM memeriksa konfigurasi dan izin time tracking.
 
-Sebelum sprint, periksa jumlah Original estimate per orang terhadap waktu yang memang tersedia. Sembilan story per anggota adalah pembagian backlog (3 modul × 3 story), bukan bukti semua story punya ukuran atau jam yang sama. Jangan membuat estimasi seragam hanya agar total terlihat rapi. Jira sekarang memakai Start date pada hari Senin dan Due date pada hari Minggu untuk rentang mingguan tiap story. Jadwal tersebut adalah target koordinasi PM, bukan jam aktual atau janji durasi pengerjaan. Lihat [jadwal mingguan backlog](task-schedule.md). Pemilik story meninjau ulang tanggal dan estimate saat refinement; jika berubah, selaraskan field Jira dan snapshot dokumentasi pada PR yang sama.
+Sebelum sprint, periksa jumlah Original estimate per orang terhadap waktu yang memang tersedia. Sembilan story per anggota dibagi menjadi tiga story di Sprint 1 dan enam di Sprint 2; tiga story pembentuk satu modul ditempatkan utuh pada sprint yang sama. Angka story bukan ukuran beban yang sama. Minggu 6 digunakan untuk backlog/refinement tanpa coding; pengerjaan Sprint 1 dimulai minggu 7. Start date Jira adalah hari Senin dan Due date hari Minggu, sebagai target koordinasi, bukan actual time atau janji durasi. Lihat [jadwal mingguan backlog](task-schedule.md). Pemilik meninjau ulang tanggal dan estimate saat refinement.
 
-Pada 22 Oktober 2026, Original estimate untuk 45 story merupakan **proposal awal PM** dan belum dianggap hasil refinement pemilik modul. Angkanya ada pada [baseline estimasi](effort-estimates.md). Story dan Task kini menampilkan field Original estimate serta Time tracking. HAP-61 memiliki estimate awal 18 jam dan remaining estimate 4 jam untuk pemeriksaan akhir. Target HAP-61 di board adalah pekan 5, 12-18 Oktober, sehingga Jira menandainya lewat tenggat saat status masih In Progress. Jika target Sprint 0 diperpanjang, PM mengubah tanggal rencana, bukan work log. Pemilik modul meninjau estimasi Jira dan memperbarui dokumen snapshot bila ada perubahan. Pada tanggal audit belum ada work log aktual untuk story atau HAP-61.
+Pada 25 Oktober 2026, Original estimate 45 story masih **proposal awal PM** dan perlu ditinjau pemilik. Angkanya ada pada [baseline estimasi](effort-estimates.md). Pembacaan akhir menunjukkan HAP-61 Done dengan Original estimate 18 jam, remaining estimate 4 jam, dan tanpa work log. Pelaksana/PM perlu merekonsiliasi remaining estimate terhadap sisa kerja nyata tanpa mengarang actual time. PR #1 dan #2 masih merged ke `main`; revert keduanya ada dalam PR draft #5. Setelah keputusan revert, PM menilai kembali acceptance berdasarkan kondisi kode; status task bukan izin merge otomatis.
 
 Jika estimasi berubah, tulis alasan di issue dan sesuaikan remaining estimate. Jika scope/acceptance berubah, PM memperbarui deskripsi dan rencana sprint sebelum tim mengerjakan tambahan itu. Work log yang sudah mencatat waktu aktual tidak diubah agar cocok dengan rencana baru.
 
 ## Menghubungkan Jira, branch, commit, dan PR
 
-Gunakan satu issue key HAP yang benar pada semua bagian:
+Gunakan branch personal sesuai nama anggota. Sertakan issue key HAP pada setiap commit dan PR:
 
 ```text
-Branch: feature/HAP-25-pendaftaran-kegiatan
+Branch: bitari
 Commit: feat: catat pendaftaran kegiatan HAP-25
 PR title: [HAP-25] Pendaftaran kegiatan warga
 PR body: https://myogaadi1234567.atlassian.net/browse/HAP-25
 ```
 
-Key Jira lama tidak dinomori ulang. Nomor HJK-001 sampai HJK-045 adalah label kebutuhan, bukan pengganti key HAP pada branch dan commit. Sebut key dengan huruf kapital. Buat commit pada branch yang benar, lalu push ke GitHub. Commit lokal yang belum di-push belum dapat terlihat oleh Jira.
+Satu anggota hanya memakai satu branch personal (`yoga`, `bitari`, `arif`, `wira`, atau `rofii`), bukan satu branch per fitur. Branch tidak memuat issue key karena dipakai lintas story; setiap commit dan PR tetap harus menyebut key HAP huruf kapital. Key lama tidak dinomori ulang. Nomor HJK adalah label kebutuhan, bukan pengganti HAP. Commit lokal yang belum di-push belum terlihat Jira. Branch lama `feature/HAP-...` tidak dipakai untuk story baru; pemilik memindahkan commit yang belum tergabung ke branch personal sebelum membuka PR pengganti.
 
 Sesudah push, buka issue Jira dan periksa **Development** untuk commit/branch/PR. Koneksi **GitHub for Atlassian** proyek ini sudah mengarah ke organisasi `PPL-KelompokB-SI-48-ext`, memberi akses semua enam repo termasuk `Hijauku-Adopsi-Pohon`, dan status backfill selesai. Keterkaitan otomatis tetap perlu diverifikasi pada issue setelah push; jika panel kosong, periksa format key, izin `View development tools`, sinkronisasi, dan akses repo sebelum mengklaim tautan tampil. Jangan membuat duplikasi issue.
 
-Penulis branch membuka PR ke `main`, mencantumkan issue dan acceptance yang dipenuhi, lalu meminta Yoga (@mygads) sebagai reviewer. Penulis menyelesaikan konflik dan percakapan review. PM memberi keputusan review dan satu-satunya pihak yang merge. Setelah merge, anggota menarik `main` terbaru. Lihat [CONTRIBUTING.md](../CONTRIBUTING.md) untuk perintah lengkap.
+Pemilik branch membuka PR ke `main` saat story/kelompok story yang dicantumkan sudah memenuhi acceptance criteria. Body PR mencantumkan semua issue dan acceptance yang dibawa; anggota meminta Yoga (@mygads) sebagai reviewer. Penulis menyelesaikan konflik dan percakapan review. Hanya PM yang merge. PR anggota perlu satu approval PM; PR Yoga tidak perlu self-approval, tetapi CI tetap wajib hijau. Repo memakai merge commit; setelah merge, pemilik branch menarik `main` terbaru ke branch personal dan mempertahankannya. Branch sementara hanya boleh dihapus bila tidak ada PR terbuka dan tidak memiliki commit unik yang belum dipindahkan. Lihat [CONTRIBUTING.md](../CONTRIBUTING.md) untuk perintah lengkap.
 
 ## Siapa memperbarui apa
 

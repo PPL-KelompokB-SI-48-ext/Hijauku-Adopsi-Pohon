@@ -1,48 +1,47 @@
 # Kebutuhan dan backlog Hijauku
 
-Dokumen ini memisahkan aturan kuliah, roster yang dikonfirmasi PM, dan backlog aktif Jira. Jira adalah sumber status story; dokumen ini menjelaskan cara menghitungnya.
+Dokumen ini memisahkan aturan kuliah, roster proyek, dan backlog Jira. Jira menjadi sumber utama status, owner, sprint, dan tanggal issue.
 
-## Tim
+## Tim dan jumlah story
 
-| Anggota | Modul | Story aktif |
-| --- | --- | ---: |
-| Yoga (PM) | M01-M03 | 9 |
-| Rofii | M04-M06 | 9 |
-| Bitari | M07-M09 | 9 |
-| Arif | M10-M12 | 9 |
-| Wira | M13-M15 | 9 |
-| **Total** | **15 modul** | **45** |
+| Anggota | Modul | Sprint 1 | Sprint 2 | Total |
+| --- | --- | ---: | ---: | ---: |
+| Yoga (PM) | M01-M03 | 3 | 6 | 9 |
+| Rofii | M04-M06 | 3 | 6 | 9 |
+| Bitari | M07-M09 | 3 | 6 | 9 |
+| Arif | M10-M12 | 3 | 6 | 9 |
+| Wira | M13-M15 | 3 | 6 | 9 |
+| **Total** | **M01-M15** | **15** | **30** | **45** |
 
-Roster aktif terdiri dari lima orang. Dinda tidak termasuk dan tidak boleh ditugaskan. Repo saat ini memberi anggota akses write dan PM akses admin.
+Tiga story per anggota per sprint adalah hitungan backlog, bukan bukti kompleksitas. Setiap kelompok tiga story direncanakan sebagai satu modul utuh. Pemilik modul perlu memastikan bahwa fitur pada tiap sprint memenuhi kriteria kompleksitas sedang/tinggi dan dapat selesai, diuji, serta direview di sprint yang sama.
 
-## Rumus yang benar
+## Rumus backlog
 
-Jira berisi **tiga modul per orang**. Tiap modul dipecah menjadi **tiga story/PBI**. Jadi setiap orang memegang **3 × 3 = 9 story** dan tim memiliki **5 × 9 = 45 story**.
+Setiap anggota memiliki tiga modul dan setiap modul memiliki tiga story/PBI: **3 modul × 3 story = 9 story per orang**. Dengan lima anggota, backlog aktif berisi **45 story**. Satu story adalah satu PBI; satu PBI tidak terdiri dari tiga modul.
 
-Satu PBI bukan terdiri dari tiga modul. Modul adalah kelompok fitur, sedangkan story adalah unit pekerjaan di Jira. ID kebutuhan HJK-001 sampai HJK-045 berurutan; key issue Jira HAP-7 sampai HAP-51 juga sudah terbentuk. Jangan mengganti key yang telah dipakai dalam PR, commit, atau diskusi; perubahan judul/assignment dilakukan pada issue yang sama.
+ID kebutuhan HJK-001 sampai HJK-045 dan key Jira HAP-7 sampai HAP-51 sudah dipakai. Jangan menomori ulang key. Perubahan pemilik, sprint, atau tanggal dilakukan pada issue yang sama.
 
-## Aturan perkuliahan dan catatan
+## Aturan kuliah dan konfirmasi
 
-Bahan kuliah yang diaudit menyebut kelompok berisi 6-7 orang. PM mengonfirmasi tim Hijauku berisi lima orang, sehingga konfirmasi dosen masih diperlukan.
+Bahan Ketentuan Proyek PPL menyebut kelompok 6-7 orang, sementara teks LMS Sprint 00 yang diberikan PM menyebut 5-6 orang. Roster proyek berisi lima anggota: Yoga, Bitari, Arif, Wira, dan Rofii. Konfirmasi dosen masih diperlukan untuk menyelesaikan perbedaan materi tersebut.
 
-Bahan juga meminta setiap orang mengerjakan setidaknya satu fitur dengan kompleksitas sedang/tinggi di setiap sprint formal, dan setiap fitur memiliki minimal tiga PBI. Dengan asumsi satu fitur minimum per orang per sprint dan dua sprint formal, hitungan dasarnya adalah 3 PBI/orang/sprint, 6 PBI/orang untuk dua sprint, atau 30 untuk lima orang. Itu bukan pengganti keputusan dosen atau bukti kompleksitas pada story.
+Ketentuan proyek meminta setiap orang mengerjakan setidaknya satu fitur kompleksitas sedang/tinggi pada setiap sprint formal, dengan minimal tiga PBI yang membentuk fitur tersebut. Sprint 0 adalah persiapan, bukan sprint formal development. Rencana di dokumen ini mengelompokkan tiga story setiap modul dalam satu sprint agar batas itu terlihat. Penetapan kompleksitas perlu dikonfirmasi pemilik modul saat refinement.
 
-Backlog Jira sekarang berisi 9 story per anggota. Rencana sprint yang ditinjau ulang memberi tiap orang 4-5 story per sprint; story dibagi menurut urutan prasyarat dan beban estimasi, sehingga tiga story dari satu modul tidak selalu berada di sprint yang sama. Rincian issue dan jam usulan ada di [baseline estimasi](effort-estimates.md). Pastikan dosen menerima pemetaan ini bila ketentuan tugas meminta tiga PBI satu fitur dikerjakan dalam setiap sprint formal.
+## Pembagian modul per sprint
 
-## Pembagian sprint
+| Anggota | Sprint 1 | Sprint 2 |
+| --- | --- | --- |
+| Yoga | M01, 3 story | M02 dan M03, 6 story |
+| Rofii | M04, 3 story | M05 dan M06, 6 story |
+| Bitari | M07, 3 story | M08 dan M09, 6 story |
+| Arif | M10, 3 story | M11 dan M12, 6 story |
+| Wira | M13, 3 story | M14 dan M15, 6 story |
 
-| Anggota | Sprint 1 | Sprint 2 | Total |
-| --- | ---: | ---: | ---: |
-| Yoga | 5 | 4 | 9 |
-| Rofii | 5 | 4 | 9 |
-| Bitari | 4 | 5 | 9 |
-| Arif | 4 | 5 | 9 |
-| Wira | 4 | 5 | 9 |
-| **Total** | **22** | **23** | **45** |
+Sprint 1 mengikuti kalender minggu 6-10, 19 Okt-22 Nov 2026. Minggu 6 digunakan untuk backlog/refinement, tanpa coding. Story mulai dikerjakan pada minggu 7 dan selesai paling lambat minggu 9; minggu 10 untuk integrasi, demo, review, dan retrospektif.
 
-Sprint 0 adalah persiapan dan bukan sprint formal. Sprint 0, Sprint 1, dan Sprint 2 sudah dibuat di board. Per tanggal audit 22 Oktober 2026, tanggal Sprint 0 telah lewat dan tanggal mulai Sprint 1 juga telah tiba, tetapi status Jira ketiganya masih future. Sprint 2 goal dan tanggal akhir diperbaiki menjadi pekan 11-15 dan 27 Desember 2026. PM tetap perlu menyelaraskan state Sprint 0/1 sebelum menganggap sprint berjalan atau selesai. Penempatan per story dan jumlah estimasi usulan per orang ada di [baseline estimasi](effort-estimates.md); semua angka tetap perlu refinement oleh pemilik modul.
+Sprint 2 mengikuti minggu 11-15, 23 Nov-27 Des 2026. Issue HAP-10 sampai HAP-51 dibagi per minggu dalam [jadwal mingguan](task-schedule.md). Tanggal kerja adalah target koordinasi, bukan actual time. Original estimate tetap usulan awal sampai disepakati pemilik modul.
 
-Jadwal Start date dan Due date per story mengikuti minggu Senin-Minggu dalam [jadwal mingguan backlog](task-schedule.md). Setiap anggota mendapat maksimal dua story dalam minggu yang sama; pasangan paralel dipilih setelah prasyaratnya tersedia. Minggu akhir tiap sprint disediakan untuk integrasi, demo, dan review.
+Pembagian modul ini menjaga tiga PBI satu modul tetap di satu sprint, tetapi beberapa fitur memakai data dari modul anggota lain. Sebelum coding, pemilik perlu menyepakati model/field yang dipakai, seed untuk tes, dan urutan integrasi. Jika dependensi membuat acceptance tidak dapat diuji dalam sprint yang direncanakan, PM memperbaiki mapping sebelum pekerjaan dimulai.
 
 ## Epic aktif dan scope
 
@@ -54,37 +53,37 @@ Jadwal Start date dan Due date per story mengikuti minggu Senin-Minggu dalam [ja
 | HAP-4 | Adopsi dan masalah pohon | M10-M12 |
 | HAP-5 | Perawatan dan pengamatan | M13-M15 |
 
-HAP-6, yang dahulu menampung konten dan publikasi M16 sampai M18, sudah dihapus permanen dari Jira atas keputusan PM. Karena issue key Jira tidak dapat dipakai ulang atau dinomori kembali, daftar story tetap memakai key yang telah terbentuk. Tidak ada story aktif M16 sampai M18. Tabel/model yang masih ada di starter adalah scaffold dari rancangan awal, bukan bagian backlog aktif.
+HAP-6, yang dahulu menampung M16-M18, sudah dihapus permanen atas keputusan PM. Tidak ada story aktif untuk artikel, galeri, atau usulan aksi. Model/tabel yang masih ada di starter adalah scaffold rancangan awal, bukan bagian scope aktif.
 
 ## Katalog modul
 
-| Modul | Area | Pemilik | Jumlah story |
-| --- | --- | --- | ---: |
-| M01 | Program penghijauan | Yoga | 3 |
-| M02 | Lokasi tanam | Yoga | 3 |
-| M03 | Petak tanam | Yoga | 3 |
-| M04 | Jenis pohon | Rofii | 3 |
-| M05 | Kelompok penanaman | Rofii | 3 |
-| M06 | Inventaris pohon | Rofii | 3 |
-| M07 | Kegiatan lapangan | Bitari | 3 |
-| M08 | Pendaftaran kegiatan | Bitari | 3 |
-| M09 | Penugasan lapangan | Bitari | 3 |
-| M10 | Permohonan adopsi | Arif | 3 |
-| M11 | Kesepakatan adopsi | Arif | 3 |
-| M12 | Laporan masalah pohon | Arif | 3 |
-| M13 | Rencana perawatan | Wira | 3 |
-| M14 | Realisasi perawatan | Wira | 3 |
-| M15 | Pengamatan pertumbuhan | Wira | 3 |
+| Modul | Area | Pemilik | Story |
+| --- | --- | --- | --- |
+| M01 | Program penghijauan | Yoga | HJK-001-HJK-003, HAP-7-HAP-9 |
+| M02 | Lokasi tanam | Yoga | HJK-004-HJK-006, HAP-10-HAP-12 |
+| M03 | Petak tanam | Yoga | HJK-007-HJK-009, HAP-13-HAP-15 |
+| M04 | Jenis pohon | Rofii | HJK-010-HJK-012, HAP-16-HAP-18 |
+| M05 | Kelompok penanaman | Rofii | HJK-013-HJK-015, HAP-19-HAP-21 |
+| M06 | Inventaris pohon | Rofii | HJK-016-HJK-018, HAP-22-HAP-24 |
+| M07 | Kegiatan lapangan | Bitari | HJK-019-HJK-021, HAP-25-HAP-27 |
+| M08 | Pendaftaran kegiatan | Bitari | HJK-022-HJK-024, HAP-28-HAP-30 |
+| M09 | Penugasan lapangan | Bitari | HJK-025-HJK-027, HAP-31-HAP-33 |
+| M10 | Permohonan adopsi | Arif | HJK-028-HJK-030, HAP-34-HAP-36 |
+| M11 | Kesepakatan adopsi | Arif | HJK-031-HJK-033, HAP-37-HAP-39 |
+| M12 | Laporan masalah pohon | Arif | HJK-034-HJK-036, HAP-40-HAP-42 |
+| M13 | Rencana perawatan | Wira | HJK-037-HJK-039, HAP-43-HAP-45 |
+| M14 | Realisasi perawatan | Wira | HJK-040-HJK-042, HAP-46-HAP-48 |
+| M15 | Pengamatan pertumbuhan | Wira | HJK-043-HJK-045, HAP-49-HAP-51 |
 | M16 | Artikel lingkungan | - | Di luar scope aktif |
 | M17 | Galeri kegiatan | - | Di luar scope aktif |
 | M18 | Usulan aksi penghijauan | - | Di luar scope aktif |
 
-Judul, deskripsi, acceptance criteria, assignee, dan status per story berada pada Jira. Perubahan requirement harus memperbarui issue dan dokumen ini bila mengubah scope, owner, atau hitungan.
+Judul, tujuan, acceptance criteria, dan status story tetap dibaca dari Jira. Perubahan requirement harus memperbarui issue dan dokumen ini bila berdampak pada scope, owner, modul, atau hitungan.
 
-## Cara menjaga backlog sehat
+## Menjaga backlog
 
-- Story menjelaskan siapa membutuhkan apa dan untuk tujuan apa; acceptance criteria dapat diuji.
-- Cantumkan kasus berhasil, kasus ditolak, aturan role/ownership, serta efek status bila relevan.
-- Pecah story yang tidak dapat selesai dan ditinjau dalam satu sprint.
-- Hubungkan PR/commit dengan Jira key, tetapi jangan mengubah key issue yang sudah digunakan.
-- Jangan memasukkan M16 sampai M18 ke sprint aktif sebelum PM menetapkan scope baru dan membuat issue yang sesuai.
+- Acceptance criteria harus bisa diuji dan mencakup kasus berhasil, penolakan, role/ownership, serta transisi status yang relevan.
+- Jangan pecah tiga story pembentuk satu modul ke dua sprint tanpa persetujuan PM dan alasan dependensi yang tercatat.
+- Jika story tidak muat dalam sprint atau bergantung pada modul lain, bicarakan kontrak data dan acceptance sebelum coding.
+- Sertakan key HAP pada commit dan PR agar Jira dapat menautkan Development work. Branch personal mengikuti panduan satu branch per anggota di [CONTRIBUTING.md](../CONTRIBUTING.md).
+- Jangan memasukkan M16-M18 ke sprint aktif tanpa keputusan scope baru dan issue Jira yang sesuai.
