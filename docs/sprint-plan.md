@@ -44,6 +44,8 @@ HAP-61 mempertahankan Original estimate 18 jam dan remaining estimate 0 jam. Tid
 
 CI PR #4 pada head `7a5efae` lulus di [run 40181326721](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/40181326721): 11 tes Unit, 20 tes Feature dengan 99 assertions, 2 tes Dusk dengan 9 assertions, migration/seeder SQLite dan MySQL, route panel, serta build Vite.
 
+CI PR dokumentasi #7 juga lulus di [run 40190337974](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/40190337974). PR ini tidak mengubah kode aplikasi atau menambah tes.
+
 HAP-7 mempertahankan Original estimate 4 jam dan remaining 0 jam. HAP-61 mempertahankan Original estimate 18 jam dan remaining 0 jam. Keduanya tidak memiliki work log aktual dari pembaruan ini. Jangan mengubah tanggal rencana menjadi jam kerja.
 
 HAP-16 masih In Progress dengan Original estimate 3 jam dan remaining 3 jam. PR #6 Rofii sudah punya CI yang lulus untuk branch lama, tetapi belum ada Dusk M04 dan branch belum memakai `main` terbaru. HAP-25 milik Bitari juga In Progress. Epic HAP-2 dan HAP-3 tetap In Progress sampai story aktifnya diterima.
