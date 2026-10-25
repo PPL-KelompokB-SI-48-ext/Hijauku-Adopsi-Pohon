@@ -35,8 +35,8 @@ class CreateDraftProgram
         $data = Validator::make($attributes, [
             'name' => ['required', 'string', 'max:255'],
             'objective' => ['required', 'string'],
-            'starts_on' => ['required', 'date_format:Y-m-d'],
-            'ends_on' => ['required', 'date_format:Y-m-d', 'after:starts_on'],
+            'starts_on' => ['bail', 'required', 'date_format:Y-m-d'],
+            'ends_on' => ['bail', 'required', 'date_format:Y-m-d', 'after:starts_on'],
         ], [
             'name.required' => 'Nama program wajib diisi.',
             'objective.required' => 'Tujuan program wajib diisi.',
