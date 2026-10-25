@@ -141,6 +141,32 @@ class ProgramCreationTest extends TestCase
         $this->assertDatabaseCount('activity_logs', 0);
     }
 
+    public function test_creation_rejects_timestamps_that_would_collapse_to_the_same_calendar_date(): void
+    {
+        try {
+            app(CreateDraftProgram::class)->handle($this->manager(), [
+                'name' => 'Taman Warga',
+                'objective' => 'Menjaga periode sebagai tanggal kalender.',
+                'starts_on' => '2026-11-01 08:00:00',
+                'ends_on' => '2026-11-01 17:00:00',
+            ]);
+
+            $this->fail('Action seharusnya menolak timestamp pada kolom tanggal program.');
+        } catch (ValidationException $exception) {
+            $this->assertSame(
+                ['Tanggal mulai harus berupa tanggal yang valid.'],
+                $exception->errors()['starts_on'],
+            );
+            $this->assertSame(
+                ['Tanggal akhir harus berupa tanggal yang valid.'],
+                $exception->errors()['ends_on'],
+            );
+        }
+
+        $this->assertDatabaseCount('programs', 0);
+        $this->assertDatabaseCount('activity_logs', 0);
+    }
+
     public function test_only_managers_can_open_program_pages_or_call_creation_action(): void
     {
         $fieldStaff = User::factory()->create([
