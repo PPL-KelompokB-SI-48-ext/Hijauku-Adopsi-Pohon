@@ -17,7 +17,7 @@ Audit ini memisahkan fakta dari bahan kuliah, keputusan tim, dan kondisi Jira/Gi
 | UI | Stitch berisi 25 frame. Frame 21 (Beranda Publik) dan frame 24 (Kesepakatan Saya/Warga, M11) sudah dipetakan. Layar modul lain belum dianggap implementasi final. |
 | Starter | Laravel 13, Filament 5, tiga panel dan Policy dasar, schema/seeder, README, panduan setup dan CI tersedia di hasil merge PR #1/#2. Resource bisnis yang sudah ada pada `main` saat audit adalah alur pencatatan program HJK-001. |
 | Estimasi | 45 story memiliki Original estimate proposal berjumlah 211 jam. HAP-61 memiliki Original estimate 18 jam dan remaining estimate 4 jam, tanpa work log aktual. Tidak ada work log yang dibuat dalam pembaruan ini. |
-| Pengujian browser | CI sudah memanggil Laravel Dusk dan smoke test beranda pernah lulus. Dusk untuk membuat program baru ditambahkan pada branch lokal `yoga`, tetapi belum berjalan di CI. |
+| Pengujian browser | CI menjalankan Laravel Dusk dan smoke test beranda. Tes manager membuat program lewat panel Filament dan memeriksa nama, tujuan, periode, serta status Draf. Run CI `40170279390` pada commit `256f4f9` lulus. |
 
 ## Pembagian story Jira
 
@@ -50,8 +50,8 @@ Beberapa fitur memiliki dependensi lintas anggota. Pemilik perlu menyepakati kon
 Repo: <https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon>.
 
 - PR #1 berisi starter Sprint 0 dan PR #2 berisi HJK-001. Keduanya tercatat merged ke `main`.
-- PM meminta perubahan kedua PR direvert dari `main`. Revert akan diajukan sebagai PR terpisah untuk ditinjau dan dimerge PM. Sebelum revert PR digabung, `main` masih menyimpan kedua perubahan. Jangan menyebut isi `main` sudah direvert sebelum GitHub menunjukkan merge.
-- Branch lokal `yoga` dibuat dari `main` agar Yoga melanjutkan pekerjaan pada satu branch personal. Dokumentasi dan tes Dusk yang sedang disiapkan belum dipush pada saat audit ini ditulis.
+- PM meminta perubahan kedua PR direvert dari `main`. PR draft #5 sudah dibuat untuk ditinjau. Isinya membalik PR #2 dan #1, termasuk menghapus starter Laravel dan workflow CI. Revert belum digabung; `main` masih menyimpan kedua PR. PR #5 tidak memiliki CI check karena workflow dihapus pada hasil revert. Jangan gabungkan sebelum rencana pemulihan kode/CI diputuskan.
+- Branch personal `yoga` dibuat dari `main`, dipush pada 25 Oktober 2026, dan PR draft #4 terbuka untuk Dusk serta penyelarasan dokumentasi. Commit terbaru saat audit `256f4f9`. CI pada commit itu lulus. Branch ini mempertahankan basis kode PR #1/#2 untuk pekerjaan Yoga.
 - Aturan kontribusi memakai satu branch personal per anggota: `yoga`, `bitari`, `arif`, `wira`, atau `rofii`. Setiap commit dan PR tetap menyebut key HAP kapital. Penulis menyelesaikan konflik; anggota meminta Yoga untuk review; hanya PM yang merge. PR PM tidak memerlukan self-approval, tetapi CI harus lulus.
 - GitHub for Atlassian sebelumnya terverifikasi terhubung ke organisasi `PPL-KelompokB-SI-48-ext`, dengan `Hijauku-Adopsi-Pohon` dalam daftar repository terhubung. Setelah push, panel Development pada issue harus diperiksa lagi untuk tautan commit/PR yang nyata.
 
@@ -69,7 +69,7 @@ Kolaborator repo yang diperiksa pada audit terdahulu adalah Yoga sebagai admin d
 
 - CI workflow memeriksa Composer, migrasi/seeder SQLite dan MySQL, route tiga panel, tes Unit/Feature, build Vite, dan Laravel Dusk.
 - Dusk menggunakan database SQLite sementara yang terpisah dari database pengembangan. CI menjalankan migrasi dan seeder pada file database tersebut sebelum menyalakan server browser.
-- `tests/Browser/ProgramCreationTest.php` menambahkan skenario manager login, membuat program melalui Filament, dan melihat status Draf. Hasil belum terverifikasi sampai CI berjalan pada commit terbaru.
+- `tests/Browser/ProgramCreationTest.php` menjalankan login manager, mengisi nama dan tujuan, memilih tanggal dari kalender Filament, menyimpan program, lalu memeriksa nama, tujuan, periode, dan status Draf. Run CI [40170279390](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/40170279390) lulus pada commit `256f4f9`. CI juga lulus untuk tes unit, feature, migration SQLite/MySQL, route panel, dan build aset.
 - Feature tests HJK-001 tetap memeriksa validasi dan aturan aplikasi di luar browser. Dusk tidak menggantikan tes policy, kepemilikan, dan kondisi penolakan.
 - Shell lokal untuk audit ini belum menyediakan PHP, Composer, Chrome, atau ChromeDriver. Karena itu tes lokal Dusk tidak dapat dijalankan; gunakan hasil CI sebagai bukti untuk tes tersebut.
 
@@ -85,4 +85,4 @@ Sumber yang diperiksa: rancangan arsitektur, Ketentuan Proyek PPL, Modul 1 Regul
 2. Pemilik modul memeriksa kompleksitas tiap fitur, kesiapan story, dan kontrak data lintas modul saat refinement.
 3. Pemilik modul memetakan frame Stitch yang relevan dan meninjau hasil UI sebelum menyatakan desain sesuai.
 4. PM meninjau revert PR dan menerima hasilnya. Setelah merge revert, periksa lagi acceptance serta status HAP-61/HAP-7 agar Jira mengikuti kondisi `main`.
-5. CI harus selesai pada commit terbaru untuk membuktikan Dusk HJK-001 berjalan.
+5. Dusk HJK-001 sudah lulus di CI pada commit `256f4f9`. Tes lokal belum dijalankan karena shell audit tidak memiliki PHP, Composer, Chrome, atau ChromeDriver. Setiap perubahan berikutnya tetap perlu menunggu CI terbaru.

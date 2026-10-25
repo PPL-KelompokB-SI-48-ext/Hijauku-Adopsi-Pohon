@@ -34,13 +34,13 @@ Dokumen ini mencatat fondasi Sprint 0 dan perpindahan dari penyusunan backlog ke
 - [x] Laravel 13 + Filament 5 dan tiga panel role disiapkan.
 - [x] Policy dasar, migration, seeder demo, `.env.example`, README, dan panduan kontribusi tersedia.
 - [x] CI memiliki pemeriksaan SQLite dan MySQL, tes PHP, build aset, dan Dusk.
-- [x] Tes Dusk alur HJK-001 ditambahkan pada branch personal Yoga. Hasilnya belum terverifikasi sampai CI berjalan pada commit terbaru.
+- [x] Tes Dusk HJK-001 berjalan pada branch personal Yoga. Run CI `40170279390` di commit `256f4f9` lulus untuk login, pengisian form, pemilihan tanggal di kalender, penyimpanan program Draf, serta pemeriksaan hasil pada daftar.
 - [ ] Pemilik modul dan dosen mengonfirmasi pemetaan fitur/kompleksitas per sprint dan roster lima orang.
 - [ ] PM meninjau serta menerima PR yang sesuai sebelum HAP-1 diubah dari To Do.
 
 ## Status dan aturan kerja
 
-PR #1 dan PR #2 sama-sama tercatat merged di GitHub saat audit. Sesuai arahan PM, revert keduanya sedang disiapkan sebagai pull request terpisah dan belum mengubah `main`. HAP-7 sudah dikembalikan ke To Do agar pekerjaan mengikuti jadwal mulai minggu 7. HAP-61 masih Done sampai revert PR ditinjau; jika revert diterima, PM perlu mengevaluasi ulang acceptance HAP-61 dan statusnya setelah merge.
+PR #1 dan PR #2 sama-sama tercatat merged di GitHub. Sesuai arahan PM, PR draft #5 membalik keduanya, tetapi belum mengubah `main`. Revert ini menghapus starter Laravel dan workflow CI, sehingga PR #5 belum memiliki CI check dan tidak boleh digabung sebelum urutan pemulihan kode/CI diputuskan. HAP-7 sudah dikembalikan ke To Do agar pengerjaan mengikuti jadwal minggu 7. HAP-61 masih Done sampai perubahan di `main` benar-benar diterapkan; PM perlu mengevaluasi ulang acceptance setelah revert.
 
 Original estimate adalah rencana. Jira HAP-61 masih menampilkan remaining estimate 4 jam walaupun statusnya Done; belum ada work log aktual. Jangan mengubah nilai itu menjadi actual time. Waktu aktual hanya dicatat pelaksana setelah bekerja.
 
