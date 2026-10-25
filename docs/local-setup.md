@@ -22,15 +22,16 @@ git clone https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon.git
 Set-Location Hijauku-Adopsi-Pohon
 ```
 
-Pastikan berada di branch `main` untuk membuat branch pekerjaan baru:
+Setelah clone, ambil `main` terbaru lalu buat branch personal yang ditetapkan untuk Anda. Branch personal dipakai untuk semua story milik anggota itu:
 
 ```powershell
 git switch main
 git pull --ff-only origin main
-git switch -c feature/HAP-KEY-nama-singkat
+git switch --create yoga origin/main
+git push --set-upstream origin yoga
 ```
 
-Ganti `HAP-KEY` dengan issue yang benar-benar ditugaskan di Jira. Jangan membuat branch untuk issue milik anggota lain.
+Gunakan `yoga`, `bitari`, `arif`, `wira`, atau `rofii` sesuai nama anggota. Buat branch satu kali saja. Jangan membuat branch baru untuk setiap story.
 
 ## Siapkan database MySQL
 
@@ -122,21 +123,25 @@ Setiap akun hanya boleh masuk ke panel yang sesuai dengan role dan status aktifn
 
 ## Perintah harian
 
-Perbarui `main` lokal sebelum membuat pekerjaan baru:
-
-```powershell
-git switch main
-git pull --ff-only origin main
-```
-
-Untuk branch yang masih dikerjakan, ambil perubahan terbaru dan gabungkan ke branch sendiri:
+Branch personal dibuat satu kali untuk setiap anggota. Setelah clone pertama, buat branch Anda dari `main` terbaru. Contoh untuk Yoga:
 
 ```powershell
 git fetch origin
-git merge origin/main
+git switch --create yoga origin/main
+git push --set-upstream origin yoga
 ```
 
-Penulis branch menyelesaikan konflik, menjalankan pemeriksaan, membuat commit, lalu push kembali. Jangan push langsung ke `main` dan jangan memakai `git push --force`.
+Anggota lain memakai nama `bitari`, `arif`, `wira`, atau `rofii`. Untuk branch yang sudah ada, ambil perubahan terbaru sebelum melanjutkan:
+
+```powershell
+git fetch origin
+git switch yoga
+git pull --ff-only origin yoga
+git merge origin/main
+git push origin yoga
+```
+
+Pemilik branch menyelesaikan konflik, menjalankan pemeriksaan, membuat commit dengan key HAP, lalu push kembali. Jangan push langsung ke `main` dan jangan memakai `git push --force`.
 
 Perintah pemeriksaan utama:
 
@@ -147,6 +152,40 @@ npm run build
 ```
 
 Tes PHP memakai SQLite in-memory dari konfigurasi PHPUnit. Tes tersebut tidak memigrasikan MySQL lokal. Panduan pull request dan perubahan fitur ada di [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+## Menjalankan Laravel Dusk
+
+Dusk memakai Chrome dan database khusus supaya data pengujian tidak masuk ke database development. File `.env.dusk.local` sudah dikecualikan oleh `.gitignore`.
+
+1. Buat konfigurasi lokal dari contoh:
+
+   ```powershell
+   Copy-Item .env.example .env.dusk.local
+   ```
+
+2. Edit `.env.dusk.local`: atur `APP_ENV=dusk.local`, `APP_URL=http://127.0.0.1:8000`, `DB_CONNECTION=sqlite`, `DB_DATABASE=database/dusk.sqlite`, `SESSION_DRIVER=file`, dan `CACHE_STORE=array`. Gunakan application key khusus untuk file ini.
+3. Buat database uji dan akun demo. Pastikan `DB_DATABASE` menunjuk tepat ke `database/dusk.sqlite` sebelum menjalankan perintah berikut:
+
+   ```powershell
+   New-Item -ItemType File -Force database/dusk.sqlite
+   php artisan key:generate --env=dusk.local
+   php artisan migrate:fresh --seed --force --env=dusk.local
+   ```
+
+4. Di terminal pertama, jalankan aplikasi dengan environment Dusk:
+
+   ```powershell
+   php artisan serve --env=dusk.local --host=127.0.0.1 --port=8000
+   ```
+
+5. Di terminal kedua, pasang ChromeDriver yang cocok lalu jalankan tes:
+
+   ```powershell
+   php artisan dusk:chrome-driver --detect
+   php artisan dusk --env=dusk.local
+   ```
+
+Jangan arahkan Dusk ke MySQL lokal atau database bersama. Jika nilai `DB_DATABASE` berbeda dari file uji di atas, hentikan sebelum menjalankan migration. CI membuat SQLite sementara, menjalankan migration/seeder di sana, lalu menjalankan Dusk terhadap database yang sama.
 
 ## Jika setup gagal
 

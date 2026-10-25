@@ -16,7 +16,9 @@ Read docs/jira-workflow.md when planning a story, estimating work, logging time,
 - HAP-6 was permanently deleted from Jira at the PM's request. M16 to M18 are outside the active scope. Do not add screens or workflows unless the PM opens a new scope with acceptance criteria.
 - HAP-61's acceptance criteria are aligned to the current roster/scope. Existing Jira keys do not get renumbered.
 - Original estimates are plans. Actual Jira work logs are entered only by the person who performed the work; never invent or alter actual hours to fit an estimate.
-- Include the uppercase HAP key in pushed branch, commit, and PR references, then verify the Jira Development panel. Local commits are not linked until pushed and synced through the repository integration.
+- Use one personal branch per member: `yoga`, `bitari`, `arif`, `wira`, or `rofii`. The branch name is the exception to the HAP-key rule; every commit and PR must include its uppercase HAP issue key. Verify Jira's Development panel after push.
+- Sprint 0 is preparation. Sprint 1 follows weeks 6-10, Sprint 2 weeks 11-15. Week 6 is backlog/refinement without coding; implementation starts week 7. Keep the three stories for one module in the same sprint unless the PM records an approved dependency exception.
+- CI is configured to run Laravel Dusk against a seeded, isolated SQLite file. The manager program-creation test needs a passing CI result before reporting it as verified.
 - Stack: PHP 8.3+, Laravel 13, Filament 5, Blade, Vite, Eloquent, MySQL 8+.
 - Role panels: manager /app, field_staff /petugas, citizen /warga.
 - Gate and base Policies are in place. Resource query ownership and feature workflows still need implementation.
@@ -36,7 +38,7 @@ Read docs/jira-workflow.md when planning a story, estimating work, logging time,
 - Write Indonesian user-facing text.
 - Update docs when scope, requirements, or architecture decisions change.
 - Report what works, what is scaffold, tests run, and remaining work.
-- Follow CONTRIBUTING.md; never merge a PR. The PM merges.
+- Follow CONTRIBUTING.md; never merge a PR. The PM merges. Member PRs need PM approval; a PM-authored PR skips self-approval but still requires green CI.
 
 ## Writing for the team
 
