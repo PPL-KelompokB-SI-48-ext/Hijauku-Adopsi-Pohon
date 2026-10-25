@@ -52,7 +52,7 @@ Komentar lama pada proposal tetap menjadi riwayat diskusi. Beberapa tautannya te
 1. Dosen mengonfirmasi roster lima orang karena PDF dan LMS memuat batas jumlah anggota yang berbeda.
 2. Pemilik modul dan PM menilai kompleksitas sedang/tinggi menurut rubrik. Sembilan PBI per orang bukan bukti otomatis pemenuhan kompleksitas.
 3. Pemilik modul menyepakati kontrak data dan fixture untuk dependensi dari modul Sprint 2. Jika acceptance tidak bisa diuji pada sprint yang sama, jadwal diperbaiki sebelum coding.
-4. PR #4 sudah di-merge setelah CI lulus; HAP-61, HAP-1, dan HAP-7 diterima PM dan berstatus Done. PR #5 ditutup tanpa merge. PR #3 Rofii ditutup dengan perubahan yang diminta. PR pengganti #6 dibuka di branch personal `rofii`, tetapi perlu Dusk M04 dan sinkronisasi dengan `main` terbaru. HAP-16 dan HAP-25 aktif; epic HAP-2 dan HAP-3 berstatus In Progress.
+4. PR #4 sudah di-merge setelah CI lulus; HAP-61, HAP-1, dan HAP-7 diterima PM dan berstatus Done. PR dokumentasi #7 juga merged setelah CI lulus. PR #5 ditutup tanpa merge. PR #3 Rofii ditutup dengan perubahan yang diminta. PR pengganti #6 dibuka di branch personal `rofii`, tetapi perlu Dusk M04 dan sinkronisasi dengan `main` terbaru. HAP-16 dan HAP-25 aktif; epic HAP-2 dan HAP-3 berstatus In Progress.
 5. Mockup berisi data contoh. Perilaku seperti validasi, izin record, locking, dan unggahan privat harus dibuktikan melalui implementasi serta tes, bukan tangkapan layar.
 6. HAP-61 mempertahankan Original estimate 18 jam dengan remaining 0 jam. HAP-7 mempertahankan Original estimate 4 jam dengan remaining 0 jam. Tidak ada work log yang direkayasa.
 

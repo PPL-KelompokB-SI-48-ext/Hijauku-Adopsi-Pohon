@@ -6,7 +6,7 @@ Catatan ini menjelaskan perpindahan pekerjaan HAP-16 dari PR lama ke branch pers
 
 - PR #3 memakai branch `feature/HAP-16-jenis-pohon`, pola lama satu branch per fitur. PR #3 sudah ditutup dengan perubahan yang diminta.
 - PR #6 sudah dibuka dari branch personal `rofii`, dengan commit `22737f8`. CI run `40184824535` lulus pada commit tersebut.
-- PR #6 belum mendapat approval dan berstatus changes requested. Branch-nya masih berbasis `d683407`, sedangkan `main` sekarang memuat merge PR #4 pada `892ec72`.
+- PR #6 belum mendapat approval dan berstatus changes requested. Branch-nya masih berbasis `d683407`, sebelum PR #4 dan PR #7 masuk. PR #7 berisi dokumentasi. Ambil seluruh `origin/main` terbaru sebelum melanjutkan; jangan terpaku pada SHA lama yang tertulis di komentar review.
 - PR #6 sudah memiliki tes Feature, tetapi belum memiliki tes Dusk khusus untuk alur M04. Karena itu CI yang hijau belum cukup untuk menyatakan HAP-16 selesai.
 - Branch lama tetap disimpan sementara agar tidak ada pekerjaan yang hilang. HAP-16 dan parent HAP-2 saat ini In Progress. HAP-16 belum Done sampai acceptance, tes, review, dan merge beres.
 
