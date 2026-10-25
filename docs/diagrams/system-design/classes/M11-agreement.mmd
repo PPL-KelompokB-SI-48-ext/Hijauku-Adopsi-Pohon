@@ -1,0 +1,70 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M11 - Kesepakatan adopsi | HJK-031-HJK-033
+direction LR
+class AdoptionAgreement:::model {
+  +bigint id
+  +bigint request_id
+  +bigint tree_id
+  +bigint adopter_id
+  +text terms
+  +date starts_on
+  +date ends_on
+  +string status
+  +datetime accepted_at
+  +adoptionRequest() BelongsTo
+  +tree() BelongsTo
+  +adopter() BelongsTo
+  +allocation() HasOne
+}
+class TreeAdoptionAllocation:::model {
+  +bigint id
+  +bigint tree_id
+  +bigint request_id
+  +bigint agreement_id
+  +string status
+  +datetime reserved_at
+  +tree() BelongsTo
+  +adoptionRequest() BelongsTo
+  +agreement() BelongsTo
+}
+class AdoptionRequest:::shared {
+  +bigint id
+  +bigint tree_id
+  +bigint requester_id
+  +string status
+}
+class Tree:::shared {
+  +bigint id
+  +string code
+  +string initial_condition
+}
+class User:::shared {
+  +bigint id
+  +string name
+  +string role
+}
+AdoptionRequest "1" --> "0..1" AdoptionAgreement : one agreement
+Tree "1" --> "0..*" AdoptionAgreement : covered by
+User "1" --> "0..*" AdoptionAgreement : adopts
+Tree "1" --> "0..1" TreeAdoptionAllocation : unique allocation
+AdoptionRequest "1" --> "0..1" TreeAdoptionAllocation : reserves
+AdoptionAgreement "0..1" --> "0..1" TreeAdoptionAllocation : may activate
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

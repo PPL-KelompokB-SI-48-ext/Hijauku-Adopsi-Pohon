@@ -1,0 +1,60 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M01 - Program penghijauan | HJK-001-HJK-003
+direction LR
+class Program:::model {
+  +bigint id
+  +bigint created_by
+  +string name
+  +text objective
+  +date starts_on
+  +date ends_on
+  +string status
+  +sites() HasMany
+  +creator() BelongsTo
+  +activityLogs() MorphMany
+}
+class User:::shared {
+  +bigint id
+  +string name
+  +string email
+  +string role
+  +isManager() bool
+}
+class Site:::shared {
+  +bigint id
+  +bigint program_id
+  +string name
+}
+class ActivityLog:::shared {
+  +bigint id
+  +bigint actor_id
+  +string action
+  +string subject_type
+  +bigint subject_id
+}
+class CreateDraftProgram:::action {
+  +handle(actor, attributes) Program
+}
+User "0..1" --> "0..*" Program : creates
+Program "1" --> "0..*" Site : contains
+User "0..1" --> "0..*" ActivityLog : acts
+Program ..> CreateDraftProgram : created through
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

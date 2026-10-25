@@ -1,0 +1,53 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M13 - Rencana perawatan | HJK-037-HJK-039
+direction LR
+class CarePlan:::model {
+  +bigint id
+  +bigint tree_id
+  +bigint assignment_id
+  +date planned_on
+  +text action
+  +string status
+  +tree() BelongsTo
+  +assignment() BelongsTo
+  +records() HasMany
+}
+class Tree:::shared {
+  +bigint id
+  +string code
+  +string initial_condition
+}
+class FieldAssignment:::shared {
+  +bigint id
+  +bigint assignee_id
+  +string status
+}
+class CareRecord:::neighbor {
+  +bigint id
+  +bigint plan_id
+  +date performed_on
+  +string status
+}
+Tree "1" --> "0..*" CarePlan : planned for
+FieldAssignment "0..1" --> "0..*" CarePlan : may support
+CarePlan "0..1" --> "0..*" CareRecord : may result in
+note for CarePlan "assignment_id nullable. Priority belum ada pada schema; HAP-44 menambahkannya melalui migration."
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

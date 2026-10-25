@@ -1,0 +1,58 @@
+---
+config:
+  theme: base
+  look: classic
+  themeVariables:
+    background: '#FFFFFF'
+    primaryColor: '#F0FDF4'
+    primaryTextColor: '#1F2937'
+    primaryBorderColor: '#15803D'
+    lineColor: '#64748B'
+    fontFamily: Arial
+  flowchart:
+    curve: basis
+    nodeSpacing: 45
+    rankSpacing: 55
+    diagramPadding: 28
+---
+flowchart LR
+%% Garis menghubungkan kolom FK ke kolom PK atau UK yang dirujuk.
+  subgraph tbl_users["users"]
+    direction TB
+    field_users_id["id · PK"]:::pk
+  end
+  subgraph tbl_trees["trees"]
+    direction TB
+    field_trees_id["id · PK"]:::pk
+  end
+  subgraph tbl_field_assignments["field_assignments"]
+    direction TB
+    field_field_assignments_id["id · PK"]:::pk
+    field_field_assignments_assignee_id["assignee_id · FK"]:::fk
+    field_field_assignments_tree_id["tree_id · FK"]:::fk
+  end
+  subgraph tbl_care_plans["care_plans"]
+    direction TB
+    field_care_plans_id["id · PK"]:::pk
+    field_care_plans_assignment_id["assignment_id · FK"]:::fk
+    field_care_plans_tree_id["tree_id · FK"]:::fk
+  end
+  subgraph tbl_care_records["care_records"]
+    direction TB
+    field_care_records_id["id · PK"]:::pk
+    field_care_records_performed_by["performed_by · FK"]:::fk
+    field_care_records_plan_id["plan_id · FK"]:::fk
+    field_care_records_tree_id["tree_id · FK"]:::fk
+    field_care_records_verified_by["verified_by · FK"]:::fk
+  end
+  field_trees_id -->|"1 : 0..*"| field_field_assignments_tree_id
+  field_users_id -->|"1 : 0..*"| field_field_assignments_assignee_id
+  field_trees_id -->|"1 : 0..*"| field_care_plans_tree_id
+  field_field_assignments_id -->|"1 : 0..*"| field_care_plans_assignment_id
+  field_trees_id -->|"1 : 0..*"| field_care_records_tree_id
+  field_care_plans_id -->|"1 : 0..*"| field_care_records_plan_id
+  field_users_id -->|"1 : 0..*"| field_care_records_performed_by
+  field_users_id -->|"1 : 0..*"| field_care_records_verified_by
+  classDef pk fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#14532D
+  classDef fk fill:#EFF6FF,stroke:#2563EB,stroke-width:1.5px,color:#1E3A8A
+  linkStyle default stroke:#64748B,stroke-width:1.8px

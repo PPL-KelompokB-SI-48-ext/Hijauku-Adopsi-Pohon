@@ -1,18 +1,16 @@
-# Diagram proposal
+# Diagram Hijauku
 
-Gambar ini dipakai pada proposal Google Docs revisi 25 Oktober 2026. PNG untuk penyisipan, SVG untuk pengeditan dan pembesaran. File DOT tersedia untuk delapan diagram berbasis Graphviz. `01-process.svg` adalah diagram BPMN ringkas; SVG-nya merupakan sumber yang dipakai. `10-gantt.svg` mengikuti kalender di `docs/task-schedule.md`.
+Gambar proses lama dan revisi sebelumnya tetap berada di folder ini sebagai riwayat. Paket yang dipakai untuk revisi proposal saat ini ada di system-design. Bab proposal menempatkan use case, arsitektur, ERD, skema tabel, dan 15 class diagram dalam satu bagian Rancangan Sistem.
 
-| Berkas | Isi |
+Baca system-design/README.md untuk cara melihat SQL, memperbarui gambar, batas scope, dan arti garis relasi.
+
+| Kelompok | Sumber |
 | --- | --- |
-| 01-process | Ringkasan proses adopsi, kegiatan/perawatan, dan penanganan masalah |
-| 02-use-cases | Aktor dan kelompok fitur aktif |
-| 03-architecture | Publik, tiga panel, domain, database, Storage, dan CI |
-| 04-erd-inventory | Program, lokasi, petak, jenis, kelompok, dan pohon |
-| 05-erd-adoption | Permohonan, kesepakatan, alokasi, dan masalah |
-| 06-erd-operations | Kegiatan, penugasan, rencana, realisasi, dan pengamatan |
-| 07-classes-inventory | Model data utama serta Action pembuatan program |
-| 08-classes-activities | Model kegiatan dan workflow yang masih direncanakan |
-| 09-classes-care | Model perawatan/pengamatan dan workflow yang direncanakan |
-| 10-gantt | Minggu 5-15, dua sprint formal dan persiapan |
+| Use case M01-M15 | system-design/use-cases-*.mmd dan system-design/use-case-relations.mmd |
+| Arsitektur dengan logo teknologi | system-design/architecture.svg |
+| ERD relasi antar kolom | system-design/erd-relations-*.mmd |
+| Skema tabel tanpa data | system-design/erd-schema.mysql.sql dan system-design/exports/schema-rel-*.svg |
+| Class diagram per modul | system-design/classes/M01-*.mmd sampai M15 |
+| Kalender sprint | 10-gantt pada folder ini dan docs/task-schedule.md |
 
-Diagram merangkum relasi, bukan daftar seluruh kolom/metode. Migration, model, Policy, dan acceptance Jira tetap menjadi acuan implementasi. Perubahan skema atau jadwal perlu diikuti pada SVG/PNG, proposal, serta dokumentasi terkait.
+Diagram relasi menghubungkan kolom FK langsung ke kolom PK/UK yang dirujuk. Daftar kolom lengkap dan tipe MySQL ada di skema tabel. DDL hanya memuat struktur tabel, tanpa baris data. Migration tetap menjadi sumber implementasi.

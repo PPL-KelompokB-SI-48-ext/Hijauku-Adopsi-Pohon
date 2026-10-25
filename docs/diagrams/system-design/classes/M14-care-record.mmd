@@ -1,0 +1,60 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M14 - Realisasi perawatan | HJK-040-HJK-042
+direction LR
+class CareRecord:::model {
+  +bigint id
+  +bigint tree_id
+  +bigint plan_id
+  +bigint performed_by
+  +date performed_on
+  +text action
+  +string photo_path
+  +string status
+  +bigint verified_by
+  +datetime verified_at
+  +text review_note
+  +tree() BelongsTo
+  +plan() BelongsTo
+  +performer() BelongsTo
+  +verifier() BelongsTo
+}
+class Tree:::shared {
+  +bigint id
+  +string code
+  +string initial_condition
+}
+class CarePlan:::shared {
+  +bigint id
+  +bigint assignment_id
+  +date planned_on
+  +string status
+}
+class User:::shared {
+  +bigint id
+  +string name
+  +string role
+}
+Tree "1" --> "0..*" CareRecord : cared for
+CarePlan "0..1" --> "0..*" CareRecord : links
+User "1" --> "0..*" CareRecord : performs
+User "0..1" --> "0..*" CareRecord : verifies
+note for CareRecord "Pelaksana dan pemeriksa harus berbeda. photo_path menunjuk ke bukti privat."
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

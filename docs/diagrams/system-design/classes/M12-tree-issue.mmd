@@ -1,0 +1,50 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M12 - Laporan masalah pohon | HJK-034-HJK-036
+direction LR
+class TreeIssue:::model {
+  +bigint id
+  +bigint tree_id
+  +bigint reporter_id
+  +text description
+  +string severity
+  +string evidence_path
+  +string status
+  +text resolution
+  +bigint reviewer_id
+  +tree() BelongsTo
+  +reporter() BelongsTo
+  +reviewer() BelongsTo
+}
+class Tree:::shared {
+  +bigint id
+  +string code
+  +string initial_condition
+}
+class User:::shared {
+  +bigint id
+  +string name
+  +string role
+}
+Tree "1" --> "0..*" TreeIssue : has reports
+User "1" --> "0..*" TreeIssue : reports
+User "0..1" --> "0..*" TreeIssue : reviews
+note for TreeIssue "evidence_path menunjuk ke file privat; izin unduh diperiksa oleh aplikasi."
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

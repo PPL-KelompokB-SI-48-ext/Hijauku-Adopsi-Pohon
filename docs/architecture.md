@@ -1,4 +1,4 @@
-# Arsitektur Hijauku - Rev 1
+# Arsitektur Hijauku - Rev 2
 
 **Status:** Baseline arsitektur untuk starter Sprint 0.
 **Berlaku:** Scope aktif 15 modul, lima anggota, Laravel 13 + Filament 5.
@@ -16,24 +16,7 @@ Backlog aktif berisi 15 modul M01 sampai M15 dan 45 story HJK-001 sampai HJK-045
 
 Pengguna publik membuka halaman Blade + Vite. Pengelola, Petugas, dan Warga masuk ke panel Filament yang berbeda. Ketiga panel memakai satu aplikasi Laravel 13 dan satu database MySQL; Eloquent mengakses data. Policy, query scope, validasi, dan service menjaga aturan akses serta proses bisnis. Foto dan bukti disimpan di Laravel Storage privat.
 
-```mermaid
-flowchart LR
-    Citizen[Warga] --> Public[Halaman publik<br/>Blade + Vite]
-    Manager[Pengelola] --> ManagerPanel[Filament /app]
-    FieldStaff[Petugas] --> FieldPanel[Filament /petugas]
-    Citizen --> CitizenPanel[Filament /warga]
-    Public --> PublicAccess[Data publik yang diizinkan]
-    ManagerPanel --> Laravel
-    FieldPanel --> Laravel
-    CitizenPanel --> Laravel[Laravel 13<br/>monolit modular]
-    Laravel --> Gate[Login + panel gate]
-    Gate --> Policy[Policy + query scope]
-    Policy --> Service[Validasi + service transaksi]
-    PublicAccess --> Service
-    Service --> Models[Eloquent]
-    Models --> MySQL[(MySQL 8+)]
-    Laravel --> PrivateFiles[Storage privat]
-```
+![Diagram arsitektur Hijauku dengan satu aplikasi Laravel modular dan tiga panel](diagrams/system-design/exports/architecture.png)
 
 Alur request:
 
