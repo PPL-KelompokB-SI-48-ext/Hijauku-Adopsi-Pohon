@@ -55,9 +55,20 @@ class ProgramCreationTest extends DuskTestCase
             trigger.click();
             JS);
 
-        $selector = 'div[role="gridcell"][data-date="'.$date.'"]';
+        $browser->waitFor('div.fi-fo-date-time-picker-panel:not([style*="display: none"])');
 
-        $browser->waitFor($selector)
-            ->click($selector);
+        $day = json_encode((string) ((int) substr($date, -2)), JSON_THROW_ON_ERROR);
+
+        $browser->script(<<<JS
+            const day = {$day};
+            const cell = Array.from(document.querySelectorAll('.fi-fo-date-time-picker-calendar-day'))
+                .find((element) => element.offsetParent && element.textContent.trim() === day);
+
+            if (! cell) {
+                throw new Error(`Tanggal {$day} tidak tersedia di kalender yang terbuka.`);
+            }
+
+            cell.click();
+            JS);
     }
 }
