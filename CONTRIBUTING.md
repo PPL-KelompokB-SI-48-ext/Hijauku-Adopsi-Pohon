@@ -58,7 +58,7 @@ Gunakan Jira key dalam teks commit tanpa tanda kurung agar mudah ditemukan oleh 
 
     git status --short
     git add app/Models/User.php docs/architecture.md
-    git commit -m "feat: catat pendaftaran kegiatan HAP-25"
+    git commit -m "feat: catat rencana kegiatan HAP-25"
 
 Push branch ke GitHub setelah commit. Jira baru dapat menampilkan commit dan pull request pada panel Development jika repository GitHub sudah terhubung ke Jira. Setelah push, buka issue dan periksa panel Development. Jika belum muncul, PM memeriksa koneksi integrasi dan ejaan key; jangan menganggap commit sudah tertaut hanya karena key ada di komputer lokal.
 
@@ -85,7 +85,7 @@ Selesaikan konflik pada branch personal, jalankan pemeriksaan yang relevan, lalu
 
 Push branch personal dan buat PR ke `main` setelah story atau kelompok story yang dibawa PR memenuhi acceptance criteria. Sertakan semua key HAP yang dibawa PR. Sebelum membuka PR baru, pastikan tidak ada perubahan issue lain yang belum siap di branch personal. Contoh satu story:
 
-    [HAP-25] Pendaftaran kegiatan oleh warga
+    [HAP-25] Catat rencana kegiatan
 
 Di isi PR, sertakan:
 

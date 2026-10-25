@@ -37,7 +37,7 @@ Ketentuan proyek meminta setiap orang mengerjakan setidaknya satu fitur kompleks
 | Arif | M10, 3 story | M11 dan M12, 6 story |
 | Wira | M13, 3 story | M14 dan M15, 6 story |
 
-Sprint 1 mengikuti kalender minggu 6-10, 19 Okt-22 Nov 2026. Minggu 6 digunakan untuk backlog/refinement, tanpa coding. Story mulai dikerjakan pada minggu 7 dan selesai paling lambat minggu 9; minggu 10 untuk integrasi, demo, review, dan retrospektif.
+Sprint 1 mengikuti kalender minggu 6-10, 19 Okt-22 Nov 2026. Rencana awal memakai minggu 6 untuk backlog/refinement dan menjadwalkan pengerjaan story mulai minggu 7 sampai minggu 9; minggu 10 disiapkan untuk integrasi, demo, review, dan retrospektif. Riwayat GitHub mencatat alur HJK-001 sudah masuk ke `main` lewat PR #2 pada 22 Oktober. Tes Dusk ditambahkan lewat PR #4, dan PM menerima HAP-7 pada 25 Oktober. HAP-16 dan HAP-25 juga berstatus In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Pemilik perlu mencocokkan tanggal mulai Jira dengan waktu kerja sebenarnya; tanggal sprint tetap.
 
 Sprint 2 mengikuti minggu 11-15, 23 Nov-27 Des 2026. Issue HAP-10 sampai HAP-51 dibagi per minggu dalam [jadwal mingguan](task-schedule.md). Tanggal kerja adalah target koordinasi, bukan actual time. Original estimate tetap usulan awal sampai disepakati pemilik modul.
 

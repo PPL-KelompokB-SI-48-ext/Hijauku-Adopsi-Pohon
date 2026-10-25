@@ -13,7 +13,7 @@ Audit ini membandingkan proposal Google Docs, desain Canva, 25 frame Stitch, mig
 
 - Roster lima orang: Yoga, Rofii, Bitari, Arif, dan Wira. Scope aktif M01-M15 dengan HJK-001-HJK-045 / HAP-7-HAP-51. ID tetap, tidak dinomori ulang.
 - Setiap anggota memiliki tiga modul dengan tiga PBI per modul. Sprint 1 berisi satu modul/tiga PBI per orang; Sprint 2 dua modul/enam PBI per orang. Satu modul tidak dipisah antarsprint.
-- Sprint 0: persiapan minggu 5, 12-18 Oktober. Sprint 1: minggu 6-10, 19 Oktober-22 November; minggu 6 untuk backlog, coding mulai minggu 7. Sprint 2: minggu 11-15, 23 November-27 Desember 2026. Tanggal merupakan rencana, bukan work log aktual.
+- Sprint 0: persiapan minggu 5, 12-18 Oktober. Sprint 1: minggu 6-10, 19 Oktober-22 November; rencana awal memakai minggu 6 untuk backlog dan coding mulai minggu 7. Alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober; tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober. HAP-16 dan HAP-25 juga sudah In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Sprint 2: minggu 11-15, 23 November-27 Desember 2026. Tanggal target bukan work log aktual.
 - Arsitektur memakai Laravel 13, tiga panel Filament 5, Blade/Vite, Eloquent, MySQL 8+, Policy/query ownership, aksi transaksi, dan Storage privat. Artikel, galeri, dan usulan bukan scope aktif.
 - Diagram proses, aktor, arsitektur, data, kelas, dan Gantt diperbarui. Diagram kelas membedakan model/fondasi yang ada dari workflow yang masih direncanakan. Gambar sumber tersedia di `docs/diagrams/`.
 - Dua puluh lima gambar UI proposal diganti dengan render frame Stitch yang diberi label mockup/data contoh. Presentasi memakai 15 mockup modul; M09 memakai Tugas Saya, M10 Adopsi Saya, dan M11 Kesepakatan Saya agar aktornya jelas.
@@ -52,8 +52,8 @@ Komentar lama pada proposal tetap menjadi riwayat diskusi. Beberapa tautannya te
 1. Dosen mengonfirmasi roster lima orang karena PDF dan LMS memuat batas jumlah anggota yang berbeda.
 2. Pemilik modul dan PM menilai kompleksitas sedang/tinggi menurut rubrik. Sembilan PBI per orang bukan bukti otomatis pemenuhan kompleksitas.
 3. Pemilik modul menyepakati kontrak data dan fixture untuk dependensi dari modul Sprint 2. Jika acceptance tidak bisa diuji pada sprint yang sama, jadwal diperbaiki sebelum coding.
-4. PR draft #4 dan #5 tetap memerlukan keputusan PM. Revisi proposal/presentasi tidak menyatakan revert sudah merged atau HAP-61/HAP-7 sudah diterima.
+4. PR #4 sudah di-merge setelah CI lulus; HAP-61, HAP-1, dan HAP-7 diterima PM dan berstatus Done. PR #5 ditutup tanpa merge. PR #3 Rofii ditutup dengan perubahan yang diminta. PR pengganti #6 dibuka di branch personal `rofii`, tetapi perlu Dusk M04 dan sinkronisasi dengan `main` terbaru. HAP-16 dan HAP-25 aktif; epic HAP-2 dan HAP-3 berstatus In Progress.
 5. Mockup berisi data contoh. Perilaku seperti validasi, izin record, locking, dan unggahan privat harus dibuktikan melalui implementasi serta tes, bukan tangkapan layar.
-6. Pembacaan akhir menunjukkan HAP-61 Done, tetapi remaining estimate masih 4 jam dan work log kosong. Pelaksana/PM perlu merekonsiliasi nilai sisa dengan pekerjaan nyata. Audit mempertahankan data Jira dan tidak membuat waktu aktual.
+6. HAP-61 mempertahankan Original estimate 18 jam dengan remaining 0 jam. HAP-7 mempertahankan Original estimate 4 jam dengan remaining 0 jam. Tidak ada work log yang direkayasa.
 
 Audit ini tidak membaca/menulis `.env`, menjalankan migration pada database pemilik, atau membuat work log aktual.
