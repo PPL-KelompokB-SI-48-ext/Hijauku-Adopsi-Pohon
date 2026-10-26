@@ -1,0 +1,8 @@
+digraph G {graph [bgcolor="white",pad="0.3",nodesep="0.4",ranksep="0.55",fontname="Arial",fontsize=22,labeljust=l,labelloc=t]; node [shape=box,style="rounded,filled",fillcolor="#F0FDF4",color="#15803D",fontname="Arial",fontsize=16,margin="0.18,0.12"]; edge [fontname="Arial",fontsize=12,color="#64748B"]; rankdir=TB;label="Kelas domain pemeliharaan dan pengamatan";
+ Plan[label="CarePlan : Eloquent\ntree_id | assignment_id | planned_on | action | status"];
+ Record[label="CareRecord : Eloquent\ntree_id | plan_id | performed_by | performed_on\naction | photo_path | status | verified_by / at"];
+ Growth[label="GrowthObservation : Eloquent\ntree_id | observed_by | observed_on\nheight_cm | diameter_cm | condition | photo_path\nstatus | verified_by / at"];
+ Audit[label="ActivityLog : Eloquent\nactor_id | subject | action | from_status | to_status | metadata"];
+ Workflow[label="<<rancangan workflow>>\nSusun / ubah / batalkan rencana\nKirim realisasi / verifikasi oleh pihak lain\nKirim pengamatan / verifikasi / koreksi tercatat",fillcolor="#F8FAFC"];
+ Plan->Record[label="0..1 : N"];Record->Growth[style=invis];Workflow->Plan[style=dashed];Workflow->Record[style=dashed];Workflow->Growth[style=dashed];Record->Audit[style=dashed];Growth->Audit[style=dashed];
+ note[label="Priority belum menjadi atribut CarePlan: ditambahkan pada HAP-44.\nBukti privat; verifikator berbeda dari pengirim.\nRiwayat koreksi tidak boleh ditimpa diam-diam.",fillcolor="#F8FAFC"];Audit->note[style=invis];}

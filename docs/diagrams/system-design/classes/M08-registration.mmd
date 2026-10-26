@@ -1,0 +1,46 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M08 - Pendaftaran kegiatan | HJK-022-HJK-024
+direction LR
+class ActivityRegistration:::model {
+  +bigint id
+  +bigint activity_id
+  +bigint user_id
+  +string status
+  +datetime attended_at
+  +activity() BelongsTo
+  +user() BelongsTo
+}
+class Activity:::shared {
+  +bigint id
+  +string title
+  +smallint quota
+  +string status
+}
+class User:::shared {
+  +bigint id
+  +string name
+  +string role
+  +boolean is_active
+}
+Activity "1" --> "0..*" ActivityRegistration : receives
+User "1" --> "0..*" ActivityRegistration : registers
+note for ActivityRegistration "Kunci unik migration: activity_id + user_id. Pengelola mencatat kehadiran pada alur HAP-29."
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

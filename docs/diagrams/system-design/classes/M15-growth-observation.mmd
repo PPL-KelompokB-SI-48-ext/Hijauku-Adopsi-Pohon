@@ -1,0 +1,53 @@
+---
+config:
+  theme: base
+  look: classic
+  class:
+    useMaxWidth: true
+  themeVariables:
+    background: "#FFFFFF"
+    primaryColor: "#F0FDF4"
+    primaryTextColor: "#1F2937"
+    primaryBorderColor: "#15803D"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+classDiagram
+%% M15 - Pengamatan pertumbuhan | HJK-043-HJK-045
+direction LR
+class GrowthObservation:::model {
+  +bigint id
+  +bigint tree_id
+  +bigint observed_by
+  +date observed_on
+  +decimal height_cm
+  +decimal diameter_cm
+  +string condition
+  +string photo_path
+  +string status
+  +bigint verified_by
+  +datetime verified_at
+  +text review_note
+  +tree() BelongsTo
+  +observer() BelongsTo
+  +verifier() BelongsTo
+}
+class Tree:::shared {
+  +bigint id
+  +string code
+  +string initial_condition
+}
+class User:::shared {
+  +bigint id
+  +string name
+  +string role
+}
+Tree "1" --> "0..*" GrowthObservation : observed
+User "1" --> "0..*" GrowthObservation : records
+User "0..1" --> "0..*" GrowthObservation : verifies
+note for GrowthObservation "Pasangan unik migration: tree_id + observed_on. Verifikasi oleh pengguna lain."
+
+classDef model fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef shared fill:#F8FAFC,stroke:#64748B,color:#1F2937
+classDef neighbor fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+classDef action fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#1F2937

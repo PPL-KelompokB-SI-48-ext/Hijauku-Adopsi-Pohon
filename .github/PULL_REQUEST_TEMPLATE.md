@@ -8,7 +8,7 @@
 
 ## Review
 
-Minta review dari @mygads. Jika PR dibuat oleh PM, minta satu anggota tim meninjau PR.
+Anggota meminta review dari @mygads. Jika PR dibuat PM, PM tidak meminta persetujuan dari dirinya sendiri; admin bypass boleh dipakai setelah CI lulus.
 
 ## Acceptance criteria
 

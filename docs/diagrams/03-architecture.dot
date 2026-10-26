@@ -1,0 +1,7 @@
+digraph G {graph [bgcolor="white",pad="0.3",nodesep="0.4",ranksep="0.55",fontname="Arial",fontsize=22,labeljust=l,labelloc=t]; node [shape=box,style="rounded,filled",fillcolor="#F0FDF4",color="#15803D",fontname="Arial",fontsize=16,margin="0.18,0.12"]; edge [fontname="Arial",fontsize=12,color="#64748B"]; rankdir=TB;label="Arsitektur satu aplikasi Laravel";users[label="Browser pengunjung / pengelola / petugas / warga"];
+ public[label="Blade + Vite\nBeranda dan katalog publik"];panels[label="Filament 5\n/app | /petugas | /warga"];
+ auth[label="Laravel 13: sesi + autentikasi + CSRF\nGate panel + Policies + query ownership"];
+ domain[label="Action / service per domain\nValidasi server, transisi eksplisit, audit log\nTransaksi dan locking untuk kuota, kapasitas, alokasi"];
+ eloquent[label="Eloquent + constraint database"];db[label="MySQL 8+\nDatabase pengembangan"];private[label="Penyimpanan bukti privat\nUnduhan berotorisasi"];tests[label="GitHub Actions\nFeature + Dusk terisolasi\nSQLite / MySQL migration checks",fillcolor="#F8FAFC"];
+ users->public;users->panels;panels->auth;public->domain[label="data publik yang diizinkan"];auth->domain;domain->eloquent;eloquent->db;domain->private;tests->domain[style=dashed,label="verifikasi"];
+ note[label="Satu monolith modular; bukan microservices.\nStarter menyediakan fondasi. Workflow bisnis dibangun bertahap per PBI.\nForm yang belum memiliki frame Stitch memakai komponen standar Filament.",fillcolor="#F8FAFC"];db->note[style=invis];}

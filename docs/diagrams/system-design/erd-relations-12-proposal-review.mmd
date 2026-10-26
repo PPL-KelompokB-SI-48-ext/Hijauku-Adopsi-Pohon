@@ -1,0 +1,34 @@
+---
+config:
+  theme: base
+  look: classic
+  themeVariables:
+    background: '#FFFFFF'
+    primaryColor: '#F0FDF4'
+    primaryTextColor: '#1F2937'
+    primaryBorderColor: '#15803D'
+    lineColor: '#64748B'
+    fontFamily: Arial
+  flowchart:
+    curve: basis
+    nodeSpacing: 45
+    rankSpacing: 55
+    diagramPadding: 28
+---
+flowchart LR
+%% Garis menghubungkan kolom FK ke kolom PK atau UK yang dirujuk.
+  subgraph tbl_users["users"]
+    direction TB
+    field_users_id["id · PK"]:::pk
+  end
+  subgraph tbl_green_action_proposals["green_action_proposals"]
+    direction TB
+    field_green_action_proposals_id["id · PK"]:::pk
+    field_green_action_proposals_proposer_id["proposer_id · FK"]:::fk
+    field_green_action_proposals_reviewer_id["reviewer_id · FK"]:::fk
+  end
+  field_users_id -->|"1 : 0..*"| field_green_action_proposals_proposer_id
+  field_users_id -->|"1 : 0..*"| field_green_action_proposals_reviewer_id
+  classDef pk fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#14532D
+  classDef fk fill:#EFF6FF,stroke:#2563EB,stroke-width:1.5px,color:#1E3A8A
+  linkStyle default stroke:#64748B,stroke-width:1.8px

@@ -20,8 +20,8 @@ Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01-M15 (M11 menggun
 | adoption_requests | Pohon, pemohon, alasan, keputusan dan reviewer | M10 |
 | adoption_agreements | Syarat/periode satu permohonan yang disetujui | M11 |
 | tree_adoption_allocations | Lock satu pohon untuk mencegah persetujuan bersamaan | M11 |
-| tree_issues | Laporan masalah, bukti privat, prioritas, resolusi | M12 |
-| care_plans | Rencana tindakan untuk pohon dan assignment | M13 |
+| tree_issues | Laporan masalah, bukti privat, severity, resolusi | M12 |
+| care_plans | Rencana tindakan untuk pohon dan `assignment_id` opsional | M13 |
 | care_records | Realisasi, pelaksana, bukti, status dan verifikator | M14 |
 | growth_observations | Ukuran/kondisi pohon, bukti dan verifikasi | M15 |
 
@@ -35,25 +35,16 @@ Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01-M15 (M11 menggun
 
 Tabel tersebut tersisa dari rancangan 18 modul. HAP-6 sudah dihapus permanen dari Jira dan M16 sampai M18 tidak mempunyai story aktif. Jangan membuat Resource, route, atau workflow untuk tabel ini sampai PM menetapkan scope baru beserta acceptance criteria.
 
-```mermaid
-erDiagram
-    USERS ||--o{ PROGRAMS : membuat
-    PROGRAMS ||--o{ SITES : memiliki
-    SITES ||--o{ PLOTS : memuat
-    PLOTS ||--o{ PLANTING_BATCHES : menampung
-    PLOTS ||--o{ TREES : memuat
-    TREE_SPECIES ||--o{ TREES : mengelompokkan
-    SITES ||--o{ ACTIVITIES : lokasi
-    ACTIVITIES ||--o{ ACTIVITY_REGISTRATIONS : menerima
-    ACTIVITIES ||--o{ FIELD_ASSIGNMENTS : memberi_tugas
-    TREES ||--o{ ADOPTION_REQUESTS : dimohonkan
-    ADOPTION_REQUESTS ||--o| ADOPTION_AGREEMENTS : menghasilkan
-    TREES ||--o| TREE_ADOPTION_ALLOCATIONS : dikunci
-    TREES ||--o{ TREE_ISSUES : dilaporkan
-    TREES ||--o{ CARE_PLANS : direncanakan
-    CARE_PLANS ||--o{ CARE_RECORDS : direalisasikan
-    TREES ||--o{ GROWTH_OBSERVATIONS : diamati
-```
+## ERD relasi antartabel
+
+ERD dibagi per alur supaya garis relasi mudah diikuti. Setiap garis menghubungkan kolom PK/UK yang dirujuk langsung ke kolom FK, bukan ke kotak tabel secara umum. Untuk FK gabungan pada pohon dan batch, kedua pasangan kolom ditampilkan. Diagram relasi menunjukkan kunci, sedangkan daftar kolom lengkap ada pada skema tabel.
+
+Lihat diagram ERD per kelompok di diagrams/system-design/exports/erd-relations-*.png. Sumber Mermaid-nya ada di diagrams/system-design/erd-relations-*.mmd. activity_logs.subject_type dan subject_id merupakan pasangan polimorfik, bukan foreign key.
+
+## Skema tabel tanpa data
+
+File diagrams/system-design/erd-schema.mysql.sql berisi perintah CREATE TABLE saja, tanpa INSERT, data akun, atau data seeder. Skema mencakup users dan 20 tabel domain yang dibuat migration. Kelompok SVG/PNG di diagrams/system-design/exports/schema-rel-*.png menampilkan seluruh kolom dan tipe MySQL, dengan penanda PK/FK/UK serta garis yang menghubungkan kolom FK ke PK/UK yang dirujuk. File SQL menjadi acuan untuk panjang tipe, nullability, default, indeks, dan constraint.
+
 
 ## Tabel teknis
 
@@ -74,6 +65,15 @@ erDiagram
 - Indeks status/tanggal/owner disiapkan untuk query umum.
 
 ## Aturan yang harus ditegakkan oleh aplikasi
+
+### Batas scaffold pada audit 25 Oktober 2026
+
+- `care_plans` belum memiliki kolom prioritas. HAP-44 harus menambahkannya melalui migration yang aman, disertai validasi dan audit; kolom pada mockup bukan bukti skema sudah tersedia.
+- Riwayat perubahan memakai `activity_logs` dengan `actor_id`, subject, aksi, dan metadata. Jangan menganggap semua tabel memiliki `updated_by` atau kolom alasan tersendiri.
+- Alokasi yang menunggu penerimaan maupun aktif membatasi penawaran pohon. HAP-23, HAP-36, dan HAP-38 menggunakan alokasi yang masih berlaku, bukan hanya memeriksa label status pada katalog. Gunakan transaksi/row lock dan constraint MySQL, bukan partial unique index PostgreSQL.
+- `care_plans.assignment_id` dan `care_records.plan_id` bersifat opsional pada skema. Policy dan validasi story tetap memeriksa pohon, aktor, dan hubungan record yang dipilih.
+
+Diagram yang dipakai pada proposal tersedia di [diagrams/](diagrams/). Diagram adalah ringkasan; migration dan kode merupakan sumber nama kolom yang sebenarnya.
 
 Constraint statis tidak cukup untuk memeriksa kuota, kapasitas petak, availability pohon, status yang sah, tanggal lintas record, ownership, ukuran positif, dan self-review. Gunakan:
 

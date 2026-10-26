@@ -1,85 +1,64 @@
-# Audit sumber dan kondisi proyek
+# Audit sumber dan status proyek
 
-Audit ini mencatat kondisi repo, GitHub, Jira, Stitch, proposal, dan bahan kuliah setelah pembaruan Sprint 0 pada 22 Oktober 2026. Aturan kuliah berasal dari PDF; backlog berasal dari Jira; keputusan roster berasal dari PM. Ketiganya tidak boleh dicampur.
-
-## Ringkasan
-
-| Area | Kondisi sekarang |
-| --- | --- |
-| Roster | Lima anggota: Yoga, Bitari, Arif, Wira, Rofii. Dinda tidak termasuk. |
-| Aturan kelas | PDF menyebut tim 6-7 orang. Tim lima orang perlu konfirmasi dosen. |
-| Hitungan PBI | Jira menata 3 modul/orang × 3 story/modul = 9 story/orang, 45 total. Ini pembagian proyek, bukan bunyi aturan kuliah. |
-| Scope aktif | HAP-1 sampai HAP-5: 5 epic; HJK-001 sampai HJK-045: 45 story untuk M01 sampai M15. |
-| Scope di luar backlog | HAP-6 sudah dihapus permanen. M16 sampai M18 tidak memiliki story aktif; model/tabel scaffold masih ada di repo. |
-| Jira setup | HAP-61 task Sprint 0, In Progress, assigned Yoga; acceptance criteria menyebut lima orang, 45 story, role panel, CI dan alur PR. |
-| Sprints | Sprint 0, 1, 2 ada dan status Jira masih future. Tanggal Sprint 0 berakhir 18 Okt; Sprint 1 dijadwalkan 19 Okt-22 Nov; Sprint 2 diselaraskan ke pekan 11-15 dan berakhir 27 Des. PM masih perlu memutuskan state Sprint 0/1 sebelum board dianggap berjalan/selesai. |
-| Database | Baseline development MySQL 8+, berdasar konfigurasi lokal yang sudah berjalan. CI memeriksa MySQL dan SQLite. File .env lokal pemilik tidak diubah dan tidak dijalankan migrasi. |
-| UI | Stitch berisi 25 frame. Frame 21 (Beranda Publik) dan frame 24 (Kesepakatan Saya/Warga, M11) teridentifikasi; beranda starter mengikuti headline, ilustrasi, CTA, dan tiga langkah. Katalog dan layar modul belum terhubung. |
-| Starter | Laravel 13, Filament 5, tiga panel gate, Policy dasar, schema/seeder, setup lokal Windows, panduan tim, tes autentikasi/session, dan CI. Belum ada Resource/domain workflow lengkap. |
-| Estimasi Jira | 45 story memiliki Original estimate proposal awal PM dengan total 211 jam; HAP-61 memiliki Original estimate 18 jam dan remaining estimate 4 jam. Belum ada work log aktual. Rincian ada di [baseline estimasi](effort-estimates.md). |
-| Jadwal issue | 45 story memiliki Start date Senin dan Due date Minggu sesuai pekan Sprint 1/2. HAP-61 dan HAP-1 memakai rentang Sprint 0, 12-18 Oktober. Lihat [jadwal mingguan](task-schedule.md). |
-
-## Perhitungan backlog Jira
-
-| Anggota | Modul | Sprint 1 | Sprint 2 | Total |
-| --- | --- | ---: | ---: | ---: |
-| Yoga | M01-M03 | 5 | 4 | 9 |
-| Rofii | M04-M06 | 5 | 4 | 9 |
-| Bitari | M07-M09 | 4 | 5 | 9 |
-| Arif | M10-M12 | 4 | 5 | 9 |
-| Wira | M13-M15 | 4 | 5 | 9 |
-| **Total** | **M01-M15** | **22** | **23** | **45** |
-
-Story memiliki ID HJK-001 sampai HJK-045 berurutan dan issue Jira HAP-7 sampai HAP-51. Key yang sudah dipakai tidak dinomori ulang. Sprint 0 bukan sprint formal. Materi kuliah yang diaudit mengarah pada minimal 3 PBI/orang/sprint bila setiap orang mengambil satu fitur sedang/tinggi per sprint; bukan 3 PBI/orang untuk seluruh proyek.
-
-## Jira yang sudah diselaraskan
-
-- Project HAP menampilkan 5 epic aktif dan 45 story aktif.
-- Role Jira menampilkan Yoga sebagai Administrator dan empat anggota lain sebagai Member; Dinda tidak tercantum pada role proyek.
-- HAP-6 dihapus permanen melalui Jira setelah dipulihkan dari arsip dan diperiksa tidak memiliki child issue atau issue link. Pengecekan setelah penghapusan mengembalikan 404.
-- HAP-61 acceptance criteria sudah diubah dari 6 orang/54 story ke 5 orang/45 story, memasukkan pengecualian M16-M18, baseline RBAC, dokumen, CI, dan aturan PM merge.
-- HAP-1 masih To Do. Acceptance sudah diperjelas untuk tiga panel role, Policy/ownership, CI MySQL/SQLite, dokumentasi, dan scope lima orang/45 story; issue tetap To Do sampai tim menerima hasil.
-- Semua story aktif mempunyai acceptance criteria dan dialokasikan per modul/owner; Parent story HAP-7 sampai HAP-51 tertaut ke HAP-2 sampai HAP-5 sesuai modul. HAP-61 tertaut ke HAP-1.
-- Deskripsi 45 story sekarang memuat acceptance criteria asli, scope, owner, sprint, parent epic, arahan implementasi/tes untuk anggota dan AI agent, Definition of Done, Original estimate, dan aturan work log aktual. Field waktu adalah proposal awal dan masih perlu refinement pemilik.
-- Penempatan Sprint 1/2 diperbarui pada 17 story untuk merapikan urutan prasyarat dan beban awal per orang. Baseline hasil audit adalah 22 story/105h di Sprint 1 dan 23 story/106h di Sprint 2. Rincian per issue ada di [baseline estimasi](effort-estimates.md); semua angka tetap proposal PM sampai refinement anggota.
-- Integrasi GitHub for Atlassian sudah tersambung ke organisasi `PPL-KelompokB-SI-48-ext` dengan akses semua enam repo, akses penuh, dan backfill selesai. Daftar connected repositories memuat `Hijauku-Adopsi-Pohon` dengan status backfill Finished. Pada pemeriksaan ulang HAP-61, Development menampilkan commit, PR #1, dan build. CI untuk commit `8c3b219` lulus. PR #1 tetap draft dan belum digabung.
-- Jangan mulai atau menyelesaikan sprint hanya untuk menyamakan status; tindakan itu dapat mengubah status issue dan memindahkan pekerjaan. PM menentukan tanggal/state setelah melihat kondisi tim.
-
-## GitHub
-
-Repo: https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon
-
-Roster yang terverifikasi: PM Yoga (@mygads), Bitari, Arif, Wira, dan Rofii. Dinda bukan kolaborator. Empat anggota memiliki write; Yoga satu-satunya admin. Branch main mewajibkan CI install-and-build, satu approval, penyelesaian percakapan, dan membatasi push/merge ke Yoga. CODEOWNERS mencatat PM; anggota tetap meminta @mygads secara eksplisit. Draft PR #1 belum digabung. GitHub for Atlassian menampilkan repository ini sebagai connected dan backfill Finished.
-
-## Database dan keamanan
-
-PM menyatakan MySQL lokal sudah berjalan. Audit ini tidak membaca kredensial .env, tidak mengubah .env, tidak tersambung ke database, dan tidak menjalankan migration. Setup anggota memakai database hijauku_dev yang terpisah. M16 sampai M18 masih ada sebagai model/tabel scaffold karena berasal dari rancangan awal, tetapi tidak memiliki route/Resource aktif.
-
-Jangan simpan API token pada repo, dokumen, atau CI. Gunakan secret manager GitHub untuk secret CI; kredensial lokal tetap di .env.
-
-## Pemeriksaan lokal
-
-Validasi yang dijalankan pada template di branch kerja: Composer strict validation, tes Unit dan Feature pada SQLite in-memory, Laravel Pint untuk file PHP yang disentuh, dan build aset Vite. Dusk homepage sebelumnya lulus pada CI; tes browser tidak dijalankan ulang untuk perubahan dokumen dan teks judul. Script setup diperiksa sintaks PowerShell tanpa menjalankan migrasi pada database lokal pemilik.
-
-## Stitch
-
-Proyek Stitch Hijauku Admin UI Batch 01 berisi 25 frame. Frame 21 adalah Beranda Publik; frame 24 menunjukkan Kesepakatan Saya untuk Warga pada M11. Beranda kode memiliki headline utama, ilustrasi pohon, CTA, dan alur tiga langkah yang terlihat pada frame publik. Bagian katalog dan angka pada desain belum memakai sumber data; jangan tampilkan sebagai fakta produksi. Arahan kanvas mengecualikan M16-M18 dan meminta keadaan overlay tertutup serta kamus data/seed konsisten. Pemeriksaan pixel-per-pixel untuk seluruh frame belum dilakukan. Rincian implementasi ada di [panduan desain UI](ui-design.md).
+Snapshot ini mencatat pemeriksaan pada 25 Oktober 2026. Jira menjadi sumber status dan jadwal, GitHub menjadi sumber branch/commit/PR/CI, sedangkan proposal dan bahan kuliah menjadi sumber rancangan. Periksa kembali halaman live sebelum memakai status untuk keputusan baru.
 
 ## Sumber yang diperiksa
 
-- Rancangan_Arsitektur_Hijauku_PPL.docx - rancangan awal 18 modul dan PostgreSQL 18.
-- Ketentuan Proyek PPL.pdf dan Modul 1 2026 - aturan kelompok/sprint/PBI.
-- Proposal Tugas Besar PPL.pdf - daftar nama sampul dan uraian lama yang masih menyebut enam orang/54 PBI.
-- Materi requirement, Scrum, Agile dan sprint - proses backlog dan sprint.
-- Jira HAP - epic, story, assignee, label modul, sprint, dan HAP-1/HAP-61.
-- Repo GitHub dan daftar kolaborator - kode, workflow, branch, dan akses repo.
-- Stitch Hijauku Admin UI Batch 01 - frame UI dan arahan implementasi.
-- desain.md - file pengguna yang dipertahankan.
-- File .env lokal tidak dibaca atau diubah pada audit ini.
+| Sumber | Hasil pemeriksaan |
+| --- | --- |
+| Ketentuan Proyek PPL dan Modul 1 | PDF menyebut kelompok 6-7 orang, sedangkan teks LMS menyebut 5-6 orang. Tim berisi lima orang; konfirmasi dosen masih diperlukan. |
+| Rancangan arsitektur, proposal, dan bahan requirement/Scrum | Cocokkan kebutuhan, arsitektur, modul, jadwal, pengujian, dan batas fitur. Koreksi proposal dicatat pada [audit proposal](proposal-audit.md). |
+| Jira | Ada 5 epic dan 45 story aktif HJK-001-HJK-045 untuk M01-M15. Sprint 0 sudah ditutup, Sprint 1 aktif, Sprint 2 masih future. |
+| GitHub | Repo `PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon`, branch personal, pull request, protection, dan CI diperiksa. |
+| Stitch | Ada 25 frame. Pemetaan mockup ke 15 modul aktif ada di [panduan UI](ui-design.md). Mockup bukan bukti implementasi. |
+| Canva dan proposal | Proposal Google Docs diperbarui dengan kalimat yang lebih mudah dibaca. Presentasi 27 slide sudah disimpan setelah persetujuan PM. |
 
-## Hal yang tetap perlu keputusan manusia
+## Roster dan rencana kerja
 
-1. Dosen mengonfirmasi apakah tim lima orang memenuhi aturan kelompok 6-7 orang.
-2. PM menyelaraskan state Sprint 0 dan Sprint 1 yang belum cocok dengan tanggal board. Sprint 2 kini berakhir 27 Desember 2026 sesuai pekan 11-15 pada materi.
-3. Pemilik modul memetakan semua frame Stitch yang relevan ke story aktif dan melakukan review visual sebelum mengklaim UI modul final.
-4. PM dan pemilik modul melengkapi Resource, query scope, workflow transaksi, dan tes untuk story aktif.
+Anggota aktif adalah Yoga, Bitari, Arif, Wira, dan Rofii. Dinda tidak termasuk. Backlog Jira memiliki lima epic aktif, 45 story, dan kode HJK-001 sampai HJK-045. HAP-6 sudah dihapus permanen; M16-M18 berada di luar scope aktif. Jangan menomori ulang issue yang sudah dibuat.
+
+Setiap orang memiliki tiga modul dengan tiga story per modul. Rencana Sprint 1 menempatkan satu modul utuh atau tiga story per anggota. Sprint 2 menempatkan dua modul utuh atau enam story per anggota. Pembagian ini menjaga PBI satu modul tetap dalam sprint yang sama, tetapi belum membuktikan tingkat kompleksitas yang diminta rubrik. Pemilik modul perlu memeriksa kompleksitas dan dependensi saat refinement.
+
+Sprint 1 tetap berjalan pada minggu 6-10, 19 Oktober-22 November 2026. Sprint 2 berjalan pada minggu 11-15, 23 November-27 Desember 2026. Rencana awal memakai minggu 6 untuk backlog dan memulai coding pada minggu 7. Riwayat GitHub menunjukkan alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober. Tes Dusk dan penerimaan PM menyusul melalui PR #4 pada 25 Oktober. HAP-16 dan HAP-25 juga In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Kalender sprint tidak berubah; tanggal target bukan work log. Lihat [jadwal mingguan](task-schedule.md).
+
+## Status Jira pada 25 Oktober 2026
+
+- HAP-1 dan HAP-61 berstatus Done setelah PM menerima fondasi Sprint 0.
+- HAP-7 / HJK-001 berstatus Done setelah acceptance, tes browser, CI, dan merge PR #4.
+- HAP-2 dan HAP-3 berstatus In Progress karena HAP-16 dan HAP-25 sedang dikerjakan. HAP-16 dan HAP-25 berstatus In Progress; HAP-8 sampai HAP-15, HAP-17 sampai HAP-24, dan HAP-26 sampai HAP-51 masih To Do.
+- HAP-61 mempertahankan Original estimate 18 jam dan memiliki remaining estimate 0 jam. HAP-7 mempertahankan Original estimate 4 jam dan memiliki remaining estimate 0 jam.
+- Tidak ada work log aktual yang dibuat atau diubah untuk HAP-61 maupun HAP-7. Pelaksana mengisi work log sendiri hanya untuk waktu yang benar-benar dipakai.
+- Due date HAP-7 tetap 1 November 2026 sesuai rencana. Selesai lebih awal tidak mengubah tanggal target story lain.
+
+## GitHub dan branch
+
+PR #7 digabung pada 25 Oktober 2026 dengan merge commit `d59db13`. PR #9 digabung pada tanggal yang sama dengan merge commit `55b4724`.
+
+- PR #1 menambahkan starter Sprint 0 dan PR #2 menambahkan alur HJK-001. Keduanya tetap merged di `main`.
+- PR #4 menambah Dusk untuk pembuatan program, memperketat validasi tanggal, dan menyegarkan dokumentasi. PR ini merged pada 25 Oktober 2026 setelah CI lulus.
+- PR #7 memperjelas proposal dan menyelaraskan catatan status/timeline. PR dokumentasi ini merged pada 25 Oktober 2026 di `d59db13`; CI run `40190337974` lulus.
+- PR #9 menambahkan sumber serta hasil render 49 diagram rancangan, SQL schema-only, gambar skema dengan garis FK ke PK/UK, dan bab proposal yang sudah disegarkan. Merge commit `55b4724` masuk pada 25 Oktober 2026 setelah CI run `40194679835` lulus pada head `7de32cf`.
+- PR #5 yang berisi revert PR #1 dan #2 ditutup tanpa merge. Branch revert tidak digunakan untuk pengembangan.
+- PR #3 Rofii ditutup dengan perubahan yang diminta. PR pengganti #6 dibuka pada branch personal `rofii` dengan commit `22737f8`.
+- PR #6 CI-nya lulus pada run `40184824535`, tetapi branch tersebut dibuat dari `d683407`, sebelum PR #4, #7, dan #9 masuk. PR ini belum mendapat approval dan berstatus changes requested. CI menjalankan Dusk halaman publik, bukan alur M04. Pemilik branch perlu mengambil `origin/main` terbaru dan menambahkan Laravel Dusk untuk alur M04 sebelum meminta review lagi. Langkahnya ada di [panduan migrasi PR Rofii](rofii-pr-update.md).
+- Branch lama `feature/HAP-16-jenis-pohon` masih dipertahankan sampai pemilik memastikan PR #6 aman dan tidak ada perubahan yang hilang. Jangan menghapus atau mengganti branch anggota saat PR pengganti belum diterima.
+- Branch personal tetap `yoga`, `bitari`, `arif`, `wira`, dan `rofii`. Commit dan PR tetap mencantumkan key HAP kapital agar bisa ditautkan ke Jira.
+
+## Pengujian dan kondisi implementasi
+
+Stack aplikasi adalah Laravel 13, Filament 5, Blade, Vite, Eloquent, dan MySQL 8+. Panel manager `/app`, field staff `/petugas`, dan citizen `/warga` berbagi satu aplikasi. Policy dasar dan autentikasi sudah ada; fitur bisnis selain yang tercatat pada issue yang selesai tetap dikerjakan melalui PBI masing-masing.
+
+CI run [40181326721](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/40181326721) lulus pada head PR #4 `7a5efae`. Hasilnya 11 tes Unit, 20 tes Feature dengan 99 assertions, dan 2 tes Dusk dengan 9 assertions. CI juga memeriksa Composer, migration/seeder SQLite dan MySQL, route panel, serta build Vite. Tes Dusk HJK-001 login sebagai manager, mengisi form Filament, memilih tanggal, menyimpan program Draf, dan memeriksa hasil pada daftar.
+
+CI dokumentasi PR #7 juga lulus di [run 40190337974](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/40190337974). Run ini tidak menambah atau mengubah tes aplikasi.
+
+CI PR #6 Rofii juga lulus pada head-nya, tetapi hasil itu tidak membuktikan alur jenis pohon lewat browser. PR tersebut berisi tes Feature, belum Dusk untuk M04, dan perlu diuji lagi setelah branch disinkronkan ke `main` terbaru. Tes aplikasi lokal tidak dijalankan pada database pemilik. `.env` dan database MySQL lokal tidak dibaca atau diubah.
+
+## Hal yang masih perlu keputusan tim
+
+1. Minta dosen memastikan apakah roster lima orang memenuhi ketentuan, karena PDF dan LMS menyebut jumlah anggota yang berbeda.
+2. Tinjau kompleksitas fitur per anggota terhadap rubrik kelas. Jumlah sembilan story per orang saja belum membuktikan syarat tersebut.
+3. Sepakati data contoh dan urutan integrasi untuk dependensi antar modul sebelum story terkait mulai dikerjakan.
+4. Rofii menyinkronkan PR #6 dari `main` terbaru, menambahkan Dusk M04, menjalankan pemeriksaan, lalu meminta review Yoga. Penulis menyelesaikan konflik; PM yang merge setelah acceptance dan CI terpenuhi.
+
+Audit tidak mengubah waktu kerja aktual dan tidak menjalankan migration pada database pemilik.

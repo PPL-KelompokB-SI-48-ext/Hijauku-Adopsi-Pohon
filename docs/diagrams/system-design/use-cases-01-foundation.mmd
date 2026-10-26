@@ -1,0 +1,50 @@
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  usecase:
+    actorFontFamily: Arial
+    usecaseFontFamily: Arial
+    actorFontSize: 15
+    usecaseFontSize: 13
+    nodeSpacing: 34
+    rankSpacing: 44
+    diagramPadding: 24
+  themeVariables:
+    background: "#FFFFFF"
+    primaryTextColor: "#1F2937"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+usecase-beta
+direction LR
+accTitle: Aktor dan use case data dasar M01-M06
+
+actor Manager("Pengelola")
+actor Visitor("Pengunjung")
+actor Citizen("Warga")
+systemBoundary Hijauku["Hijauku - data dasar dan inventaris"]@{ type: package }
+  M01("M01 - Kelola program")
+  M02("M02 - Kelola lokasi tanam")
+  M03("M03 - Kelola petak dan kapasitas")
+  M04("M04 - Kelola jenis pohon")
+  M05("M05 - Catat kelompok penanaman")
+  M06("M06 - Kelola inventaris pohon")
+  PublicTrees("Lihat katalog dan detail pohon publik")
+end
+Manager --> M01
+Manager --> M02
+Manager --> M03
+Manager --> M04
+Manager --> M05
+Manager --> M06
+Visitor --> PublicTrees
+Citizen --> PublicTrees
+M06 --> PublicTrees
+
+classDef roleactor fill:#A7F3D0,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef feature fill:#F0FDF4,stroke:#15803D,color:#1F2937
+class Manager,Visitor,Citizen roleactor
+class M01,M02,M03,M04,M05,M06,PublicTrees feature
+style Hijauku fill:#F8FAFC,stroke:#15803D,stroke-width:2px,color:#1F2937

@@ -1,0 +1,53 @@
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  usecase:
+    actorFontFamily: Arial
+    usecaseFontFamily: Arial
+    actorFontSize: 15
+    usecaseFontSize: 13
+    nodeSpacing: 36
+    rankSpacing: 48
+    diagramPadding: 24
+  themeVariables:
+    background: "#FFFFFF"
+    primaryTextColor: "#1F2937"
+    lineColor: "#64748B"
+    fontFamily: "Arial"
+---
+usecase-beta
+direction LR
+accTitle: Detail relasi include dan extend Hijauku
+accDescr {
+  Include adalah alur wajib yang menjadi bagian use case asal. Extend adalah langkah tambahan opsional yang memperluas use case dasar.
+}
+
+actor Citizen("Warga")
+actor Manager("Pengelola")
+systemBoundary Hijauku["Hijauku - perilaku bersama"]@{ type: package }
+  RegisterActivity("Daftar kegiatan - M08")
+  CheckActivityEligibility("Periksa status kegiatan, kuota, dan duplikasi")
+  ReviewAdoption("Tinjau permohonan adopsi - M10")
+  CheckTreeAvailability("Periksa ketersediaan dan alokasi pohon")
+  ReportIssue("Laporkan masalah pohon - M12")
+  AttachEvidence("Lampirkan bukti, jika ada")
+end
+
+Citizen --> RegisterActivity
+Manager --> ReviewAdoption
+Citizen --> ReportIssue
+RegisterActivity ..> : include CheckActivityEligibility
+ReviewAdoption ..> : include CheckTreeAvailability
+AttachEvidence ..> : extend ReportIssue
+
+classDef roleactor fill:#A7F3D0,stroke:#15803D,stroke-width:2px,color:#1F2937
+classDef feature fill:#F0FDF4,stroke:#15803D,color:#1F2937
+classDef required fill:#FEF3C7,stroke:#D97706,color:#1F2937
+classDef optional fill:#EFF6FF,stroke:#2563EB,color:#1F2937
+class Citizen,Manager roleactor
+class RegisterActivity,ReviewAdoption,ReportIssue feature
+class CheckActivityEligibility,CheckTreeAvailability required
+class AttachEvidence optional
+style Hijauku fill:#F8FAFC,stroke:#15803D,stroke-width:2px,color:#1F2937

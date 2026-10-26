@@ -1,0 +1,44 @@
+---
+config:
+  theme: base
+  look: classic
+  themeVariables:
+    background: '#FFFFFF'
+    primaryColor: '#F0FDF4'
+    primaryTextColor: '#1F2937'
+    primaryBorderColor: '#15803D'
+    lineColor: '#64748B'
+    fontFamily: Arial
+  flowchart:
+    curve: basis
+    nodeSpacing: 45
+    rankSpacing: 55
+    diagramPadding: 28
+---
+flowchart LR
+%% Garis menghubungkan kolom FK ke kolom PK atau UK yang dirujuk.
+  subgraph tbl_users["users"]
+    direction TB
+    field_users_id["id · PK"]:::pk
+  end
+  subgraph tbl_programs["programs"]
+    direction TB
+    field_programs_id["id · PK"]:::pk
+    field_programs_created_by["created_by · FK"]:::fk
+  end
+  subgraph tbl_sites["sites"]
+    direction TB
+    field_sites_id["id · PK"]:::pk
+    field_sites_program_id["program_id · FK"]:::fk
+  end
+  subgraph tbl_plots["plots"]
+    direction TB
+    field_plots_id["id · PK"]:::pk
+    field_plots_site_id["site_id · FK/UK"]:::fk
+  end
+  field_users_id -->|"1 : 0..*"| field_programs_created_by
+  field_programs_id -->|"1 : 0..*"| field_sites_program_id
+  field_sites_id -->|"1 : 0..*"| field_plots_site_id
+  classDef pk fill:#DCFCE7,stroke:#15803D,stroke-width:2px,color:#14532D
+  classDef fk fill:#EFF6FF,stroke:#2563EB,stroke-width:1.5px,color:#1E3A8A
+  linkStyle default stroke:#64748B,stroke-width:1.8px
