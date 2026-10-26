@@ -255,4 +255,54 @@ class CarePlanCreationTest extends TestCase
             'action' => 'Aksi oleh staf tidak diizinkan',
         ]);
     }
+
+    public function test_manager_can_publish_draft_care_plan(): void
+    {
+        $manager = $this->manager();
+        $this->openManagerPanelAs($manager);
+        $tree = $this->createTree('PH-300');
+
+        $plan = CarePlan::query()->create([
+            'tree_id' => $tree->id,
+            'planned_on' => '2026-11-12',
+            'action' => 'Pembersihan sanitasi',
+            'status' => 'draft',
+        ]);
+
+        Livewire::test(\App\Filament\Manager\Resources\CarePlans\Pages\ListCarePlans::class)
+            ->callTableAction('publish', $plan);
+
+        $this->assertSame('published', $plan->fresh()->status);
+
+        $this->assertDatabaseHas('activity_logs', [
+            'actor_id' => $manager->getKey(),
+            'action' => 'care_plan.published',
+            'subject_type' => CarePlan::class,
+            'subject_id' => $plan->getKey(),
+            'from_status' => 'draft',
+            'to_status' => 'published',
+        ]);
+    }
+
+    public function test_manager_can_delete_draft_care_plan(): void
+    {
+        $manager = $this->manager();
+        $this->openManagerPanelAs($manager);
+        $tree = $this->createTree('PH-301');
+
+        $plan = CarePlan::query()->create([
+            'tree_id' => $tree->id,
+            'planned_on' => '2026-11-12',
+            'action' => 'Aksi dibatalkan',
+            'status' => 'draft',
+        ]);
+
+        Livewire::test(\App\Filament\Manager\Resources\CarePlans\Pages\ListCarePlans::class)
+            ->callTableAction('delete_draft', $plan);
+
+        $this->assertDatabaseMissing('care_plans', [
+            'id' => $plan->id,
+        ]);
+    }
 }
+
