@@ -10,7 +10,7 @@ class CarePlanPolicy extends ManagerOnlyPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->isFieldStaff();
+        return $user->isManager() || $user->isFieldStaff();
     }
 
     public function view(User $user, Model $model): bool
