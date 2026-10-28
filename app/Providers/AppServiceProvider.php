@@ -23,6 +23,7 @@ use App\Models\TreeAdoptionAllocation;
 use App\Models\TreeIssue;
 use App\Models\TreeSpecies;
 use App\Models\User;
+use App\Policies\ActivityPolicy;
 use App\Policies\ActivityRegistrationPolicy;
 use App\Policies\AdoptionAgreementPolicy;
 use App\Policies\AdoptionRequestPolicy;
@@ -72,6 +73,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::policy(Program::class, ProgramPolicy::class);
+        Gate::policy(Activity::class, ActivityPolicy::class);
 
         Gate::policy(ActivityRegistration::class, ActivityRegistrationPolicy::class);
         Gate::policy(AdoptionAgreement::class, AdoptionAgreementPolicy::class);
