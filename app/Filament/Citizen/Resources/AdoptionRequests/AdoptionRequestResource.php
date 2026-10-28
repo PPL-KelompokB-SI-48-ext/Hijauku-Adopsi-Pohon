@@ -7,11 +7,12 @@ use App\Filament\Citizen\Resources\AdoptionRequests\Pages\ListAdoptionRequests;
 use App\Filament\Citizen\Resources\AdoptionRequests\Schemas\AdoptionRequestForm;
 use App\Models\AdoptionRequest;
 use BackedEnum;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class AdoptionRequestResource extends Resource
 {
@@ -57,8 +58,9 @@ class AdoptionRequestResource extends Resource
                     ->label('Diajukan')
                     ->dateTime('d/m/Y H:i'),
             ])
-            ->actions([
-                \Filament\Tables\Actions\ViewAction::make(),
+            ->recordActions([
+                ViewAction::make()
+                    ->label('Lihat'),
             ]);
     }
 

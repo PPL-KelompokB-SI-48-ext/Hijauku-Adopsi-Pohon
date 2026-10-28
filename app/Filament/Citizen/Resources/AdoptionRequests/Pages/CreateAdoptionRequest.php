@@ -25,21 +25,25 @@ class CreateAdoptionRequest extends CreateRecord
 
         abort_unless($actor instanceof User, 403);
 
-        return app(CreateAdoptionRequestAction::class)->handle($actor, $data);
+        $record = app(CreateAdoptionRequestAction::class)->handle($actor, $data);
+
+        return $record;
     }
 
     protected function getRedirectUrl(): string
     {
-        return $this->getResource()::getUrl('index');
+        return AdoptionRequestResource::getUrl('index');
     }
 
     protected function getCreateFormAction(): Action
     {
-        return parent::getCreateFormAction()->label('Kirim Permohonan');
+        return parent::getCreateFormAction()
+            ->label('Kirim Permohonan');
     }
 
     protected function getCancelFormAction(): Action
     {
-        return parent::getCancelFormAction()->label('Batal');
+        return parent::getCancelFormAction()
+            ->label('Batal');
     }
 }
