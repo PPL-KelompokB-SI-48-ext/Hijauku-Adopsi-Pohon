@@ -29,4 +29,9 @@ class CarePlan extends Model
     {
         return $this->hasMany(CareRecord::class, 'plan_id');
     }
+
+    public function activityLogs(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(ActivityLog::class, 'subject');
+    }
 }
