@@ -244,7 +244,9 @@ class CarePlanCreationTest extends TestCase
             ->get('/app/care-plans')
             ->assertForbidden();
 
+        $this->assertFalse($fieldStaff->can('viewAny', CarePlan::class));
         $this->assertFalse($fieldStaff->can('create', CarePlan::class));
+        $this->assertFalse($citizen->can('viewAny', CarePlan::class));
         $this->assertFalse($citizen->can('create', CarePlan::class));
 
         $this->expectException(AuthorizationException::class);
@@ -303,6 +305,28 @@ class CarePlanCreationTest extends TestCase
         $this->assertDatabaseMissing('care_plans', [
             'id' => $plan->id,
         ]);
+    }
+
+    public function test_action_group_and_delete_actions_are_hidden_for_published_care_plan(): void
+    {
+        $manager = $this->manager();
+        $this->openManagerPanelAs($manager);
+        $tree = $this->createTree('PH-302');
+
+        $publishedPlan = CarePlan::query()->create([
+            'tree_id' => $tree->id,
+            'planned_on' => '2026-11-15',
+            'action' => 'Perawatan pohon terbit',
+            'status' => 'published',
+        ]);
+
+        Livewire::test(\App\Filament\Manager\Resources\CarePlans\Pages\ListCarePlans::class)
+            ->assertTableActionVisible('view', $publishedPlan)
+            ->assertTableActionVisible('edit', $publishedPlan)
+            ->assertTableActionHidden('edit_draft', $publishedPlan)
+            ->assertTableActionHidden('publish', $publishedPlan)
+            ->assertTableActionHidden('delete_draft', $publishedPlan)
+            ->assertTableActionHidden('delete_more', $publishedPlan);
     }
 }
 

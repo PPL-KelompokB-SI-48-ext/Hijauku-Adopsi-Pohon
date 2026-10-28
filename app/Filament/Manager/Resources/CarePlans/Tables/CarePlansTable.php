@@ -146,7 +146,7 @@ class CarePlansTable
                     ->modalSubmitActionLabel('Ya, Hapus')
                     ->visible(fn (CarePlan $record): bool => $record->status === 'draft' || $record->status === 'cancelled'),
 
-                // 6. ActionGroup "..." (More / Ellipsis): Dropdown menu untuk aksi lanjutan (seperti pada baris Terbit / Selesai)
+                // 6. ActionGroup "..." (More / Ellipsis): Hanya tampil jika ada aksi anak yang aktif (status draft / dibatalkan)
                 ActionGroup::make([
                     DeleteAction::make('delete_more')
                         ->label('Hapus Rencana')
@@ -157,7 +157,7 @@ class CarePlansTable
                     ->size('xs')
                     ->iconButton()
                     ->tooltip('Aksi lainnya')
-                    ->visible(fn (CarePlan $record): bool => $record->status !== 'draft' && $record->status !== 'cancelled'),
+                    ->visible(fn (CarePlan $record): bool => $record->status === 'draft' || $record->status === 'cancelled'),
             ])
             ->emptyStateHeading('Belum ada rencana perawatan')
             ->emptyStateDescription('Susun rencana perawatan pohon berkala sebelum dieksekusi di lapangan.')
