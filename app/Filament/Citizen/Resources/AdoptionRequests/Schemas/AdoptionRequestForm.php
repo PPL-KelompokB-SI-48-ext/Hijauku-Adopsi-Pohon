@@ -17,6 +17,7 @@ class AdoptionRequestForm
                     ->label('Pohon')
                     ->options(
                         Tree::query()
+                            ->whereDoesntHave('adoptionAllocation')
                             ->with('species')
                             ->get()
                             ->mapWithKeys(fn (Tree $tree) => [

@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 
 class AdoptionRequestResource extends Resource
 {
@@ -31,7 +32,34 @@ class AdoptionRequestResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table;
+        return $table
+            ->modifyQueryUsing(
+                fn ($query) => $query->where('requester_id', auth()->id())
+            )
+            ->columns([
+                TextColumn::make('tree.code')
+                    ->label('Kode Pohon')
+                    ->searchable(),
+
+                TextColumn::make('tree.species.name')
+                    ->label('Jenis Pohon')
+                    ->searchable(),
+
+                TextColumn::make('reason')
+                    ->label('Alasan')
+                    ->limit(50),
+
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge(),
+
+                TextColumn::make('created_at')
+                    ->label('Diajukan')
+                    ->dateTime('d/m/Y H:i'),
+            ])
+            ->actions([
+                \Filament\Tables\Actions\ViewAction::make(),
+            ]);
     }
 
     public static function getPages(): array
