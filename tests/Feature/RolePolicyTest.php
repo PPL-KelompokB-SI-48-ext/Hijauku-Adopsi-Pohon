@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\UserRole;
+use App\Models\Activity;
 use App\Models\AdoptionRequest;
 use App\Models\CareRecord;
 use App\Models\FieldAssignment;
@@ -23,6 +24,10 @@ class RolePolicyTest extends TestCase
         self::assertTrue(Gate::forUser($manager)->allows('create', Program::class));
         self::assertFalse(Gate::forUser($fieldStaff)->allows('create', Program::class));
         self::assertFalse(Gate::forUser($citizen)->allows('viewAny', Program::class));
+
+        self::assertTrue(Gate::forUser($manager)->allows('create', Activity::class));
+        self::assertFalse(Gate::forUser($fieldStaff)->allows('create', Activity::class));
+        self::assertFalse(Gate::forUser($citizen)->allows('viewAny', Activity::class));
     }
 
     public function test_field_staff_can_only_view_their_own_assignment(): void
