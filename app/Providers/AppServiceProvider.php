@@ -74,6 +74,8 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::policy(Program::class, ProgramPolicy::class);
+        Gate::policy(Activity::class, ActivityPolicy::class);
+        Gate::policy(TreeSpecies::class, TreeSpeciesPolicy::class);
 
         Gate::policy(ActivityRegistration::class, ActivityRegistrationPolicy::class);
         Gate::policy(AdoptionAgreement::class, AdoptionAgreementPolicy::class);
