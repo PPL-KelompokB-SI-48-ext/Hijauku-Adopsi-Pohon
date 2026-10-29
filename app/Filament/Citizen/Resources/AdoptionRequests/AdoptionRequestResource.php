@@ -4,6 +4,7 @@ namespace App\Filament\Citizen\Resources\AdoptionRequests;
 
 use App\Filament\Citizen\Resources\AdoptionRequests\Pages\CreateAdoptionRequest;
 use App\Filament\Citizen\Resources\AdoptionRequests\Pages\ListAdoptionRequests;
+use App\Filament\Citizen\Resources\AdoptionRequests\Pages\ViewAdoptionRequest;
 use App\Filament\Citizen\Resources\AdoptionRequests\Schemas\AdoptionRequestForm;
 use App\Models\AdoptionRequest;
 use BackedEnum;
@@ -18,7 +19,8 @@ class AdoptionRequestResource extends Resource
 {
     protected static ?string $model = AdoptionRequest::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
+    protected static string|BackedEnum|null $navigationIcon =
+        Heroicon::OutlinedDocumentText;
 
     protected static ?string $navigationLabel = 'Permohonan Adopsi';
 
@@ -35,7 +37,10 @@ class AdoptionRequestResource extends Resource
     {
         return $table
             ->modifyQueryUsing(
-                fn ($query) => $query->where('requester_id', auth()->id())
+                fn ($query) => $query->where(
+                    'requester_id',
+                    auth()->id()
+                )
             )
             ->columns([
                 TextColumn::make('tree.code')
@@ -69,6 +74,7 @@ class AdoptionRequestResource extends Resource
         return [
             'index' => ListAdoptionRequests::route('/'),
             'create' => CreateAdoptionRequest::route('/create'),
+            'view' => ViewAdoptionRequest::route('/{record}'),
         ];
     }
 }

@@ -16,7 +16,7 @@ class CreateAdoptionRequestAction
 
         return DB::transaction(function () use ($actor, $data) {
             $tree = Tree::query()
-                ->whereKey($data['tree_id'])
+                ->whereKey($data['tree_id'] ?? null)
                 ->lockForUpdate()
                 ->first();
 

@@ -13,7 +13,8 @@ class ListAdoptionRequests extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->label('Ajukan Adopsi'),
+            CreateAction::make()
+                ->label('Ajukan Adopsi'),
         ];
     }
 

@@ -25,9 +25,8 @@ class CreateAdoptionRequest extends CreateRecord
 
         abort_unless($actor instanceof User, 403);
 
-        $record = app(CreateAdoptionRequestAction::class)->handle($actor, $data);
-
-        return $record;
+        return app(CreateAdoptionRequestAction::class)
+            ->handle($actor, $data);
     }
 
     protected function getRedirectUrl(): string
