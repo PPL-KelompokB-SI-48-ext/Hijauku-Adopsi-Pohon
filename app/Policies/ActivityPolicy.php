@@ -10,7 +10,7 @@ class ActivityPolicy extends ManagerOnlyPolicy
 {
     protected function managerRestrictedAbilities(): array
     {
-        return ['update', 'delete', 'restore', 'forceDelete'];
+        return ['open', 'updateQuota', 'update', 'delete', 'restore', 'forceDelete'];
     }
 
     public function viewAny(User $user): bool
@@ -28,6 +28,16 @@ class ActivityPolicy extends ManagerOnlyPolicy
         return $user->isManager();
     }
 
+    public function open(User $user, Activity $activity): bool
+    {
+        return $user->isManager() && $activity->status === 'draft';
+    }
+
+    public function updateQuota(User $user, Activity $activity): bool
+    {
+        return $user->isManager() && in_array($activity->status, ['draft', 'open'], true);
+    }
+
     public function update(User $user, Model $model): bool
     {
         return false;
@@ -38,4 +48,3 @@ class ActivityPolicy extends ManagerOnlyPolicy
         return false;
     }
 }
-
