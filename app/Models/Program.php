@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Program extends Model
 {
-    protected $fillable = ['name', 'objective', 'starts_on', 'ends_on'];
+    use HasFactory;
+
+    protected $fillable = ['created_by', 'name', 'objective', 'starts_on', 'ends_on', 'status'];
 
     protected function casts(): array
     {
