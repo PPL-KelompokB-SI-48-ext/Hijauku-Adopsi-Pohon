@@ -43,7 +43,7 @@ class CarePlanResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(['tree.species', 'tree.plot', 'assignment.assignee']);
+        return parent::getEloquentQuery()->with(['tree.species', 'tree.plot.site', 'assignment.assignee']);
     }
 
     public static function getRelations(): array

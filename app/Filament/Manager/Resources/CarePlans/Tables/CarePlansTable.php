@@ -2,16 +2,24 @@
 
 namespace App\Filament\Manager\Resources\CarePlans\Tables;
 
+use App\Actions\CarePlans\UpdateCarePlanPriority;
 use App\Models\CarePlan;
+use App\Models\Site;
+use App\Models\Tree;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class CarePlansTable
@@ -22,13 +30,32 @@ class CarePlansTable
             ->columns([
                 TextColumn::make('tree.code')
                     ->label('Pohon')
-                    ->description(fn (CarePlan $record): ?string => $record->tree ? ($record->tree->species?->name . ' - Petak ' . $record->tree->plot?->code) : null)
+                    ->description(fn (CarePlan $record): ?string => $record->tree ? ($record->tree->species?->name.' - Petak '.$record->tree->plot?->code) : null)
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('planned_on')
                     ->label('Tanggal Rencana')
                     ->date('d M Y')
+                    ->sortable(),
+
+                TextColumn::make('priority')
+                    ->label('Prioritas')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'low' => 'Rendah',
+                        'normal', 'medium', null, '' => 'Normal',
+                        'high' => 'Tinggi',
+                        'urgent' => 'Mendesak',
+                        default => ucfirst((string) $state),
+                    })
+                    ->color(fn (?string $state): string => match ($state) {
+                        'low' => 'gray',
+                        'normal', 'medium', null, '' => 'info',
+                        'high' => 'warning',
+                        'urgent' => 'danger',
+                        default => 'gray',
+                    })
                     ->sortable(),
 
                 TextColumn::make('action')
@@ -42,8 +69,9 @@ class CarePlansTable
                         if (! $record->assignment) {
                             return '-(Belum ditugaskan)';
                         }
-                        $code = 'TGS-' . str_pad((string) $record->assignment->id, 4, '0', STR_PAD_LEFT);
+                        $code = 'TGS-'.str_pad((string) $record->assignment->id, 4, '0', STR_PAD_LEFT);
                         $assignee = $record->assignment->assignee?->name;
+
                         return $assignee ? "{$code} ({$assignee})" : $code;
                     })
                     ->badge()
@@ -68,6 +96,43 @@ class CarePlansTable
                     }),
             ])
             ->filters([
+                SelectFilter::make('tree_id')
+                    ->label('Pohon')
+                    ->placeholder('Semua Pohon')
+                    ->options(fn () => Tree::query()
+                        ->with('species')
+                        ->get()
+                        ->mapWithKeys(fn (Tree $tree) => [
+                            $tree->id => $tree->code.($tree->species ? ' ('.$tree->species->name.')' : ''),
+                        ])
+                    )
+                    ->searchable()
+                    ->preload(),
+
+                SelectFilter::make('site_id')
+                    ->label('Lokasi')
+                    ->placeholder('Semua Lokasi')
+                    ->options(fn () => Site::query()->pluck('name', 'id'))
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (! empty($data['value'])) {
+                            $query->whereHas('tree.plot', fn (Builder $q) => $q->where('site_id', $data['value']));
+                        }
+
+                        return $query;
+                    })
+                    ->searchable()
+                    ->preload(),
+
+                SelectFilter::make('priority')
+                    ->label('Prioritas')
+                    ->placeholder('Semua Prioritas')
+                    ->options([
+                        'low' => 'Rendah',
+                        'normal' => 'Normal',
+                        'high' => 'Tinggi',
+                        'urgent' => 'Mendesak',
+                    ]),
+
                 SelectFilter::make('status')
                     ->label('Semua Status')
                     ->options([
@@ -133,6 +198,49 @@ class CarePlansTable
                             ]);
                         });
                     }),
+
+                // 5. Aksi "Ubah Prioritas": Tombol dengan modal untuk mengubah tingkat prioritas disertai alasan
+                Action::make('change_priority')
+                    ->label('Ubah Prioritas')
+                    ->button()
+                    ->outlined()
+                    ->color('warning')
+                    ->size('xs')
+                    ->modalHeading('Ubah Prioritas Rencana Perawatan')
+                    ->modalDescription('Tentukan prioritas baru dan sertakan alasan perubahan.')
+                    ->modalSubmitActionLabel('Simpan Prioritas')
+                    ->form([
+                        Select::make('priority')
+                            ->label('Tingkat Prioritas')
+                            ->options([
+                                'low' => 'Rendah',
+                                'normal' => 'Normal',
+                                'high' => 'Tinggi',
+                                'urgent' => 'Mendesak',
+                            ])
+                            ->default(fn (CarePlan $record): string => $record->priority ?? 'normal')
+                            ->required(),
+                        Textarea::make('reason')
+                            ->label('Alasan Perubahan')
+                            ->placeholder('Contoh: Evaluasi lapangan memerlukan percepatan...')
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(500)
+                            ->rows(3)
+                            ->helperText('Alasan perubahan akan tercatat dalam audit log sistem.'),
+                    ])
+                    ->action(function (CarePlan $record, array $data): void {
+                        $actor = auth()->user();
+                        abort_unless($actor instanceof User, 403);
+
+                        app(UpdateCarePlanPriority::class)->handle($actor, $record, $data);
+
+                        Notification::make()
+                            ->title('Prioritas rencana perawatan berhasil diperbarui.')
+                            ->success()
+                            ->send();
+                    })
+                    ->visible(fn (CarePlan $record): bool => auth()->user()?->can('update', $record) && $record->status !== 'cancelled'),
 
                 // 5. Aksi "Hapus Draf": Tombol outline merah lembut untuk draf yang dibatalkan / draft
                 DeleteAction::make('delete_draft')
