@@ -27,6 +27,7 @@ class CreateCarePlan
             'assignment_id',
             'planned_on',
             'action',
+            'priority',
         ]));
 
         if (isset($attributes['action']) && is_string($attributes['action'])) {
@@ -42,12 +43,14 @@ class CreateCarePlan
             'assignment_id' => ['nullable', 'integer', 'exists:field_assignments,id'],
             'planned_on' => ['bail', 'required', 'date_format:Y-m-d'],
             'action' => ['required', 'string', 'max:1000'],
+            'priority' => ['nullable', 'string', 'in:low,normal,medium,high,urgent'],
         ], [
             'tree_id.required' => 'Pohon wajib dipilih.',
             'tree_id.exists' => 'Pohon yang dipilih tidak valid.',
             'planned_on.required' => 'Tanggal target wajib diisi.',
             'planned_on.date_format' => 'Tanggal target harus berupa tanggal yang valid.',
             'action.required' => 'Aksi perawatan wajib diisi.',
+            'priority.in' => 'Prioritas yang dipilih tidak valid.',
             'assignment_id.exists' => 'Penugasan yang dipilih tidak valid.',
         ])->validate();
 
@@ -67,6 +70,7 @@ class CreateCarePlan
             $plan->assignment_id = $data['assignment_id'] ?? null;
             $plan->planned_on = $data['planned_on'];
             $plan->action = $data['action'];
+            $plan->priority = $data['priority'] ?? 'normal';
             $plan->status = 'draft';
             $plan->save();
 
@@ -77,6 +81,7 @@ class CreateCarePlan
                 'to_status' => 'draft',
                 'metadata' => [
                     'assignment_id' => $plan->assignment_id,
+                    'priority' => $plan->priority,
                 ],
             ]);
 
