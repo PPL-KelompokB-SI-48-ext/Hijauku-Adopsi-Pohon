@@ -34,6 +34,8 @@ use App\Policies\GrowthObservationPolicy;
 use App\Policies\ManagerOnlyPolicy;
 use App\Policies\ProgramPolicy;
 use App\Policies\TreeIssuePolicy;
+use App\Policies\TreePolicy;
+use App\Policies\TreeSpeciesPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -62,7 +64,6 @@ class AppServiceProvider extends ServiceProvider
             Plot::class,
             Program::class,
             Site::class,
-            Tree::class,
             TreeAdoptionAllocation::class,
             TreeSpecies::class,
             User::class,
@@ -74,6 +75,8 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::policy(Program::class, ProgramPolicy::class);
         Gate::policy(Activity::class, ActivityPolicy::class);
+        Gate::policy(TreeSpecies::class, TreeSpeciesPolicy::class);
+        Gate::policy(Tree::class, TreePolicy::class);
 
         Gate::policy(ActivityRegistration::class, ActivityRegistrationPolicy::class);
         Gate::policy(AdoptionAgreement::class, AdoptionAgreementPolicy::class);
