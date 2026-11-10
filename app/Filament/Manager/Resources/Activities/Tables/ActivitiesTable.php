@@ -2,12 +2,16 @@
 
 namespace App\Filament\Manager\Resources\Activities\Tables;
 
+use App\Actions\Activities\CancelActivity;
+use App\Actions\Activities\CloseActivity;
 use App\Actions\Activities\OpenActivity;
 use App\Actions\Activities\UpdateActivityQuota;
 use App\Models\Activity;
 use App\Models\User;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
@@ -71,83 +75,155 @@ class ActivitiesTable
                     }),
             ])
             ->actions([
-                Action::make('open')
-                    ->label('Buka Kegiatan')
-                    ->icon('heroicon-o-lock-open')
-                    ->color('success')
-                    ->visible(fn (Activity $record): bool => auth()->user()?->can('open', $record) ?? false)
-                    ->modalHeading('Buka Pendaftaran Kegiatan')
-                    ->modalDescription('Ubah status kegiatan menjadi Terbuka agar pendaftaran dapat diakses oleh warga.')
-                    ->modalSubmitActionLabel('Buka Kegiatan')
-                    ->form(fn (Activity $record): array => [
-                        TextInput::make('quota')
-                            ->label('Batas kuota peserta')
-                            ->numeric()
-                            ->minValue(1)
-                            ->maxValue(65535)
-                            ->default($record->quota)
-                            ->helperText('Tentukan batas kuota peserta. Kosongkan jika tanpa batasan kuota.')
-                            ->validationMessages([
-                                'numeric' => 'Kuota berupa bilangan positif bila diisi.',
-                                'min' => 'Kuota berupa bilangan positif bila diisi.',
-                            ]),
-                        Checkbox::make('confirm_quota_change')
-                            ->label('Saya mengonfirmasi perubahan kuota kegiatan ini.')
-                            ->visible(fn (): bool => $record->registrations()->where('status', '!=', 'cancelled')->count() > 0)
-                            ->helperText(fn (): string => 'Perhatian: Kegiatan ini sudah memiliki '
-                                . $record->registrations()->where('status', '!=', 'cancelled')->count()
-                                . ' pendaftar. Konfirmasi diperlukan untuk mengubah kuota.'),
-                    ])
-                    ->action(function (Activity $record, array $data): void {
-                        $actor = auth()->user();
-                        abort_unless($actor instanceof User, 403);
+                ActionGroup::make([
+                    Action::make('open')
+                        ->label('Buka Kegiatan')
+                        ->icon('heroicon-o-lock-open')
+                        ->color('success')
+                        ->visible(fn (Activity $record): bool => auth()->user()?->can('open', $record) ?? false)
+                        ->modalHeading('Buka Pendaftaran Kegiatan')
+                        ->modalDescription('Ubah status kegiatan menjadi Terbuka agar pendaftaran dapat diakses oleh warga.')
+                        ->modalSubmitActionLabel('Buka Kegiatan')
+                        ->form(fn (Activity $record): array => [
+                            TextInput::make('quota')
+                                ->label('Batas kuota peserta')
+                                ->numeric()
+                                ->minValue(1)
+                                ->maxValue(65535)
+                                ->default($record->quota)
+                                ->helperText('Tentukan batas kuota peserta. Kosongkan jika tanpa batasan kuota.')
+                                ->validationMessages([
+                                    'numeric' => 'Kuota berupa bilangan positif bila diisi.',
+                                    'min' => 'Kuota berupa bilangan positif bila diisi.',
+                                ]),
+                            Checkbox::make('confirm_quota_change')
+                                ->label('Saya mengonfirmasi perubahan kuota kegiatan ini.')
+                                ->visible(fn (): bool => $record->registrations()->where('status', '!=', 'cancelled')->count() > 0)
+                                ->helperText(fn (): string => 'Perhatian: Kegiatan ini sudah memiliki '
+                                    . $record->registrations()->where('status', '!=', 'cancelled')->count()
+                                    . ' pendaftar. Konfirmasi diperlukan untuk mengubah kuota.'),
+                        ])
+                        ->action(function (Activity $record, array $data): void {
+                            $actor = auth()->user();
+                            abort_unless($actor instanceof User, 403);
 
-                        app(OpenActivity::class)->handle($actor, $record, $data);
+                            app(OpenActivity::class)->handle($actor, $record, $data);
 
-                        Notification::make()
-                            ->title('Kegiatan berhasil dibuka.')
-                            ->success()
-                            ->send();
-                    }),
+                            Notification::make()
+                                ->title('Kegiatan berhasil dibuka.')
+                                ->success()
+                                ->send();
+                        }),
 
-                Action::make('updateQuota')
-                    ->label('Ubah Kuota')
-                    ->icon('heroicon-o-adjustments-horizontal')
-                    ->color('gray')
-                    ->visible(fn (Activity $record): bool => $record->status === 'open' && (auth()->user()?->can('updateQuota', $record) ?? false))
-                    ->modalHeading('Ubah Kuota Peserta')
-                    ->modalDescription('Sesuaikan batas kuota peserta untuk kegiatan yang sedang dibuka ini.')
-                    ->modalSubmitActionLabel('Simpan Kuota')
-                    ->form(fn (Activity $record): array => [
-                        TextInput::make('quota')
-                            ->label('Kuota peserta')
-                            ->numeric()
-                            ->minValue(1)
-                            ->maxValue(65535)
-                            ->default($record->quota)
-                            ->helperText('Isi bilangan positif atau kosongkan jika tanpa batas kuota.')
-                            ->validationMessages([
-                                'numeric' => 'Kuota berupa bilangan positif bila diisi.',
-                                'min' => 'Kuota berupa bilangan positif bila diisi.',
-                            ]),
-                        Checkbox::make('confirm_quota_change')
-                            ->label('Saya mengonfirmasi perubahan kuota kegiatan ini.')
-                            ->visible(fn (): bool => $record->registrations()->where('status', '!=', 'cancelled')->count() > 0)
-                            ->helperText(fn (): string => 'Perhatian: Kegiatan ini sudah memiliki '
-                                . $record->registrations()->where('status', '!=', 'cancelled')->count()
-                                . ' pendaftar. Konfirmasi diperlukan untuk mengubah kuota.'),
-                    ])
-                    ->action(function (Activity $record, array $data): void {
-                        $actor = auth()->user();
-                        abort_unless($actor instanceof User, 403);
+                    Action::make('updateQuota')
+                        ->label('Ubah Kuota')
+                        ->icon('heroicon-o-adjustments-horizontal')
+                        ->color('gray')
+                        ->visible(fn (Activity $record): bool => $record->status === 'open' && (auth()->user()?->can('updateQuota', $record) ?? false))
+                        ->modalHeading('Ubah Kuota Peserta')
+                        ->modalDescription('Sesuaikan batas kuota peserta untuk kegiatan yang sedang dibuka ini.')
+                        ->modalSubmitActionLabel('Simpan Kuota')
+                        ->form(fn (Activity $record): array => [
+                            TextInput::make('quota')
+                                ->label('Kuota peserta')
+                                ->numeric()
+                                ->minValue(1)
+                                ->maxValue(65535)
+                                ->default($record->quota)
+                                ->helperText('Isi bilangan positif atau kosongkan jika tanpa batas kuota.')
+                                ->validationMessages([
+                                    'numeric' => 'Kuota berupa bilangan positif bila diisi.',
+                                    'min' => 'Kuota berupa bilangan positif bila diisi.',
+                                ]),
+                            Checkbox::make('confirm_quota_change')
+                                ->label('Saya mengonfirmasi perubahan kuota kegiatan ini.')
+                                ->visible(fn (): bool => $record->registrations()->where('status', '!=', 'cancelled')->count() > 0)
+                                ->helperText(fn (): string => 'Perhatian: Kegiatan ini sudah memiliki '
+                                    . $record->registrations()->where('status', '!=', 'cancelled')->count()
+                                    . ' pendaftar. Konfirmasi diperlukan untuk mengubah kuota.'),
+                        ])
+                        ->action(function (Activity $record, array $data): void {
+                            $actor = auth()->user();
+                            abort_unless($actor instanceof User, 403);
 
-                        app(UpdateActivityQuota::class)->handle($actor, $record, $data);
+                            app(UpdateActivityQuota::class)->handle($actor, $record, $data);
 
-                        Notification::make()
-                            ->title('Kuota kegiatan berhasil diperbarui.')
-                            ->success()
-                            ->send();
-                    }),
+                            Notification::make()
+                                ->title('Kuota kegiatan berhasil diperbarui.')
+                                ->success()
+                                ->send();
+                        }),
+
+                    Action::make('close')
+                        ->label('Tutup Kegiatan')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('info')
+                        ->visible(fn (Activity $record): bool => auth()->user()?->can('close', $record) ?? false)
+                        ->modalHeading('Tutup Kegiatan Lapangan')
+                        ->modalDescription('Ubah status kegiatan menjadi Selesai. Masukkan catatan atau alasan penutupan kegiatan.')
+                        ->modalSubmitActionLabel('Tutup Kegiatan')
+                        ->form([
+                            Textarea::make('reason')
+                                ->label('Catatan / alasan penutupan kegiatan')
+                                ->required()
+                                ->minLength(5)
+                                ->maxLength(500)
+                                ->placeholder('Contoh: Kegiatan penanaman pohon telah selesai terlaksana dengan lancar.')
+                                ->helperText('Tercatat dalam log riwayat kegiatan.')
+                                ->validationMessages([
+                                    'required' => 'Catatan/alasan penutupan kegiatan wajib diisi.',
+                                    'min' => 'Catatan/alasan penutupan kegiatan minimal 5 karakter.',
+                                    'max' => 'Catatan/alasan penutupan kegiatan tidak boleh melebihi 500 karakter.',
+                                ]),
+                        ])
+                        ->action(function (Activity $record, array $data): void {
+                            $actor = auth()->user();
+                            abort_unless($actor instanceof User, 403);
+
+                            app(CloseActivity::class)->handle($actor, $record, $data);
+
+                            Notification::make()
+                                ->title('Kegiatan berhasil ditutup dan ditandai selesai.')
+                                ->success()
+                                ->send();
+                        }),
+
+                    Action::make('cancel')
+                        ->label('Batalkan Kegiatan')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->visible(fn (Activity $record): bool => auth()->user()?->can('cancel', $record) ?? false)
+                        ->modalHeading('Batalkan Kegiatan Lapangan')
+                        ->modalDescription('Perhatian: Membatalkan kegiatan akan mengubah status seluruh pendaftar aktif menjadi dibatalkan. Masukkan alasan pembatalan.')
+                        ->modalSubmitActionLabel('Batalkan Kegiatan')
+                        ->form([
+                            Textarea::make('reason')
+                                ->label('Alasan pembatalan kegiatan')
+                                ->required()
+                                ->minLength(5)
+                                ->maxLength(500)
+                                ->placeholder('Contoh: Kegiatan dibatalkan karena kendala cuaca buruk dan banjir di lokasi.')
+                                ->helperText('Wajib diisi dan tercatat dalam log riwayat kegiatan.')
+                                ->validationMessages([
+                                    'required' => 'Alasan pembatalan kegiatan wajib diisi.',
+                                    'min' => 'Alasan pembatalan kegiatan minimal 5 karakter.',
+                                    'max' => 'Alasan pembatalan kegiatan tidak boleh melebihi 500 karakter.',
+                                ]),
+                        ])
+                        ->action(function (Activity $record, array $data): void {
+                            $actor = auth()->user();
+                            abort_unless($actor instanceof User, 403);
+
+                            app(CancelActivity::class)->handle($actor, $record, $data);
+
+                            Notification::make()
+                                ->title('Kegiatan lapangan telah dibatalkan.')
+                                ->danger()
+                                ->send();
+                        }),
+                ])
+                    ->icon('heroicon-m-ellipsis-horizontal')
+                    ->tooltip('Aksi Kegiatan'),
             ])
             ->emptyStateHeading('Belum ada kegiatan lapangan')
             ->emptyStateDescription('Tambahkan kegiatan lapangan baru untuk mulai menjadwalkan aksi di lokasi.')
