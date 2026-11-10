@@ -171,7 +171,7 @@ class TreeSpeciesCreationTest extends TestCase
         ]);
     }
 
-    public function test_manager_is_not_allowed_to_update_or_delete_tree_species_in_this_story(): void
+    public function test_manager_permissions_for_tree_species(): void
     {
         $manager = $this->manager();
         $species = new TreeSpecies;
@@ -179,7 +179,7 @@ class TreeSpeciesCreationTest extends TestCase
 
         $this->assertTrue($manager->can('create', TreeSpecies::class));
         $this->assertTrue($manager->can('viewAny', TreeSpecies::class));
-        $this->assertFalse($manager->can('update', $species));
+        $this->assertTrue($manager->can('update', $species));
         $this->assertFalse($manager->can('delete', $species));
     }
 

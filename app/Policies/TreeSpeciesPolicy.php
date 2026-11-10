@@ -10,7 +10,7 @@ class TreeSpeciesPolicy extends ManagerOnlyPolicy
 {
     protected function managerRestrictedAbilities(): array
     {
-        return ['update', 'delete', 'restore', 'forceDelete'];
+        return ['delete', 'restore', 'forceDelete'];
     }
 
     public function viewAny(User $user): bool
@@ -30,7 +30,7 @@ class TreeSpeciesPolicy extends ManagerOnlyPolicy
 
     public function update(User $user, Model $model): bool
     {
-        return false;
+        return $model instanceof TreeSpecies && $user->isManager();
     }
 
     public function delete(User $user, Model $model): bool
