@@ -7,11 +7,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TreeAdoptionAllocation extends Model
 {
-    protected $fillable = ['tree_id', 'request_id', 'agreement_id', 'status', 'reserved_at'];
+    public const VALID_STATUSES = [
+        'awaiting_acceptance',
+        'active',
+    ];
+
+    protected $fillable = [
+        'tree_id',
+        'request_id',
+        'agreement_id',
+        'status',
+        'reserved_at',
+    ];
 
     protected function casts(): array
     {
-        return ['reserved_at' => 'datetime'];
+        return [
+            'reserved_at' => 'datetime',
+        ];
     }
 
     public function tree(): BelongsTo

@@ -4,6 +4,7 @@ namespace App\Actions\Adoptions;
 
 use App\Models\AdoptionRequest;
 use App\Models\Tree;
+use App\Models\TreeAdoptionAllocation;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -26,7 +27,14 @@ class CreateAdoptionRequestAction
                 ]);
             }
 
-            if ($tree->adoptionAllocation()->exists()) {
+            $hasValidAllocation = $tree->adoptionAllocation()
+                ->whereIn(
+                    'status',
+                    TreeAdoptionAllocation::VALID_STATUSES
+                )
+                ->exists();
+
+            if ($hasValidAllocation) {
                 throw ValidationException::withMessages([
                     'tree_id' => 'Pohon sudah tidak tersedia untuk diajukan.',
                 ]);

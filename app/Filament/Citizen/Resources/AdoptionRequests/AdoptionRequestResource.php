@@ -2,13 +2,17 @@
 
 namespace App\Filament\Citizen\Resources\AdoptionRequests;
 
+use App\Actions\Adoptions\WithdrawAdoptionRequestAction;
 use App\Filament\Citizen\Resources\AdoptionRequests\Pages\CreateAdoptionRequest;
 use App\Filament\Citizen\Resources\AdoptionRequests\Pages\ListAdoptionRequests;
 use App\Filament\Citizen\Resources\AdoptionRequests\Pages\ViewAdoptionRequest;
 use App\Filament\Citizen\Resources\AdoptionRequests\Schemas\AdoptionRequestForm;
 use App\Models\AdoptionRequest;
+use App\Models\User;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -57,7 +61,22 @@ class AdoptionRequestResource extends Resource
 
                 TextColumn::make('status')
                     ->label('Status')
-                    ->badge(),
+                    ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'draft' => 'Draf',
+                        'submitted' => 'Menunggu Keputusan',
+                        'approved' => 'Disetujui',
+                        'rejected' => 'Ditolak',
+                        'withdrawn' => 'Ditarik',
+                        default => ucfirst(str_replace('_', ' ', $state)),
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'draft' => 'gray',
+                        'submitted' => 'warning',
+                        'approved' => 'success',
+                        'rejected', 'withdrawn' => 'danger',
+                        default => 'gray',
+                    }),
 
                 TextColumn::make('created_at')
                     ->label('Diajukan')
@@ -66,6 +85,40 @@ class AdoptionRequestResource extends Resource
             ->recordActions([
                 ViewAction::make()
                     ->label('Lihat'),
+
+                Action::make('withdraw')
+                    ->label('Tarik Permohonan')
+                    ->button()
+                    ->outlined()
+                    ->color('danger')
+                    ->size('xs')
+                    ->requiresConfirmation()
+                    ->modalHeading('Tarik Permohonan Adopsi')
+                    ->modalDescription(
+                        'Apakah Anda yakin ingin menarik permohonan adopsi ini? Permohonan yang sudah ditarik tidak dapat diproses kembali.'
+                    )
+                    ->modalSubmitActionLabel('Ya, Tarik Permohonan')
+                    ->visible(
+                        fn (AdoptionRequest $record): bool => $record->status === 'submitted'
+                            && (bool) (
+                                auth()->user()?->can('withdraw', $record) ?? false
+                            )
+                    )
+                    ->action(function (AdoptionRequest $record): void {
+                        $actor = auth()->user();
+
+                        abort_unless($actor instanceof User, 403);
+
+                        app(WithdrawAdoptionRequestAction::class)->handle(
+                            $actor,
+                            $record
+                        );
+
+                        Notification::make()
+                            ->title('Permohonan berhasil ditarik.')
+                            ->success()
+                            ->send();
+                    }),
             ]);
     }
 

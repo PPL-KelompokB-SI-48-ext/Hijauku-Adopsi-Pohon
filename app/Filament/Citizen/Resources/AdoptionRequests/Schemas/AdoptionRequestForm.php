@@ -4,6 +4,7 @@ namespace App\Filament\Citizen\Resources\AdoptionRequests\Schemas;
 
 use App\Models\AdoptionRequest;
 use App\Models\Tree;
+use App\Models\TreeAdoptionAllocation;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
@@ -28,12 +29,18 @@ class AdoptionRequestForm
                 )
                 ->options(
                     Tree::query()
-                        ->whereDoesntHave('adoptionAllocation')
+                        ->whereDoesntHave(
+                            'adoptionAllocation',
+                            fn ($query) => $query->whereIn(
+                                'status',
+                                TreeAdoptionAllocation::VALID_STATUSES
+                            )
+                        )
                         ->whereNotIn('id', $activeTreeIds)
                         ->with('species')
                         ->get()
                         ->mapWithKeys(fn (Tree $tree) => [
-                            $tree->id => $tree->code . ' - ' . $tree->species->name,
+                            $tree->id => $tree->code.' - '.$tree->species->name,
                         ])
                         ->all()
                 )
@@ -42,7 +49,9 @@ class AdoptionRequestForm
 
             Textarea::make('reason')
                 ->label('Alasan Adopsi')
-                ->placeholder('Tuliskan alasan Anda ingin mengadopsi pohon ini.')
+                ->placeholder(
+                    'Tuliskan alasan Anda ingin mengadopsi pohon ini.'
+                )
                 ->required()
                 ->maxLength(1000),
         ]);
