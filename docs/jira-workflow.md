@@ -11,7 +11,7 @@ Sebelum story masuk sprint, pastikan issue memiliki bagian berikut. Gunakan baha
 3. **Ruang lingkup** - tindakan yang termasuk dan hal yang tidak termasuk, agar implementer tidak menambah fitur sendiri.
 4. **Kriteria penerimaan** - kondisi berhasil dan ditolak yang dapat diperiksa; cantumkan role, kepemilikan record, validasi, dan transisi status bila relevan.
 5. **Catatan implementasi** - file/domain yang perlu dibaca, halaman Stitch bila ada, Policy dan query scope, migration/service/transaksi yang mungkin terdampak. Ini panduan, bukan pengganti keputusan implementer.
-6. **Definition of Done** - pemeriksaan yang dijalankan, dokumentasi yang disesuaikan, PR yang menaut ke issue, CI hijau, review selesai, dan status yang diperbarui setelah penerimaan PM.
+6. **Definition of Done** - acceptance criteria dan tes relevan terpenuhi di branch personal yang sudah di-push; status Jira diperbarui; work log hanya mencatat waktu aktual. PR, CI integrasi, review PM, dan merge dilakukan bersama pada akhir sprint.
 7. **Estimasi** - Original estimate yang disepakati tim sebelum mulai; jangan menaruh estimasi seolah-olah itu waktu aktual.
 
 Contoh kerangka deskripsi:
@@ -46,9 +46,11 @@ Definition of Done
 - Acceptance criteria teruji.
 - Migration dan seeder aman untuk data yang ada bila schema berubah.
 - Tes akses berhasil dan ditolak tersedia.
-- Pemeriksaan yang relevan lulus dan hasilnya dicantumkan di PR.
-- PR menyebut HAP-x; penulis menyelesaikan konflik; CI hijau; review selesai.
-- PM menerima perubahan sebelum issue dinyatakan selesai.
+- Pemeriksaan relevan untuk story lulus di branch personal yang sudah di-push.
+- Commit memakai key HAP dan muncul pada panel Development Jira.
+- Pelaksana memperbarui status dan remaining estimate berdasarkan kondisi sebenarnya.
+- PR berisi pekerjaan satu sprint per anggota. CI, review PM, dan merge ke `main` diselesaikan pada akhir sprint.
+- Jika review integrasi menemukan acceptance yang gagal, buka kembali issue terkait dan perbaiki.
 
 Estimasi awal
 - Original estimate: [diisi saat refinement]
@@ -71,20 +73,22 @@ Jika estimasi berubah, tulis alasan di issue dan sesuaikan remaining estimate. J
 
 ## Menghubungkan Jira, branch, commit, dan PR
 
-Gunakan branch personal sesuai nama anggota. Sertakan issue key HAP pada setiap commit dan PR:
+Gunakan branch personal yang sudah dimiliki anggota. Nama yang sekarang terlihat di GitHub adalah Yoga `yoga`, Bitari `bitaridamar`, Arif `arif`, Wira `ayuwira`, dan Rofii `Rofii`. Variasi ejaan atau huruf besar sudah diterima PM, jadi jangan mengganti nama branch aktif. Sertakan issue key HAP pada setiap commit dan PR:
 
 ```text
-Branch: bitari
+Branch: bitaridamar
 Commit: feat: catat rencana kegiatan HAP-25
 PR title: [HAP-25] Catat rencana kegiatan
 PR body: https://myogaadi1234567.atlassian.net/browse/HAP-25
 ```
 
-Satu anggota hanya memakai satu branch personal (`yoga`, `bitari`, `arif`, `wira`, atau `rofii`), bukan satu branch per fitur. Branch tidak memuat issue key karena dipakai lintas story; setiap commit dan PR tetap harus menyebut key HAP huruf kapital. Key lama tidak dinomori ulang. Nomor HJK adalah label kebutuhan, bukan pengganti HAP. Commit lokal yang belum di-push belum terlihat Jira. Branch lama `feature/HAP-...` tidak dipakai untuk story baru; pemilik memindahkan commit yang belum tergabung ke branch personal sebelum membuka PR pengganti.
+Satu anggota hanya memakai satu branch personal, bukan satu branch per fitur. Branch tidak memuat issue key karena dipakai lintas story; setiap commit dan PR tetap harus menyebut key HAP huruf kapital. Key lama tidak dinomori ulang. Nomor HJK adalah label kebutuhan, bukan pengganti HAP. Commit lokal yang belum di-push belum terlihat Jira. Branch lama `feature/HAP-...` tidak dipakai untuk story baru; pemilik memindahkan commit yang belum tergabung ke branch personal sebelum membuka PR pengganti.
 
 Sesudah push, buka issue Jira dan periksa **Development** untuk commit/branch/PR. Koneksi **GitHub for Atlassian** proyek ini sudah mengarah ke organisasi `PPL-KelompokB-SI-48-ext`, memberi akses semua enam repo termasuk `Hijauku-Adopsi-Pohon`, dan status backfill selesai. Keterkaitan otomatis tetap perlu diverifikasi pada issue setelah push; jika panel kosong, periksa format key, izin `View development tools`, sinkronisasi, dan akses repo sebelum mengklaim tautan tampil. Jangan membuat duplikasi issue.
 
-Pemilik branch membuka PR ke `main` saat story/kelompok story yang dicantumkan sudah memenuhi acceptance criteria. Body PR mencantumkan semua issue dan acceptance yang dibawa; anggota meminta Yoga (@mygads) sebagai reviewer. Penulis menyelesaikan konflik dan percakapan review. Hanya PM yang merge. PR anggota perlu satu approval PM; PR Yoga tidak perlu self-approval, tetapi CI tetap wajib hijau. Repo memakai merge commit; setelah merge, pemilik branch menarik `main` terbaru ke branch personal dan mempertahankannya. Branch sementara hanya boleh dihapus bila tidak ada PR terbuka dan tidak memiliki commit unik yang belum dipindahkan. Lihat [CONTRIBUTING.md](../CONTRIBUTING.md) untuk perintah lengkap.
+Story dikerjakan di branch personal. Setelah acceptance dan tes relevan terpenuhi serta commit di-push, pelaksana dapat menandai story Done dan memeriksa tautan commit di panel Development Jira. Story tidak perlu menunggu PR sprint di-merge. Jika syaratnya belum terpenuhi, statusnya tetap In Progress.
+
+Pada akhir sprint, tiap anggota membuka satu PR dari branch personal ke `main` untuk story sprint yang sudah selesai. PM menentukan urutan integrasi. Pemilik branch menyinkronkan `main`, menyelesaikan konflik, menjalankan pemeriksaan, dan mencantumkan semua issue serta acceptance dalam body PR. Anggota meminta Yoga (@mygads) sebagai reviewer; hanya PM yang merge. PR anggota perlu satu approval PM; PR Yoga tidak perlu self-approval, tetapi CI wajib hijau. Jika CI atau review integrasi menemukan acceptance gagal, story terkait dikembalikan ke In Progress. Repo memakai merge commit; setelah merge, pemilik branch menarik `main` terbaru dan mempertahankan branch personal. Lihat [CONTRIBUTING.md](../CONTRIBUTING.md) untuk perintah lengkap.
 
 ## Siapa memperbarui apa
 
@@ -93,11 +97,21 @@ Pemilik branch membuka PR ke `main` saat story/kelompok story yang dicantumkan s
 | Requirement atau acceptance criteria | Deskripsi story dan sprint bila terdampak | Dokumen requirement/arsitektur bila baseline berubah |
 | Perkiraan sebelum sprint | Original estimate | Tidak perlu menggandakan angka di README |
 | Waktu aktual | Pelaksana menambah work log untuk issue yang dikerjakan | Commit/PR menjadi bukti perubahan kode, bukan pengganti work log |
-| Perubahan kode | Status dan tautan issue/PR | Branch, commit, PR, CI, review, merge |
+| Perubahan kode | Status story setelah acceptance dan tes diverifikasi; tautan commit | Branch dan commit saat story selesai; satu PR per anggota saat penutupan sprint; CI, review, merge |
 | Perubahan skema/keputusan arsitektur | Issue terkait dan persetujuan PM | Migration, tes, ADR/dokumen, PR |
-| Penerimaan/penutupan | PM memperbarui status setelah review/acceptance | Merge hanya oleh PM |
+| Penerimaan/penutupan | Pelaksana menandai story Done setelah acceptance terpenuhi dan commit di-push; PM mengawasi penutupan sprint | PM me-review dan me-merge PR sprint; bila integrasi menemukan masalah, buka kembali story |
 
-Jangan menyatakan issue selesai hanya karena commit sudah ada. Status akhir mengikuti acceptance criteria, hasil review, CI, dan penerimaan PM.
+Commit yang ada saja tidak cukup untuk menandai Done. Pastikan acceptance dan tes relevan terpenuhi di branch personal yang di-push. CI dan review PM menjadi gerbang integrasi PR pada akhir sprint, bukan syarat menunggu untuk setiap perubahan status story.
+
+## Pemeriksaan Jira dan GitHub 10 November 2026
+
+Jira menampilkan 45 story: 7 Done, 7 In Progress, dan 31 To Do. Status Done: HAP-7/8/9, HAP-25, HAP-43/44/45. Status In Progress: HAP-16/17/18, HAP-26/27, HAP-34/35. Epic HAP-1 Done; HAP-2 sampai HAP-5 In Progress.
+
+Status HAP-16/17, HAP-26/27, dan HAP-34/35 dikoreksi ke In Progress saat audit karena belum ada bukti terbaru bahwa scope masing-masing story, acceptance, dan tesnya sudah diverifikasi pada head branch saat ini. Alasan "PR belum merged" saja tidak cukup untuk menahan story Done dalam alur kerja tim yang menggabungkan PR pada akhir sprint. Pemilik perlu memastikan kembali acceptance pada branch yang sudah di-push, memperbarui status story jika memang sudah selesai, serta menyinkronkan branch dan menyiapkan CI/review untuk integrasi akhir sprint. Komentar audit Jira juga meminta replanning due date yang lewat.
+
+PR #12 tertinggal 7 commit dari `main`; PR #14 tertinggal 7; PR #15 tertinggal 13 pada saat audit. CI terakhir masing-masing berhasil pada commit lama, sebelum merge PR #16 ke `main`. Sebelum PR sprint ditinjau dan digabung, pemilik perlu menyinkronkan `origin/main`, menyelesaikan konflik sendiri, memastikan semua commit dan acceptance tetap sesuai, lalu meminta run CI dan review baru. Jumlah behind/ahead adalah snapshot audit dan perlu dicek lagi sebelum tindak lanjut.
+
+HAP-25 dan HAP-43 berstatus Done setelah PR merged, tetapi Remaining estimate masing-masing masih 4 jam dan 5 jam. Work log keduanya kosong. Pemilik perlu mengonfirmasi sisa estimasi dan mencatat work log hanya untuk waktu yang benar-benar dikerjakan. Estimasi dan remaining estimate bukan actual time.
 
 ## Referensi Jira
 

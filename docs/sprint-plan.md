@@ -40,7 +40,7 @@ HAP-61 mempertahankan Original estimate 18 jam dan remaining estimate 0 jam. Tid
 - [x] HAP-61 dan HAP-1 diterima; HAP-7 diterima setelah tes, review PM, dan merge PR #4.
 - [ ] Dosen mengonfirmasi bahwa roster lima orang memenuhi ketentuan kelas.
 - [ ] Pemilik modul memastikan pemetaan fitur memenuhi tingkat kompleksitas yang diminta.
-- [ ] PR #6 Rofii disinkronkan ke `main` terbaru dan mendapat tes Dusk untuk alur M04 sebelum review/merge.
+- [ ] PR #12 Rofii, #14 Arif, dan #15 Bitari disinkronkan ke `main` terbaru, scope PR disamakan dengan story yang dibawa, lalu CI baru dijalankan sebelum review/merge.
 
 CI PR #4 pada head `7a5efae` lulus di [run 40181326721](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/40181326721): 11 tes Unit, 20 tes Feature dengan 99 assertions, 2 tes Dusk dengan 9 assertions, migration/seeder SQLite dan MySQL, route panel, serta build Vite.
 
@@ -48,6 +48,12 @@ CI PR dokumentasi #7 juga lulus di [run 40190337974](https://github.com/PPL-Kelo
 
 HAP-7 mempertahankan Original estimate 4 jam dan remaining 0 jam. HAP-61 mempertahankan Original estimate 18 jam dan remaining 0 jam. Keduanya tidak memiliki work log aktual dari pembaruan ini. Jangan mengubah tanggal rencana menjadi jam kerja.
 
-HAP-16 masih In Progress dengan Original estimate 3 jam dan remaining 3 jam. PR #6 Rofii sudah punya CI yang lulus untuk branch lama, tetapi belum ada Dusk M04 dan branch belum memakai `main` terbaru. HAP-25 milik Bitari juga In Progress. Epic HAP-2 dan HAP-3 tetap In Progress sampai story aktifnya diterima.
+## Pembacaan ulang 10 November 2026
+
+M01 (HAP-7 sampai HAP-9), HJK-019/HAP-25, dan M13 (HAP-43 sampai HAP-45) sudah Done serta masuk ke `main`. M04 HAP-16/17/18, M07 HAP-26/27, dan M10 HAP-34/35 berstatus In Progress. Total story di Jira saat audit: 7 Done, 7 In Progress, dan 31 To Do. HAP-16/HAP-34 due 1 November, sementara HAP-17/HAP-26/HAP-35 due 8 November; pemilik perlu mereplan tanggalnya di Jira.
+
+PR #12, #14, dan #15 masih terbuka, tertinggal dari `main`, dan CI terakhir lulus pada head lama. Pemilik perlu menyelesaikan sinkronisasi dan konflik pada branch personal, memperjelas story yang dicakup PR, lalu menjalankan CI terbaru sebelum integrasi akhir sprint. Story dapat berstatus Done lebih dahulu jika acceptance dan tes relevan sudah terpenuhi pada branch personal yang di-push. Jika pemeriksaan akhir PR menemukan kriteria gagal, kembalikan story terkait ke In Progress.
+
+Jira masih menyimpan remaining estimate 4 jam pada HAP-25 dan 5 jam pada HAP-43 meskipun keduanya Done. Keduanya tidak memiliki work log. Pemilik perlu meninjau remaining estimate; angka aktual tetap dicatat hanya oleh pelaksana untuk waktu yang benar-benar dipakai.
 
 Jangan membaca atau mengganti `.env` pemilik dan jangan menjalankan migration ke database lokal pemilik. Dusk CI memakai database SQLite sementara yang terisolasi.

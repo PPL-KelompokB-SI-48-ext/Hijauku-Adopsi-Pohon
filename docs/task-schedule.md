@@ -1,8 +1,18 @@
 # Jadwal mingguan backlog
 
-Jira adalah sumber tanggal, sprint, dan status issue. Dokumen ini mencatat pembagian jadwal setelah minggu 6 direncanakan untuk backlog dan refinement, tanpa coding yang dijadwalkan saat itu.
+Jira adalah sumber tanggal, sprint, dan status issue. Tabel minggu di bawah menunjukkan rencana, bukan catatan actual time. Status live pada bagian ini diperiksa 10 November 2026.
 
-Catatan pelaksanaan: alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober 2026. Tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober, lalu HAP-7 ditandai Done. HAP-16 milik Rofii dan HAP-25 milik Bitari juga berstatus In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. HAP-16 masih perlu Dusk serta sinkronisasi branch. Pada 10 November, HAP-8/HJK-002 dan HAP-9/HJK-003 selesai dan diterima PM lewat PR #17 setelah CI lulus. Kalender Sprint 1 tetap; tanggal target tidak dipakai sebagai catatan waktu kerja.
+Alur HJK-001 masuk ke `main` melalui PR #2 pada 22 Oktober. Tes Dusk dan penerimaan PM menyusul melalui PR #4 pada 25 Oktober. HAP-8 dan HAP-9 diterima melalui PR #17 pada 10 November. PR #16 untuk HAP-44/45 juga sudah merged pada 10 November.
+
+### Status story terakhir
+
+| Status | Issue |
+| --- | --- |
+| Done | HAP-7, HAP-8, HAP-9, HAP-25, HAP-43, HAP-44, HAP-45 |
+| In Progress | HAP-16, HAP-17, HAP-18, HAP-26, HAP-27, HAP-34, HAP-35 |
+| To Do | 31 story lainnya |
+
+HAP-16/17, HAP-26/27, dan HAP-34/35 saat ini In Progress karena audit belum memverifikasi acceptance dan tes setiap story pada head branch terbaru, bukan semata-mata karena PR belum digabung. Ketiga PR perlu disinkronkan dengan `main` dan mendapat CI baru sebelum integrasi akhir sprint. Jika pemilik sudah memastikan acceptance dan tes pada branch personal yang di-push, Jira dapat diperbarui ke Done sebelum PR akhir sprint di-merge. HAP-16/HAP-34 jatuh tempo 1 November; HAP-17/HAP-26/HAP-35 jatuh tempo 8 November. Pemilik perlu menetapkan tanggal replan di Jira. Jangan mengubah tanggal lama sebelum ada kesepakatan, dan jangan mengisi work log dari tanggal rencana.
 
 ## Aturan tanggal
 
