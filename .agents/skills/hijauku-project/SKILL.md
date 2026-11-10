@@ -30,7 +30,7 @@ Read docs/jira-workflow.md when planning a story, estimating work, logging time,
 - Stitch's guidance excludes M16-M18. The 25 mockup frames were inspected for proposal/presentation work; acceptance of each implemented screen remains part of its PBI.
 - For proposal, presentation, or video work, read docs/proposal-audit.md and docs/video-script.md. The 25 Stitch frames were inspected as mockups with sample data; this is not acceptance of implemented UI. Frame numbers 16-25 are screen numbers, not new business modules.
 - `care_plans.assignment_id` is optional. HAP-44 has added its priority column and index through migration in `main`. Audit changes through `activity_logs.actor_id`; do not invent `updated_by` columns.
-- M01 UI is not pixel-identical to Stitch. It uses the standard Filament shell, and mockup edit/delete controls are outside current HJK-001-HJK-003 acceptance. Do not claim a 1:1 match or add behavior without Jira scope.
+- M01 uses Filament/Livewire with a shared theme aligned to the Stitch shell. Page content is not pixel-identical because some mockup controls and modules are outside current HJK-001-HJK-003 acceptance. Do not add behavior without Jira scope or claim a full 1:1 match.
 - Preserve user-owned desain.md and .playwright-mcp/.
 
 ## Implementation guidance

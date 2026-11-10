@@ -22,7 +22,7 @@ HAP-25 dan HAP-43 sudah merged/Done, tetapi Jira masih mencatat remaining estima
 
 Branch personal yang sekarang terlihat: Yoga `yoga`, Bitari `bitaridamar`, Arif `arif`, Wira `ayuwira`, Rofii `Rofii`. Variasi nama/huruf besar diterima PM. Jangan mengganti nama atau menghapus branch aktif. PR #12, #14, dan #15 belum siap untuk integrasi akhir sprint karena tertinggal dari `main`, scope PR belum sama dengan perubahan yang dibawa, dan CI terakhirnya bukan untuk head setelah merge PR #16.
 
-Pada halaman M01, implementasi tidak 1:1 dengan frame Stitch: panel masih memakai shell Filament standar; ukuran sidebar/header, lebar konten, filter, data contoh, dan kerapatan tabel berbeda. Aksi ubah/hapus pada mockup tidak ada dalam acceptance HJK-001 sampai HJK-003. README dan `docs/ui-design.md` menyebutkan gap ini agar tim tidak mengklaim kesesuaian visual yang belum ada.
+Shell tiga panel Filament sudah memakai tema bersama yang mengikuti font, palet, lebar sidebar, topbar, dan area konten dari kode Stitch. Isi halaman M01 belum 1:1: filter status, halaman detail, aksi lihat/edit/hapus, data contoh, dan menu modul yang belum diimplementasikan tidak disalin dari mockup. Aksi ubah/hapus juga tidak ada dalam acceptance HJK-001 sampai HJK-003. Rincian batas visual ada di README dan `docs/ui-design.md`.
 
 ## Sumber yang diperiksa
 

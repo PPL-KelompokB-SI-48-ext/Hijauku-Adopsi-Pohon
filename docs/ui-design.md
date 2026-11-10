@@ -23,15 +23,24 @@ Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 
 ## Kesesuaian visual M01 dengan Stitch
 
-M01 **belum 1:1** dengan frame Stitch. Perbandingan pada layar 1920 × 1080 menunjukkan beberapa perbedaan yang terlihat:
+Panel Filament sekarang memakai satu tema bersama yang mengikuti shell pada Stitch. Tema ini dipakai di `/app`, `/petugas`, dan `/warga`, supaya warna, ukuran navigasi, dan tipografi tidak berkembang berbeda antar panel.
 
-- Sidebar Filament lebih lebar dan susunan menu berbeda dari mockup.
-- Header Filament saat ini hanya menampilkan nama produk dan akun; mockup menampilkan identitas/logo, breadcrumb, notifikasi, serta nama pengguna.
-- Konten aplikasi memakai batas lebar bawaan Filament, sehingga area utama lebih sempit daripada frame Stitch yang membentang hampir selebar layar.
-- Tabel dan filter masih memakai komponen standar Filament. Search, filter status, ringkasan jumlah, contoh data, dan area aksi tidak sama dengan yang ditampilkan pada mockup.
-- Aksi ubah/hapus pada gambar tidak ada pada acceptance HJK-001-HJK-003 dan sengaja tidak dianggap sebagai fitur aplikasi. Aksi yang ada hanya membuat, mengaktifkan, dan mengarsipkan sesuai status.
+| Bagian | Acuan bersama |
+| --- | --- |
+| Font | Inter untuk panel dan halaman publik |
+| Warna utama | `#15803D`, hover `#14532D` |
+| Latar isi | `#F8FAFC`; kartu dan sidebar `#FFFFFF` |
+| Teks | `#131B2E`; teks sekunder `#64748B`; garis `#E2E8F0` |
+| Sidebar | Lebar 256 px, putih, menu berjarak tetap, aktif hijau |
+| Topbar | Tinggi 64 px, putih transparan, breadcrumb dan konteks akun |
+| Konten | Lebar penuh, padding 24 px; layar kecil memakai padding 16 px |
+| Komponen | Radius kartu 12 px, field 8 px, tombol 40 px, ikon sekitar 18 px |
 
-Perbedaan ini terjadi karena Stitch adalah mockup visual, sedangkan implementasi sekarang masih memakai shell dan komponen standar Filament. Jadi dokumen dan PR tidak boleh menyebut UI sudah 1:1. Untuk mendekatkan tampilan, samakan dulu struktur, jarak, warna, lebar konten, dan komponen yang memang masuk scope. Perilaku baru seperti edit/hapus atau filter tambahan harus memiliki acceptance Jira sebelum dibuat.
+Tema ada di `resources/css/filament/theme.css`; konfigurasi tiga panel dipakai ulang lewat `app/Providers/Filament/Concerns/ConfiguresHijaukuPanel.php`. Identitas logo berasal dari aset Stitch `public/images/hijauku-brand-sheet.png`. Render hook Filament menambahkan label navigasi, breadcrumb topbar, serta nama dan peran akun tanpa mengganti perilaku autentikasi Filament.
+
+Shell sekarang mengikuti ukuran dan warna utama frame. Isi halaman M01 masih belum 1:1: hanya resource yang benar-benar tersedia yang muncul di sidebar, tabel belum menampilkan filter status atau aksi lihat/edit pada mockup, dan data contoh di gambar berbeda dari data di aplikasi. Filter, halaman detail, edit, hapus, dan menu untuk modul yang belum dibuat tidak ditambahkan hanya demi menyalin gambar. Fitur seperti itu perlu masuk acceptance Jira terlebih dahulu.
+
+Untuk layar kecil, sidebar Filament tetap memakai drawer dan tabel tetap dapat digeser mendatar. Pemeriksaan Playwright dan Laravel Dusk mencakup lebar desktop dan ponsel. Ini memeriksa tata letak dasar, bukan bukti bahwa setiap frame 25 layar sudah identik.
 
 Pada 25 Oktober 2026, seluruh 25 frame diperiksa sebagai rancangan dan dirender untuk proposal/presentasi. Pemeriksaan mencakup identitas layar, aktor, scope, serta pemetaan PBI; ini belum merupakan tes responsif, aksesibilitas, interaksi, atau penerimaan UI aplikasi yang sudah diimplementasikan.
 
@@ -39,13 +48,16 @@ Pada 25 Oktober 2026, seluruh 25 frame diperiksa sebagai rancangan dan dirender 
 
 | Warna | Penggunaan rancangan |
 | --- | --- |
-| `#15803D` | Hijau utama dari aset merek Stitch, tombol utama dan navigasi aktif |
-| `#22C55E` | Aksen hijau |
-| `#A7F3D0` | Latar sorotan dan badge |
-| `#1F2937` | Teks utama |
-| `#F8FAFC` | Latar terang proposal visual/presentasi |
+| `#15803D` | Hijau utama, tombol utama, dan menu aktif |
+| `#14532D` | Hijau gelap untuk hover |
+| `#B64C62` | Aksen sekunder pada frame tertentu |
+| `#131B2E` | Teks utama |
+| `#64748B` | Teks sekunder |
+| `#F8FAFC` | Latar halaman |
+| `#FFFFFF` | Sidebar, topbar, dan kartu |
+| `#E2E8F0` | Garis pemisah dan batas field |
 
-Empat warna pertama tercantum pada aset identitas di Stitch. Latar terang mengikuti presentasi. Beranda starter masih memiliki variasi warna hijau yang tercatat di Blade; audit dokumen ini tidak mengubah CSS aplikasi atau menyatakan seluruh layar sudah seragam. Perubahan visual kode tetap dibahas dan diperiksa pada PR terkait.
+Nilai ini disalin dari kode frame Stitch yang dibagikan. Palet status tetap memakai warna sukses, informasi, peringatan, dan bahaya dengan label teks agar status tidak bergantung pada warna saja.
 
 Gunakan komponen Filament untuk Resource, form, tabel, modal, notifikasi, dan validasi. Cocokkan struktur visual, jarak, warna, serta hierarki dengan Stitch pada bagian yang sesuai acceptance. Jangan menambah perilaku yang belum tercantum di Jira hanya untuk menyalin seluruh kontrol pada mockup. Status harus memiliki label, bukan mengandalkan warna saja.
 
@@ -89,7 +101,7 @@ Render yang dipakai pada presentasi tersedia di `docs/assets/mockups/`, dengan l
 
 - HJK-001 memakai frame **M01 - Program Penghijauan** untuk halaman daftar di panel Pengelola.
 - Frame menampilkan nama program, ringkasan tujuan, periode, status, dan area aksi. Tombol **Tambah Program** membuka alur pembuatan.
-- Stitch tidak menyediakan frame formulir pembuatan program. HJK-001 memakai halaman CreateRecord standar Filament 5 dengan validasi di server. Formulir mengikuti alur panel yang sama, tetapi belum dapat diklaim cocok pixel dengan Stitch; minta pemilik modul/PM memeriksanya pada PR.
+- Stitch tidak menyediakan frame formulir pembuatan program. HJK-001 memakai halaman CreateRecord Filament 5 dengan validasi di server. Formulir menggunakan tema bersama, tetapi susunan form tetap mengikuti komponen Filament dan belum memiliki frame pembanding khusus.
 - HJK-002 dan HJK-003 juga memakai komponen standar Filament 5 pada daftar yang sama, karena tidak ada frame khusus untuk aktivasi atau pengarsipan. Modal mencatat alasan, sedangkan label status tetap terbaca tanpa mengandalkan warna. Kesesuaian visual akhir tetap diperiksa pada PR.
 
 ## Batas scope dan penerimaan

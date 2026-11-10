@@ -57,7 +57,7 @@ HAP-25 dan HAP-43 sudah merged/Done, tetapi Remaining estimate masing-masing mas
 - M07 HJK-019 pencatatan rencana kegiatan sudah di `main`. HJK-020 dan HJK-021 masih dalam PR terbuka, belum diterima.
 - M13 HJK-037 sampai HJK-039 sudah di `main`, termasuk kolom prioritas dengan migration. M14-M15 belum dikerjakan.
 - Implementasi di atas memakai panel Filament dan Livewire. Belum ada REST API terpisah untuk CRUD; jangan membuat API tanpa acceptance Jira.
-- UI M01 tidak pixel-identik dengan Stitch: shell Filament, lebar sidebar, header, lebar isi, filter, dan tampilan tabel berbeda. Aksi ubah/hapus dalam mockup juga di luar acceptance M01 saat ini. Lihat `docs/ui-design.md`.
+- Shell tiga panel Filament memakai tema bersama yang mengikuti warna, font, sidebar, topbar, dan area konten pada Stitch. Isi M01 belum 1:1 karena filter status, halaman detail, aksi lihat/edit/hapus, data contoh, dan menu modul yang belum diimplementasikan tidak disalin dari mockup. Lihat `docs/ui-design.md`.
 - Gate panel tidak cukup untuk membatasi record. Resource baru tetap memerlukan Policy, query ownership, validasi, tes akses, dan transaksi untuk aturan kuota/kapasitas/alokasi.
 - Simpan bukti foto secara privat. Pengirim laporan tidak boleh memverifikasi laporannya sendiri.
 

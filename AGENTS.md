@@ -19,7 +19,7 @@ Read docs/project-context.md and the relevant docs before changing application c
 - CI runs Laravel Dusk against an isolated seeded SQLite file. PR #17 passed in run `42774855543` and PR #16 passed in run `42826130678`. PR #12's latest run `41434932370`, PR #14's `41592514567`, and PR #15's `42823882248` passed on older heads before the latest `main`; do not describe them as current green checks. Members run story-level tests before moving Jira to Done and pushing. Recheck full CI on each sprint integration PR after syncing with `main`.
 - Role panels: manager /app, field_staff /petugas, citizen /warga. Panel gates and base policies exist; every new resource needs query ownership, policy tests, and safe actions.
 - MySQL is the development baseline. Never read or overwrite the owner's `.env` and never run migrations against that database. Tests must use phpunit's SQLite memory DB or another explicitly isolated SQLite file.
-- M01 code currently uses Filament/Livewire and is not pixel-identical to the Stitch frame. Do not add edit/delete or a separate REST API unless Jira acceptance is changed; report the visual gap honestly and use the frame for in-scope alignment.
+- M01 uses Filament/Livewire with a shared theme aligned to the Stitch shell. Page content is not pixel-identical because some mockup controls and modules are outside current Jira acceptance. Do not add edit/delete or a separate REST API without updated acceptance; describe remaining visual gaps accurately.
 - Preserve the user-owned desain.md and .playwright-mcp/. Do not commit credentials or private personal data.
 
 ## Communication and documentation

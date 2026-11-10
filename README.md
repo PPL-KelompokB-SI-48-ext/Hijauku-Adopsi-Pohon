@@ -24,7 +24,7 @@ Story lain belum otomatis selesai hanya karena tabel atau panel dasarnya sudah t
 
 ## Tampilan dan API
 
-M01 sudah memiliki form dan daftar program Filament, validasi, status, aksi aktivasi/pengarsipan, Policy, pencatatan audit, serta tes Feature dan Dusk. UI saat ini **belum 1:1 dengan frame Stitch**. Aplikasi masih memakai shell Filament standar, sehingga lebar sidebar, header, lebar konten, filter, dan kerapatan tabel berbeda dari mockup. Aksi ubah/hapus yang terlihat pada mockup juga tidak termasuk acceptance HJK-001 sampai HJK-003, jadi belum dibuat.
+M01 sudah memiliki form dan daftar program Filament, validasi, status, aksi aktivasi/pengarsipan, Policy, pencatatan audit, serta tes Feature dan Dusk. Shell Filament di tiga panel memakai tema bersama yang mengikuti warna, font, ukuran sidebar, topbar, dan area konten pada Stitch. Isi halaman M01 belum 1:1: filter status, halaman detail, aksi lihat/edit/hapus, data contoh, dan menu modul yang belum tersedia pada aplikasi tidak disalin dari mockup. Kontrol yang mengubah perilaku tetap mengikuti acceptance HJK-001 sampai HJK-003.
 
 Story yang sudah diterapkan memakai request Livewire dari Filament. Saat ini tidak ada REST API terpisah untuk CRUD. API baru dibuat jika ada requirement dan acceptance criteria Jira yang memang membutuhkannya. Detail dan gap visual ada di [panduan UI](docs/ui-design.md).
 
