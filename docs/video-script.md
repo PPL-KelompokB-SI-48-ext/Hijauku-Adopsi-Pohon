@@ -324,12 +324,12 @@ Petunjuk visual: Tunjuk tanggal, tinggi, diameter, kondisi, dan status verifikas
 
 ## Slide 27 - Yoga | Jadwal dan penutup
 
-Persiapan berada di minggu 5, tanggal 12-18 Oktober 2026. Sprint 1 mengikuti minggu 6-10, yaitu 19 Oktober-22 November. Rencana awal memakai minggu 6 untuk backlog dan refinement, lalu menjadwalkan coding mulai minggu 7. Alur HJK-001 sudah masuk ke `main` lewat PR #2 pada 22 Oktober; tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober. HAP-16 dan HAP-25 juga berstatus In Progress di akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Pemilik perlu mencocokkan tanggal mulai Jira dengan pekerjaan sebenarnya; kalender sprint tetap. Minggu 10 dipakai untuk integrasi, pengujian, review, dan retrospektif. Sprint 2 berlangsung 23 November-27 Desember pada minggu 11-15. Setiap PBI memiliki tanggal mulai Senin dan target Minggu di Jira, dan dua PBI boleh berjalan paralel sesuai rencana.
+Rencana pengembangan dimulai dari persiapan pada minggu 5, tanggal 12-18 Oktober 2026. Sprint 1 mengikuti minggu 6-10, yaitu 19 Oktober-22 November. Minggu 6 dipakai untuk menyusun dan merapikan kebutuhan. Pengerjaan fitur direncanakan mulai minggu 7, lalu minggu 10 digunakan untuk integrasi, demo, pengujian, dan evaluasi sprint. Sprint 2 berlangsung pada minggu 11-15, tanggal 23 November-27 Desember. Setiap anggota mendapat tiga PBI pada Sprint 1 dan enam PBI pada Sprint 2, dengan tiga PBI yang membentuk satu modul tetap berada pada sprint yang sama.
 
-Setiap anggota menggunakan satu branch personal. Commit dan PR mencantumkan key HAP agar dapat ditautkan ke Jira. Penulis menyelesaikan konflik; anggota meminta review saya, dan hanya PM yang melakukan merge setelah CI dan acceptance terpenuhi. Tanggal tersebut adalah rencana, sedangkan waktu aktual dicatat sesuai pekerjaan yang benar-benar dilakukan. Terima kasih.
+Mockup pada presentasi menunjukkan rancangan antarmuka dan contoh alur, bukan klaim bahwa seluruh fitur sudah selesai. Dengan rancangan ini, Hijauku diharapkan membantu pengelola, warga, dan petugas mencatat kegiatan adopsi pohon dengan lebih teratur. Terima kasih.
 
 ## Pemeriksaan sebelum rekaman
 
 Pastikan urutan 27 slide sesuai naskah, nama pembicara benar, dan 45 PBI disebut pada modul pemiliknya. Sebut tampilan sebagai mockup dengan data contoh. Jangan mengklaim komunitas sudah diwawancarai, semua fitur sudah selesai, atau aplikasi sudah mengukur keberhasilan SDG. Konfirmasi ketentuan tim lima orang dan kompleksitas fitur kepada dosen; jumlah sembilan PBI per anggota tidak otomatis membuktikan kedua hal itu.
 
-Sumber kerja: proposal Google Docs, desain Canva Hijauku, Jira HAP, dan proyek Stitch. Jadwal dan acceptance Jira adalah baseline 25 Oktober 2026; perubahan berikutnya perlu diikuti pada proposal, slide, dan panduan tim.
+Sumber kerja: proposal, rancangan Canva Hijauku, dan frame Stitch. Naskah ini menjelaskan rencana awal dan rancangan sistem; jangan menambahkan status issue, riwayat pull request, atau hasil pengerjaan setelah proposal dibuat.

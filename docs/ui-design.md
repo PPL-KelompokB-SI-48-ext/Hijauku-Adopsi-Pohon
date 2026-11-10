@@ -11,14 +11,27 @@ Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 - Kondisi awal drawer, modal, accordion, dan split view harus tertutup. Aksi cepat tidak boleh menyamarkan status tugas atau perawatan.
 - Label, status, dan nilai seed harus berasal dari kamus data yang disepakati, bukan teks sementara yang tampak seperti data produksi.
 
-## Yang sudah ada pada starter
+## Yang sudah tersedia di `main`
 
-| Area | Implementasi sekarang | Batas starter |
+| Area | Implementasi sekarang | Batas saat ini |
 | --- | --- | --- |
 | Beranda publik | `resources/views/home.blade.php` memakai identitas hijau, headline Frame 21, ilustrasi pohon, CTA, dan alur tiga langkah | Belum tersambung ke katalog, hitungan, atau data pohon. Angka dan daftar pada frame Stitch tidak boleh disajikan sebagai fakta produksi sebelum sumber datanya tersedia. |
-| Pengelola | Panel Filament `/app`; daftar, pembuatan draf, aktivasi, dan pengarsipan program M01 tersedia untuk HJK-001-HJK-003 | Aktivasi hanya muncul pada draf dan meminta alasan. Pengarsipan hanya muncul pada program selesai dan tidak menghapus lokasi/pohon. Resource M02-M15 tetap dikerjakan lewat story aktif. |
-| Petugas | Panel Filament `/petugas` | Kerangka login dan dashboard; assignment dan laporan dikerjakan melalui story aktif. |
-| Warga | Panel Filament `/warga` | Kerangka login dan dashboard; pendaftaran dan adopsi dikerjakan melalui story aktif. |
+| M01, Pengelola | Panel Filament `/app`; daftar, pembuatan draf, aktivasi, dan pengarsipan program tersedia untuk HJK-001-HJK-003 | Aktivasi hanya muncul pada draf dan meminta alasan. Pengarsipan hanya muncul pada program selesai dan tidak menghapus lokasi/pohon. Edit dan hapus tidak termasuk acceptance saat ini. |
+| M07, Pengelola | Pencatatan rencana kegiatan HJK-019 tersedia di `main` | Pembukaan/kuota serta penutupan/pembatalan HJK-020/021 masih dalam PR #15, jadi jangan menganggapnya sudah tersedia bagi pengguna `main`. |
+| M13, Pengelola | Rencana perawatan, prioritas, koreksi, dan pembatalan HJK-037-HJK-039 tersedia di `main` | Realisasi HJK-040-HJK-042 dan pengamatan HJK-043-HJK-045 masih belum dikerjakan. |
+| Petugas dan Warga | Panel Filament `/petugas` dan `/warga` sudah memiliki login/dashboard dasar | Resource kerja dan alur di panel ini harus dibuat per story. PR #14 untuk M10 belum merged; tidak dianggap sebagai fitur yang tersedia di `main`. |
+
+## Kesesuaian visual M01 dengan Stitch
+
+M01 **belum 1:1** dengan frame Stitch. Perbandingan pada layar 1920 × 1080 menunjukkan beberapa perbedaan yang terlihat:
+
+- Sidebar Filament lebih lebar dan susunan menu berbeda dari mockup.
+- Header Filament saat ini hanya menampilkan nama produk dan akun; mockup menampilkan identitas/logo, breadcrumb, notifikasi, serta nama pengguna.
+- Konten aplikasi memakai batas lebar bawaan Filament, sehingga area utama lebih sempit daripada frame Stitch yang membentang hampir selebar layar.
+- Tabel dan filter masih memakai komponen standar Filament. Search, filter status, ringkasan jumlah, contoh data, dan area aksi tidak sama dengan yang ditampilkan pada mockup.
+- Aksi ubah/hapus pada gambar tidak ada pada acceptance HJK-001-HJK-003 dan sengaja tidak dianggap sebagai fitur aplikasi. Aksi yang ada hanya membuat, mengaktifkan, dan mengarsipkan sesuai status.
+
+Perbedaan ini terjadi karena Stitch adalah mockup visual, sedangkan implementasi sekarang masih memakai shell dan komponen standar Filament. Jadi dokumen dan PR tidak boleh menyebut UI sudah 1:1. Untuk mendekatkan tampilan, samakan dulu struktur, jarak, warna, lebar konten, dan komponen yang memang masuk scope. Perilaku baru seperti edit/hapus atau filter tambahan harus memiliki acceptance Jira sebelum dibuat.
 
 Pada 25 Oktober 2026, seluruh 25 frame diperiksa sebagai rancangan dan dirender untuk proposal/presentasi. Pemeriksaan mencakup identitas layar, aktor, scope, serta pemetaan PBI; ini belum merupakan tes responsif, aksesibilitas, interaksi, atau penerimaan UI aplikasi yang sudah diimplementasikan.
 
@@ -34,7 +47,7 @@ Pada 25 Oktober 2026, seluruh 25 frame diperiksa sebagai rancangan dan dirender 
 
 Empat warna pertama tercantum pada aset identitas di Stitch. Latar terang mengikuti presentasi. Beranda starter masih memiliki variasi warna hijau yang tercatat di Blade; audit dokumen ini tidak mengubah CSS aplikasi atau menyatakan seluruh layar sudah seragam. Perubahan visual kode tetap dibahas dan diperiksa pada PR terkait.
 
-Utamakan komponen standar Filament untuk Resource, form, tabel, modal, notifikasi, dan validasi. Gunakan Stitch untuk arah warna, hierarki informasi, dan alur; jangan membangun ulang komponen hanya agar identik dengan gambar. Status harus memiliki label, bukan mengandalkan warna saja.
+Gunakan komponen Filament untuk Resource, form, tabel, modal, notifikasi, dan validasi. Cocokkan struktur visual, jarak, warna, serta hierarki dengan Stitch pada bagian yang sesuai acceptance. Jangan menambah perilaku yang belum tercantum di Jira hanya untuk menyalin seluruh kontrol pada mockup. Status harus memiliki label, bukan mengandalkan warna saja.
 
 M08 mengikuti HAP-28/HAP-30: warga mendaftar dan menarik pendaftaran sendiri; pengelola mencatat kehadiran pada HAP-29. Petugas menangani penugasan M09, bukan menjadi pendaftar M08. Dua teks lama pada presentasi dan satu uraian proposal dikoreksi agar tidak memperluas aktor tanpa requirement.
 

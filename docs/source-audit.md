@@ -1,6 +1,28 @@
 # Audit sumber dan status proyek
 
-Snapshot ini mencatat pemeriksaan pada 25 Oktober 2026. Jira menjadi sumber status dan jadwal, GitHub menjadi sumber branch/commit/PR/CI, sedangkan proposal dan bahan kuliah menjadi sumber rancangan. Periksa kembali halaman live sebelum memakai status untuk keputusan baru.
+Bagian awal dokumen ini menyimpan snapshot historis 25 Oktober 2026. Jira menjadi sumber status dan jadwal, GitHub menjadi sumber branch/commit/PR/CI, sedangkan proposal dan bahan kuliah menjadi sumber rancangan. Gunakan bagian **Kondisi terkini 10 November** di bawah ini untuk status terbaru; jangan memakai status pada snapshot historis untuk keputusan baru.
+
+## Kondisi terkini 10 November 2026
+
+Audit langsung Jira dan GitHub selesai pada 10 November 2026. `main` berada pada merge commit `8930f589a1cd31b8bbe8621b74fa95e4af0f0e36` setelah PR #16 diterima. Story Jira aktif berjumlah 45: 7 Done, 7 In Progress, dan 31 To Do. HAP-1 berstatus Done; epic HAP-2 sampai HAP-5 berstatus In Progress.
+
+| Pemilik / modul | Status Jira yang benar | GitHub dan langkah berikutnya |
+| --- | --- | --- |
+| Yoga / M01 | HAP-7, HAP-8, HAP-9 Done. HAP-10 sampai HAP-15 To Do. | PR #17 dan PR dokumentasi #18 sudah merged. HJK-001 sampai HJK-003 ada di `main`. |
+| Rofii / M04 | HAP-16, HAP-17, HAP-18 In Progress. | PR #12 terbuka di branch `Rofii`. Branch 7 di belakang/5 di depan `main`; CI run `41434932370` adalah run lama. Judul/body hanya menyebut HAP-16 meski diff juga memuat alur HAP-17. HAP-18 belum tampak sebagai bagian PR. Sinkronkan branch, cocokkan scope, jalankan CI baru, lalu minta review ulang. |
+| Bitari / M07 | HAP-25 Done; HAP-26 dan HAP-27 In Progress. | PR #15 terbuka di `bitaridamar`, 13 di belakang/2 di depan `main`. Body hanya menyebut HAP-26, tetapi diff juga memuat tutup/batal HAP-27. CI run `42823882248` berjalan sebelum merge PR #16. Sinkronkan, cocokkan PR/Jira, lalu jalankan CI baru. |
+| Arif / M10 | HAP-34 dan HAP-35 In Progress; HAP-36 To Do. | PR #14 terbuka di `arif`, 7 di belakang/6 di depan `main`. Body hanya menyebut HAP-34 sedangkan diff juga memuat keputusan pengelola HAP-35. CI run `41592514567` adalah run lama. Sinkronkan branch, cocokkan scope, jalankan CI baru, lalu minta review ulang. |
+| Wira / M13 | HAP-43, HAP-44, HAP-45 Done. HAP-46 sampai HAP-51 To Do. | PR #13 dan #16 sudah merged. PR #16 berisi HAP-44/HAP-45 dan CI run `42826130678` lulus. Branch personal `ayuwira` tinggal disinkronkan ke `main` terbaru. |
+
+Status HAP-16/17, HAP-26/27, dan HAP-34/35 dikembalikan ke In Progress saat audit karena acceptance dan tes per story belum bisa diverifikasi pada head branch terbaru. Status tersebut bukan karena PR belum merged semata. Epic HAP-4 dan HAP-5 juga dikoreksi ke In Progress agar sesuai dengan story yang berjalan. Dalam alur tim, tiap story bisa Done setelah acceptance dan tes relevan terpenuhi di branch personal yang di-push; PR per anggota baru ditinjau dan digabung pada akhir sprint. Pemilik tetap perlu memperbarui scope PR, menyinkronkan `main`, dan mendapat CI baru sebelum integrasi.
+
+Due date HAP-16 dan HAP-34 (1 November), serta HAP-17, HAP-26, dan HAP-35 (8 November) sudah terlewati pada saat audit. Tanggal lama dipertahankan sebagai riwayat. Pemilik perlu menyepakati replan yang realistis dan memperbarui remaining estimate sesuai sisa kerja. Jangan mengarang actual time atau work log.
+
+HAP-25 dan HAP-43 sudah merged/Done, tetapi Jira masih mencatat remaining estimate 4 jam dan 5 jam, serta tidak ada work log. Angka sisa ini perlu dikonfirmasi pemilik; audit tidak mengubahnya dan tidak membuat work log.
+
+Branch personal yang sekarang terlihat: Yoga `yoga`, Bitari `bitaridamar`, Arif `arif`, Wira `ayuwira`, Rofii `Rofii`. Variasi nama/huruf besar diterima PM. Jangan mengganti nama atau menghapus branch aktif. PR #12, #14, dan #15 belum siap untuk integrasi akhir sprint karena tertinggal dari `main`, scope PR belum sama dengan perubahan yang dibawa, dan CI terakhirnya bukan untuk head setelah merge PR #16.
+
+Pada halaman M01, implementasi tidak 1:1 dengan frame Stitch: panel masih memakai shell Filament standar; ukuran sidebar/header, lebar konten, filter, data contoh, dan kerapatan tabel berbeda. Aksi ubah/hapus pada mockup tidak ada dalam acceptance HJK-001 sampai HJK-003. README dan `docs/ui-design.md` menyebutkan gap ini agar tim tidak mengklaim kesesuaian visual yang belum ada.
 
 ## Sumber yang diperiksa
 
@@ -30,7 +52,7 @@ Sprint 1 tetap berjalan pada minggu 6-10, 19 Oktober-22 November 2026. Sprint 2 
 - Tidak ada work log aktual yang dibuat atau diubah untuk HAP-61 maupun HAP-7. Pelaksana mengisi work log sendiri hanya untuk waktu yang benar-benar dipakai.
 - Due date HAP-7 tetap 1 November 2026 sesuai rencana. Selesai lebih awal tidak mengubah tanggal target story lain.
 
-## Pemeriksaan lanjutan pada 10 November 2026
+## Snapshot historis 10 November sebelum PR #16 merged
 
 Jira diperiksa ulang setelah pekerjaan M01 Yoga selesai. HAP-1, HAP-61, HAP-7, HAP-8, dan HAP-9 berstatus Done. HAP-8/HJK-002 dan HAP-9/HJK-003 selesai pada 10 November setelah target keduanya direvisi ke 9-15 November. Tanggal awal yang terlewati tetap tercatat sebagai riwayat; perubahan jadwal bukan catatan waktu kerja. Kedua issue tidak memiliki work log dan remaining estimate menjadi 0 jam.
 
