@@ -10,7 +10,7 @@ class ProgramPolicy extends ManagerOnlyPolicy
 {
     protected function managerRestrictedAbilities(): array
     {
-        return ['update', 'delete', 'restore', 'forceDelete'];
+        return ['update', 'delete', 'restore', 'forceDelete', 'activate', 'archive'];
     }
 
     public function viewAny(User $user): bool
@@ -36,5 +36,15 @@ class ProgramPolicy extends ManagerOnlyPolicy
     public function delete(User $user, Model $model): bool
     {
         return false;
+    }
+
+    public function activate(User $user, Model $model): bool
+    {
+        return $model instanceof Program && $user->isManager();
+    }
+
+    public function archive(User $user, Model $model): bool
+    {
+        return $model instanceof Program && $user->isManager();
     }
 }

@@ -30,6 +30,12 @@ Sprint 1 tetap berjalan pada minggu 6-10, 19 Oktober-22 November 2026. Sprint 2 
 - Tidak ada work log aktual yang dibuat atau diubah untuk HAP-61 maupun HAP-7. Pelaksana mengisi work log sendiri hanya untuk waktu yang benar-benar dipakai.
 - Due date HAP-7 tetap 1 November 2026 sesuai rencana. Selesai lebih awal tidak mengubah tanggal target story lain.
 
+## Pemeriksaan lanjutan pada 10 November 2026
+
+Jira diperiksa ulang setelah pekerjaan M01 Yoga selesai. HAP-1, HAP-61, HAP-7, HAP-8, dan HAP-9 berstatus Done. HAP-8/HJK-002 dan HAP-9/HJK-003 selesai pada 10 November setelah target keduanya direvisi ke 9-15 November. Tanggal awal yang terlewati tetap tercatat sebagai riwayat; perubahan jadwal bukan catatan waktu kerja. Kedua issue tidak memiliki work log dan remaining estimate menjadi 0 jam.
+
+PR #17 menggabungkan HAP-8/HAP-9 ke `main` pada 10 November dengan merge commit `a41c38a`. CI run `42774855543` lulus, termasuk tes Unit, Feature, Laravel Dusk, build frontend, serta pemeriksaan migrasi SQLite dan MySQL. HAP-10 sampai HAP-15 masih To Do di Jira. Due date berikutnya untuk Yoga adalah 29 November, 6 Desember, 13 Desember, 13 Desember, 20 Desember, dan 27 Desember 2026. Sprint 1 tetap berjalan sampai 22 November; Sprint 2 dimulai 23 November.
+
 ## GitHub dan branch
 
 PR #7 digabung pada 25 Oktober 2026 dengan merge commit `d59db13`. PR #9 digabung pada tanggal yang sama dengan merge commit `55b4724`.
