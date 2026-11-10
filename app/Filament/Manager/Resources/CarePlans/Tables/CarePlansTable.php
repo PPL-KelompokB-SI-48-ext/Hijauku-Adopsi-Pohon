@@ -146,8 +146,8 @@ class CarePlansTable
             ])
             ->recordActionsColumnLabel('Aksi')
             ->recordActions([
-                // 1. Aksi "Lihat": Tampil sebagai tombol outline abu-abu lembut dengan ikon mata
-                ViewAction::make()
+                // 1. Aksi "Lihat": Tampil sebagai tombol outline abu-abu dengan teks dan ikon mata (sesuai mockup)
+                ViewAction::make('view')
                     ->label('Lihat')
                     ->icon(Heroicon::OutlinedEye)
                     ->button()
@@ -155,31 +155,7 @@ class CarePlansTable
                     ->color('gray')
                     ->size('xs'),
 
-                // 2. Aksi "Edit": Untuk rencana yang sudah Terbit (published) - koreksi tercatat di audit log
-                EditAction::make('edit')
-                    ->label('Edit')
-                    ->button()
-                    ->outlined()
-                    ->color('gray')
-                    ->size('xs')
-                    ->using(function (CarePlan $record, array $data): CarePlan {
-                        $actor = auth()->user();
-                        abort_unless($actor instanceof User, 403);
-
-                        return app(CorrectCarePlan::class)->handle($actor, $record, $data);
-                    })
-                    ->visible(fn (CarePlan $record): bool => $record->status === 'published'),
-
-                // 3. Aksi "Edit Draf": Untuk rencana yang masih Draf
-                EditAction::make('edit_draft')
-                    ->label('Edit Draf')
-                    ->button()
-                    ->outlined()
-                    ->color('gray')
-                    ->size('xs')
-                    ->visible(fn (CarePlan $record): bool => $record->status === 'draft'),
-
-                // 4. Aksi "Terbitkan": Tombol hijau lembut/outline terang untuk Draf
+                // 2. Aksi "Terbitkan": Tombol utama untuk status draf
                 Action::make('publish')
                     ->label('Terbitkan')
                     ->button()
@@ -205,109 +181,131 @@ class CarePlansTable
                                 'to_status' => 'published',
                             ]);
                         });
-                    }),
-
-                // 5. Aksi "Ubah Prioritas": Tombol dengan modal untuk mengubah tingkat prioritas disertai alasan
-                Action::make('change_priority')
-                    ->label('Ubah Prioritas')
-                    ->button()
-                    ->outlined()
-                    ->color('warning')
-                    ->size('xs')
-                    ->modalHeading('Ubah Prioritas Rencana Perawatan')
-                    ->modalDescription('Tentukan prioritas baru dan sertakan alasan perubahan.')
-                    ->modalSubmitActionLabel('Simpan Prioritas')
-                    ->form([
-                        Select::make('priority')
-                            ->label('Tingkat Prioritas')
-                            ->options([
-                                'low' => 'Rendah',
-                                'normal' => 'Normal',
-                                'high' => 'Tinggi',
-                                'urgent' => 'Mendesak',
-                            ])
-                            ->default(fn (CarePlan $record): string => $record->priority ?? 'normal')
-                            ->required(),
-                        Textarea::make('reason')
-                            ->label('Alasan Perubahan')
-                            ->placeholder('Contoh: Evaluasi lapangan memerlukan percepatan...')
-                            ->required()
-                            ->minLength(3)
-                            ->maxLength(500)
-                            ->rows(3)
-                            ->helperText('Alasan perubahan akan tercatat dalam audit log sistem.'),
-                    ])
-                    ->action(function (CarePlan $record, array $data): void {
-                        $actor = auth()->user();
-                        abort_unless($actor instanceof User, 403);
-
-                        app(UpdateCarePlanPriority::class)->handle($actor, $record, $data);
 
                         Notification::make()
-                            ->title('Prioritas rencana perawatan berhasil diperbarui.')
+                            ->title('Rencana perawatan berhasil diterbitkan.')
                             ->success()
                             ->send();
-                    })
-                    ->visible(fn (CarePlan $record): bool => auth()->user()?->can('update', $record) && $record->status !== 'cancelled'),
+                    }),
 
-                // 6. Aksi "Batalkan": Modal dengan alasan wajib - rencana tidak dihapus, hanya diubah statusnya
-                Action::make('cancel')
-                    ->label('Batalkan')
+                // 3. Aksi "Edit": Tombol untuk rencana yang sudah terbit (koreksi tercatat dalam audit log)
+                EditAction::make('edit')
+                    ->label('Edit')
                     ->button()
                     ->outlined()
-                    ->color('danger')
+                    ->color('gray')
                     ->size('xs')
-                    ->modalHeading('Batalkan Rencana Perawatan')
-                    ->modalDescription('Rencana tidak akan dihapus. Status akan diubah menjadi Dibatalkan dan riwayat tetap tersimpan.')
-                    ->modalSubmitActionLabel('Ya, Batalkan')
-                    ->form([
-                        Textarea::make('reason')
-                            ->label('Alasan Pembatalan')
-                            ->placeholder('Contoh: Kondisi pohon sudah ditangani di luar jadwal...')
-                            ->required()
-                            ->minLength(3)
-                            ->maxLength(500)
-                            ->rows(3)
-                            ->helperText('Alasan wajib diisi dan akan tercatat dalam audit log sistem.'),
-                    ])
-                    ->action(function (CarePlan $record, array $data): void {
+                    ->using(function (CarePlan $record, array $data): CarePlan {
                         $actor = auth()->user();
                         abort_unless($actor instanceof User, 403);
 
-                        app(CancelCarePlan::class)->handle($actor, $record, $data);
-
-                        Notification::make()
-                            ->title('Rencana perawatan berhasil dibatalkan.')
-                            ->body('Status diubah menjadi Dibatalkan. Riwayat tetap tersimpan.')
-                            ->warning()
-                            ->send();
+                        return app(CorrectCarePlan::class)->handle($actor, $record, $data);
                     })
-                    ->visible(fn (CarePlan $record): bool => in_array($record->status, ['draft', 'published'], true)),
+                    ->visible(fn (CarePlan $record): bool => $record->status === 'published'),
 
-                // 7. Aksi "Hapus Draf": Tombol outline merah lembut untuk draf yang dibatalkan / draft
-                DeleteAction::make('delete_draft')
-                    ->label('Hapus Draf')
+                // 4. Aksi "Edit Draf": Tombol untuk menyunting rencana yang masih berstatus draf
+                EditAction::make('edit_draft')
+                    ->label('Edit Draf')
                     ->button()
                     ->outlined()
-                    ->color('danger')
+                    ->color('gray')
                     ->size('xs')
-                    ->modalHeading('Hapus Draf Rencana Perawatan')
-                    ->modalDescription('Apakah Anda yakin ingin menghapus draf rencana perawatan ini?')
-                    ->modalSubmitActionLabel('Ya, Hapus')
-                    ->visible(fn (CarePlan $record): bool => $record->status === 'draft' || $record->status === 'cancelled'),
+                    ->visible(fn (CarePlan $record): bool => $record->status === 'draft'),
 
-                // 6. ActionGroup "..." (More / Ellipsis): Hanya tampil jika ada aksi anak yang aktif (status draft / dibatalkan)
+                // 5. ActionGroup "..." (Menu Aksi Lainnya): Mengelompokkan aksi sekunder agar antarmuka ringkas & minimalis
                 ActionGroup::make([
+                    // Ubah Prioritas
+                    Action::make('change_priority')
+                        ->label('Ubah Prioritas')
+                        ->icon(Heroicon::OutlinedFlag)
+                        ->color('warning')
+                        ->modalHeading('Ubah Prioritas Rencana Perawatan')
+                        ->modalDescription('Tentukan prioritas baru dan sertakan alasan perubahan.')
+                        ->modalSubmitActionLabel('Simpan Prioritas')
+                        ->form([
+                            Select::make('priority')
+                                ->label('Tingkat Prioritas')
+                                ->options([
+                                    'low' => 'Rendah',
+                                    'normal' => 'Normal',
+                                    'high' => 'Tinggi',
+                                    'urgent' => 'Mendesak',
+                                ])
+                                ->default(fn (CarePlan $record): string => $record->priority ?? 'normal')
+                                ->required(),
+                            Textarea::make('reason')
+                                ->label('Alasan Perubahan')
+                                ->placeholder('Contoh: Evaluasi lapangan memerlukan percepatan...')
+                                ->required()
+                                ->minLength(3)
+                                ->maxLength(500)
+                                ->rows(3)
+                                ->helperText('Alasan perubahan akan tercatat dalam audit log sistem.'),
+                        ])
+                        ->action(function (CarePlan $record, array $data): void {
+                            $actor = auth()->user();
+                            abort_unless($actor instanceof User, 403);
+
+                            app(UpdateCarePlanPriority::class)->handle($actor, $record, $data);
+
+                            Notification::make()
+                                ->title('Prioritas rencana perawatan berhasil diperbarui.')
+                                ->success()
+                                ->send();
+                        })
+                        ->visible(fn (CarePlan $record): bool => auth()->user()?->can('update', $record) && in_array($record->status, ['draft', 'published'], true)),
+
+                    // Batalkan Rencana (AC 1 & 2 HJK-039)
+                    Action::make('cancel')
+                        ->label('Batalkan')
+                        ->icon(Heroicon::OutlinedXCircle)
+                        ->color('danger')
+                        ->modalHeading('Batalkan Rencana Perawatan')
+                        ->modalDescription('Rencana tidak akan dihapus. Status akan diubah menjadi Dibatalkan dan riwayat tetap tersimpan.')
+                        ->modalSubmitActionLabel('Ya, Batalkan')
+                        ->form([
+                            Textarea::make('reason')
+                                ->label('Alasan Pembatalan')
+                                ->placeholder('Contoh: Kondisi pohon sudah ditangani di luar jadwal...')
+                                ->required()
+                                ->minLength(3)
+                                ->maxLength(500)
+                                ->rows(3)
+                                ->helperText('Alasan wajib diisi dan akan tercatat dalam audit log sistem.'),
+                        ])
+                        ->action(function (CarePlan $record, array $data): void {
+                            $actor = auth()->user();
+                            abort_unless($actor instanceof User, 403);
+
+                            app(CancelCarePlan::class)->handle($actor, $record, $data);
+
+                            Notification::make()
+                                ->title('Rencana perawatan berhasil dibatalkan.')
+                                ->body('Status diubah menjadi Dibatalkan. Riwayat tetap tersimpan.')
+                                ->warning()
+                                ->send();
+                        })
+                        ->visible(fn (CarePlan $record): bool => in_array($record->status, ['draft', 'published'], true)),
+
+                    // Hapus Draf (HANYA untuk status draft, TIDAK untuk rencana yang sudah berjalan/dibatalkan - AC 1 HJK-039)
+                    DeleteAction::make('delete_draft')
+                        ->label('Hapus Draf')
+                        ->icon(Heroicon::OutlinedTrash)
+                        ->color('danger')
+                        ->modalHeading('Hapus Draf Rencana Perawatan')
+                        ->modalDescription('Apakah Anda yakin ingin menghapus draf ini secara permanen?')
+                        ->modalSubmitActionLabel('Ya, Hapus Draf')
+                        ->visible(fn (CarePlan $record): bool => $record->status === 'draft'),
+
+                    // Aliasing internal untuk kompatibilitas skema lama (hidden agar tidak duplikat di menu UI)
                     DeleteAction::make('delete_more')
-                        ->label('Hapus Rencana')
-                        ->visible(fn (CarePlan $record): bool => $record->status === 'draft' || $record->status === 'cancelled'),
+                        ->hidden(),
                 ])
                     ->icon(Heroicon::EllipsisHorizontal)
                     ->color('gray')
                     ->size('xs')
                     ->iconButton()
-                    ->tooltip('Aksi lainnya')
-                    ->visible(fn (CarePlan $record): bool => $record->status === 'draft' || $record->status === 'cancelled'),
+                    ->tooltip('Aksi lainnya'),
             ])
             ->emptyStateHeading('Belum ada rencana perawatan')
             ->emptyStateDescription('Susun rencana perawatan pohon berkala sebelum dieksekusi di lapangan.')
