@@ -4,12 +4,12 @@ Hijauku dipakai untuk mencatat program penghijauan, kegiatan lapangan, adopsi po
 
 ## Kondisi proyek
 
-Status berikut dicek pada 10 November 2026. Jira menjadi sumber status dan tanggal pekerjaan. GitHub menjadi sumber branch, pull request, dan hasil CI.
+Status berikut dicek pada 11 November 2026. Jira menjadi sumber status dan tanggal pekerjaan. GitHub menjadi sumber branch, pull request, dan hasil CI.
 
 - Backlog aktif berisi 5 epic dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15.
 - Tim berisi Yoga, Bitari, Arif, Wira, dan Rofii. Dinda bukan anggota.
 - Sprint 0 sudah ditutup. Sprint 1 berlangsung 19 Oktober sampai 22 November. Sprint 2 berlangsung 23 November sampai 27 Desember 2026.
-- Dari 45 story aktif, 7 Done, 7 In Progress, dan 31 To Do.
+- Dari 45 story aktif, 7 Done, 10 In Progress, dan 28 To Do. HAP-10/11/12 sedang dikerjakan di branch personal `yoga` dan belum masuk `main`.
 - HAP-6 dan M16-M18 sudah di luar scope aktif. Beberapa tabel/model lama masih ada sebagai scaffold; jangan membangun halaman atau alur untuk area itu tanpa keputusan scope baru.
 
 ### Fitur yang sudah masuk ke `main`
@@ -20,7 +20,7 @@ Status berikut dicek pada 10 November 2026. Jira menjadi sumber status dan tangg
 | M07 | HJK-019: catat rencana kegiatan | Selesai, PR #11 |
 | M13 | HJK-037 sampai HJK-039: susun rencana perawatan, atur prioritas, koreksi atau batalkan rencana | Selesai, PR #13 dan #16 |
 
-Story lain belum otomatis selesai hanya karena tabel atau panel dasarnya sudah tersedia. Pada pemeriksaan ini, PR #12, #14, dan #15 masih terbuka. Ketiganya tertinggal dari `main` dan perlu diperbarui oleh pemilik branch sebelum diminta review lagi. Rincian dan perbandingan branch ada di [audit sumber](docs/source-audit.md).
+Story lain belum otomatis selesai hanya karena tabel atau panel dasarnya sudah tersedia. PR #12, #14, dan #15 sudah ditutup tanpa merge. Branch personal pemiliknya masih menyimpan commit unik dan perlu disinkronkan ke `main` sebelum PR pengganti dibuat. Snapshot commit dan jarak branch ada di [audit sumber](docs/source-audit.md).
 
 ## Tampilan dan API
 
@@ -78,7 +78,9 @@ Sebelum menjalankan Dusk secara lokal, siapkan database SQLite khusus Dusk sesua
 
 Setiap anggota memakai satu branch personal untuk seluruh story miliknya. Nama branch yang saat ini terlihat di GitHub adalah Yoga `yoga`, Bitari `bitaridamar`, Arif `arif`, Wira `ayuwira`, dan Rofii `Rofii`. Perbedaan huruf besar atau nama branch sedikit berbeda sudah diterima PM; jangan mengganti nama branch aktif. Sertakan key HAP kapital di setiap commit dan PR.
 
-Setelah acceptance dan tes story terpenuhi di branch personal yang sudah di-push, anggota bisa memperbarui status Jira ke Done dan memeriksa panel Development. Pada akhir sprint, setiap anggota membuka satu PR yang berisi seluruh story sprint yang sudah selesai. Penulis menyinkronkan `main`, menyelesaikan konflik, dan meminta Yoga sebagai reviewer. PM mengatur urutan dan menjadi satu-satunya pihak yang merge. PR anggota perlu approval PM dan CI hijau; PR PM tidak membutuhkan self-review, tetapi CI tetap harus hijau. Jika ada temuan yang membuat acceptance gagal, story terkait dibuka kembali.
+Story baru boleh ditandai Done setelah acceptance dan tes terpenuhi pada branch personal yang sudah di-push, CI terbaru lulus, serta review dan penerimaan PM selesai. Pada akhir sprint, setiap anggota membuka satu PR yang berisi story sprintnya. Penulis menyinkronkan `main` dan menyelesaikan konflik; PM mengatur urutan review dan menjadi satu-satunya pihak yang merge. PR anggota perlu approval PM dan CI hijau. PR PM tidak membutuhkan self-review, tetapi CI tetap harus hijau. Task integrasi sprint ditutup setelah PR terkait merged dan CI akhir lulus. Jika integrasi menemukan acceptance yang gagal, story terkait dibuka kembali.
+
+Rencana terbaru memuat 30 story Sprint 1, enam per anggota dari dua modul utuh, dan 15 story Sprint 2, tiga per anggota dari satu modul. Tiga story Sprint 2 per anggota dijadwalkan dua di minggu 11 dan satu di minggu 12. Minggu 13 dipakai untuk integrasi PR, minggu 14 untuk UAT, pemeriksaan deploy, dan dokumentasi rilis, lalu minggu 15 untuk perbaikan temuan, laporan akhir, dan persiapan presentasi. Rincian issue dan tanggal ada di [jadwal story](docs/task-schedule.md).
 
 Panduan lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md), termasuk cara memperbarui `main`, commit, menghubungkan pekerjaan ke Jira, dan membuat PR.
 

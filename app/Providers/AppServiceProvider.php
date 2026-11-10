@@ -33,6 +33,7 @@ use App\Policies\FieldAssignmentPolicy;
 use App\Policies\GrowthObservationPolicy;
 use App\Policies\ManagerOnlyPolicy;
 use App\Policies\ProgramPolicy;
+use App\Policies\SitePolicy;
 use App\Policies\TreeIssuePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -73,6 +74,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::policy(Program::class, ProgramPolicy::class);
+        Gate::policy(Site::class, SitePolicy::class);
         Gate::policy(Activity::class, ActivityPolicy::class);
 
         Gate::policy(ActivityRegistration::class, ActivityRegistrationPolicy::class);

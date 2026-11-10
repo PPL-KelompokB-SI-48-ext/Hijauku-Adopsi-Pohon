@@ -66,7 +66,7 @@ Stage hanya file yang memang menjadi bagian perubahan Anda. Hindari git add . ag
 
 ## 4. Sinkronkan branch dan selesaikan konflik
 
-Pemilik branch menyinkronkan branch personal dengan `main` terbaru setelah PR digabung dan sebelum melanjutkan pekerjaan. Pemilik branch bertanggung jawab menyelesaikan konflik; jangan meminta reviewer menyelesaikannya.
+Pemilik branch menyinkronkan branch personal dengan `main` terbaru setelah PR sprint sebelumnya digabung dan sebelum memulai siklus pekerjaan berikutnya. Pemilik branch bertanggung jawab menyelesaikan konflik; jangan meminta reviewer menyelesaikannya.
 
     git fetch origin
     git merge origin/main
