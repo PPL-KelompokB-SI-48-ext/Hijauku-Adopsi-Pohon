@@ -3,6 +3,7 @@
 namespace App\Filament\Manager\Resources\TreeSpecies;
 
 use App\Filament\Manager\Resources\TreeSpecies\Pages\CreateTreeSpecies;
+use App\Filament\Manager\Resources\TreeSpecies\Pages\EditTreeSpecies;
 use App\Filament\Manager\Resources\TreeSpecies\Pages\ListTreeSpecies;
 use App\Filament\Manager\Resources\TreeSpecies\Schemas\TreeSpeciesForm;
 use App\Filament\Manager\Resources\TreeSpecies\Tables\TreeSpeciesTable;
@@ -56,8 +57,9 @@ class TreeSpeciesResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListTreeSpecies::route('/'),
+            'index'  => ListTreeSpecies::route('/'),
             'create' => CreateTreeSpecies::route('/create'),
+            'edit'   => EditTreeSpecies::route('/{record}/edit'),
         ];
     }
 }
