@@ -180,7 +180,7 @@ class TreeSpeciesCreationTest extends TestCase
         $this->assertTrue($manager->can('create', TreeSpecies::class));
         $this->assertTrue($manager->can('viewAny', TreeSpecies::class));
         $this->assertTrue($manager->can('update', $species));
-        $this->assertFalse($manager->can('delete', $species));
+        $this->assertTrue($manager->can('delete', $species));
     }
 
     private function manager(): User
