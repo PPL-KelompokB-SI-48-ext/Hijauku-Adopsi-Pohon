@@ -25,11 +25,12 @@ class CarePlanForm
                             ->mapWithKeys(function (Tree $tree) {
                                 $label = $tree->code;
                                 if ($tree->species) {
-                                    $label .= ' - ' . $tree->species->name;
+                                    $label .= ' - '.$tree->species->name;
                                 }
                                 if ($tree->plot) {
-                                    $label .= ' (Petak ' . $tree->plot->code . ')';
+                                    $label .= ' (Petak '.$tree->plot->code.')';
                                 }
+
                                 return [$tree->id => $label];
                             });
                     })
@@ -45,10 +46,11 @@ class CarePlanForm
                             ->with('assignee')
                             ->get()
                             ->mapWithKeys(function (FieldAssignment $assignment) {
-                                $label = 'TGS-' . str_pad((string) $assignment->id, 4, '0', STR_PAD_LEFT);
+                                $label = 'TGS-'.str_pad((string) $assignment->id, 4, '0', STR_PAD_LEFT);
                                 if ($assignment->assignee) {
-                                    $label .= ' (' . $assignment->assignee->name . ')';
+                                    $label .= ' ('.$assignment->assignee->name.')';
                                 }
+
                                 return [$assignment->id => $label];
                             });
                     })
@@ -62,6 +64,20 @@ class CarePlanForm
                     ->required()
                     ->native(false)
                     ->columnSpan(1),
+
+                Select::make('priority')
+                    ->label('Prioritas')
+                    ->options([
+                        'low' => 'Rendah',
+                        'normal' => 'Normal',
+                        'high' => 'Tinggi',
+                        'urgent' => 'Mendesak',
+                    ])
+                    ->default('normal')
+                    ->required()
+                    ->columnSpan(1)
+                    ->disabled(fn (string $operation): bool => $operation !== 'create')
+                    ->helperText(fn (string $operation): ?string => $operation !== 'create' ? 'Gunakan aksi "Ubah Prioritas" pada tabel untuk memperbarui prioritas dengan alasan.' : null),
 
                 Textarea::make('action')
                     ->label('Aksi Perawatan')
