@@ -20,7 +20,7 @@ class ProgramCreationTest extends DuskTestCase
             $browser->visit('/app/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
-                ->press('Sign in')
+                ->click('form button[type="submit"]')
                 ->waitForLocation('/app')
                 ->visit('/app/programs/create')
                 ->type('input[wire\\:model="data.name"]', $programName)
@@ -30,6 +30,7 @@ class ProgramCreationTest extends DuskTestCase
             $this->selectProgramDate($browser, 'Tanggal akhir', $endsOnValue);
 
             $browser->press('Simpan sebagai draf')
+                ->waitForLocation('/app/programs', 15)
                 ->waitForText($programName)
                 ->assertSee($programName)
                 ->assertSee('Menguji pencatatan tujuan program melalui browser.')
@@ -40,24 +41,25 @@ class ProgramCreationTest extends DuskTestCase
 
     private function selectProgramDate(Browser $browser, string $labelText, string $date): void
     {
-        $labelText = json_encode($labelText, JSON_THROW_ON_ERROR);
+        $input = match ($labelText) {
+            'Tanggal mulai' => 'input[id="form.starts_on"]',
+            'Tanggal akhir' => 'input[id="form.ends_on"]',
+            default => throw new \InvalidArgumentException("Label tanggal tidak dikenal: {$labelText}"),
+        };
+        $inputSelector = json_encode($input, JSON_THROW_ON_ERROR);
+        $day = json_encode((string) ((int) substr($date, -2)), JSON_THROW_ON_ERROR);
 
         $browser->script(<<<JS
-            const label = Array.from(document.querySelectorAll('label'))
-                .find((element) => element.textContent.includes({$labelText}));
-            const field = label?.closest('[data-field-wrapper]');
-            const trigger = field?.querySelector('.fi-fo-date-time-picker-trigger');
+            const input = document.querySelector({$inputSelector});
 
-            if (! trigger) {
-                throw new Error(`Pemilih tanggal {$labelText} tidak ditemukan.`);
+            if (! input) {
+                throw new Error('Kolom {$labelText} tidak ditemukan.');
             }
 
-            trigger.click();
+            input.click();
             JS);
 
-        $browser->waitFor('div.fi-fo-date-time-picker-panel:not([style*="display: none"])');
-
-        $day = json_encode((string) ((int) substr($date, -2)), JSON_THROW_ON_ERROR);
+        $browser->waitUntil("document.querySelector({$inputSelector})?.getAttribute('aria-expanded') === 'true'", 10);
 
         $browser->script(<<<JS
             const day = {$day};
@@ -70,5 +72,7 @@ class ProgramCreationTest extends DuskTestCase
 
             cell.click();
             JS);
+
+        $browser->waitUntil("document.querySelector({$inputSelector})?.value !== ''", 10);
     }
 }

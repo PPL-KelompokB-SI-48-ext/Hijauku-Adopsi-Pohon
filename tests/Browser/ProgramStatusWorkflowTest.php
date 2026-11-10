@@ -35,7 +35,7 @@ class ProgramStatusWorkflowTest extends DuskTestCase
             $browser->visit('/app/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
-                ->press('Sign in')
+                ->click('form button[type="submit"]')
                 ->waitForLocation('/app')
                 ->visit('/app/programs')
                 ->assertSee($name);
