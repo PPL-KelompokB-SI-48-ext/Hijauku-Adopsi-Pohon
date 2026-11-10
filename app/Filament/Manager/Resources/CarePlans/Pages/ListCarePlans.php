@@ -37,6 +37,8 @@ class ListCarePlans extends ListRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'draft')),
             'published' => Tab::make('Terbit')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'published')),
+            'cancelled' => Tab::make('Dibatalkan')
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'cancelled')),
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Manager\Resources\CarePlans\Tables;
 
+use App\Actions\CarePlans\CancelCarePlan;
+use App\Actions\CarePlans\CorrectCarePlan;
 use App\Actions\CarePlans\UpdateCarePlanPriority;
 use App\Models\CarePlan;
 use App\Models\Site;
@@ -153,13 +155,19 @@ class CarePlansTable
                     ->color('gray')
                     ->size('xs'),
 
-                // 2. Aksi "Edit": Untuk rencana yang sudah Terbit (published)
+                // 2. Aksi "Edit": Untuk rencana yang sudah Terbit (published) - koreksi tercatat di audit log
                 EditAction::make('edit')
                     ->label('Edit')
                     ->button()
                     ->outlined()
                     ->color('gray')
                     ->size('xs')
+                    ->using(function (CarePlan $record, array $data): CarePlan {
+                        $actor = auth()->user();
+                        abort_unless($actor instanceof User, 403);
+
+                        return app(CorrectCarePlan::class)->handle($actor, $record, $data);
+                    })
                     ->visible(fn (CarePlan $record): bool => $record->status === 'published'),
 
                 // 3. Aksi "Edit Draf": Untuk rencana yang masih Draf
@@ -242,7 +250,41 @@ class CarePlansTable
                     })
                     ->visible(fn (CarePlan $record): bool => auth()->user()?->can('update', $record) && $record->status !== 'cancelled'),
 
-                // 5. Aksi "Hapus Draf": Tombol outline merah lembut untuk draf yang dibatalkan / draft
+                // 6. Aksi "Batalkan": Modal dengan alasan wajib - rencana tidak dihapus, hanya diubah statusnya
+                Action::make('cancel')
+                    ->label('Batalkan')
+                    ->button()
+                    ->outlined()
+                    ->color('danger')
+                    ->size('xs')
+                    ->modalHeading('Batalkan Rencana Perawatan')
+                    ->modalDescription('Rencana tidak akan dihapus. Status akan diubah menjadi Dibatalkan dan riwayat tetap tersimpan.')
+                    ->modalSubmitActionLabel('Ya, Batalkan')
+                    ->form([
+                        Textarea::make('reason')
+                            ->label('Alasan Pembatalan')
+                            ->placeholder('Contoh: Kondisi pohon sudah ditangani di luar jadwal...')
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(500)
+                            ->rows(3)
+                            ->helperText('Alasan wajib diisi dan akan tercatat dalam audit log sistem.'),
+                    ])
+                    ->action(function (CarePlan $record, array $data): void {
+                        $actor = auth()->user();
+                        abort_unless($actor instanceof User, 403);
+
+                        app(CancelCarePlan::class)->handle($actor, $record, $data);
+
+                        Notification::make()
+                            ->title('Rencana perawatan berhasil dibatalkan.')
+                            ->body('Status diubah menjadi Dibatalkan. Riwayat tetap tersimpan.')
+                            ->warning()
+                            ->send();
+                    })
+                    ->visible(fn (CarePlan $record): bool => in_array($record->status, ['draft', 'published'], true)),
+
+                // 7. Aksi "Hapus Draf": Tombol outline merah lembut untuk draf yang dibatalkan / draft
                 DeleteAction::make('delete_draft')
                     ->label('Hapus Draf')
                     ->button()
