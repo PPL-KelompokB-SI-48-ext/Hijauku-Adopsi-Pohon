@@ -16,6 +16,8 @@ Jira dan GitHub diperiksa pada 11 November 2026. `main` tetap berada pada merge 
 
 PR #20 adalah satu-satunya PR terbuka saat audit. PR #12, #14, dan #15 sudah ditutup tanpa merge; branch masing-masing masih tertinggal dari `main`, dan hasil CI lama tidak membuktikan kondisi setelah perubahan terbaru. Pemilik branch mempertahankan commit unik, menyinkronkan `main`, menyelesaikan konflik, memperbaiki catatan review yang masih berlaku, lalu membuka PR pengganti. Jangan hapus branch teman.
 
+Task HAP-62 berstatus Done setelah PR personal Yoga siap ditinjau dan CI lulus. PR #20 tetap terbuka karena review/merge masuk ke tahap integrasi HAP-71/HAP-72; jangan menyamakan selesainya persiapan PR dengan selesainya integrasi atau story HAP-10/11/12.
+
 Status HAP-16/17, HAP-26/27, dan HAP-34/35 tetap In Progress sampai acceptance, tes, CI, review, dan penerimaan PM dapat dibuktikan sesuai aturan issue. Due date HAP-16/HAP-34 (1 November) serta HAP-17/HAP-26/HAP-35 (8 November) sudah lewat. Tanggal lama dipertahankan sebagai riwayat; pemilik dan PM perlu menetapkan replan. Jangan membuat actual time atau work log dari tanggal target.
 
 HAP-25 dan HAP-43 sudah Done tetapi masih menyimpan remaining estimate 4 jam dan 5 jam tanpa work log. Pemilik perlu meninjau sisa estimasi. Work log hanya dibuat oleh pelaksana untuk waktu nyata.

@@ -50,7 +50,7 @@ HAP-25 dan HAP-43 sudah merged/Done, tetapi Remaining estimate masing-masing mas
 - PR #16 berisi HAP-44/HAP-45 dan merged. CI run `42826130678` lulus.
 - PR #18 memperbarui catatan HAP-8/HAP-9 dan merged.
 - PR #19 menyelaraskan shell tiga panel Filament dengan tema Stitch dan sudah merged.
-- PR #12, #14, dan #15 sudah ditutup tanpa merge. PR #20 Yoga terbuka dan siap ditinjau dari `yoga` ke `main`; pemeriksaan CI terakhir yang tersedia lulus dan branch tidak memiliki konflik. GitHub masih meminta satu approving review sesuai perlindungan branch. Run CI lama pada PR teman bukan bukti untuk head terbaru mereka.
+- PR #12, #14, dan #15 sudah ditutup tanpa merge. PR #20 Yoga terbuka dan siap ditinjau dari `yoga` ke `main`; pemeriksaan CI terakhir yang tersedia lulus dan branch tidak memiliki konflik. HAP-62 berstatus Done untuk persiapan PR; review/merge tetap dikerjakan pada integrasi HAP-71/HAP-72. GitHub masih meminta satu approving review sesuai perlindungan branch. Run CI lama pada PR teman bukan bukti untuk head terbaru mereka.
 - Pemilik mempertahankan commit unik, menyinkronkan `main`, menyelesaikan konflik sendiri, memperbaiki temuan review yang masih relevan, menjalankan CI, lalu membuka PR pengganti. Jangan force-push atau menghapus branch teman.
 - PR #1/#2/#4/#7/#9/#11/#13/#16/#17/#18 sudah merged. PR #3/#5/#6 ditutup tanpa merge.
 
