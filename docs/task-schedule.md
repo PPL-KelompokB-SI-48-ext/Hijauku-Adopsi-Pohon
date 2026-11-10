@@ -2,7 +2,7 @@
 
 Jira adalah sumber tanggal, sprint, dan status issue. Dokumen ini mencatat pembagian jadwal setelah minggu 6 direncanakan untuk backlog dan refinement, tanpa coding yang dijadwalkan saat itu.
 
-Catatan pelaksanaan: alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober 2026. Tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober, lalu HAP-7 ditandai Done. HAP-16 milik Rofii dan HAP-25 milik Bitari juga berstatus In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. HAP-16 masih perlu Dusk serta sinkronisasi branch. Kalender Sprint 1 tetap; pemilik perlu mencocokkan tanggal mulai story dengan pekerjaan sebenarnya. Tidak ada work log yang dibuat dari tanggal target atau estimasi.
+Catatan pelaksanaan: alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober 2026. Tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober, lalu HAP-7 ditandai Done. HAP-16 milik Rofii dan HAP-25 milik Bitari juga berstatus In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. HAP-16 masih perlu Dusk serta sinkronisasi branch. Pada 10 November, HAP-8/HJK-002 dan HAP-9/HJK-003 selesai dan diterima PM lewat PR #17 setelah CI lulus. Kalender Sprint 1 tetap; tanggal target tidak dipakai sebagai catatan waktu kerja.
 
 ## Aturan tanggal
 
@@ -43,8 +43,8 @@ Sprint formal tetap mengikuti kalender kuliah: 19 Okt sampai 22 Nov 2026. Minggu
 | --- | --- | --- |
 | 6 | 19-25 Okt 2026 | Rencana: backlog dan refinement, tanpa jadwal coding story. HJK-001, HAP-16, dan HAP-25 tercatat mulai/aktif lebih awal; lihat catatan pelaksanaan di atas. |
 | 7 | 26 Okt-1 Nov 2026 | HAP-7 / HJK-001 (M01); HAP-16 / HJK-010 (M04); HAP-25 / HJK-019 (M07); HAP-34 / HJK-028 (M10); HAP-43 / HJK-037 (M13). |
-| 8 | 2-8 Nov 2026 | HAP-8 / HJK-002 (M01); HAP-17 / HJK-011 (M04); HAP-26 / HJK-020 (M07); HAP-35 / HJK-029 (M10); HAP-44 / HJK-038 (M13). |
-| 9 | 9-15 Nov 2026 | HAP-9 / HJK-003 (M01); HAP-18 / HJK-012 (M04); HAP-27 / HJK-021 (M07); HAP-36 / HJK-030 (M10); HAP-45 / HJK-039 (M13). |
+| 8 | 2-8 Nov 2026 | Rencana awal HAP-8 / HJK-002 (M01); HAP-17 / HJK-011 (M04); HAP-26 / HJK-020 (M07); HAP-35 / HJK-029 (M10); HAP-44 / HJK-038 (M13). HAP-8 kemudian dijadwalkan ulang ke minggu 9. |
+| 9 | 9-15 Nov 2026 | HAP-8 / HJK-002 dan HAP-9 / HJK-003 (M01); HAP-18 / HJK-012 (M04); HAP-27 / HJK-021 (M07); HAP-36 / HJK-030 (M10); HAP-45 / HJK-039 (M13). |
 | 10 | 16-22 Nov 2026 | Integrasi, demo, review, dan retrospektif Sprint 1. |
 | **Total** |  | **15 story, 3 per anggota** |
 
@@ -68,3 +68,14 @@ Sprint 2 berlangsung 23 Nov sampai 27 Des 2026. Setiap modul tetap berada seluru
 - Sprint 2: future, kalender 23 Nov-27 Des 2026.
 - Tanggal resmi sprint tidak digeser karena mengikuti kalender kuliah. Yang digeser adalah tanggal kerja story Sprint 1 agar mencerminkan mulai coding pada minggu 7.
 - Epic HAP-2 sampai HAP-5 mencakup rentang story lintas Sprint 1 dan Sprint 2; tanggal epic tidak menggantikan Start date dan Due date story.
+
+## Replan HAP-8 dan HAP-9 pada 10 November
+
+Pada audit 10 November, target sebelumnya untuk HAP-8 (1 November) dan HAP-9 (8 November) sudah lewat. Keduanya dijadwalkan ulang ke minggu 9, 9-15 November 2026. Perubahan ini tercatat di riwayat Jira dan komentar kedua issue; tanggal tersebut adalah rencana baru, bukan catatan waktu kerja.
+
+| Issue | Target sebelumnya | Target baru | Status setelah audit |
+| --- | --- | --- | --- |
+| HAP-8 / HJK-002 | 26 Okt-1 Nov | 9-15 Nov | Done pada 10 Nov setelah PR #17 merged, CI lulus, dan PM menerima hasil. |
+| HAP-9 / HJK-003 | 2-8 Nov | 9-15 Nov | Done pada 10 Nov setelah PR #17 merged, CI lulus, dan PM menerima hasil. |
+
+M01 memiliki dua story dalam minggu ini, masih di bawah batas dua story per anggota per minggu. Target awal keduanya terlewati dan replan ke minggu 9 tercatat di Jira sebelum selesai. Implementasi digabung pada 10 November, sebelum target revisi 15 November. Tidak ada work log yang dibuat; sisa estimasi Jira menjadi 0 jam.

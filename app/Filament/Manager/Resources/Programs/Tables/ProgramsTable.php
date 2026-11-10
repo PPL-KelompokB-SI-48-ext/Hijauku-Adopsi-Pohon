@@ -2,7 +2,12 @@
 
 namespace App\Filament\Manager\Resources\Programs\Tables;
 
+use App\Actions\Programs\ActivateProgram;
+use App\Actions\Programs\ArchiveProgram;
 use App\Models\Program;
+use App\Models\User;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -30,12 +35,74 @@ class ProgramsTable
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'draft' => 'Draf',
                         'active' => 'Aktif',
+                        'completed' => 'Selesai',
+                        'archived' => 'Diarsipkan',
                         default => ucfirst(str_replace('_', ' ', $state)),
                     })
                     ->color(fn (string $state): string => match ($state) {
                         'draft' => 'gray',
                         'active' => 'success',
+                        'completed' => 'info',
+                        'archived' => 'gray',
                         default => 'warning',
+                    }),
+            ])
+            ->recordActionsColumnLabel('Aksi')
+            ->recordActions([
+                Action::make('activate')
+                    ->label('Aktifkan')
+                    ->button()
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Aktifkan Program')
+                    ->modalDescription('Pastikan nama, tujuan, dan periode program sudah benar. Program aktif dapat digunakan sebagai induk lokasi.')
+                    ->modalSubmitActionLabel('Ya, Aktifkan')
+                    ->successNotificationTitle('Program berhasil diaktifkan.')
+                    ->schema([
+                        Textarea::make('reason')
+                            ->label('Alasan aktivasi')
+                            ->helperText('Catatan ini disimpan di riwayat perubahan program.')
+                            ->required()
+                            ->maxLength(1000),
+                    ])
+                    ->visible(fn (Program $record): bool => $record->status === 'draft')
+                    ->action(function (Program $record, array $data): void {
+                        $actor = auth()->user();
+                        abort_unless($actor instanceof User, 403);
+
+                        app(ActivateProgram::class)->handle(
+                            $actor,
+                            $record,
+                            $data['reason'],
+                        );
+                    }),
+                Action::make('archive')
+                    ->label('Arsipkan')
+                    ->button()
+                    ->outlined()
+                    ->color('gray')
+                    ->requiresConfirmation()
+                    ->modalHeading('Arsipkan Program')
+                    ->modalDescription('Program hanya diarsipkan. Data lokasi dan pohon yang sudah tercatat tetap disimpan.')
+                    ->modalSubmitActionLabel('Ya, Arsipkan')
+                    ->successNotificationTitle('Program berhasil diarsipkan.')
+                    ->schema([
+                        Textarea::make('reason')
+                            ->label('Alasan pengarsipan')
+                            ->helperText('Catatan ini disimpan di riwayat perubahan program.')
+                            ->required()
+                            ->maxLength(1000),
+                    ])
+                    ->visible(fn (Program $record): bool => $record->status === 'completed')
+                    ->action(function (Program $record, array $data): void {
+                        $actor = auth()->user();
+                        abort_unless($actor instanceof User, 403);
+
+                        app(ArchiveProgram::class)->handle(
+                            $actor,
+                            $record,
+                            $data['reason'],
+                        );
                     }),
             ])
             ->emptyStateHeading('Belum ada program')
