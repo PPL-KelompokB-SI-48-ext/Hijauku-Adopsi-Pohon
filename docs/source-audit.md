@@ -8,7 +8,7 @@ Jira dan GitHub diperiksa pada 11 November 2026. `main` tetap berada pada merge 
 
 | Pemilik / modul | Status Jira | GitHub saat audit |
 | --- | --- | --- |
-| Yoga / M01-M02 | HAP-7/8/9 Done; HAP-10/11/12 In Progress, dimajukan ke Sprint 1. M03 HAP-13/14/15 tetap Sprint 2. | Perubahan HJK-001/002/003 dan shell Filament sudah ada di `main`. HJK-004/005/006 sedang dikerjakan di branch `yoga`; belum ada PR untuk M02. |
+| Yoga / M01-M02 | HAP-7/8/9 Done; HAP-10/11/12 In Progress, dimajukan ke Sprint 1. M03 HAP-13/14/15 tetap Sprint 2. | Perubahan HJK-001/002/003 dan shell Filament sudah ada di `main`. HJK-004/005/006 sudah diimplementasikan dan di-push pada branch personal `yoga` lewat commit `9e7a695` pada 11 November; belum ada PR untuk M02. |
 | Rofii / M04-M05 | HAP-16/17/18 In Progress; HAP-19/20/21 To Do, dimajukan ke Sprint 1. M06 HAP-22/23/24 tetap Sprint 2. | PR #12 ditutup tanpa merge. Branch `Rofii` 5 commit di depan dan 16 di belakang `main`. Review terakhir meminta perbaikan policy dan tes yang gagal; pemilik perlu memeriksa ulang pada branch terbaru sebelum membuka PR pengganti. |
 | Bitari / M07-M08 | HAP-25 Done; HAP-26/27 In Progress; HAP-28/29/30 To Do, dimajukan ke Sprint 1. M09 HAP-31/32/33 tetap Sprint 2. | PR #15 ditutup tanpa merge. Branch `bitaridamar` 2 commit di depan dan 22 di belakang `main`. PR belum memiliki review; checklist acceptance pada PR lama belum menjadi bukti selesai. |
 | Arif / M10-M11 | HAP-34/35 In Progress; HAP-36 To Do; HAP-37/38/39 To Do, dimajukan ke Sprint 1. M12 HAP-40/41/42 tetap Sprint 2. | PR #14 ditutup tanpa merge. Branch `arif` 6 commit di depan dan 16 di belakang `main`. Review terakhir meminta tes, batas query milik warga, dan pilihan pohon tersedia; pemilik perlu memeriksa ulang pada branch terbaru. |
@@ -21,6 +21,10 @@ Status HAP-16/17, HAP-26/27, dan HAP-34/35 tetap In Progress sampai acceptance, 
 HAP-25 dan HAP-43 sudah Done tetapi masih menyimpan remaining estimate 4 jam dan 5 jam tanpa work log. Pemilik perlu meninjau sisa estimasi. Work log hanya dibuat oleh pelaksana untuk waktu nyata.
 
 Deskripsi semua 45 story Sprint 1 dan Sprint 2 sudah memuat pedoman bersama untuk frame Stitch, tema dan komponen Filament reusable, database, batas API, tes, branch personal, review, CI, dan status Done. Story HAP-10/11/12 sudah berstatus In Progress. Pemetaan branch yang dipakai PM: Yoga `yoga`, Bitari `bitaridamar`, Arif `arif`, Wira `ayuwira`, Rofii `Rofii`.
+
+Setelah implementasi M02 di-push, deskripsi HAP-10/11/12 diperbarui agar tidak lagi menyebut Resource lokasi belum tersedia. Instruksi itu kini meminta anggota melanjutkan dari implementasi `SiteResource`, pola form/tabel, Policy, Actions, dan tes yang ada pada branch `yoga`, lalu menyinkronkan dengan `main` pada waktu sesuai alur sprint. Ketiga story tetap In Progress sampai PR, CI, integrasi, dan penerimaan PM selesai.
+
+Pemeriksaan lokal untuk commit `9e7a695` lulus: 86 tes Feature (463 assertion), 11 tes Unit (11 assertion), 7 tes Laravel Dusk (42 assertion), Pint untuk file terkait, dan `npm run build`. Pemeriksaan browser lokal mencakup tambah, ubah, cari, filter, dan hapus lokasi serta tampilan ponsel tanpa overflow halaman. Hasil ini belum menggantikan CI GitHub; CI integrasi berjalan setelah PR Sprint 1 dibuat.
 
 Jadwal Sprint 2 tetap mengikuti kalender kuliah, 23 November-27 Desember. Setelah 15 story dipindahkan ke Sprint 1, Sprint 2 berisi 15 story. Targetnya dua story per orang pada minggu 11 dan satu story per orang pada minggu 12. Minggu 13 untuk integrasi PR melalui HAP-67/HAP-68; minggu 14 untuk UAT, pemeriksaan deploy, dan dokumentasi rilis melalui HAP-69; minggu 15 untuk temuan, laporan akhir, dan presentasi melalui HAP-73.
 
