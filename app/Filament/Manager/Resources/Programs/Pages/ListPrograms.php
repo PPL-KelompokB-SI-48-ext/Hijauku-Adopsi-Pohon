@@ -21,4 +21,9 @@ class ListPrograms extends ListRecords
     {
         return 'Kelola program penghijauan dan periode pelaksanaannya.';
     }
+
+    public function getBreadcrumbs(): array
+    {
+        return ['Program & Lokasi', 'Program Penghijauan'];
+    }
 }

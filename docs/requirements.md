@@ -80,6 +80,12 @@ HAP-6, yang dahulu menampung M16-M18, sudah dihapus permanen atas keputusan PM. 
 
 Judul, tujuan, acceptance criteria, dan status story tetap dibaca dari Jira. Perubahan requirement harus memperbarui issue dan dokumen ini bila berdampak pada scope, owner, modul, atau hitungan.
 
+## Status pengerjaan yang diperiksa 10 November 2026
+
+Jira memuat 45 story dengan 7 Done, 7 In Progress, dan 31 To Do. Yang sudah Done: HAP-7/8/9 (M01), HAP-25 (M07), dan HAP-43/44/45 (M13). Yang sedang berjalan: HAP-16/17/18 (M04), HAP-26/27 (M07), dan HAP-34/35 (M10). Story lainnya To Do.
+
+PR #12 (Rofii), #14 (Arif), dan #15 (Bitari) masih terbuka. Status story tidak menunggu PR akhir sprint di-merge: pemilik bisa menandai Done setelah acceptance dan tes relevan terpenuhi pada branch personal yang sudah di-push. Audit belum dapat membuktikan hal itu untuk semua story di PR ini karena scope PR tidak sama dengan story dan branch belum disinkronkan. Sebelum integrasi akhir sprint, pemilik perlu menyinkronkan `main`, merapikan cakupan, dan menjalankan CI terbaru. Due date yang lewat perlu direplan oleh pemilik berdasarkan kondisi nyata. Jangan mengubah tanggal atau work log hanya untuk menyamakan riwayat.
+
 ## Menjaga backlog
 
 - Acceptance criteria harus bisa diuji dan mencakup kasus berhasil, penolakan, role/ownership, serta transisi status yang relevan.

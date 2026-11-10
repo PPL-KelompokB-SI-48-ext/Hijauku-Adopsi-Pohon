@@ -20,7 +20,7 @@ class ProgramCreationTest extends DuskTestCase
             $browser->visit('/app/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
-                ->press('Masuk')
+                ->click('form button[type="submit"]')
                 ->waitForLocation('/app')
                 ->visit('/app/programs/create')
                 ->type('input[wire\\:model="data.name"]', $programName)
@@ -30,6 +30,7 @@ class ProgramCreationTest extends DuskTestCase
             $this->selectProgramDate($browser, 'Tanggal akhir', $endsOnValue);
 
             $browser->press('Simpan sebagai draf')
+                ->waitForLocation('/app/programs', 15)
                 ->waitForText($programName)
                 ->assertSee($programName)
                 ->assertSee('Menguji pencatatan tujuan program melalui browser.')
@@ -40,35 +41,20 @@ class ProgramCreationTest extends DuskTestCase
 
     private function selectProgramDate(Browser $browser, string $labelText, string $date): void
     {
-        $labelText = json_encode($labelText, JSON_THROW_ON_ERROR);
+        [$input, $calendarPanel] = match ($labelText) {
+            'Tanggal mulai' => ['input[id="form.starts_on"]', '[id="form.starts_on-panel"]'],
+            'Tanggal akhir' => ['input[id="form.ends_on"]', '[id="form.ends_on-panel"]'],
+            default => throw new \InvalidArgumentException("Label tanggal tidak dikenal: {$labelText}"),
+        };
+        $inputSelector = json_encode($input, JSON_THROW_ON_ERROR);
+        $calendarDaySelector = $calendarPanel.' .fi-fo-date-time-picker-calendar-day[data-date="'.$date.'"]';
 
-        $browser->script(<<<JS
-            const label = Array.from(document.querySelectorAll('label'))
-                .find((element) => element.textContent.includes({$labelText}));
-            const field = label?.closest('[data-field-wrapper]');
-            const trigger = field?.querySelector('.fi-fo-date-time-picker-trigger');
+        $browser->click($input);
 
-            if (! trigger) {
-                throw new Error(`Pemilih tanggal {$labelText} tidak ditemukan.`);
-            }
+        $browser->waitUntil("document.querySelector({$inputSelector})?.getAttribute('aria-expanded') === 'true'", 10);
 
-            trigger.click();
-            JS);
+        $browser->click($calendarDaySelector);
 
-        $browser->waitFor('div.fi-fo-date-time-picker-panel:not([style*="display: none"])');
-
-        $day = json_encode((string) ((int) substr($date, -2)), JSON_THROW_ON_ERROR);
-
-        $browser->script(<<<JS
-            const day = {$day};
-            const cell = Array.from(document.querySelectorAll('.fi-fo-date-time-picker-calendar-day'))
-                .find((element) => element.offsetParent && element.textContent.trim() === day);
-
-            if (! cell) {
-                throw new Error(`Tanggal {$day} tidak tersedia di kalender yang terbuka.`);
-            }
-
-            cell.click();
-            JS);
+        $browser->waitUntil("document.querySelector({$inputSelector})?.value !== ''", 10);
     }
 }

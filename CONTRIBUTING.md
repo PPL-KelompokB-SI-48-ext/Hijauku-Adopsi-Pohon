@@ -1,6 +1,6 @@
 # Panduan kontribusi Hijauku
 
-Panduan ini dipakai semua anggota tim agar issue, branch, perubahan, dan review tetap mudah ditelusuri. PM adalah Yoga (@mygads). Setiap anggota memakai satu branch personal untuk seluruh story miliknya. Penulis menyelesaikan konflik; PM meninjau dan menggabungkan PR ke main.
+Panduan ini dipakai semua anggota tim agar issue, branch, perubahan, dan review tetap mudah ditelusuri. PM adalah Yoga (@mygads). Setiap anggota memakai satu branch personal untuk story selama sprint. Story bisa ditandai Done setelah acceptance dan tesnya terpenuhi pada branch yang sudah di-push. Di akhir sprint, tiap anggota membuka satu PR untuk seluruh pekerjaan sprintnya. Penulis menyelesaikan konflik; PM meninjau dan menggabungkan PR ke `main` satu per satu.
 
 ## 1. Ambil satu PBI
 
@@ -13,7 +13,7 @@ Satu story harus menghasilkan perubahan yang dapat ditinjau. Bila story terlalu 
 
 ## 2. Gunakan satu branch personal
 
-Branch personal dibuat satu kali dari `main` dan dipakai untuk semua story anggota tersebut. Jangan membuat branch baru untuk setiap fitur. Nama branch tim adalah `yoga`, `bitari`, `arif`, `wira`, dan `rofii`, ditulis dengan huruf kecil.
+Branch personal dibuat satu kali dari `main` dan dipakai untuk semua story anggota tersebut. Jangan membuat branch baru untuk setiap fitur. Nama branch yang saat ini terlihat di GitHub adalah Yoga `yoga`, Bitari `bitaridamar`, Arif `arif`, Wira `ayuwira`, dan Rofii `Rofii`. PM sudah menerima variasi ejaan/huruf besar tersebut. Jangan mengganti nama branch yang masih dipakai oleh PR atau memiliki commit unik.
 
 Pada clone pertama, buat branch personal dari `main` terbaru:
 
@@ -27,7 +27,7 @@ Ganti `yoga` dengan nama branch pribadi Anda. Jika branch personal sudah ada, pi
     git switch yoga
     git pull --ff-only origin yoga
 
-Jangan commit atau push langsung ke `main`. Branch personal tidak memakai Jira key karena satu branch memuat beberapa issue. Cantumkan key HAP yang sesuai pada setiap commit dan PR agar Jira dapat menautkan pekerjaan. Jangan mulai dua perubahan yang perlu PR terpisah pada waktu bersamaan di branch yang sama; selesaikan dan gabungkan PR lebih dulu, lalu sinkronkan branch. Dengan begitu isi PR berikutnya tidak ikut membawa pekerjaan yang belum siap.
+Jangan commit atau push langsung ke `main`. Branch personal tidak memakai Jira key karena satu branch memuat beberapa issue. Cantumkan key HAP yang sesuai pada setiap commit dan PR agar Jira dapat menautkan pekerjaan. Simpan pekerjaan setiap story yang sudah diperiksa pada branch personal. Jangan masukkan perubahan yang belum memenuhi acceptance ke status Done; tandai jelas sebagai pekerjaan berjalan dan selesaikan sebelum membuat PR sprint.
 
 ### Pindahkan pekerjaan dari branch lama
 
@@ -81,11 +81,21 @@ Jangan memakai git push --force. Bila konflik menyentuh skema, aturan role, atau
 
 Selesaikan konflik pada branch personal, jalankan pemeriksaan yang relevan, lalu push hasilnya. Jangan memakai `git push --force`. Reviewer memberi masukan; ia tidak mengambil alih branch pemilik.
 
-## 5. Buka pull request
+## 5. Tutup story di Jira dan siapkan PR sprint
 
-Push branch personal dan buat PR ke `main` setelah story atau kelompok story yang dibawa PR memenuhi acceptance criteria. Sertakan semua key HAP yang dibawa PR. Sebelum membuka PR baru, pastikan tidak ada perubahan issue lain yang belum siap di branch personal. Contoh satu story:
+Setelah satu story memenuhi acceptance criteria, tes yang relevan lulus, dan perubahan sudah di-push ke branch personal, pelaksana:
 
-    [HAP-25] Catat rencana kegiatan
+1. Periksa commit/branch pada panel **Development** Jira. Pastikan commit menyertakan key HAP yang benar.
+2. Perbarui remaining estimate sesuai sisa kerja. Catat work log hanya untuk waktu yang benar-benar dipakai.
+3. Pindahkan story ke **Done** bila hasilnya sudah memenuhi acceptance. Pull request sprint belum harus dibuat atau di-merge pada tahap ini.
+
+Jika ada kriteria yang belum terpenuhi, atau belum ada commit yang di-push, biarkan story In Progress. Jangan memakai tanggal sprint atau keberadaan commit saja sebagai bukti selesai.
+
+## 6. Buka pull request pada akhir sprint
+
+Di akhir sprint, setiap anggota membuka satu PR dari branch personalnya ke `main`, berisi seluruh pekerjaan sprint yang sudah memenuhi acceptance. PM menentukan urutan PR agar perubahan dapat digabungkan satu per satu. Sebelum membuka PR, ambil `main` terbaru, selesaikan konflik di branch sendiri, jalankan pemeriksaan lagi, dan pastikan judul/body PR menyebut semua key HAP yang dibawa. Contoh:
+
+    [HAP-25][HAP-26][HAP-27] Selesaikan modul kegiatan
 
 Di isi PR, sertakan:
 
@@ -96,17 +106,18 @@ Di isi PR, sertakan:
 - screenshot bila UI berubah;
 - risiko, batasan, atau pekerjaan lanjutan.
 
-Anggota meminta review dari @mygads dan tidak merge PR sendiri. PR Yoga tidak memerlukan self-approval; Yoga memakai admin bypass setelah CI hijau. Admin bypass juga melewati enforcement branch protection, jadi aturan tim tetap mewajibkan CI lulus sebelum merge.
+Anggota meminta review dari @mygads dan tidak merge PR sendiri. Satu PR menghubungkan seluruh HAP yang diselesaikan anggota pada sprint tersebut. Jika ada story yang belum siap, jangan menyatakan story itu Done dan jangan mencantumkan pekerjaannya sebagai selesai di PR.
 
-## 6. Review dan merge
+## 7. Review dan merge
 
 - CI wajib hijau.
 - PR anggota wajib mendapat satu approval dari PM.
 - PR yang dibuat PM tidak memerlukan approval; PM memakai admin bypass hanya setelah CI lulus.
-- Selesaikan semua komentar dan percakapan review.
+- Selesaikan semua komentar dan percakapan review. Penulis memperbaiki kode dan menyelesaikan konflik pada branch personalnya.
 - Hanya PM yang menggabungkan PR ke `main`. Riwayat PR repo saat ini memakai merge commit; pertahankan cara itu agar branch personal dapat disinkronkan tanpa force push.
 - Jangan hapus branch personal setelah merge. Tarik `main` terbaru ke branch personal sebelum mengambil story berikutnya.
 - Hapus remote branch sementara hanya setelah PR terkait merged/closed, tidak ada PR terbuka lain yang memakai branch itu, dan `git log origin/main..branch-lama` tidak menunjukkan commit unik. Pemilik branch mengonfirmasi tidak ada pekerjaan lokal yang belum dipindahkan. Jangan hapus branch personal.
+- Bila review atau CI integrasi menemukan acceptance yang gagal, kembalikan story terkait ke In Progress. Perbaiki di branch pemilik, push, jalankan tes ulang, lalu perbarui PR.
 
 ## Estimasi dan catatan waktu
 
