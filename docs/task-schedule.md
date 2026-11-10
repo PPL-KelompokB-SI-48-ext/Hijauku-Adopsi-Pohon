@@ -2,7 +2,7 @@
 
 Jira adalah sumber tanggal, sprint, dan status issue. Dokumen ini mencatat pembagian jadwal setelah minggu 6 direncanakan untuk backlog dan refinement, tanpa coding yang dijadwalkan saat itu.
 
-Catatan pelaksanaan: alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober 2026. Tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober, lalu HAP-7 ditandai Done. HAP-16 milik Rofii dan HAP-25 milik Bitari juga berstatus In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. HAP-16 masih perlu Dusk serta sinkronisasi branch. Kalender Sprint 1 tetap; pemilik perlu mencocokkan tanggal mulai story dengan pekerjaan sebenarnya. Tidak ada work log yang dibuat dari tanggal target atau estimasi.
+Catatan pelaksanaan: alur HJK-001 masuk ke `main` lewat PR #2 pada 22 Oktober 2026. Tes Dusk dan penerimaan PM menyusul lewat PR #4 pada 25 Oktober, lalu HAP-7 ditandai Done. HAP-16 milik Rofii dan HAP-25 milik Bitari juga berstatus In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. HAP-16 masih perlu Dusk serta sinkronisasi branch. Pada 10 November, HAP-8/HJK-002 dan HAP-9/HJK-003 selesai dan diterima PM lewat PR #17 setelah CI lulus. Kalender Sprint 1 tetap; tanggal target tidak dipakai sebagai catatan waktu kerja.
 
 ## Aturan tanggal
 
@@ -75,7 +75,7 @@ Pada audit 10 November, target sebelumnya untuk HAP-8 (1 November) dan HAP-9 (8 
 
 | Issue | Target sebelumnya | Target baru | Status setelah audit |
 | --- | --- | --- | --- |
-| HAP-8 / HJK-002 | 26 Okt-1 Nov | 9-15 Nov | In Progress; menunggu push, CI, dan penerimaan PM. |
-| HAP-9 / HJK-003 | 2-8 Nov | 9-15 Nov | In Progress; menunggu push, CI, dan penerimaan PM. |
+| HAP-8 / HJK-002 | 26 Okt-1 Nov | 9-15 Nov | Done pada 10 Nov setelah PR #17 merged, CI lulus, dan PM menerima hasil. |
+| HAP-9 / HJK-003 | 2-8 Nov | 9-15 Nov | Done pada 10 Nov setelah PR #17 merged, CI lulus, dan PM menerima hasil. |
 
-M01 memiliki dua story dalam minggu ini, masih di bawah batas dua story per anggota per minggu. Jangan menandai Done atau mengisi work log hanya karena implementasi lokal selesai; lanjutkan setelah PR, CI, dan penerimaan PM benar-benar selesai.
+M01 memiliki dua story dalam minggu ini, masih di bawah batas dua story per anggota per minggu. Target awal keduanya terlewati dan replan ke minggu 9 tercatat di Jira sebelum selesai. Implementasi digabung pada 10 November, sebelum target revisi 15 November. Tidak ada work log yang dibuat; sisa estimasi Jira menjadi 0 jam.
