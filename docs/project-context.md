@@ -1,6 +1,6 @@
 # Konteks proyek Hijauku untuk AI agent
 
-Pakai dokumen ini sebagai ringkasan kerja. Jira tetap sumber status dan tanggal, GitHub sumber kode/branch/PR/CI, sedangkan proposal dan Stitch menjadi sumber rancangan. Status di bawah diperiksa pada 11 November 2026. Periksa lagi sumber live sebelum mengubah status, branch, atau jadwal.
+Pakai dokumen ini sebagai ringkasan kerja. Jira tetap sumber status dan tanggal, GitHub sumber kode/branch/PR/CI, sedangkan proposal dan Stitch menjadi sumber rancangan. Status di bawah diperiksa pada 11 November 2026 setelah PR #20 merged. Periksa lagi sumber live sebelum mengubah status, branch, atau jadwal.
 
 ## Identitas dan scope
 
@@ -14,13 +14,13 @@ Pakai dokumen ini sebagai ringkasan kerja. Jira tetap sumber status dan tanggal,
 
 ## Kondisi Jira terakhir
 
-Pada pemeriksaan Jira 11 November 2026, status 45 story adalah 7 Done, 10 In Progress, dan 28 To Do. Story Done: HAP-7/8/9, HAP-25, dan HAP-43/44/45. Story In Progress: HAP-10/11/12, HAP-16/17/18, HAP-26/27, dan HAP-34/35. Story lain masih To Do. HAP-1 Done; epic HAP-2 sampai HAP-5 In Progress. Task integrasi baru tidak menambah jumlah 45 story.
+Pada pemeriksaan Jira 11 November 2026 setelah PR #20 merged, 10 dari 45 story berstatus Done, 7 In Progress, dan 28 To Do. Story Done: HAP-7/8/9/10/11/12, HAP-25, dan HAP-43/44/45. Story In Progress: HAP-16/17/18, HAP-26/27, dan HAP-34/35. HAP-1 Done; epic HAP-2 sampai HAP-5 In Progress. Task koordinasi tidak menambah jumlah 45 story. Deskripsi HAP-10/11/12 masih punya teks status/branch sebelum merge; HAP-11 menunjukkan draft deskripsi belum disimpan. Development panel sudah menautkan PR #20 sebagai MERGED. Remaining estimate HAP-10/11/12 masih 4/3/5 jam tanpa work log.
 
 HAP-16/17, HAP-26/27, dan HAP-34/35 masih In Progress sampai acceptance, tes, CI, review, dan penerimaan PM bisa diverifikasi. Jangan mengandalkan checklist PR atau CI lama sebagai bukti.
 
 | Pemilik | Modul / status story Sprint 1 | PR dan tindak lanjut |
 | --- | --- | --- |
-| Yoga | M01, HAP-7/8/9 Done. M02, HAP-10/11/12 In Progress di Sprint 1; M03, HAP-13/14/15 To Do di Sprint 2. | HJK-001/002/003 dan shell Filament sudah di `main`. HJK-004/005/006 sudah dikerjakan di branch personal `yoga` dan tercakup dalam PR #20 yang siap ditinjau. |
+| Yoga | M01, HAP-7/8/9 Done. M02, HAP-10/11/12 Done di Sprint 1; M03, HAP-13/14/15 To Do di Sprint 2. | HJK-001 sampai HJK-006 ada di `main`. PR #20 merged dengan CI lulus; `yoga` dan `main` berada di merge commit `232e6a2`. HAP-62 Done. HAP-71/HAP-72 masih menjadi task integrasi Sprint 1. |
 | Rofii | M04, HAP-16/17/18 In Progress. M05, HAP-19/20/21 To Do di Sprint 1; M06, HAP-22/23/24 To Do di Sprint 2. | PR #12 ditutup tanpa merge. Branch `Rofii` 5 commit di depan/16 di belakang `main`; review lama meminta perbaikan policy dan tes. |
 | Bitari | M07, HAP-25 Done; HAP-26/27 In Progress. M08, HAP-28/29/30 To Do di Sprint 1; M09, HAP-31/32/33 To Do di Sprint 2. | PR #15 ditutup tanpa merge. Branch `bitaridamar` 2 commit di depan/22 di belakang `main`; PR lama belum mendapat review. |
 | Arif | M10, HAP-34/35 In Progress; HAP-36 To Do. M11, HAP-37/38/39 To Do di Sprint 1; M12, HAP-40/41/42 To Do di Sprint 2. | PR #14 ditutup tanpa merge. Branch `arif` 6 commit di depan/16 di belakang `main`; review lama meminta tes, scope query, dan filter pohon tersedia. |
@@ -44,13 +44,13 @@ HAP-25 dan HAP-43 sudah merged/Done, tetapi Remaining estimate masing-masing mas
 
 ## GitHub dan CI
 
-`main` pada pemeriksaan 11 November setelah PR #19 berada di merge commit `bee4a0d2dc3033553403ba88f3e086b5290050a1`.
+`main` dan branch `yoga` pada pemeriksaan 11 November setelah PR #20 berada di merge commit `232e6a213897f87d1e081274767efa61dff6c63c`.
 
 - PR #17 berisi HAP-8/HAP-9 dan merged. CI run `42774855543` lulus, termasuk Unit, Feature, build frontend, migration SQLite/MySQL, dan Dusk untuk alur M01.
 - PR #16 berisi HAP-44/HAP-45 dan merged. CI run `42826130678` lulus.
 - PR #18 memperbarui catatan HAP-8/HAP-9 dan merged.
 - PR #19 menyelaraskan shell tiga panel Filament dengan tema Stitch dan sudah merged.
-- PR #12, #14, dan #15 sudah ditutup tanpa merge. PR #20 Yoga terbuka dan siap ditinjau dari `yoga` ke `main`; pemeriksaan CI terakhir yang tersedia lulus dan branch tidak memiliki konflik. HAP-62 berstatus Done untuk persiapan PR; review/merge tetap dikerjakan pada integrasi HAP-71/HAP-72. GitHub masih meminta satu approving review sesuai perlindungan branch. Run CI lama pada PR teman bukan bukti untuk head terbaru mereka.
+- PR #20 Yoga sudah merged ke `main` dengan merge commit `232e6a2`. CI run `42930124355` lulus. GitHub saat merge menampilkan `REVIEW_REQUIRED`; PR PM digabung oleh pemilik repo setelah CI hijau. HAP-62 Done untuk persiapan PR. HAP-71/HAP-72 masih mengatur integrasi anggota lain. PR #12, #14, dan #15 tetap ditutup tanpa merge; hasil CI lama pada PR teman bukan bukti untuk head terbaru mereka.
 - Pemilik mempertahankan commit unik, menyinkronkan `main`, menyelesaikan konflik sendiri, memperbaiki temuan review yang masih relevan, menjalankan CI, lalu membuka PR pengganti. Jangan force-push atau menghapus branch teman.
 - PR #1/#2/#4/#7/#9/#11/#13/#16/#17/#18 sudah merged. PR #3/#5/#6 ditutup tanpa merge.
 
@@ -58,7 +58,7 @@ HAP-25 dan HAP-43 sudah merged/Done, tetapi Remaining estimate masing-masing mas
 
 - Fondasi Laravel/Filament, tiga panel, autentikasi, Policy dasar, migration awal, seeder demo, dan CI sudah tersedia.
 - M01 HJK-001 sampai HJK-003 sudah di `main`: pengelola mencatat program sebagai draf, mengaktifkan program, dan mengarsipkan program selesai. Validasi, Policy, audit log, tes Feature, dan tes Dusk tersedia.
-- M02 HJK-004 sampai HJK-006 sudah diimplementasikan di branch `yoga` dan diajukan lewat PR #20. Resource lokasi memakai shell dan tema Filament bersama, `SitePolicy`, validasi koordinat, filter program, pencarian, pagination 20, pembatasan perubahan program bila lokasi memiliki petak, audit log alasan/nilai sebelum-sesudah, serta perlindungan hapus untuk lokasi yang masih dipakai. Schema `sites` sudah ada, jadi tidak ada migration baru. CI PR #20 lulus; story tetap In Progress sampai pemeriksaan/approval, integrasi, dan penerimaan PM selesai.
+- M02 HJK-004 sampai HJK-006 sudah masuk `main` melalui PR #20. Resource lokasi memakai shell dan tema Filament bersama, `SitePolicy`, validasi koordinat, filter program, pencarian, pagination 20, pembatasan perubahan program bila lokasi memiliki petak, audit log alasan/nilai sebelum-sesudah, serta perlindungan hapus untuk lokasi yang masih dipakai. Schema `sites` sudah ada, jadi tidak ada migration baru. Jira menampilkan HAP-10/11/12 Done. UI mengikuti bagian yang tersedia di frame Stitch M02; form/detail tidak memiliki frame pembanding dan gap filter lanjutan dijelaskan di `docs/ui-design.md`.
 - M07 HJK-019/HAP-25 sudah Done. HJK-020/HAP-26 dan HJK-021/HAP-27 masih In Progress; PR lama #15 ditutup tanpa merge.
 - M13 HJK-037 sampai HJK-039 sudah di `main`, termasuk kolom prioritas dengan migration. M14-M15 belum dikerjakan.
 - Implementasi di atas memakai panel Filament dan Livewire. Belum ada REST API terpisah untuk CRUD; jangan membuat API tanpa acceptance Jira.

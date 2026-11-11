@@ -54,11 +54,11 @@ CI PR dokumentasi #7 juga lulus di [run 40190337974](https://github.com/PPL-Kelo
 
 HAP-7 mempertahankan Original estimate 4 jam dan remaining 0 jam. HAP-61 mempertahankan Original estimate 18 jam dan remaining 0 jam. Keduanya tidak memiliki work log aktual dari pembaruan ini. Jangan mengubah tanggal rencana menjadi jam kerja.
 
-## Pembacaan ulang 11 November 2026
+## Pembacaan ulang 11 November 2026 setelah PR #20
 
-M01 (HAP-7 sampai HAP-9), HJK-019/HAP-25, dan M13 (HAP-43 sampai HAP-45) sudah Done serta masuk ke `main`. M02 HAP-10/11/12, M04 HAP-16/17/18, M07 HAP-26/27, dan M10 HAP-34/35 berstatus In Progress. Total story di Jira saat audit: 7 Done, 10 In Progress, dan 28 To Do. HAP-16/HAP-34 due 1 November, sementara HAP-17/HAP-26/HAP-35 due 8 November; pemilik perlu mereplan tanggalnya di Jira.
+M01 (HAP-7 sampai HAP-9), M02 (HAP-10 sampai HAP-12), HJK-019/HAP-25, dan M13 (HAP-43 sampai HAP-45) berstatus Done. M04 HAP-16/17/18, M07 HAP-26/27, dan M10 HAP-34/35 berstatus In Progress pada audit. Total story di Jira: 10 Done, 7 In Progress, dan 28 To Do. HAP-16/HAP-34 due 1 November, sementara HAP-17/HAP-26/HAP-35 due 8 November; pemilik perlu menyepakati replan di Jira.
 
-Setelah PR #19 merged, `main` berada pada `bee4a0d2dc3033553403ba88f3e086b5290050a1`. PR #20 Yoga terbuka dan siap ditinjau dari `yoga` ke `main`; pemeriksaan CI terakhir yang tersedia lulus dan branch dapat digabung tanpa konflik, tetapi GitHub meminta satu approving review. PR #12, #14, dan #15 sudah ditutup tanpa merge; branch masing-masing tetap memiliki commit unik dan tertinggal dari `main` (Rofii 16 commit, Arif 16, Bitari 22). Pemilik mempertahankan commit, menyinkronkan `main`, menyelesaikan konflik, menanggapi temuan review, menjalankan CI pada head terbaru, lalu membuka PR pengganti. Jangan menghapus branch.
+PR #20 Yoga sudah merged ke `main` dari branch personal `yoga`. Merge commit `232e6a213897f87d1e081274767efa61dff6c63c`; CI run `42930124355` lulus pada head `99176cd`. PR #12, #14, dan #15 ditutup tanpa merge; branch masing-masing masih memiliki commit unik dan perlu disinkronkan sebelum integrasi. Pemilik mempertahankan commit, menyelesaikan konflik, menanggapi temuan review yang masih berlaku, dan menjalankan CI baru. Jangan menghapus branch.
 
 Sprint 0 yang dipakai adalah Sprint 0 - Persiapan, id 6, status Closed. Sprint 0 duplikat id 9 yang berstatus Future dan berisi HAP-61 saja sudah dihapus; HAP-61 tetap berada di Sprint 0 tertutup.
 
