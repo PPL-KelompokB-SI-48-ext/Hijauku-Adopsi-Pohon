@@ -12,6 +12,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -24,6 +25,8 @@ class SitesTable
                 TextColumn::make('name')
                     ->label('Nama Lokasi')
                     ->description(fn (Site $record): string => 'ID: #'.$record->getKey())
+                    ->icon(Heroicon::OutlinedMapPin)
+                    ->iconColor('success')
                     ->searchable()
                     ->sortable()
                     ->wrap(),
@@ -39,19 +42,21 @@ class SitesTable
                     ->label('Koordinat')
                     ->state(fn (Site $record): string => self::coordinates($record))
                     ->placeholder('Belum diisi')
+                    ->icon(Heroicon::OutlinedMapPin)
+                    ->iconColor('primary')
+                    ->badge()
                     ->fontFamily('mono')
                     ->wrap(),
             ])
             ->filters([
                 SelectFilter::make('program_id')
                     ->label('Program')
+                    ->placeholder('Semua Program')
                     ->relationship('program', 'name')
-                    ->searchable(),
-            ])
-            ->filtersTriggerAction(fn (Action $action): Action => $action
-                ->label('Filter program')
-                ->button()
-                ->outlined())
+                    ->searchable()
+                    ->native(false),
+            ], layout: FiltersLayout::AboveContent)
+            ->deferFilters(false)
             ->searchPlaceholder('Cari lokasi...')
             ->recordActionsColumnLabel('Aksi')
             ->recordActions([

@@ -11,13 +11,13 @@ Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 - Kondisi awal drawer, modal, accordion, dan split view harus tertutup. Aksi cepat tidak boleh menyamarkan status tugas atau perawatan.
 - Label, status, dan nilai seed harus berasal dari kamus data yang disepakati, bukan teks sementara yang tampak seperti data produksi.
 
-## Yang sudah tersedia di `main`
+## Keadaan implementasi yang sudah diverifikasi
 
 | Area | Implementasi sekarang | Batas saat ini |
 | --- | --- | --- |
 | Beranda publik | `resources/views/home.blade.php` memakai identitas hijau, headline Frame 21, ilustrasi pohon, CTA, dan alur tiga langkah | Belum tersambung ke katalog, hitungan, atau data pohon. Angka dan daftar pada frame Stitch tidak boleh disajikan sebagai fakta produksi sebelum sumber datanya tersedia. |
-| M01, Pengelola | Panel Filament `/app`; daftar, pembuatan draf, aktivasi, dan pengarsipan program tersedia untuk HJK-001-HJK-003 | Aktivasi hanya muncul pada draf dan meminta alasan. Pengarsipan hanya muncul pada program selesai dan tidak menghapus lokasi/pohon. Edit dan hapus tidak termasuk acceptance saat ini. |
-| M02, Pengelola | Implementasi HAP-10-HAP-12 ada di branch personal `yoga`; daftar lokasi mengikuti frame **M02 - Lokasi Tanam** | Belum masuk `main` atau diterima lewat PR. Tabel lokasi memakai pencarian, filter program, pagination 20, serta aksi lihat/edit/hapus sesuai acceptance. Kode lokasi contoh pada frame tidak tersedia di skema, jadi halaman memakai ID database yang sebenarnya. |
+| M01, Pengelola | `main` menyediakan daftar, pembuatan draf, aktivasi, dan pengarsipan program untuk HJK-001-HJK-003. PR #20 merapikan daftar dengan filter status. | Aktivasi hanya muncul pada draf dan meminta alasan. Pengarsipan hanya muncul pada program selesai dan tidak menghapus lokasi/pohon. Edit dan hapus tidak termasuk acceptance saat ini. |
+| M02, Pengelola | HAP-10-HAP-12 dikembangkan di branch personal `yoga` dan diajukan lewat PR #20. Toolbar pencarian/filter dan tabel mengikuti bagian utama frame **M02 - Lokasi Tanam**. | Frame menampilkan kontrol filter lanjutan yang belum punya perilaku pada acceptance, jadi belum dibuat. Kode lokasi contoh tidak tersedia di skema; halaman memakai ID database sebenarnya. |
 | M07, Pengelola | Pencatatan rencana kegiatan HJK-019 tersedia di `main` | HJK-020/021 masih perlu implementasi dan penerimaan. PR #15 ditutup tanpa merge, jadi diff PR lama bukan fitur yang tersedia bagi pengguna `main`. |
 | M13, Pengelola | Rencana perawatan, prioritas, koreksi, dan pembatalan HJK-037-HJK-039 tersedia di `main` | Realisasi HJK-040-HJK-042 dan pengamatan HJK-043-HJK-045 masih belum dikerjakan. |
 | Petugas dan Warga | Panel Filament `/petugas` dan `/warga` sudah memiliki login/dashboard dasar | Resource kerja dan alur di panel ini harus dibuat per story. PR #14 untuk M10 ditutup tanpa merge; pekerjaan yang belum masuk `main` harus diverifikasi melalui story dan PR pengganti. |
@@ -39,7 +39,11 @@ Panel Filament sekarang memakai satu tema bersama yang mengikuti shell pada Stit
 
 Tema ada di `resources/css/filament/theme.css`; konfigurasi tiga panel dipakai ulang lewat `app/Providers/Filament/Concerns/ConfiguresHijaukuPanel.php`. Identitas logo berasal dari aset Stitch `public/images/hijauku-brand-sheet.png`. Render hook Filament menambahkan label navigasi, breadcrumb topbar, serta nama dan peran akun tanpa mengganti perilaku autentikasi Filament. Untuk halaman baru, gunakan pola form, tabel, aksi, notifikasi, dan layout Filament yang reusable; hindari salin-tempel shell berbeda di tiap modul.
 
-Shell sekarang mengikuti ukuran dan warna utama frame. Isi halaman M01 masih belum 1:1: hanya resource yang benar-benar tersedia yang muncul di sidebar, tabel belum menampilkan filter status atau aksi lihat/edit pada mockup, dan data contoh di gambar berbeda dari data di aplikasi. Filter, halaman detail, edit, hapus, dan menu untuk modul yang belum dibuat tidak ditambahkan hanya demi menyalin gambar. Fitur seperti itu perlu masuk acceptance Jira terlebih dahulu.
+Shell mengikuti ukuran, warna, font, dan identitas utama pada frame, tetapi belum identik sepenuhnya. Sidebar hanya menampilkan halaman yang sudah punya Resource, dan topbar belum memakai tombol notifikasi/bantuan dekoratif dari beberapa frame. Menu yang belum punya halaman tidak dibuat sebagai tautan mati.
+
+Pada M01, toolbar kini menyediakan pencarian dan filter status. Tabel menampilkan kolom yang dipakai requirement. Aksi tetap dibatasi pada transisi program yang diterima di Jira, jadi tombol lihat/edit pada contoh frame tidak ditambahkan. Data contoh di frame juga tidak menggantikan data database aplikasi.
+
+Pada M02, tabel memakai pencarian, filter program, pagination 20, dan aksi yang dibutuhkan story. Ikon lokasi, lencana program, serta chip koordinat sudah diberi treatment yang mendekati frame. Kontrol **Filter Lanjutan** belum dibuat karena belum ada kriteria Jira yang menjelaskan filter tambahan tersebut. Daftar pada ponsel dapat digulir mendatar agar kolom tidak saling menimpa. Form dan modal detail/edit belum punya frame Stitch sendiri, jadi tidak diklaim 1:1.
 
 Untuk setiap story baru, periksa layar pada ukuran desktop dan ponsel, termasuk drawer sidebar, tabel, form, status kosong, dan pesan validasi. Tes satu layar tidak membuktikan seluruh aplikasi sudah responsif atau identik. Catat bukti visual per frame pada PR saat layar tersebut dikerjakan.
 
@@ -100,15 +104,15 @@ Render yang dipakai pada presentasi tersedia di `docs/assets/mockups/`, dengan l
 
 ## Pemetaan M01
 
-- HJK-001 memakai frame **M01 - Program Penghijauan** untuk halaman daftar di panel Pengelola.
+- HJK-001 sampai HJK-003 memakai frame **M01 - Program Penghijauan** untuk halaman daftar di panel Pengelola.
 - Frame menampilkan nama program, ringkasan tujuan, periode, status, dan area aksi. Tombol **Tambah Program** membuka alur pembuatan.
 - Stitch tidak menyediakan frame formulir pembuatan program. HJK-001 memakai halaman CreateRecord Filament 5 dengan validasi di server. Formulir menggunakan tema bersama, tetapi susunan form tetap mengikuti komponen Filament dan belum memiliki frame pembanding khusus.
 - HJK-002 dan HJK-003 juga memakai komponen standar Filament 5 pada daftar yang sama, karena tidak ada frame khusus untuk aktivasi atau pengarsipan. Modal mencatat alasan, sedangkan label status tetap terbaca tanpa mengandalkan warna. Kesesuaian visual akhir tetap diperiksa pada PR.
 
 ## Pemetaan M02
 
-- HJK-004 sampai HJK-006 memakai frame **M02 - Lokasi Tanam** sebagai acuan daftar di panel Pengelola. Implementasinya ada di branch `yoga`, belum di `main` sampai PR diterima.
-- Halaman mengikuti urutan frame: judul dan keterangan, tombol tambah lokasi, pencarian, filter program, kolom nama lokasi/program/alamat/koordinat, aksi, dan pagination 20 baris. Tabel tetap bisa digulir mendatar pada layar kecil supaya kolom tidak bertumpuk.
+- HJK-004 sampai HJK-006 memakai frame **M02 - Lokasi Tanam** sebagai acuan daftar di panel Pengelola. Implementasi branch personal `yoga` diajukan melalui PR #20; gunakan riwayat PR untuk melihat perubahan yang masuk ke `main`.
+- Halaman mengikuti urutan utama frame: judul dan keterangan, tombol tambah lokasi, pencarian, filter program, kolom nama lokasi/program/alamat/koordinat, aksi, dan pagination 20 baris. Pada lebar 390 px, panel tidak melebar keluar viewport; tabel digulir mendatar agar kolom tidak bertumpuk.
 - Frame menampilkan kode seperti `SIT-BDG-001`, tetapi tabel `sites` tidak mempunyai kolom kode. Implementasi menampilkan ID database yang nyata dan tidak membuat kode contoh seolah-olah data resmi.
 - Stitch hanya memberi frame daftar. Form tambah memakai halaman Filament; ubah dan detail memakai modal Filament dengan form yang sama. Karena tidak ada frame pembanding untuk ketiga tampilan itu, keduanya mengikuti komponen bersama tanpa klaim 1:1.
 - Perubahan lokasi meminta alasan dan menyimpan aktor serta nilai sebelum/sesudah pada `activity_logs`. Penghapusan ditolak bila lokasi masih dipakai petak atau kegiatan. Tidak ada REST API baru karena acceptance HJK-004-HJK-006 memakai alur panel Filament/Livewire.

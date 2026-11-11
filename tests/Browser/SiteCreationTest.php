@@ -32,7 +32,12 @@ class SiteCreationTest extends DuskTestCase
                 ->waitForText($name)
                 ->assertSee($name)
                 ->assertSee($address)
-                ->assertSee('-6.914744, 107.609810');
+                ->assertSee('-6.914744, 107.609810')
+                ->resize(390, 844)
+                ->assertVisible('.fi-ta-search-field')
+                ->assertScript('(() => { const filter = document.querySelector(".fi-ta-filters-above-content-ctn .fi-select-input-btn"); return filter && filter.getBoundingClientRect().width > 0; })()')
+                ->assertScript('document.documentElement.scrollWidth <= window.innerWidth')
+                ->assertScript('(() => { const table = document.querySelector(".fi-ta-content-ctn"); return table && table.scrollWidth > table.clientWidth; })()');
         });
     }
 }
