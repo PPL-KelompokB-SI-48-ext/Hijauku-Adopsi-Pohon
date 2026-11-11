@@ -46,12 +46,15 @@ HAP-25 dan HAP-43 sudah merged/Done, tetapi Remaining estimate masing-masing mas
 
 PR #20 menggabungkan fitur M02 dengan merge commit `232e6a213897f87d1e081274767efa61dff6c63c`. PR #21 kemudian menggabungkan pembaruan dokumentasi setelah CI lulus; branch `yoga` di-fast-forward ke `main` sesudahnya. Jalankan `git fetch` dan sinkronkan kembali sebelum mulai pekerjaan baru.
 
+Workflow CI memeriksa push ke `main` dan branch personal, PR yang menuju `main`, lalu hasil setelah merge ke `main`. Push branch memberi umpan balik lebih awal; pemeriksaan PR tetap menjadi gerbang merge. Branch protection `main` mewajibkan `install-and-build`, satu approval, penyelesaian percakapan, dan branch yang sudah mengikuti `main` terbaru. Setelah PR anggota lain digabung, pemilik PR berikutnya perlu menyinkronkan branch, menunggu CI baru, lalu meminta review lagi. Rincian konflik dan langkah perbaikan ada di [panduan CI](ci-workflow.md). Perubahan workflow ini mulai berlaku pada push branch setelah konfigurasi masuk ke `main`.
+
 - PR #17 berisi HAP-8/HAP-9 dan merged. CI run `42774855543` lulus, termasuk Unit, Feature, build frontend, migration SQLite/MySQL, dan Dusk untuk alur M01.
 - PR #16 berisi HAP-44/HAP-45 dan merged. CI run `42826130678` lulus.
 - PR #18 memperbarui catatan HAP-8/HAP-9 dan merged.
 - PR #19 menyelaraskan shell tiga panel Filament dengan tema Stitch dan sudah merged.
 - PR #20 Yoga sudah merged ke `main` dengan merge commit `232e6a2`. CI run `42930124355` lulus. GitHub saat merge menampilkan `REVIEW_REQUIRED`; PR PM digabung oleh pemilik repo setelah CI hijau. HAP-62 Done untuk persiapan PR. HAP-71/HAP-72 masih mengatur integrasi anggota lain. PR #12, #14, dan #15 tetap ditutup tanpa merge; hasil CI lama pada PR teman bukan bukti untuk head terbaru mereka.
 - Pemilik mempertahankan commit unik, menyinkronkan `main`, menyelesaikan konflik sendiri, memperbaiki temuan review yang masih relevan, menjalankan CI, lalu membuka PR pengganti. Jangan force-push atau menghapus branch teman.
+- GitHub mencatat PR #24 dari `Rofii` sebagai 11 commit di depan dan 0 di belakang `main`; CI pada head `51b8df9` lulus. PR masih menunggu approval PM. Branch lowercase `rofii` terpisah dan tertinggal 33 commit dengan 2 commit unik; pemilik harus memilih branch yang benar sebelum memindahkan pekerjaan.
 - PR #1/#2/#4/#7/#9/#11/#13/#16/#17/#18 sudah merged. PR #3/#5/#6 ditutup tanpa merge.
 
 ## Implementasi aplikasi
