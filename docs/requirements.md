@@ -82,7 +82,7 @@ Judul, tujuan, acceptance criteria, dan status story tetap dibaca dari Jira. Per
 
 ## Status pengerjaan yang diperiksa 11 November 2026
 
-Jira memuat 45 story dengan 7 Done, 7 In Progress, dan 31 To Do. Yang sudah Done: HAP-7/8/9 (M01), HAP-25 (M07), dan HAP-43/44/45 (M13). Yang sedang berjalan: HAP-16/17/18 (M04), HAP-26/27 (M07), dan HAP-34/35 (M10). Story lainnya To Do.
+Setelah PR #20 merged pada 11 November, Jira memuat 45 story: 10 Done, 7 In Progress, dan 28 To Do. Yang Done: HAP-7/8/9/10/11/12 (M01-M02), HAP-25 (M07), dan HAP-43/44/45 (M13). Yang In Progress: HAP-16/17/18 (M04), HAP-26/27 (M07), dan HAP-34/35 (M10). Story lainnya To Do.
 
 PR #12 (Rofii), #14 (Arif), dan #15 (Bitari) sudah ditutup tanpa merge. Branch personal masih menyimpan commit unik; pemilik perlu mempertahankannya, menyinkronkan `main`, meninjau catatan review yang masih berlaku, lalu membuka PR pengganti. Story hanya boleh Done setelah acceptance dan tes terpenuhi pada branch yang di-push, CI terbaru lulus, serta review dan penerimaan PM selesai. Di Sprint 1, HAP-62 sampai HAP-66 menandai PR personal tiap anggota siap ditinjau; HAP-71/HAP-72 adalah integrasi dan penutupan sprint oleh PM. Checklist sinkronisasi, konflik, UI, schema, dan CI disatukan di task integrasi, jadi HAP-70 dihapus. Di Sprint 2, 15 story selesai ditargetkan pada minggu 12 dengan dua story per orang di minggu 11 dan satu di minggu 12; HAP-67/HAP-68 integrasi minggu 13, HAP-69 UAT/deploy minggu 14, dan HAP-73 penanganan temuan/laporan/presentasi minggu 15. Due date lama yang lewat tetap menjadi riwayat sampai pemilik dan PM menyepakati replan; jangan mengubah tanggal atau work log demi menyamakan catatan.
 

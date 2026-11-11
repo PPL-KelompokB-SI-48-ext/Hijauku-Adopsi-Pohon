@@ -9,7 +9,7 @@ Status berikut dicek pada 11 November 2026. Jira menjadi sumber status dan tangg
 - Backlog aktif berisi 5 epic dan 45 story HJK-001 sampai HJK-045 untuk M01 sampai M15.
 - Tim berisi Yoga, Bitari, Arif, Wira, dan Rofii. Dinda bukan anggota.
 - Sprint 0 sudah ditutup. Sprint 1 berlangsung 19 Oktober sampai 22 November. Sprint 2 berlangsung 23 November sampai 27 Desember 2026.
-- Dari 45 story aktif, 7 Done, 10 In Progress, dan 28 To Do. HAP-10/11/12 sedang dikerjakan di branch personal `yoga` dan belum masuk `main`.
+- Dari 45 story aktif, 10 Done, 7 In Progress, dan 28 To Do. HAP-10/11/12 untuk M02 sudah Done dan masuk `main` melalui PR #20; HAP-62 untuk persiapan PR juga Done.
 - HAP-6 dan M16-M18 sudah di luar scope aktif. Beberapa tabel/model lama masih ada sebagai scaffold; jangan membangun halaman atau alur untuk area itu tanpa keputusan scope baru.
 
 ### Fitur yang sudah masuk ke `main`
@@ -17,6 +17,7 @@ Status berikut dicek pada 11 November 2026. Jira menjadi sumber status dan tangg
 | Modul | Isi yang sudah diterima | Status |
 | --- | --- | --- |
 | M01 | HJK-001 sampai HJK-003: buat program sebagai draf, aktifkan program, dan arsipkan program selesai | Selesai, PR #2, #4, dan #17 |
+| M02 | HJK-004 sampai HJK-006: catat lokasi, cari/filter per program, dan ubah atau hapus lokasi dengan batas relasi | Selesai, PR #20; CI run 42930124355 lulus |
 | M07 | HJK-019: catat rencana kegiatan | Selesai, PR #11 |
 | M13 | HJK-037 sampai HJK-039: susun rencana perawatan, atur prioritas, koreksi atau batalkan rencana | Selesai, PR #13 dan #16 |
 
@@ -24,7 +25,7 @@ Story lain belum otomatis selesai hanya karena tabel atau panel dasarnya sudah t
 
 ## Tampilan dan API
 
-M01 sudah memiliki form dan daftar program Filament, validasi, status, aksi aktivasi/pengarsipan, Policy, pencatatan audit, serta tes Feature dan Dusk. Shell Filament di tiga panel memakai tema bersama yang mengikuti warna, font, ukuran sidebar, topbar, dan area konten pada Stitch. Isi halaman M01 belum 1:1: filter status, halaman detail, aksi lihat/edit/hapus, data contoh, dan menu modul yang belum tersedia pada aplikasi tidak disalin dari mockup. Kontrol yang mengubah perilaku tetap mengikuti acceptance HJK-001 sampai HJK-003.
+M01 dan M02 memakai Resource Filament/Livewire, Policy, validasi server, pencatatan audit, serta tes Feature dan Dusk sesuai acceptance story. Shell tiga panel memakai tema bersama. Daftar M02 mengikuti frame Stitch yang tersedia; form dan detail belum punya frame pembanding, dan kontrol filter lanjutan belum punya acceptance. Karena itu, kesesuaian 1:1 hanya diklaim untuk elemen yang benar-benar ditunjukkan frame, bukan seluruh layar.
 
 Story yang sudah diterapkan memakai request Livewire dari Filament. Saat ini tidak ada REST API terpisah untuk CRUD. API baru dibuat jika ada requirement dan acceptance criteria Jira yang memang membutuhkannya. Detail dan gap visual ada di [panduan UI](docs/ui-design.md).
 

@@ -1,6 +1,6 @@
 # Jadwal mingguan backlog
 
-Jira adalah sumber tanggal, sprint, dan status issue. Tabel minggu di bawah menunjukkan rencana, bukan catatan actual time. Jira dan GitHub diperiksa ulang pada 11 November 2026 setelah PR #19. `main` berada pada `bee4a0d2dc3033553403ba88f3e086b5290050a1`; PR #20 Yoga terbuka dari `yoga` ke `main`, CI lulus, dan PR #12, #14, dan #15 sudah ditutup tanpa merge.
+Jira adalah sumber tanggal, sprint, dan status issue. Tabel minggu di bawah menunjukkan rencana, bukan catatan actual time. Jira dan GitHub diperiksa ulang pada 11 November 2026 setelah PR #20. `main` dan `yoga` berada pada merge commit `232e6a213897f87d1e081274767efa61dff6c63c`; PR #20 merged setelah CI run `42930124355` lulus. PR #12, #14, dan #15 tetap ditutup tanpa merge.
 
 Alur HJK-001 masuk ke `main` melalui PR #2 pada 22 Oktober. Tes Dusk dan penerimaan PM menyusul melalui PR #4 pada 25 Oktober. HAP-8 dan HAP-9 diterima melalui PR #17 pada 10 November. PR #16 untuk HAP-44/45 dan PR #19 untuk shell Filament juga sudah merged.
 
@@ -8,13 +8,13 @@ Alur HJK-001 masuk ke `main` melalui PR #2 pada 22 Oktober. Tes Dusk dan penerim
 
 | Status | Issue |
 | --- | --- |
-| Done | HAP-7, HAP-8, HAP-9, HAP-25, HAP-43, HAP-44, HAP-45 |
-| In Progress | HAP-10, HAP-11, HAP-12, HAP-16, HAP-17, HAP-18, HAP-26, HAP-27, HAP-34, HAP-35 |
+| Done | HAP-7, HAP-8, HAP-9, HAP-10, HAP-11, HAP-12, HAP-25, HAP-43, HAP-44, HAP-45 |
+| In Progress | HAP-16, HAP-17, HAP-18, HAP-26, HAP-27, HAP-34, HAP-35 |
 | To Do | 28 story lainnya |
 
 HAP-16/17, HAP-26/27, dan HAP-34/35 saat ini In Progress karena audit belum memverifikasi acceptance, tes, CI, review, dan penerimaan PM pada head branch terbaru. Status ini bukan semata-mata karena PR belum digabung. Pemilik perlu mempertahankan perubahan unik, menyinkronkan branch personal dengan `main`, menyelesaikan konflik, meninjau feedback PR lama, lalu menyiapkan PR pengganti untuk integrasi akhir Sprint 1. HAP-16/HAP-34 jatuh tempo 1 November; HAP-17/HAP-26/HAP-35 jatuh tempo 8 November. Pemilik dan PM perlu menyepakati replan di Jira. Jangan mengubah tanggal lama sebelum ada kesepakatan, dan jangan mengisi work log dari tanggal rencana.
 
-HAP-10/11/12 untuk M02 sudah diimplementasikan pada branch personal Yoga dan tercakup dalam PR #20. CI terakhir yang diperiksa lulus dan tidak ada konflik, tetapi GitHub masih meminta satu approving review. Ketiganya tetap In Progress sampai review dan penerimaan PM selesai. Due date HAP-10 adalah 15 November; HAP-11/12 jatuh tempo 22 November. HAP-62, task persiapan PR personal Yoga, sudah berjalan lebih awal dari start date rencana 16 November dan tetap due 22 November.
+HAP-10/11/12 untuk M02 sudah Done setelah PR #20 merged ke `main` pada 11 November. CI run `42930124355` lulus; due date HAP-10 adalah 15 November dan HAP-11/12 22 November, tetapi ketiganya selesai lebih awal. HAP-62 juga Done sebelum start date rencana 16 November; due date 22 November tetap dipertahankan sebagai target awal. HAP-71/HAP-72 tetap menangani integrasi PR anggota lain dan penutupan Sprint 1. Tidak ada work log yang dibuat untuk menyamakan estimasi dengan waktu kerja.
 
 ## Aturan tanggal
 

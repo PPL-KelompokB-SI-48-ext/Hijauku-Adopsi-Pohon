@@ -17,7 +17,7 @@ Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 | --- | --- | --- |
 | Beranda publik | `resources/views/home.blade.php` memakai identitas hijau, headline Frame 21, ilustrasi pohon, CTA, dan alur tiga langkah | Belum tersambung ke katalog, hitungan, atau data pohon. Angka dan daftar pada frame Stitch tidak boleh disajikan sebagai fakta produksi sebelum sumber datanya tersedia. |
 | M01, Pengelola | `main` menyediakan daftar, pembuatan draf, aktivasi, dan pengarsipan program untuk HJK-001-HJK-003. PR #20 merapikan daftar dengan filter status. | Aktivasi hanya muncul pada draf dan meminta alasan. Pengarsipan hanya muncul pada program selesai dan tidak menghapus lokasi/pohon. Edit dan hapus tidak termasuk acceptance saat ini. |
-| M02, Pengelola | HAP-10-HAP-12 dikembangkan di branch personal `yoga` dan diajukan lewat PR #20. Toolbar pencarian/filter dan tabel mengikuti bagian utama frame **M02 - Lokasi Tanam**. | Frame menampilkan kontrol filter lanjutan yang belum punya perilaku pada acceptance, jadi belum dibuat. Kode lokasi contoh tidak tersedia di skema; halaman memakai ID database sebenarnya. |
+| M02, Pengelola | HAP-10-HAP-12 sudah masuk `main` melalui PR #20. Toolbar pencarian/filter dan tabel mengikuti bagian utama frame **M02 - Lokasi Tanam**. | Frame menampilkan kontrol filter lanjutan yang belum punya perilaku pada acceptance, jadi belum dibuat. Kode lokasi contoh tidak tersedia di skema; halaman memakai ID database sebenarnya. |
 | M07, Pengelola | Pencatatan rencana kegiatan HJK-019 tersedia di `main` | HJK-020/021 masih perlu implementasi dan penerimaan. PR #15 ditutup tanpa merge, jadi diff PR lama bukan fitur yang tersedia bagi pengguna `main`. |
 | M13, Pengelola | Rencana perawatan, prioritas, koreksi, dan pembatalan HJK-037-HJK-039 tersedia di `main` | Realisasi HJK-040-HJK-042 dan pengamatan HJK-043-HJK-045 masih belum dikerjakan. |
 | Petugas dan Warga | Panel Filament `/petugas` dan `/warga` sudah memiliki login/dashboard dasar | Resource kerja dan alur di panel ini harus dibuat per story. PR #14 untuk M10 ditutup tanpa merge; pekerjaan yang belum masuk `main` harus diverifikasi melalui story dan PR pengganti. |
@@ -111,7 +111,7 @@ Render yang dipakai pada presentasi tersedia di `docs/assets/mockups/`, dengan l
 
 ## Pemetaan M02
 
-- HJK-004 sampai HJK-006 memakai frame **M02 - Lokasi Tanam** sebagai acuan daftar di panel Pengelola. Implementasi branch personal `yoga` diajukan melalui PR #20; gunakan riwayat PR untuk melihat perubahan yang masuk ke `main`.
+- HJK-004 sampai HJK-006 memakai frame **M02 - Lokasi Tanam** sebagai acuan daftar di panel Pengelola. Implementasi sudah masuk `main` melalui PR #20; gunakan riwayat PR untuk melihat perubahan dan commit merge.
 - Halaman mengikuti urutan utama frame: judul dan keterangan, tombol tambah lokasi, pencarian, filter program, kolom nama lokasi/program/alamat/koordinat, aksi, dan pagination 20 baris. Pada lebar 390 px, panel tidak melebar keluar viewport; tabel digulir mendatar agar kolom tidak bertumpuk.
 - Frame menampilkan kode seperti `SIT-BDG-001`, tetapi tabel `sites` tidak mempunyai kolom kode. Implementasi menampilkan ID database yang nyata dan tidak membuat kode contoh seolah-olah data resmi.
 - Stitch hanya memberi frame daftar. Form tambah memakai halaman Filament; ubah dan detail memakai modal Filament dengan form yang sama. Karena tidak ada frame pembanding untuk ketiga tampilan itu, keduanya mengikuti komponen bersama tanpa klaim 1:1.
