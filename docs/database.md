@@ -64,6 +64,12 @@ File diagrams/system-design/erd-schema.mysql.sql berisi perintah CREATE TABLE sa
 - Pengamatan unik untuk pohon pada tanggal yang sama.
 - Indeks status/tanggal/owner disiapkan untuk query umum.
 
+## Aturan lokasi M02
+
+Tabel `sites` sudah menjadi bagian migration domain awal, jadi HAP-10-HAP-12 tidak menambah migration. `program_id` wajib menunjuk satu program; nama dan alamat wajib diisi; latitude dan longitude boleh kosong, tetapi nilainya harus berada pada rentang geografis yang benar jika diisi. Koordinat dibatasi sampai tujuh angka desimal, sesuai tipe kolom.
+
+Petak dan kegiatan memiliki foreign key ke lokasi dengan `RESTRICT ON DELETE`. Aksi aplikasi juga memeriksa relasi tersebut sebelum menghapus lokasi, lalu database tetap menjadi penjagaan terakhir. Perubahan lokasi dicatat pada `activity_logs` dengan `actor_id`, alasan, nilai sebelum/sesudah, dan waktu pencatatan. Tidak ada migration atau perubahan SQL baru untuk fitur ini.
+
 ## Aturan yang harus ditegakkan oleh aplikasi
 
 ### Batas scaffold pada audit 25 Oktober 2026

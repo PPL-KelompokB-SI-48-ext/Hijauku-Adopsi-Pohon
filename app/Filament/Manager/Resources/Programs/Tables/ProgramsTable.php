@@ -8,7 +8,10 @@ use App\Models\Program;
 use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ProgramsTable
@@ -19,6 +22,9 @@ class ProgramsTable
             ->columns([
                 TextColumn::make('name')
                     ->label('Nama Program')
+                    ->description(fn (Program $record): string => 'ID: #'.$record->getKey())
+                    ->icon(Heroicon::OutlinedRectangleStack)
+                    ->iconColor('success')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('objective')
@@ -47,6 +53,19 @@ class ProgramsTable
                         default => 'warning',
                     }),
             ])
+            ->filters([
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->placeholder('Semua Status')
+                    ->options([
+                        'draft' => 'Draf',
+                        'active' => 'Aktif',
+                        'completed' => 'Selesai',
+                        'archived' => 'Diarsipkan',
+                    ])
+                    ->native(false),
+            ], layout: FiltersLayout::AboveContent)
+            ->deferFilters(false)
             ->recordActionsColumnLabel('Aksi')
             ->recordActions([
                 Action::make('activate')
