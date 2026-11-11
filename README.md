@@ -96,6 +96,7 @@ Panduan lengkap ada di [CONTRIBUTING.md](CONTRIBUTING.md), termasuk cara memperb
 | [Panduan UI](docs/ui-design.md) | Pemetaan Stitch, implementasi saat ini, dan gap visual |
 | [Audit sumber](docs/source-audit.md) | Pemeriksaan Jira, GitHub, CI, roster, dan bahan kuliah |
 | [Alur Jira](docs/jira-workflow.md) | Acceptance criteria, estimasi, work log, branch, commit, dan PR |
+| [CI dan sinkronisasi branch](docs/ci-workflow.md) | Pemicu CI, sinkronisasi `main`, konflik, dan checklist sebelum merge |
 | [Setup lokal](docs/local-setup.md) | Clone, `.env`, database, seed, login, Dusk, dan perintah harian |
 | [Onboarding agent](docs/agent-onboarding.md) | Urutan baca dan instruksi AI agent |
 
