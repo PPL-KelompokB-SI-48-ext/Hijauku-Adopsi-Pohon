@@ -1,6 +1,6 @@
 # Jadwal mingguan backlog
 
-Jira adalah sumber tanggal, sprint, dan status issue. Tabel minggu di bawah menunjukkan rencana, bukan catatan actual time. Jira dan GitHub diperiksa ulang pada 11 November 2026 setelah PR #20. `main` dan `yoga` berada pada merge commit `232e6a213897f87d1e081274767efa61dff6c63c`; PR #20 merged setelah CI run `42930124355` lulus. PR #12, #14, dan #15 tetap ditutup tanpa merge.
+Jira adalah sumber tanggal, sprint, dan status issue. Tabel minggu di bawah menunjukkan rencana, bukan catatan actual time. Audit Jira/GitHub dilakukan pada 11 November 2026 setelah PR #20 dan pembaruan dokumentasi PR #21 merged. Merge commit fitur PR #20 adalah `232e6a213897f87d1e081274767efa61dff6c63c`; CI run `42930124355` untuk fitur dan `42932759405` untuk dokumentasi lulus. Branch `yoga` di-fast-forward ke `main` setelahnya. PR #12, #14, dan #15 tetap ditutup tanpa merge.
 
 Alur HJK-001 masuk ke `main` melalui PR #2 pada 22 Oktober. Tes Dusk dan penerimaan PM menyusul melalui PR #4 pada 25 Oktober. HAP-8 dan HAP-9 diterima melalui PR #17 pada 10 November. PR #16 untuk HAP-44/45 dan PR #19 untuk shell Filament juga sudah merged.
 
