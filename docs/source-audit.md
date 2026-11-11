@@ -1,10 +1,10 @@
 # Audit sumber dan status proyek
 
-Bagian awal dokumen ini mencatat kondisi setelah PR #20 digabung pada 11 November 2026. Jira menjadi sumber status dan jadwal, GitHub menjadi sumber branch/commit/PR/CI, sedangkan proposal dan bahan kuliah menjadi sumber rancangan. Catatan di bawah kondisi terkini adalah snapshot historis sebelum PR #20; jangan memakai status lama di sana untuk keputusan baru.
+Bagian awal dokumen ini mencatat kondisi Jira/GitHub setelah PR #20 dan pembaruan dokumentasi PR #21 pada 11 November 2026. Jira menjadi sumber status dan jadwal, GitHub menjadi sumber branch/commit/PR/CI, sedangkan proposal dan bahan kuliah menjadi sumber rancangan. Catatan di bawah kondisi terkini adalah snapshot historis sebelum merge PR #20; jangan memakai status lama di sana untuk keputusan baru.
 
-## Kondisi terkini, diperiksa 11 November 2026 setelah PR #20
+## Kondisi terkini, diperiksa 11 November 2026 setelah PR #20 dan PR #21
 
-PR #20 Yoga sudah digabung ke `main` pada 11 November 2026. Merge commit adalah `232e6a213897f87d1e081274767efa61dff6c63c`; branch `yoga` sudah tersinkron pada commit yang sama. CI run [42930124355](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42930124355) lulus pada head `99176cd`. Jira menampilkan HAP-10/11/12 dan HAP-62 sebagai Done. Dari 45 story aktif, 10 Done, 7 In Progress, dan 28 To Do; HAP-1 Done, HAP-2 sampai HAP-5 In Progress. Total 45 story dan pembagian sembilan story per anggota tidak berubah. PR #12, #14, dan #15 tetap ditutup tanpa merge.
+PR #20 Yoga sudah digabung ke `main` pada 11 November 2026. Merge commit fitur adalah `232e6a213897f87d1e081274767efa61dff6c63c`; CI run [42930124355](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42930124355) lulus pada head `99176cd`. PR #21 lalu menggabungkan pembaruan dokumentasi setelah CI run [42932759405](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42932759405) lulus. Branch `yoga` di-fast-forward ke `main` setelah PR #21. Jira menampilkan HAP-10/11/12 dan HAP-62 sebagai Done. Dari 45 story aktif, 10 Done, 7 In Progress, dan 28 To Do; HAP-1 Done, HAP-2 sampai HAP-5 In Progress. Total 45 story dan pembagian sembilan story per anggota tidak berubah. PR #12, #14, dan #15 tetap ditutup tanpa merge.
 
 | Pemilik / modul | Status Jira | GitHub saat audit |
 | --- | --- | --- |

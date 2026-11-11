@@ -44,7 +44,7 @@ HAP-25 dan HAP-43 sudah merged/Done, tetapi Remaining estimate masing-masing mas
 
 ## GitHub dan CI
 
-`main` dan branch `yoga` pada pemeriksaan 11 November setelah PR #20 berada di merge commit `232e6a213897f87d1e081274767efa61dff6c63c`.
+PR #20 menggabungkan fitur M02 dengan merge commit `232e6a213897f87d1e081274767efa61dff6c63c`. PR #21 kemudian menggabungkan pembaruan dokumentasi setelah CI lulus; branch `yoga` di-fast-forward ke `main` sesudahnya. Jalankan `git fetch` dan sinkronkan kembali sebelum mulai pekerjaan baru.
 
 - PR #17 berisi HAP-8/HAP-9 dan merged. CI run `42774855543` lulus, termasuk Unit, Feature, build frontend, migration SQLite/MySQL, dan Dusk untuk alur M01.
 - PR #16 berisi HAP-44/HAP-45 dan merged. CI run `42826130678` lulus.
