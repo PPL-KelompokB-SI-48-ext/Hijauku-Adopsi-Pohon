@@ -239,6 +239,23 @@ class ProgramStatusWorkflowTest extends TestCase
         $this->assertSame('archived', $completed->fresh()->status);
     }
 
+    public function test_manager_can_filter_programs_by_status(): void
+    {
+        $manager = $this->manager();
+        $draft = $this->program($manager, ['name' => 'Program Draf']);
+        $active = $this->program($manager, [
+            'name' => 'Program Aktif',
+            'status' => 'active',
+        ]);
+        $this->openManagerPanelAs($manager);
+
+        Livewire::test(ListPrograms::class)
+            ->assertCanSeeTableRecords([$draft, $active])
+            ->filterTable('status', 'active')
+            ->assertCanSeeTableRecords([$active])
+            ->assertCanNotSeeTableRecords([$draft]);
+    }
+
     private function manager(): User
     {
         return User::factory()->create([

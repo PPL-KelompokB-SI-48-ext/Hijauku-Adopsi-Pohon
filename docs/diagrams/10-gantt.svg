@@ -1,1 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="900"><rect width="1800" height="900" fill="white"/><g font-family="Arial" fill="#1F2937"><text x="40" y="55" font-size="33" font-weight="bold" fill="#15803D">Rencana pengembangan Hijauku</text><text x="40" y="97" font-size="23">Baseline Jira 25 Oktober 2026. Jadwal rencana, bukan jam kerja aktual.</text><path d="M670 180 V710" stroke="#E2E8F0"/><text x="682" y="165" font-size="24">W5</text><path d="M766 180 V710" stroke="#E2E8F0"/><text x="778" y="165" font-size="24">W6</text><path d="M862 180 V710" stroke="#E2E8F0"/><text x="874" y="165" font-size="24">W7</text><path d="M958 180 V710" stroke="#E2E8F0"/><text x="970" y="165" font-size="24">W8</text><path d="M1054 180 V710" stroke="#E2E8F0"/><text x="1066" y="165" font-size="24">W9</text><path d="M1150 180 V710" stroke="#E2E8F0"/><text x="1162" y="165" font-size="24">W10</text><path d="M1246 180 V710" stroke="#E2E8F0"/><text x="1258" y="165" font-size="24">W11</text><path d="M1342 180 V710" stroke="#E2E8F0"/><text x="1354" y="165" font-size="24">W12</text><path d="M1438 180 V710" stroke="#E2E8F0"/><text x="1450" y="165" font-size="24">W13</text><path d="M1534 180 V710" stroke="#E2E8F0"/><text x="1546" y="165" font-size="24">W14</text><path d="M1630 180 V710" stroke="#E2E8F0"/><text x="1642" y="165" font-size="24">W15</text><text x="40" y="233" font-size="24">Persiapan HAP-61</text><rect x="674" y="205" width="87" height="43" rx="9" fill="#15803D"/><text x="40" y="302" font-size="24">Backlog dan refinement</text><rect x="770" y="274" width="87" height="43" rx="9" fill="#22C55E"/><text x="40" y="371" font-size="24">S1: M01 / M04 / M07 / M10 / M13</text><rect x="866" y="343" width="279" height="43" rx="9" fill="#15803D"/><text x="40" y="440" font-size="24">Integrasi, Dusk, review dan retro S1</text><rect x="1154" y="412" width="87" height="43" rx="9" fill="#22C55E"/><text x="40" y="509" font-size="24">S2: M02 / M05 / M08 / M11 / M14</text><rect x="1250" y="481" width="279" height="43" rx="9" fill="#15803D"/><text x="40" y="578" font-size="24">S2: M03 / M06 / M09 / M12 / M15</text><rect x="1442" y="550" width="279" height="43" rx="9" fill="#22C55E"/><text x="40" y="647" font-size="24">Integrasi, Dusk, review dan retro S2</text><rect x="1634" y="619" width="87" height="43" rx="9" fill="#15803D"/><text x="40" y="756" font-size="24">Sprint 0: 12-18 Okt | Sprint 1: 19 Okt-22 Nov | Sprint 2: 23 Nov-27 Des 2026</text><text x="40" y="801" font-size="22">W7: 26 Okt-1 Nov | W8: 2-8 Nov | W9: 9-15 Nov | W10: 16-22 Nov | W11: 23-29 Nov</text><text x="40" y="842" font-size="22">W12: 30 Nov-6 Des | W13: 7-13 Des | W14: 14-20 Des | W15: 21-27 Des. W6 tanpa coding.</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="960" viewBox="0 0 1800 960">
+  <rect width="1800" height="960" fill="#F8FAFC"/>
+  <g font-family="Inter, Arial, sans-serif" fill="#17212B">
+    <text x="48" y="58" font-size="34" font-weight="700" fill="#14532D">Rencana sprint Hijauku</text>
+    <text x="48" y="92" font-size="17" fill="#64748B">Jadwal Jira diperbarui 11 November 2026 - tanggal adalah target, bukan work log</text>
+    <rect x="620" y="135" width="1034" height="690" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <path d="M620 174 V812" stroke="#E2E8F0"/><text x="667" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W5</text>
+    <path d="M714 174 V812" stroke="#F97316" stroke-dasharray="5 5"/><text x="761" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W6</text>
+    <path d="M808 174 V812" stroke="#E2E8F0"/><text x="855" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W7</text>
+    <path d="M902 174 V812" stroke="#E2E8F0"/><text x="949" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W8</text>
+    <path d="M996 174 V812" stroke="#E2E8F0"/><text x="1043" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W9</text>
+    <path d="M1090 174 V812" stroke="#E2E8F0"/><text x="1137" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W10</text>
+    <path d="M1184 174 V812" stroke="#E2E8F0"/><text x="1231" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W11</text>
+    <path d="M1278 174 V812" stroke="#E2E8F0"/><text x="1325" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W12</text>
+    <path d="M1372 174 V812" stroke="#E2E8F0"/><text x="1419" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W13</text>
+    <path d="M1466 174 V812" stroke="#E2E8F0"/><text x="1513" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W14</text>
+    <path d="M1560 174 V812" stroke="#E2E8F0"/><text x="1607" y="164" text-anchor="middle" font-size="16" font-weight="600" fill="#475569">W15</text>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" fill="#17212B">
+    <g font-size="19" font-weight="600">
+      <text x="48" y="235">Sprint 0 - fondasi tim</text><text x="48" y="261" font-size="14" font-weight="400" fill="#64748B">HAP-61 - minggu 5</text>
+      <text x="48" y="325">Backlog dan refinement</text><text x="48" y="351" font-size="14" font-weight="400" fill="#64748B">Minggu 6 tanpa coding story</text>
+      <text x="48" y="415">Sprint 1 - pengerjaan story</text><text x="48" y="441" font-size="14" font-weight="400" fill="#64748B">30 story - 6 per anggota dari dua modul utuh</text>
+      <text x="48" y="505">Sprint 1 - PR dan penutupan</text><text x="48" y="531" font-size="14" font-weight="400" fill="#64748B">Satu PR personal per anggota, lalu review dan merge PM</text>
+      <text x="48" y="595">Sprint 2 - pengerjaan story</text><text x="48" y="621" font-size="14" font-weight="400" fill="#64748B">15 story - 3 per anggota, dibagi 2 story lalu 1 story</text>
+      <text x="48" y="685">Sprint 2 - integrasi</text><text x="48" y="711" font-size="14" font-weight="400" fill="#64748B">HAP-67/HAP-68 - merge berurutan sesuai dependensi</text>
+      <text x="48" y="775">Sprint 2 - UAT dan rilis</text><text x="48" y="801" font-size="14" font-weight="400" fill="#64748B">HAP-69 UAT/deploy - HAP-73 temuan/laporan/presentasi</text>
+    </g>
+    <rect x="634" y="205" width="66" height="46" rx="8" fill="#166534"/><text x="667" y="234" text-anchor="middle" font-size="14" font-weight="600" fill="#FFFFFF">HAP-61</text>
+    <rect x="728" y="295" width="66" height="46" rx="8" fill="#FED7AA"/><text x="761" y="324" text-anchor="middle" font-size="13" font-weight="600" fill="#9A3412">Rencana</text>
+    <rect x="822" y="385" width="348" height="46" rx="8" fill="#15803D"/><text x="996" y="414" text-anchor="middle" font-size="15" font-weight="600" fill="#FFFFFF">30 story - 6 per anggota</text>
+    <rect x="1104" y="475" width="66" height="46" rx="8" fill="#14532D"/><text x="1137" y="504" text-anchor="middle" font-size="13" font-weight="600" fill="#FFFFFF">PR + merge</text>
+    <rect x="1198" y="565" width="160" height="46" rx="8" fill="#22C55E"/><text x="1278" y="594" text-anchor="middle" font-size="15" font-weight="600" fill="#052E16">15 story - 2 + 1</text>
+    <rect x="1380" y="655" width="78" height="46" rx="8" fill="#166534"/><text x="1419" y="684" text-anchor="middle" font-size="13" font-weight="600" fill="#FFFFFF">HAP-67/68</text>
+    <rect x="1474" y="745" width="78" height="46" rx="8" fill="#0F766E"/><text x="1513" y="774" text-anchor="middle" font-size="13" font-weight="600" fill="#FFFFFF">HAP-69</text>
+    <rect x="1568" y="745" width="78" height="46" rx="8" fill="#475569"/><text x="1607" y="774" text-anchor="middle" font-size="13" font-weight="600" fill="#FFFFFF">HAP-73</text>
+    <path d="M620 825 H1654" stroke="#CBD5E1"/>
+    <text x="48" y="866" font-size="16" fill="#334155">Sprint 1: 19 Okt-22 Nov 2026 · Sprint 2: 23 Nov-27 Des 2026</text>
+    <text x="48" y="896" font-size="14" fill="#64748B">Rincian story, pemilik, dan due date ada di docs/task-schedule.md. Periksa Jira untuk status terkini.</text>
+  </g>
+</svg>

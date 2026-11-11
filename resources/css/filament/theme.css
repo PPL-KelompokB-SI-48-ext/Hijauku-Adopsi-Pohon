@@ -282,6 +282,89 @@
     padding: 16px;
 }
 
+.fi-ta-header-ctn:has(> .fi-ta-filters-above-content-ctn) {
+    display: grid;
+    grid-template-columns: minmax(0, 280px) minmax(180px, 220px) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 12px;
+    padding: 16px 24px;
+}
+
+.fi-ta-header-ctn > .fi-ta-header-toolbar {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    padding: 0;
+}
+
+.fi-ta-header-ctn > .fi-ta-filters-above-content-ctn {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    padding: 0;
+}
+
+.fi-ta-filters-above-content-ctn .fi-ta-filters {
+    display: block;
+}
+
+.fi-ta-filters-above-content-ctn .fi-ta-filters-header,
+.fi-ta-filters-above-content-ctn .fi-ta-filters-actions-ctn,
+.fi-ta-filters-above-content-ctn .fi-fo-field-label-col {
+    display: none;
+}
+
+.fi-ta-filters-above-content-ctn .fi-ta-filters .fi-sc,
+.fi-ta-filters-above-content-ctn .fi-ta-filters .fi-grid-col {
+    display: block;
+    width: 100%;
+    max-width: none;
+}
+
+.fi-page.fi-resource-sites .fi-ta-cell-name .fi-ta-text-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    overflow: visible;
+}
+
+.fi-page.fi-resource-sites .fi-ta-cell-name .fi-ta-text-item > .fi-icon {
+    box-sizing: border-box;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    flex: 0 0 36px;
+    border-radius: 8px;
+    background: #dcfce7;
+}
+
+.fi-page.fi-resource-sites .fi-ta-cell-program\.name .fi-badge {
+    border-radius: 9999px;
+    background: #eef2ff;
+    color: #334155;
+}
+
+.fi-page.fi-resource-sites .fi-ta-cell-program\.name .fi-badge::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-inline-end: 6px;
+    border-radius: 9999px;
+    background: #22c55e;
+    vertical-align: middle;
+}
+
+.fi-page.fi-resource-sites .fi-ta-cell-coordinates .fi-badge {
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.fi-page.fi-resource-sites .fi-ta-cell-coordinates .fi-badge .fi-icon {
+    color: #15803d;
+}
+
 .fi-ta-header-toolbar > div:nth-child(2) {
     margin-inline-start: 0;
     margin-inline-end: auto;
@@ -371,6 +454,25 @@
 
     .fi-ta-search-field {
         width: 100%;
+    }
+
+    .fi-ta-header-ctn:has(> .fi-ta-filters-above-content-ctn) {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 12px;
+        padding: 16px;
+    }
+
+    .fi-ta-header-ctn > .fi-ta-header-toolbar,
+    .fi-ta-header-ctn > .fi-ta-filters-above-content-ctn {
+        grid-column: 1;
+    }
+
+    .fi-ta-header-ctn > .fi-ta-header-toolbar {
+        grid-row: 1;
+    }
+
+    .fi-ta-header-ctn > .fi-ta-filters-above-content-ctn {
+        grid-row: 2;
     }
 
     .hijauku-user-context {
