@@ -41,37 +41,19 @@ class ProgramCreationTest extends DuskTestCase
 
     private function selectProgramDate(Browser $browser, string $labelText, string $date): void
     {
-        $input = match ($labelText) {
-            'Tanggal mulai' => 'input[id="form.starts_on"]',
-            'Tanggal akhir' => 'input[id="form.ends_on"]',
+        [$input, $calendarPanel] = match ($labelText) {
+            'Tanggal mulai' => ['input[id="form.starts_on"]', '[id="form.starts_on-panel"]'],
+            'Tanggal akhir' => ['input[id="form.ends_on"]', '[id="form.ends_on-panel"]'],
             default => throw new \InvalidArgumentException("Label tanggal tidak dikenal: {$labelText}"),
         };
         $inputSelector = json_encode($input, JSON_THROW_ON_ERROR);
-        $day = json_encode((string) ((int) substr($date, -2)), JSON_THROW_ON_ERROR);
+        $calendarDaySelector = $calendarPanel.' .fi-fo-date-time-picker-calendar-day[data-date="'.$date.'"]';
 
-        $browser->script(<<<JS
-            const input = document.querySelector({$inputSelector});
-
-            if (! input) {
-                throw new Error('Kolom {$labelText} tidak ditemukan.');
-            }
-
-            input.click();
-            JS);
+        $browser->click($input);
 
         $browser->waitUntil("document.querySelector({$inputSelector})?.getAttribute('aria-expanded') === 'true'", 10);
 
-        $browser->script(<<<JS
-            const day = {$day};
-            const cell = Array.from(document.querySelectorAll('.fi-fo-date-time-picker-calendar-day'))
-                .find((element) => element.offsetParent && element.textContent.trim() === day);
-
-            if (! cell) {
-                throw new Error(`Tanggal {$day} tidak tersedia di kalender yang terbuka.`);
-            }
-
-            cell.click();
-            JS);
+        $browser->click($calendarDaySelector);
 
         $browser->waitUntil("document.querySelector({$inputSelector})?.value !== ''", 10);
     }

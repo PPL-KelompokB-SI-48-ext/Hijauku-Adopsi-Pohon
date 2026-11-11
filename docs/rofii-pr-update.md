@@ -1,46 +1,41 @@
-# Panduan menyelesaikan PR M04 Rofii
+# Panduan melanjutkan pekerjaan Rofii di M04
 
-Catatan ini menjelaskan perpindahan pekerjaan HAP-16 dari PR lama ke branch personal. Gunakan Jira untuk acceptance dan status terbaru.
+Catatan ini diperbarui setelah pemeriksaan GitHub dan Jira pada 10 November 2026. PR aktif M04 adalah PR #12 dari branch `Rofii` ke `main`. PM menerima nama branch tersebut; jangan menggantinya hanya karena huruf besar.
 
-## Posisi sekarang
+## Kondisi saat audit
 
-- PR #3 memakai branch `feature/HAP-16-jenis-pohon`, pola lama satu branch per fitur. PR #3 sudah ditutup dengan perubahan yang diminta.
-- PR #6 sudah dibuka dari branch personal `rofii`, dengan commit `22737f8`. CI run `40184824535` lulus pada commit tersebut.
-- PR #6 belum mendapat approval dan berstatus changes requested. Branch-nya masih berbasis `d683407`, sebelum PR #4 dan PR #7 masuk. PR #7 berisi dokumentasi. Ambil seluruh `origin/main` terbaru sebelum melanjutkan; jangan terpaku pada SHA lama yang tertulis di komentar review.
-- PR #6 sudah memiliki tes Feature, tetapi belum memiliki tes Dusk khusus untuk alur M04. Karena itu CI yang hijau belum cukup untuk menyatakan HAP-16 selesai.
-- Branch lama tetap disimpan sementara agar tidak ada pekerjaan yang hilang. HAP-16 dan parent HAP-2 saat ini In Progress. HAP-16 belum Done sampai acceptance, tes, review, dan merge beres.
+- HAP-16/HJK-010, HAP-17/HJK-011, dan HAP-18/HJK-012 berstatus In Progress.
+- PR #12 terbuka dan belum merged. Branch memiliki 5 commit yang belum ada di `main` dan tertinggal 7 commit dari `main` (`8930f589`).
+- PR #12 dan diff saat ini menunjukkan pekerjaan HAP-16 serta pemilihan jenis pohon untuk HAP-17. Judul/body masih hanya menyebut HAP-16. HAP-18 tidak tampak di dalam PR.
+- CI terakhir untuk branch ini, run `41434932370`, lulus pada head lama sebelum merge PR #16. Hasil itu belum memeriksa integrasi dengan `main` sekarang.
+- Jira masih punya due date HAP-16 tanggal 1 November dan HAP-17 tanggal 8 November. Karena tanggal sudah lewat, pemilik perlu memberi rencana baru yang realistis di Jira.
 
-## Langkah Rofii
+## Langkah yang perlu dilakukan
 
-Branch `rofii` sudah ada di GitHub. Jangan membuat branch baru lagi. Sebelum mulai, pastikan perubahan lokal aman dan tidak ada file lain yang belum di-commit.
+1. Pastikan semua perubahan lokal sudah commit atau disimpan. Jangan menghapus atau mengganti nama branch.
+2. Sinkronkan branch personal dengan `main`:
 
-```powershell
-git fetch origin
-git switch rofii
-git status --short
-git merge origin/main
-```
+   ```powershell
+   git fetch origin
+   git switch Rofii
+   git status --short
+   git merge origin/main
+   ```
 
-Jika `git status` menunjukkan perubahan lokal, simpan atau commit dulu sesuai pekerjaan yang sedang dilakukan. Jika merge menemukan konflik, buka file yang disebut Git, pilih isi yang benar, lalu tandai file selesai dan buat merge commit:
+3. Selesaikan konflik pada branch `Rofii`. Periksa perubahan dari kedua sisi, khususnya Policy, `AppServiceProvider`, migration, dan Resource. Jangan gunakan `git push --force`.
+4. Tentukan bersama PM apakah PR #12 memang membawa HAP-16 dan HAP-17. Jika iya, perbarui judul/body dan checklist acceptance untuk dua issue itu. Jangan memasukkan HAP-18 ke PR sebelum implementasi dan tesnya siap. Jika HAP-17 belum siap, pisahkan perubahan HAP-17 dari PR sesuai kesepakatan dengan PM.
+5. Pastikan pengujian mencakup izin manager saat membuat jenis pohon, validasi nama, audit log, serta pemilihan jenis yang sesuai oleh petugas. Tambahkan tes Dusk untuk alur M04 yang melalui browser. Jalankan tes dengan database SQLite yang terisolasi, bukan database pribadi atau MySQL bersama.
+6. Jalankan pemeriksaan, lalu push ke branch personal:
 
-```powershell
-git add path/file-yang-sudah-diperbaiki
-git commit
-git push origin rofii
-```
+   ```powershell
+   php artisan test --testsuite=Unit
+   php artisan test --testsuite=Feature
+   php artisan dusk
+   npm run build
+   git push origin Rofii
+   ```
 
-Jangan memakai `git push --force`. Bila konflik menyentuh schema, akses, atau acceptance, minta keputusan Yoga sebelum memilih hasilnya.
+7. Pastikan setiap story yang akan diberi status Done sudah memenuhi acceptance dan tes relevan di branch `Rofii` yang di-push. Periksa panel Development Jira dan perbarui status hanya untuk story yang memang selesai. PR akhir sprint dapat menunggu jadwal integrasi.
+8. Perbarui due date story yang terlambat bersama PM. Original estimate adalah rencana; catat work log hanya untuk waktu yang benar-benar dipakai. Jangan mengarang actual time.
 
-Setelah branch memakai `main` terbaru, tambahkan Laravel Dusk untuk alur utama HAP-16: login sebagai manager, membuat jenis pohon dari panel, lalu memastikan jenis dan kebutuhan perawatannya muncul pada daftar. Tes Feature yang sudah ada tetap dipakai untuk validasi dan kondisi yang ditolak. Jalankan Dusk dengan database uji terisolasi seperti yang dipakai workflow CI; jangan arahkan tes ke database pribadi.
-
-Pastikan judul dan isi PR tetap menyebut HAP-16. Tunggu CI hijau pada commit terbaru, lalu minta Yoga (@mygads) meninjau. Penulis memperbaiki komentar dan konflik. PM yang merge setelah seluruh acceptance terpenuhi.
-
-## Branch lama
-
-Jangan hapus `feature/HAP-16-jenis-pohon` sekarang. Pemilik branch memeriksa ulang semua commit dan perubahan file setelah PR #6 disinkronkan. Hapus branch lama hanya setelah PR #6 lengkap, tidak ada PR lain yang menggunakannya, dan tidak ada perubahan unik yang tertinggal. Branch personal `rofii` dipertahankan setelah merge.
-
-## Alur umum anggota lain
-
-Setiap anggota menggunakan satu branch personal: `yoga`, `bitari`, `arif`, `wira`, atau `rofii`. Untuk repo yang sudah di-clone, ambil `origin/main` terbaru sebelum melanjutkan pekerjaan. Cantumkan key HAP di setiap commit dan PR, buat PR ke `main`, lalu minta Yoga sebagai reviewer. Pemilik branch menyelesaikan konflik dan hanya PM yang merge.
-
-Panduan clone, setup, test, commit, dan PR ada di [README](../README.md), [CONTRIBUTING](../CONTRIBUTING.md), serta [setup lokal](local-setup.md).
+Menjelang akhir sprint, siapkan satu PR dari branch personal yang memuat semua story M04 sprint itu. Sinkronkan `origin/main`, selesaikan konflik, jalankan tes dan CI terbaru, lalu minta PM review. Pertahankan branch `Rofii` setelah merge dan sinkronkan kembali sebelum pekerjaan berikutnya. PR #12 sudah terbuka lebih awal, jadi tidak perlu membuat PR duplikat; rapikan PR yang ada sesuai arahan PM. Panduan umum ada di [CONTRIBUTING.md](../CONTRIBUTING.md) dan [alur Jira](jira-workflow.md).
