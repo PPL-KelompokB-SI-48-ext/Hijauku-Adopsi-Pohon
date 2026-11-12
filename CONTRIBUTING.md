@@ -81,6 +81,8 @@ Jangan memakai git push --force. Bila konflik menyentuh skema, aturan role, atau
 
 Selesaikan konflik pada branch personal, jalankan pemeriksaan yang relevan, lalu push hasilnya. Jangan memakai `git push --force`. Reviewer memberi masukan; ia tidak mengambil alih branch pemilik.
 
+CI berjalan saat branch personal di-push, saat PR dibuka atau diperbarui, dan setelah perubahan masuk ke `main`. Sebelum meminta review atau merge, sinkronkan branch dengan `main` terbaru dan tunggu pemeriksaan PR terbaru lulus. Urutan lengkap dan cara membaca hasilnya ada di [panduan CI dan sinkronisasi branch](docs/ci-workflow.md).
+
 ## 5. Tutup story di Jira dan siapkan PR sprint
 
 Setelah satu story memenuhi acceptance criteria, tes yang relevan lulus, dan perubahan sudah di-push ke branch personal, pelaksana:
@@ -111,6 +113,7 @@ Anggota meminta review dari @mygads dan tidak merge PR sendiri. Satu PR menghubu
 ## 7. Review dan merge
 
 - CI wajib hijau.
+- Branch PR wajib sudah mengikuti `main` terbaru. Jika PR lain lebih dulu masuk, pemilik memperbarui branch, menyelesaikan konflik, lalu menunggu CI baru dan meminta review ulang.
 - PR anggota wajib mendapat satu approval dari PM.
 - Kebijakan tim membolehkan PR yang dibuat PM tanpa self-approval, lalu PM dapat memakai admin bypass setelah CI lulus. Periksa gate pada PR karena aturan GitHub yang aktif bisa tetap meminta satu approval; jangan menganggap bypass sudah terjadi sebelum status PR mengonfirmasinya.
 - Selesaikan semua komentar dan percakapan review. Penulis memperbaiki kode dan menyelesaikan konflik pada branch personalnya.
