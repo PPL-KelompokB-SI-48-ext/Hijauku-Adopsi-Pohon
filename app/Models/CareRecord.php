@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class CareRecord extends Model
 {
@@ -32,5 +34,20 @@ class CareRecord extends Model
     public function verifier(): BelongsTo
     {
         return $this->belongsTo(User::class, 'verified_by');
+    }
+
+    public function activityLogs(): MorphMany
+    {
+        return $this->morphMany(ActivityLog::class, 'subject');
+    }
+
+    /**
+     * Scope: only records belonging to a specific field staff actor.
+     */
+    public function scopeForPerformer(Builder $query, User|int $user): Builder
+    {
+        $id = $user instanceof User ? $user->getKey() : $user;
+
+        return $query->where('performed_by', $id);
     }
 }
