@@ -114,3 +114,4 @@ class PlantingBatchFieldStaffInterfaceTest extends TestCase
             ->assertHasFormErrors(['code' => 'unique']);
     }
 }
+

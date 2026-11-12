@@ -49,3 +49,4 @@ class PlantingBatchesTable
             ->defaultSort('planted_on', 'desc');
     }
 }
+

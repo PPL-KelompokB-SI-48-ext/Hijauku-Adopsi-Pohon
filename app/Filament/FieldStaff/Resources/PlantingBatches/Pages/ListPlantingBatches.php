@@ -22,3 +22,4 @@ class ListPlantingBatches extends ListRecords
         return 'Daftar riwayat pelaksanaan penanaman pohon pada petak.';
     }
 }
+

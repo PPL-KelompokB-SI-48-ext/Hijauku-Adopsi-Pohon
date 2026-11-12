@@ -48,3 +48,4 @@ class CreatePlantingBatch extends CreateRecord
         return parent::getCancelFormAction()->label('Batal');
     }
 }
+
