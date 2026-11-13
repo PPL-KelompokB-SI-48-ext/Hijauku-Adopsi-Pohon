@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class DecideAdoptionRequestAction
 {
     /**
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      */
     public function handle(
         User $actor,
