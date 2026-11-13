@@ -5,6 +5,7 @@ namespace App\Filament\FieldStaff\Resources\CareRecords\Pages;
 use App\Filament\FieldStaff\Resources\CareRecords\CareRecordResource;
 use App\Models\CareRecord as CareRecordModel;
 use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
@@ -40,5 +41,13 @@ class CreateCareRecord extends CreateRecord
     protected function getRedirectUrl(): string
     {
         return CareRecordResource::getUrl('index');
+    }
+
+    protected function getFormActions(): array
+    {
+        return [
+            $this->getCreateFormAction(),
+            $this->getCancelFormAction(),
+        ];
     }
 }
