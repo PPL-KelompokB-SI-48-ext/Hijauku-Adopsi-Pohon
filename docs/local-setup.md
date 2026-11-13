@@ -111,17 +111,27 @@ Terminal kedua menjalankan Vite selama pengembangan UI:
 npm run dev
 ```
 
-Buka <http://127.0.0.1:8000>. Panel dan halaman login:
+Buka <http://127.0.0.1:8000>. Semua peran memakai satu halaman masuk di <http://127.0.0.1:8000/login>. Setelah email dan kata sandi valid, Hijauku mengarahkan akun ke panel berdasarkan rolenya:
 
 | Peran | URL | Akun demo |
 | --- | --- | --- |
-| Pengelola | `/app/login` | `pengelola@hijauku.test` |
-| Petugas | `/petugas/login` | `petugas@hijauku.test` |
-| Warga | `/warga/login` | `warga@hijauku.test` |
+| Pengelola | `/app` | `pengelola@hijauku.test` |
+| Petugas | `/petugas` | `petugas@hijauku.test` |
+| Warga | `/warga` | `warga@hijauku.test` |
 
 Password ketiga akun mengikuti `DEMO_PASSWORD` pada `.env`. Nilai awal starter adalah `demo-hijauku`, khusus penggunaan lokal. Ganti nilai itu bila ingin membagikan database dev, lalu jalankan `php artisan db:seed --class=DemoWorkspaceSeeder` untuk memperbarui akun demo. Seeder bersifat idempotent untuk data demo dan menolak `APP_ENV=production`.
 
-Setiap akun hanya boleh masuk ke panel yang sesuai dengan role dan status aktifnya. Filament mengelola login berbasis session, pembatasan percobaan login, logout, invalidasi session, dan token CSRF. Session lokal disimpan di tabel `sessions` karena konfigurasi menggunakan `SESSION_DRIVER=database`.
+Setiap akun hanya boleh masuk ke panel yang sesuai dengan role dan status aktifnya. Halaman `/app/login`, `/petugas/login`, dan `/warga/login` tetap tersedia sebagai alamat lama, tetapi mengarahkan pengguna ke `/login`. Panelnya tetap terpisah dan akses silang tetap ditolak.
+
+Login memakai session Laravel, token CSRF, regenerasi session setelah berhasil, dan pembatasan lima percobaan per menit untuk kombinasi email dan alamat IP. Logout panel tetap membatalkan session. Session lokal disimpan di tabel `sessions` karena konfigurasi menggunakan `SESSION_DRIVER=database`.
+
+Jika akun demo tidak ditemukan, jalankan seeder lokal setelah memastikan `.env` menunjuk ke database development proyek:
+
+```powershell
+php artisan db:seed --class=DemoWorkspaceSeeder
+```
+
+Seeder membuat akun pengelola, petugas, dan warga. Semua memakai kata sandi dari `DEMO_PASSWORD` pada `.env`, atau `demo-hijauku` jika nilai itu belum diatur. Seeder tidak membuat atau mengubah akun pada `APP_ENV=production`.
 
 ## Perintah harian
 
@@ -196,5 +206,5 @@ Jangan arahkan Dusk ke MySQL lokal atau database bersama. Jika nilai `DB_DATABAS
 - **Koneksi MySQL ditolak:** cek service MySQL, host/port, user/password, serta grant pada database yang sama dengan `.env`.
 - **`Unknown database`:** buat database lebih dulu memakai SQL contoh, lalu cek ejaan `DB_DATABASE`.
 - **Tabel `sessions` tidak ada:** jalankan `php artisan migrate --seed` pada database proyek yang telah dikonfirmasi.
-- **Akun tidak dapat masuk:** cek alamat panel, nilai `DEMO_PASSWORD`, status aktif dan role akun. Seeder lokal dapat dijalankan ulang untuk memulihkan akun demo.
+- **Akun tidak dapat masuk:** buka `/login`, pastikan email dan `DEMO_PASSWORD` cocok, dan akun berstatus aktif. Seeder lokal dapat dijalankan ulang untuk memulihkan tiga akun demo; setelah berhasil, panel terbuka sesuai role akun.
 - **Aset tidak muncul:** pastikan `npm run dev` berjalan saat pengembangan, atau jalankan `npm run build` untuk aset hasil build.

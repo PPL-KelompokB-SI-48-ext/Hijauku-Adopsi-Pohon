@@ -4,21 +4,21 @@ namespace Tests\Feature;
 
 use App\Enums\UserRole;
 use App\Models\User;
-use Filament\Auth\Pages\Login;
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class PanelAuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_each_role_has_a_login_page_and_requires_authentication_for_the_panel(): void
+    public function test_every_role_uses_one_login_page_and_panel_aliases_redirect_to_it(): void
     {
+        $this->get('/login')->assertOk();
+
         foreach (['app', 'petugas', 'warga'] as $panel) {
-            $this->get("/{$panel}/login")->assertOk();
-            $this->get("/{$panel}")->assertRedirect("/{$panel}/login");
+            $this->get("/{$panel}/login")->assertRedirect('/login');
+            $this->get("/{$panel}")->assertRedirect('/login');
         }
     }
 
@@ -48,40 +48,46 @@ class PanelAuthenticationTest extends TestCase
         }
     }
 
-    public function test_manager_can_log_in_to_the_manager_panel(): void
+    public function test_shared_login_routes_each_active_role_to_their_panel(): void
     {
-        $manager = User::factory()->create([
-            'role' => UserRole::Manager,
-            'is_active' => true,
-        ]);
+        $accounts = [
+            [UserRole::Manager, 'app'],
+            [UserRole::FieldStaff, 'petugas'],
+            [UserRole::Citizen, 'warga'],
+        ];
 
-        Filament::setCurrentPanel('app');
+        foreach ($accounts as [$role, $panel]) {
+            Auth::logout();
+            $this->flushSession();
 
-        Livewire::test(Login::class)
-            ->set('data.email', $manager->email)
-            ->set('data.password', 'password')
-            ->call('authenticate')
-            ->assertRedirect('/app');
+            $user = User::factory()->create([
+                'role' => $role,
+                'is_active' => true,
+            ]);
 
-        $this->assertAuthenticatedAs($manager);
+            $this->post('/login', [
+                'email' => $user->email,
+                'password' => 'password',
+            ])->assertRedirect("/{$panel}");
+
+            $this->assertAuthenticatedAs($user);
+        }
     }
 
-    public function test_user_with_another_role_cannot_log_in_to_the_manager_panel(): void
+    public function test_field_staff_uses_shared_login_and_still_cannot_open_manager_panel(): void
     {
         $fieldStaff = User::factory()->create([
             'role' => UserRole::FieldStaff,
             'is_active' => true,
         ]);
 
-        Filament::setCurrentPanel('app');
+        $this->post('/login', [
+            'email' => $fieldStaff->email,
+            'password' => 'password',
+        ])->assertRedirect('/petugas');
 
-        Livewire::test(Login::class)
-            ->set('data.email', $fieldStaff->email)
-            ->set('data.password', 'password')
-            ->call('authenticate')
-            ->assertHasErrors();
-
-        $this->assertGuest();
+        $this->assertAuthenticatedAs($fieldStaff);
+        $this->get('/app')->assertForbidden();
     }
 
     public function test_logout_clears_the_authenticated_session(): void
@@ -93,7 +99,7 @@ class PanelAuthenticationTest extends TestCase
 
         $this->actingAs($manager)
             ->post('/app/logout')
-            ->assertRedirect('/app/login');
+            ->assertRedirect('/login');
 
         $this->assertGuest();
     }
