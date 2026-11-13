@@ -10,7 +10,7 @@ class AdoptionRequestPolicy extends ManagerOnlyPolicy
 {
     protected function managerRestrictedAbilities(): array
     {
-        return ['review', 'update', 'withdraw'];
+        return ['create', 'review', 'update', 'withdraw'];
     }
 
     public function viewAny(User $user): bool

@@ -13,6 +13,7 @@ use App\Models\Tree;
 use App\Models\TreeAdoptionAllocation;
 use App\Models\TreeSpecies;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
@@ -45,9 +46,45 @@ class AdoptionRequestCreationTest extends TestCase
             'tree_id' => $tree->id,
             'status' => 'submitted',
         ]);
+
+        $log = $request->activityLogs()->firstOrFail();
+
+        $this->assertSame($citizen->id, $log->actor_id);
+        $this->assertSame('adoption_request.created', $log->action);
+        $this->assertNull($log->from_status);
+        $this->assertSame('submitted', $log->to_status);
+        $this->assertSame(
+            $request->reason,
+            $log->metadata['reason']
+        );
+        $this->assertNotNull($log->created_at);
     }
 
-    public function test_citizen_cannot_submit_duplicate_active_request(): void
+    public function test_citizen_cannot_submit_duplicate_draft_request(): void
+    {
+        $citizen = $this->citizen();
+        $tree = $this->tree();
+
+        AdoptionRequest::query()->create([
+            'tree_id' => $tree->id,
+            'requester_id' => $citizen->id,
+            'reason' => 'Permohonan pertama.',
+            'status' => 'draft',
+        ]);
+
+        $this->assertValidationError(
+            $citizen,
+            [
+                'tree_id' => $tree->id,
+                'reason' => 'Permohonan kedua.',
+            ],
+            'tree_id'
+        );
+
+        $this->assertDatabaseCount('adoption_requests', 1);
+    }
+
+    public function test_citizen_cannot_submit_duplicate_submitted_request(): void
     {
         $citizen = $this->citizen();
         $tree = $this->tree();
@@ -59,16 +96,14 @@ class AdoptionRequestCreationTest extends TestCase
             'status' => 'submitted',
         ]);
 
-        try {
-            app(CreateAdoptionRequestAction::class)->handle($citizen, [
+        $this->assertValidationError(
+            $citizen,
+            [
                 'tree_id' => $tree->id,
                 'reason' => 'Permohonan kedua.',
-            ]);
-
-            $this->fail('Permohonan duplikat seharusnya ditolak.');
-        } catch (ValidationException $exception) {
-            $this->assertArrayHasKey('tree_id', $exception->errors());
-        }
+            ],
+            'tree_id'
+        );
 
         $this->assertDatabaseCount('adoption_requests', 1);
     }
@@ -102,18 +137,105 @@ class AdoptionRequestCreationTest extends TestCase
             'reserved_at' => now(),
         ]);
 
-        try {
-            app(CreateAdoptionRequestAction::class)->handle($citizen, [
+        $this->assertValidationError(
+            $citizen,
+            [
                 'tree_id' => $tree->id,
                 'reason' => 'Saya ingin mengajukan pohon ini.',
-            ]);
-
-            $this->fail('Pohon yang sudah dialokasikan seharusnya ditolak.');
-        } catch (ValidationException $exception) {
-            $this->assertArrayHasKey('tree_id', $exception->errors());
-        }
+            ],
+            'tree_id'
+        );
 
         $this->assertDatabaseCount('adoption_requests', 1);
+    }
+
+    public function test_citizen_cannot_submit_request_with_empty_reason(): void
+    {
+        $citizen = $this->citizen();
+        $tree = $this->tree();
+
+        $this->assertValidationError(
+            $citizen,
+            [
+                'tree_id' => $tree->id,
+                'reason' => '',
+            ],
+            'reason'
+        );
+
+        $this->assertDatabaseCount('adoption_requests', 0);
+    }
+
+    public function test_citizen_cannot_submit_request_with_whitespace_reason(): void
+    {
+        $citizen = $this->citizen();
+        $tree = $this->tree();
+
+        $this->assertValidationError(
+            $citizen,
+            [
+                'tree_id' => $tree->id,
+                'reason' => '     ',
+            ],
+            'reason'
+        );
+
+        $this->assertDatabaseCount('adoption_requests', 0);
+    }
+
+    public function test_citizen_cannot_submit_request_with_reason_over_1000_characters(): void
+    {
+        $citizen = $this->citizen();
+        $tree = $this->tree();
+
+        $this->assertValidationError(
+            $citizen,
+            [
+                'tree_id' => $tree->id,
+                'reason' => str_repeat('A', 1001),
+            ],
+            'reason'
+        );
+
+        $this->assertDatabaseCount('adoption_requests', 0);
+    }
+
+    public function test_manager_cannot_create_an_adoption_request(): void
+    {
+        $manager = User::factory()->create([
+            'role' => UserRole::Manager,
+            'is_active' => true,
+        ]);
+
+        $this->assertFalse(
+            $manager->can('create', AdoptionRequest::class)
+        );
+
+        $this->expectException(AuthorizationException::class);
+
+        app(CreateAdoptionRequestAction::class)->handle($manager, [
+            'tree_id' => 1,
+            'reason' => 'Pengujian akses manager.',
+        ]);
+    }
+
+    public function test_field_staff_cannot_create_an_adoption_request(): void
+    {
+        $fieldStaff = User::factory()->create([
+            'role' => UserRole::FieldStaff,
+            'is_active' => true,
+        ]);
+
+        $this->assertFalse(
+            $fieldStaff->can('create', AdoptionRequest::class)
+        );
+
+        $this->expectException(AuthorizationException::class);
+
+        app(CreateAdoptionRequestAction::class)->handle($fieldStaff, [
+            'tree_id' => 1,
+            'reason' => 'Pengujian akses petugas.',
+        ]);
     }
 
     public function test_citizen_can_only_view_own_adoption_requests(): void
@@ -138,6 +260,24 @@ class AdoptionRequestCreationTest extends TestCase
 
         $this->assertTrue($firstCitizen->can('view', $ownRequest));
         $this->assertFalse($firstCitizen->can('view', $otherRequest));
+    }
+
+    private function assertValidationError(
+        User $actor,
+        array $data,
+        string $field
+    ): void {
+        try {
+            app(CreateAdoptionRequestAction::class)->handle($actor, $data);
+        } catch (ValidationException $exception) {
+            $this->assertArrayHasKey($field, $exception->errors());
+
+            return;
+        }
+
+        $this->fail(
+            "Permohonan seharusnya ditolak pada field {$field}."
+        );
     }
 
     private function citizen(): User

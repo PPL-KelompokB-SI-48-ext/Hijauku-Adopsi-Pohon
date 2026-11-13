@@ -7,15 +7,31 @@ use App\Models\Tree;
 use App\Models\TreeAdoptionAllocation;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 class CreateAdoptionRequestAction
 {
     public function handle(User $actor, array $data): AdoptionRequest
     {
-        abort_unless($actor->isCitizen(), 403);
+        Gate::forUser($actor)->authorize('create', AdoptionRequest::class);
 
-        return DB::transaction(function () use ($actor, $data) {
+        $reasonInput = $data['reason'] ?? null;
+        $reason = is_string($reasonInput) ? trim($reasonInput) : '';
+
+        if ($reason === '') {
+            throw ValidationException::withMessages([
+                'reason' => 'Alasan permohonan wajib diisi.',
+            ]);
+        }
+
+        if (mb_strlen($reason) > 1000) {
+            throw ValidationException::withMessages([
+                'reason' => 'Alasan permohonan maksimal 1000 karakter.',
+            ]);
+        }
+
+        return DB::transaction(function () use ($actor, $data, $reason) {
             $tree = Tree::query()
                 ->whereKey($data['tree_id'] ?? null)
                 ->lockForUpdate()
@@ -52,20 +68,24 @@ class CreateAdoptionRequestAction
                 ]);
             }
 
-            $reason = trim($data['reason'] ?? '');
-
-            if ($reason === '') {
-                throw ValidationException::withMessages([
-                    'reason' => 'Alasan permohonan wajib diisi.',
-                ]);
-            }
-
-            return AdoptionRequest::create([
+            $request = AdoptionRequest::query()->create([
                 'tree_id' => $tree->id,
                 'requester_id' => $actor->id,
                 'reason' => $reason,
                 'status' => 'submitted',
             ]);
+
+            $request->activityLogs()->create([
+                'actor_id' => $actor->getKey(),
+                'action' => 'adoption_request.created',
+                'from_status' => null,
+                'to_status' => 'submitted',
+                'metadata' => [
+                    'reason' => $reason,
+                ],
+            ]);
+
+            return $request;
         });
     }
 }
