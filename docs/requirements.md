@@ -6,14 +6,14 @@ Dokumen ini memisahkan aturan kuliah, roster proyek, dan backlog Jira. Jira menj
 
 | Anggota | Modul | Sprint 1 | Sprint 2 | Total |
 | --- | --- | ---: | ---: | ---: |
-| Yoga (PM) | M01-M03 | 3 | 6 | 9 |
-| Rofii | M04-M06 | 3 | 6 | 9 |
-| Bitari | M07-M09 | 3 | 6 | 9 |
-| Arif | M10-M12 | 3 | 6 | 9 |
-| Wira | M13-M15 | 3 | 6 | 9 |
-| **Total** | **M01-M15** | **15** | **30** | **45** |
+| Yoga (PM) | M01-M03 | 6 | 3 | 9 |
+| Rofii | M04-M06 | 6 | 3 | 9 |
+| Bitari | M07-M09 | 6 | 3 | 9 |
+| Arif | M10-M12 | 6 | 3 | 9 |
+| Wira | M13-M15 | 6 | 3 | 9 |
+| **Total** | **M01-M15** | **30** | **15** | **45** |
 
-Tiga story per anggota per sprint adalah hitungan backlog, bukan bukti kompleksitas. Setiap kelompok tiga story direncanakan sebagai satu modul utuh. Pemilik modul perlu memastikan bahwa fitur pada tiap sprint memenuhi kriteria kompleksitas sedang/tinggi dan dapat selesai, diuji, serta direview di sprint yang sama.
+Jumlah story per anggota bukan bukti kompleksitas. Setiap modul tetap satu kelompok utuh berisi tiga story. Sprint 1 berisi dua modul per anggota; Sprint 2 berisi satu modul per anggota. Pemilik modul perlu memastikan sedikitnya satu fitur kompleksitas sedang/tinggi pada tiap sprint memenuhi rubrik kelas dan dapat diuji. Pemetaan modul tidak berarti semua dependensi lintas modul selesai di sprint yang sama.
 
 ## Rumus backlog
 
@@ -31,17 +31,17 @@ Ketentuan proyek meminta setiap orang mengerjakan setidaknya satu fitur kompleks
 
 | Anggota | Sprint 1 | Sprint 2 |
 | --- | --- | --- |
-| Yoga | M01, 3 story | M02 dan M03, 6 story |
-| Rofii | M04, 3 story | M05 dan M06, 6 story |
-| Bitari | M07, 3 story | M08 dan M09, 6 story |
-| Arif | M10, 3 story | M11 dan M12, 6 story |
-| Wira | M13, 3 story | M14 dan M15, 6 story |
+| Yoga | M01 dan M02, 6 story | M03, 3 story |
+| Rofii | M04 dan M05, 6 story | M06, 3 story |
+| Bitari | M07 dan M08, 6 story | M09, 3 story |
+| Arif | M10 dan M11, 6 story | M12, 3 story |
+| Wira | M13 dan M14, 6 story | M15, 3 story |
 
 Sprint 1 mengikuti kalender minggu 6-10, 19 Okt-22 Nov 2026. Rencana awal memakai minggu 6 untuk backlog/refinement dan menjadwalkan pengerjaan story mulai minggu 7 sampai minggu 9; minggu 10 disiapkan untuk integrasi, demo, review, dan retrospektif. Riwayat GitHub mencatat alur HJK-001 sudah masuk ke `main` lewat PR #2 pada 22 Oktober. Tes Dusk ditambahkan lewat PR #4, dan PM menerima HAP-7 pada 25 Oktober. HAP-16 dan HAP-25 juga berstatus In Progress pada akhir minggu 6, sebelum tanggal mulai rencana minggu 7. Pemilik perlu mencocokkan tanggal mulai Jira dengan waktu kerja sebenarnya; tanggal sprint tetap.
 
 Sprint 2 mengikuti minggu 11-15, 23 Nov-27 Des 2026. Issue HAP-10 sampai HAP-51 dibagi per minggu dalam [jadwal mingguan](task-schedule.md). Tanggal kerja adalah target koordinasi, bukan actual time. Original estimate tetap usulan awal sampai disepakati pemilik modul.
 
-Pembagian modul ini menjaga tiga PBI satu modul tetap di satu sprint, tetapi beberapa fitur memakai data dari modul anggota lain. Sebelum coding, pemilik perlu menyepakati model/field yang dipakai, seed untuk tes, dan urutan integrasi. Jika dependensi membuat acceptance tidak dapat diuji dalam sprint yang direncanakan, PM memperbaiki mapping sebelum pekerjaan dimulai.
+Pembagian modul ini menjaga tiga PBI satu modul tetap di satu sprint. Atas keputusan PM, satu modul per anggota dimajukan utuh dari Sprint 2 ke Sprint 1 agar beban Sprint 2 berkurang. Beberapa modul yang dimajukan memakai data dari modul anggota lain yang masih dijadwalkan di Sprint 2. Sebelum coding, pemilik menyepakati model/field yang dipakai, seed/fixture untuk tes, dan urutan integrasi. Story diuji sesuai acceptance dengan fixture terisolasi bila alur induknya belum tergabung; jangan mengklaim alur lintas modul selesai sebelum integrasi Sprint 2. Pengujian lintas modul dilakukan pada HAP-69 setelah semua batch Sprint 2 masuk `main`.
 
 ## Epic aktif dan scope
 
@@ -80,11 +80,13 @@ HAP-6, yang dahulu menampung M16-M18, sudah dihapus permanen atas keputusan PM. 
 
 Judul, tujuan, acceptance criteria, dan status story tetap dibaca dari Jira. Perubahan requirement harus memperbarui issue dan dokumen ini bila berdampak pada scope, owner, modul, atau hitungan.
 
-## Status pengerjaan yang diperiksa 10 November 2026
+## Status pengerjaan yang diperiksa 11 November 2026
 
-Jira memuat 45 story dengan 7 Done, 7 In Progress, dan 31 To Do. Yang sudah Done: HAP-7/8/9 (M01), HAP-25 (M07), dan HAP-43/44/45 (M13). Yang sedang berjalan: HAP-16/17/18 (M04), HAP-26/27 (M07), dan HAP-34/35 (M10). Story lainnya To Do.
+Setelah PR #20 merged pada 11 November, Jira memuat 45 story: 10 Done, 7 In Progress, dan 28 To Do. Yang Done: HAP-7/8/9/10/11/12 (M01-M02), HAP-25 (M07), dan HAP-43/44/45 (M13). Yang In Progress: HAP-16/17/18 (M04), HAP-26/27 (M07), dan HAP-34/35 (M10). Story lainnya To Do.
 
-PR #12 (Rofii), #14 (Arif), dan #15 (Bitari) masih terbuka. Status story tidak menunggu PR akhir sprint di-merge: pemilik bisa menandai Done setelah acceptance dan tes relevan terpenuhi pada branch personal yang sudah di-push. Audit belum dapat membuktikan hal itu untuk semua story di PR ini karena scope PR tidak sama dengan story dan branch belum disinkronkan. Sebelum integrasi akhir sprint, pemilik perlu menyinkronkan `main`, merapikan cakupan, dan menjalankan CI terbaru. Due date yang lewat perlu direplan oleh pemilik berdasarkan kondisi nyata. Jangan mengubah tanggal atau work log hanya untuk menyamakan riwayat.
+PR #12 (Rofii), #14 (Arif), dan #15 (Bitari) sudah ditutup tanpa merge. Branch personal masih menyimpan commit unik; pemilik perlu mempertahankannya, menyinkronkan `main`, meninjau catatan review yang masih berlaku, lalu membuka PR pengganti. Story hanya boleh Done setelah acceptance dan tes terpenuhi pada branch yang di-push, CI terbaru lulus, serta review dan penerimaan PM selesai. Di Sprint 1, HAP-62 sampai HAP-66 menandai PR personal tiap anggota siap ditinjau; HAP-71/HAP-72 adalah integrasi dan penutupan sprint oleh PM. Checklist sinkronisasi, konflik, UI, schema, dan CI disatukan di task integrasi, jadi HAP-70 dihapus. Di Sprint 2, 15 story selesai ditargetkan pada minggu 12 dengan dua story per orang di minggu 11 dan satu di minggu 12; HAP-67/HAP-68 integrasi minggu 13, HAP-69 UAT/deploy minggu 14, dan HAP-73 penanganan temuan/laporan/presentasi minggu 15. Due date lama yang lewat tetap menjadi riwayat sampai pemilik dan PM menyepakati replan; jangan mengubah tanggal atau work log demi menyamakan catatan.
+
+Semua 45 story Sprint 1 dan Sprint 2 memakai instruksi teknis yang sama: ikuti frame Stitch yang dipetakan dengan komponen Filament reusable, verifikasi tampilan desktop dan ponsel, gunakan migration aman dan Policy/query ownership, serta buat API terpisah hanya bila acceptance memintanya. Rincian ada di deskripsi tiap issue Jira dan [panduan UI](ui-design.md).
 
 ## Menjaga backlog
 

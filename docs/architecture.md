@@ -1,6 +1,6 @@
 # Arsitektur Hijauku - Rev 2
 
-**Status:** Baseline arsitektur aplikasi dan implementasi yang sudah masuk ke `main`, diperiksa 10 November 2026.
+**Status:** Baseline arsitektur aplikasi dan implementasi yang sudah masuk ke `main`, diperiksa 11 November 2026 setelah PR #19.
 **Berlaku:** Scope aktif 15 modul, lima anggota, Laravel 13 + Filament 5.
 **Pemilik keputusan proyek:** Yoga (PM). Perubahan berikutnya dicatat pada Jira dan pull request.
 
@@ -14,14 +14,14 @@ Backlog aktif berisi 15 modul M01 sampai M15 dan 45 story HJK-001 sampai HJK-045
 
 ## 2. Gambaran sistem
 
-Pengguna publik membuka halaman Blade + Vite. Pengelola, Petugas, dan Warga masuk ke panel Filament yang berbeda. Ketiga panel memakai satu aplikasi Laravel 13 dan satu database MySQL; Eloquent mengakses data. Policy, query scope, validasi, dan service menjaga aturan akses serta proses bisnis. Foto dan bukti disimpan di Laravel Storage privat.
+Pengguna publik membuka halaman Blade + Vite. Pengelola, Petugas, dan Warga memakai satu halaman masuk `/login`; setelah autentikasi, sistem mengarahkan mereka ke panel Filament sesuai role. Ketiga panel tetap terpisah di `/app`, `/petugas`, dan `/warga`. Satu aplikasi Laravel 13 dan satu database MySQL dipakai bersama; Eloquent mengakses data. Policy, query scope, validasi, dan service menjaga aturan akses serta proses bisnis. Foto dan bukti disimpan di Laravel Storage privat.
 
 ![Diagram arsitektur Hijauku dengan satu aplikasi Laravel modular dan tiga panel](diagrams/system-design/exports/architecture.png)
 
 Alur request:
 
 1. Route publik atau panel Filament menerima request.
-2. Request panel berakun melewati middleware autentikasi. Route publik hanya menyajikan field yang diizinkan untuk publik dan tidak mewajibkan login.
+2. Form `/login` memeriksa akun aktif dengan Laravel session guard, membatasi percobaan masuk, meregenerasi session setelah berhasil, lalu mengarahkan pengguna berdasarkan role. Request panel tanpa akun diarahkan kembali ke `/login`. Route publik hanya menyajikan field yang diizinkan untuk publik dan tidak mewajibkan login.
 3. Untuk panel, User::canAccessPanel() hanya membuka panel yang cocok dengan role dan status aktif.
 4. Policy memutuskan izin untuk aksi dan record. Query list juga dibatasi ke data yang boleh dilihat.
 5. Validasi memeriksa input dan aturan lintas field.
@@ -100,7 +100,9 @@ Rancangan awal mengusulkan PostgreSQL 18. Untuk starter Sprint 0, PM menetapkan 
 
 **Sudah tersedia di `main`:** fondasi Laravel/Filament, tiga panel dan gate role, Policy dasar, model/migration awal, seeder demo, beranda publik, serta alur M01 untuk membuat draf, mengaktifkan program, dan mengarsipkan program selesai (HJK-001-HJK-003). M07 HJK-019 menyediakan pencatatan rencana kegiatan. M13 HJK-037 sampai HJK-039 menyediakan penyusunan rencana, prioritas, koreksi, dan pembatalan rencana dengan riwayat. Dokumentasi dan CI juga tersedia.
 
-**Masih dalam PR, belum ada di `main`:** alur M04 HAP-16/17 di PR #12, M07 HAP-26/27 di PR #15, dan M10 HAP-34/35 di PR #14. PR tersebut masih perlu disinkronkan dengan `main`, scope issue perlu disamakan dengan diff, dan CI perlu dijalankan ulang pada head terbaru. M04 HAP-18 masih perlu diklarifikasi dengan pemilik modul.
+**Sudah tersedia di `main`:** HAP-10-HAP-12 / HJK-004-HJK-006 masuk melalui PR #20. Resource lokasi memakai `SitePolicy`, form dan tabel Filament reusable, serta action terpisah untuk membuat, mengubah, dan menghapus lokasi. Validasi dan otorisasi ada di server. Perubahan memakai transaksi dan audit log; relasi petak/kegiatan mencegah penghapusan lokasi yang masih dipakai. Schema `sites` dan foreign key sudah tersedia, sehingga story ini tidak memerlukan migration. Detail acuan Stitch dan batas kesetaraan UI ada di `docs/ui-design.md`.
+
+**Belum diterima di `main`:** pekerjaan M04 HAP-16/17/18, M07 HAP-26/27, dan M10 HAP-34/35 masih perlu memenuhi acceptance dan tes masing-masing. PR #12, #14, dan #15 ditutup tanpa merge. Pemilik mempertahankan commit unik di branch personal, menyinkronkan `main`, meninjau temuan lama yang masih berlaku, lalu membuka PR pengganti untuk review dan CI baru. Cakupan HAP-18 perlu dipastikan dengan pemilik modul.
 
 **Belum dianggap selesai:** story lain yang masih To Do, filter ownership untuk setiap Resource, workflow transaksi di modul yang belum diterima, upload bukti privat, dashboard berisi metrik, layar Stitch yang belum diimplementasikan, deployment, dan integrasi notifikasi. Pekerjaan ini masuk ke story M01-M15; fitur tidak dianggap selesai hanya karena tabel/model atau shell panel tersedia.
 

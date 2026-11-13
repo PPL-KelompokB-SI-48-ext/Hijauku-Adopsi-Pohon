@@ -17,7 +17,7 @@ class ProgramCreationTest extends DuskTestCase
         $endsOnValue = $endsOn->toDateString();
 
         $this->browse(function (Browser $browser) use ($programName, $startsOnValue, $endsOnValue, $startsOn, $endsOn): void {
-            $browser->visit('/app/login')
+            $browser->visit('/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
                 ->click('form button[type="submit"]')
@@ -49,9 +49,11 @@ class ProgramCreationTest extends DuskTestCase
         $inputSelector = json_encode($input, JSON_THROW_ON_ERROR);
         $calendarDaySelector = $calendarPanel.' .fi-fo-date-time-picker-calendar-day[data-date="'.$date.'"]';
 
+        $browser->waitUntil("document.querySelector({$inputSelector})?.parentElement?._x_dataStack?.length > 0", 10);
         $browser->click($input);
 
         $browser->waitUntil("document.querySelector({$inputSelector})?.getAttribute('aria-expanded') === 'true'", 10);
+        $browser->waitFor($calendarDaySelector, 10);
 
         $browser->click($calendarDaySelector);
 

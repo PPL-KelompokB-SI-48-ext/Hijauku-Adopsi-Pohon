@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Auth\Http\Responses\SharedLogoutResponse;
 use App\Models\Activity;
 use App\Models\ActivityLog;
 use App\Models\ActivityRegistration;
@@ -33,9 +34,15 @@ use App\Policies\FieldAssignmentPolicy;
 use App\Policies\GrowthObservationPolicy;
 use App\Policies\ManagerOnlyPolicy;
 use App\Policies\ProgramPolicy;
+use App\Policies\SitePolicy;
 use App\Policies\TreeIssuePolicy;
+use Filament\Auth\Http\Responses\Contracts\LogoutResponse as LogoutResponseContract;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(LogoutResponseContract::class, SharedLogoutResponse::class);
     }
 
     /**
@@ -52,6 +59,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('shared-login', function (Request $request): Limit {
+            $identifier = Str::lower(trim((string) $request->input('email')));
+
+            return Limit::perMinute(5)->by(Str::transliterate($identifier.'|'.$request->ip()));
+        });
+
         $managerOnlyModels = [
             Activity::class,
             ActivityLog::class,
@@ -73,6 +86,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::policy(Program::class, ProgramPolicy::class);
+        Gate::policy(Site::class, SitePolicy::class);
         Gate::policy(Activity::class, ActivityPolicy::class);
 
         Gate::policy(ActivityRegistration::class, ActivityRegistrationPolicy::class);

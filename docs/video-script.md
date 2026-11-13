@@ -6,6 +6,8 @@
 
 Gunakan Canva yang sudah direvisi sebagai visual. Naskah ini membahas ide dan rancangan, bukan menyatakan semua fitur selesai. Baca dengan bahasa sendiri, beri jeda saat berpindah modul, dan tunjuk bagian UI yang sedang dijelaskan. HJK adalah ID kebutuhan; HAP adalah issue Jira yang menautkan pekerjaan dan commit.
 
+Pembagian sprint dalam naskah ini mengikuti rancangan proposal versi 25 Oktober. Jadwal backlog kerja yang diperbarui pada 11 November ada di [task-schedule.md](task-schedule.md); jangan memakai pembagian sprint naskah ini sebagai pengganti jadwal Jira.
+
 Target latihan sekitar 15-18 menit, bukan ketentuan durasi dari dosen. Sesuaikan jika ada batas video resmi. Yoga membuka slide 1-6 dan menutup slide 27; tiap anggota menjelaskan satu slide tanggung jawab dan tiga slide modulnya. Pada setiap modul, sebut tiga PBI dan tunjuk contoh alur di mockup.
 
 ## Slide 1 - Yoga | Pembuka

@@ -66,7 +66,7 @@ Stage hanya file yang memang menjadi bagian perubahan Anda. Hindari git add . ag
 
 ## 4. Sinkronkan branch dan selesaikan konflik
 
-Pemilik branch menyinkronkan branch personal dengan `main` terbaru setelah PR digabung dan sebelum melanjutkan pekerjaan. Pemilik branch bertanggung jawab menyelesaikan konflik; jangan meminta reviewer menyelesaikannya.
+Pemilik branch menyinkronkan branch personal dengan `main` terbaru setelah PR sprint sebelumnya digabung dan sebelum memulai siklus pekerjaan berikutnya. Pemilik branch bertanggung jawab menyelesaikan konflik; jangan meminta reviewer menyelesaikannya.
 
     git fetch origin
     git merge origin/main
@@ -80,6 +80,8 @@ Jika Git memberi konflik, buka file yang disebut oleh `git status`, pilih hasil 
 Jangan memakai git push --force. Bila konflik menyentuh skema, aturan role, atau kontrak bersama, koordinasikan keputusan dengan PM sebelum memilih hasilnya.
 
 Selesaikan konflik pada branch personal, jalankan pemeriksaan yang relevan, lalu push hasilnya. Jangan memakai `git push --force`. Reviewer memberi masukan; ia tidak mengambil alih branch pemilik.
+
+CI berjalan saat branch personal di-push, saat PR dibuka atau diperbarui, dan setelah perubahan masuk ke `main`. Sebelum meminta review atau merge, sinkronkan branch dengan `main` terbaru dan tunggu pemeriksaan PR terbaru lulus. Urutan lengkap dan cara membaca hasilnya ada di [panduan CI dan sinkronisasi branch](docs/ci-workflow.md).
 
 ## 5. Tutup story di Jira dan siapkan PR sprint
 
@@ -111,8 +113,9 @@ Anggota meminta review dari @mygads dan tidak merge PR sendiri. Satu PR menghubu
 ## 7. Review dan merge
 
 - CI wajib hijau.
+- Branch PR wajib sudah mengikuti `main` terbaru. Jika PR lain lebih dulu masuk, pemilik memperbarui branch, menyelesaikan konflik, lalu menunggu CI baru dan meminta review ulang.
 - PR anggota wajib mendapat satu approval dari PM.
-- PR yang dibuat PM tidak memerlukan approval; PM memakai admin bypass hanya setelah CI lulus.
+- Kebijakan tim membolehkan PR yang dibuat PM tanpa self-approval, lalu PM dapat memakai admin bypass setelah CI lulus. Periksa gate pada PR karena aturan GitHub yang aktif bisa tetap meminta satu approval; jangan menganggap bypass sudah terjadi sebelum status PR mengonfirmasinya.
 - Selesaikan semua komentar dan percakapan review. Penulis memperbaiki kode dan menyelesaikan konflik pada branch personalnya.
 - Hanya PM yang menggabungkan PR ke `main`. Riwayat PR repo saat ini memakai merge commit; pertahankan cara itu agar branch personal dapat disinkronkan tanpa force push.
 - Jangan hapus branch personal setelah merge. Tarik `main` terbaru ke branch personal sebelum mengambil story berikutnya.
