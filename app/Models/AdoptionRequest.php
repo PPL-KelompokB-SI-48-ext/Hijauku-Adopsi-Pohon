@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AdoptionRequest extends Model
 {
@@ -33,5 +34,10 @@ class AdoptionRequest extends Model
     public function allocation(): HasOne
     {
         return $this->hasOne(TreeAdoptionAllocation::class, 'request_id');
+    }
+
+    public function activityLogs(): MorphMany
+    {
+        return $this->morphMany(ActivityLog::class, 'subject');
     }
 }
