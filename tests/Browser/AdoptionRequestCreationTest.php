@@ -25,16 +25,20 @@ class AdoptionRequestCreationTest extends DuskTestCase
         $treeOption = '[role="option"][data-value="'.$tree->getKey().'"]';
         $treeCode = $tree->code;
 
-        $this->browse(function (Browser $browser) use ($reason, $treeOption, $treeCode): void {
-            $browser->visit('/warga/login')
-                ->type('input[type="email"]', 'warga@hijauku.test')
-                ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
-                ->press('Masuk')
-                ->waitForLocation('/warga')
+        $this->browse(function (Browser $browser) use (
+            $citizen,
+            $reason,
+            $treeOption,
+            $treeCode
+        ): void {
+            $browser->loginAs($citizen)
                 ->visit('/warga/adoption-requests/create')
                 ->waitFor('button[aria-haspopup="listbox"]')
                 ->click('button[aria-haspopup="listbox"]')
-                ->waitUntil("document.querySelector('input[role=\"combobox\"]')?.getBoundingClientRect().width > 0", 10)
+                ->waitUntil(
+                    "document.querySelector('input[role=\"combobox\"]')?.getBoundingClientRect().width > 0",
+                    10
+                )
                 ->type('input[role="combobox"]', $treeCode)
                 ->waitUntil(
                     'document.querySelector('.json_encode($treeOption, JSON_THROW_ON_ERROR).') !== null',
