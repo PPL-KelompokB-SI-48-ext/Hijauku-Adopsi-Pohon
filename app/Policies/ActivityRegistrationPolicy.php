@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActivityRegistrationPolicy extends ManagerOnlyPolicy
 {
+    protected function managerRestrictedAbilities(): array
+    {
+        return ['create', 'update', 'delete', 'restore', 'forceDelete'];
+    }
+
     public function viewAny(User $user): bool
     {
         return $user->isCitizen();
