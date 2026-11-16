@@ -85,14 +85,14 @@ class CreateCareRecord
             $record->performed_on = $data['performed_on'];
             $record->action = $data['action'];
             $record->photo_path = $photoPath;
-            $record->status = 'draft';
+            $record->status = $attributes['status'] ?? 'submitted';
             $record->save();
 
             $record->activityLogs()->create([
                 'actor_id' => $actor->getKey(),
                 'action' => 'care_record.created',
                 'from_status' => null,
-                'to_status' => 'draft',
+                'to_status' => $record->status,
                 'metadata' => [
                     'plan_id' => $record->plan_id,
                     'has_photo' => $photoPath !== null,

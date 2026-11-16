@@ -140,7 +140,7 @@ class CareRecordCreationTest extends TestCase
             'id' => $record->id,
             'tree_id' => $tree->id,
             'performed_by' => $staff->id,
-            'status' => 'draft',
+            'status' => 'submitted',
         ]);
 
         $this->assertDatabaseHas('activity_logs', [
@@ -148,7 +148,7 @@ class CareRecordCreationTest extends TestCase
             'action' => 'care_record.created',
             'subject_type' => CareRecord::class,
             'subject_id' => $record->getKey(),
-            'to_status' => 'draft',
+            'to_status' => 'submitted',
         ]);
     }
 
@@ -176,7 +176,7 @@ class CareRecordCreationTest extends TestCase
         ]);
 
         $this->assertSame($plan->id, $record->plan_id);
-        $this->assertSame('draft', $record->status);
+        $this->assertSame('submitted', $record->status);
     }
 
     public function test_field_staff_cannot_create_record_for_unassigned_tree(): void
