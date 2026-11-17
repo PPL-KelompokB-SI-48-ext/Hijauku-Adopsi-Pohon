@@ -31,9 +31,9 @@ class ReturnCareRecord
             ]);
         }
 
-        if ($record->status !== 'submitted') {
+        if (! in_array($record->status, ['submitted', 'verified'], true)) {
             throw ValidationException::withMessages([
-                'status' => 'Hanya realisasi perawatan berstatus diajukan yang dapat dikembalikan.',
+                'status' => 'Hanya realisasi perawatan berstatus diajukan atau terverifikasi yang dapat dikembalikan.',
             ]);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources\CareRecords\Tables;
 
+use App\Actions\CareRecords\CorrectCareRecord;
 use App\Actions\CareRecords\ReturnCareRecord;
 use App\Actions\CareRecords\VerifyCareRecord;
 use App\Models\CareRecord;
@@ -193,7 +194,7 @@ class CareRecordsTable
                             ->send();
                     }),
 
-                // 3. Aksi Kembalikan / Tolak (AC 1, AC 2 & AC 3)
+                // 3. Aksi Kembalikan / Tolak (AC 1, AC 2 & AC 3, HJK-042: Realisasi bermasalah)
                 Action::make('return')
                     ->label('Kembalikan')
                     ->icon(Heroicon::OutlinedXMark)
@@ -201,7 +202,7 @@ class CareRecordsTable
                     ->outlined()
                     ->color('danger')
                     ->size('xs')
-                    ->visible(fn (CareRecord $record): bool => auth()->user()?->can('verify', $record) && $record->status === 'submitted')
+                    ->visible(fn (CareRecord $record): bool => auth()->user()?->can('verify', $record) && in_array($record->status, ['submitted', 'verified'], true))
                     ->modalHeading('Kembalikan Realisasi Perawatan')
                     ->modalDescription('Tuliskan catatan alasan pengembalian/penolakan agar petugas dapat membaca dan memperbaiki laporan.')
                     ->modalSubmitActionLabel('Kembalikan Laporan')
@@ -224,6 +225,53 @@ class CareRecordsTable
                         Notification::make()
                             ->title('Realisasi perawatan dikembalikan kepada petugas.')
                             ->warning()
+                            ->send();
+                    }),
+
+                // 4. Aksi Koreksi (HJK-042 AC 1: Data terverifikasi dikoreksi via keputusan tercatat)
+                Action::make('correct')
+                    ->label('Koreksi')
+                    ->icon(Heroicon::OutlinedPencilSquare)
+                    ->button()
+                    ->outlined()
+                    ->color('gray')
+                    ->size('xs')
+                    ->visible(fn (CareRecord $record): bool => auth()->user()?->can('update', $record) && $record->status === 'verified')
+                    ->modalHeading('Koreksi Realisasi Perawatan Terverifikasi')
+                    ->modalDescription('Perubahan data terverifikasi wajib menyertakan alasan keputusan dan akan dicatat dalam riwayat audit.')
+                    ->modalSubmitActionLabel('Simpan Keputusan Koreksi')
+                    ->form([
+                        DatePicker::make('performed_on')
+                            ->label('Tanggal Pelaksanaan')
+                            ->default(fn (CareRecord $record) => $record->performed_on?->format('Y-m-d'))
+                            ->required(),
+
+                        Textarea::make('action')
+                            ->label('Tindakan yang Dilaksanakan')
+                            ->default(fn (CareRecord $record) => $record->action)
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(1000)
+                            ->rows(3),
+
+                        Textarea::make('reason')
+                            ->label('Alasan Keputusan Koreksi')
+                            ->placeholder('Contoh: Penyesuaian deskripsi volume pupuk sesuai bukti nota lapangan...')
+                            ->required()
+                            ->minLength(5)
+                            ->maxLength(1000)
+                            ->rows(3)
+                            ->helperText('Alasan keputusan wajib diisi dan akan dicatat dalam audit log sistem (bukan edit diam-diam).'),
+                    ])
+                    ->action(function (CareRecord $record, array $data): void {
+                        $actor = auth()->user();
+                        abort_unless($actor instanceof User, 403);
+
+                        app(CorrectCareRecord::class)->handle($actor, $record, $data);
+
+                        Notification::make()
+                            ->title('Data realisasi perawatan berhasil dikoreksi dengan keputusan tercatat.')
+                            ->success()
                             ->send();
                     }),
             ])
