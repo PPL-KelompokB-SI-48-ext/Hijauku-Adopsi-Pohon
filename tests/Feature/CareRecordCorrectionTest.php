@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Actions\CareRecords\CorrectCareRecord;
 use App\Actions\CareRecords\ReturnCareRecord;
+use App\Actions\CareRecords\VerifyCareRecord;
 use App\Enums\UserRole;
 use App\Filament\Manager\Resources\CareRecords\Pages\ListCareRecords as ManagerListCareRecords;
 use App\Models\CareRecord;
@@ -219,5 +220,63 @@ class CareRecordCorrectionTest extends TestCase
 
         $fresh = $record->fresh();
         $this->assertSame('Pemupukan diperbarui dan disiram air secukupnya.', $fresh->action);
+    }
+
+    // ------------------------------------------------------------------ Tahap 2: Riwayat verifikasi bisa diaudit
+
+    public function test_full_lifecycle_generates_auditable_verification_trail(): void
+    {
+        $staff = $this->fieldStaff();
+        $manager = $this->manager();
+        $tree = $this->createTree('PH-AUDIT-01');
+
+        // 1. Dibuat oleh petugas
+        $record = CareRecord::query()->create([
+            'tree_id' => $tree->id,
+            'performed_by' => $staff->id,
+            'performed_on' => '2026-11-12',
+            'action' => 'Pemupukan dasar.',
+            'status' => 'submitted',
+        ]);
+        $record->activityLogs()->create([
+            'actor_id' => $staff->id,
+            'action' => 'care_record.created',
+            'from_status' => null,
+            'to_status' => 'submitted',
+        ]);
+
+        // 2. Diverifikasi oleh pengelola
+        app(VerifyCareRecord::class)->handle($manager, $record);
+
+        // 3. Dikoreksi oleh pengelola dengan keputusan tercatat
+        app(CorrectCareRecord::class)->handle($manager, $record, [
+            'action' => 'Pemupukan dasar 200 gram.',
+            'reason' => 'Koreksi volume pupuk yang sebenarnya digunakan.',
+        ]);
+
+        // 4. Dikembalikan karena ada temuan masalah pada pohon
+        app(ReturnCareRecord::class)->handle($manager, $record, [
+            'review_note' => 'Pohon menunjukkan gejala daun menguning pasca pemupukan, mohon cek keasaman tanah.',
+        ]);
+
+        // Verifikasi relasi auditTrail
+        $trail = $record->auditTrail()->get();
+        $this->assertCount(4, $trail);
+        $this->assertSame('care_record.created', $trail[0]->action);
+        $this->assertSame('care_record.verified', $trail[1]->action);
+        $this->assertSame('care_record.corrected', $trail[2]->action);
+        $this->assertSame('care_record.returned', $trail[3]->action);
+
+        // Verifikasi getAuditSummary
+        $summary = $record->getAuditSummary();
+        $this->assertCount(4, $summary);
+
+        $this->assertSame('Laporan Diajukan', $summary[0]['action']);
+        $this->assertSame('Verifikasi Diterima', $summary[1]['action']);
+        $this->assertSame('Koreksi Data Tercatat', $summary[2]['action']);
+        $this->assertSame('Dikembalikan untuk Perbaikan', $summary[3]['action']);
+
+        $this->assertSame('Koreksi volume pupuk yang sebenarnya digunakan.', $summary[2]['note']);
+        $this->assertSame('Pohon menunjukkan gejala daun menguning pasca pemupukan, mohon cek keasaman tanah.', $summary[3]['note']);
     }
 }

@@ -8,12 +8,14 @@ use App\Models\Tree;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class CareRecordsTable
@@ -176,6 +178,52 @@ class CareRecordsTable
                             ->disabled()
                             ->columnSpanFull()
                             ->visible(fn (CareRecord $record): bool => ! empty($record->review_note)),
+
+                        Placeholder::make('audit_trail')
+                            ->label('Riwayat Audit & Verifikasi')
+                            ->columnSpanFull()
+                            ->content(function (CareRecord $record): HtmlString {
+                                $logs = $record->getAuditSummary();
+                                if (empty($logs)) {
+                                    return new HtmlString('<p class="text-xs text-gray-500 italic">Belum ada riwayat audit tercatat.</p>');
+                                }
+
+                                $html = '<div class="space-y-2 mt-1">';
+                                foreach ($logs as $log) {
+                                    $badgeColor = match ($log['to_status']) {
+                                        'verified' => 'background:#dcfce7; color:#166534; border:1px solid #bbf7d0;',
+                                        'returned' => 'background:#fee2e2; color:#991b1b; border:1px solid #fecaca;',
+                                        'submitted' => 'background:#fef3c7; color:#92400e; border:1px solid #fde68a;',
+                                        default => 'background:#f3f4f6; color:#374151; border:1px solid #e5e7eb;',
+                                    };
+
+                                    $noteHtml = $log['note'] ? '<div class="text-xs mt-1 text-gray-600 bg-gray-50 p-2 rounded border border-gray-100"><strong>Catatan / Alasan:</strong> '.e($log['note']).'</div>' : '';
+
+                                    $html .= sprintf(
+                                        '<div class="p-2.5 rounded-lg border border-gray-200 bg-white shadow-xs">
+                                            <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
+                                                <span class="font-medium text-gray-700">%s (%s)</span>
+                                                <span>%s</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <span class="font-semibold text-xs text-gray-800">%s</span>
+                                                <span class="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full" style="%s">%s</span>
+                                            </div>
+                                            %s
+                                        </div>',
+                                        e($log['actor']),
+                                        e($log['role']),
+                                        e($log['time']),
+                                        e($log['action']),
+                                        $badgeColor,
+                                        e(ucfirst($log['to_status'] ?? '-')),
+                                        $noteHtml
+                                    );
+                                }
+                                $html .= '</div>';
+
+                                return new HtmlString($html);
+                            }),
                     ]),
             ])
             ->emptyStateHeading('Belum ada realisasi perawatan')

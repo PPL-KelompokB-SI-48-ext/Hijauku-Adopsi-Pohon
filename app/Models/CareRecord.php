@@ -42,6 +42,46 @@ class CareRecord extends Model
     }
 
     /**
+     * Riwayat audit verifikasi dan perubahan keputusan secara kronologis.
+     */
+    public function auditTrail(): MorphMany
+    {
+        return $this->activityLogs()->with('actor')->orderBy('created_at', 'asc');
+    }
+
+    /**
+     * Ringkasan kronologis jejak audit untuk keperluan verifikasi dan audit sistem.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function getAuditSummary(): array
+    {
+        return $this->activityLogs()
+            ->with('actor')
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->map(function (ActivityLog $log): array {
+                return [
+                    'time' => $log->created_at?->format('d M Y H:i:s'),
+                    'actor' => $log->actor?->name ?? 'Sistem',
+                    'role' => $log->actor?->role instanceof \BackedEnum ? $log->actor->role->value : (string) ($log->actor?->role ?? '-'),
+                    'action' => match ($log->action) {
+                        'care_record.created' => 'Laporan Diajukan',
+                        'care_record.verified' => 'Verifikasi Diterima',
+                        'care_record.returned' => 'Dikembalikan untuk Perbaikan',
+                        'care_record.corrected' => 'Koreksi Data Tercatat',
+                        default => $log->action,
+                    },
+                    'from_status' => $log->from_status,
+                    'to_status' => $log->to_status,
+                    'note' => $log->metadata['decision_reason'] ?? $log->metadata['reason'] ?? $log->metadata['note'] ?? null,
+                    'changes' => $log->metadata['changes'] ?? null,
+                ];
+            })
+            ->all();
+    }
+
+    /**
      * Scope: only records belonging to a specific field staff actor.
      */
     public function scopeForPerformer(Builder $query, User|int $user): Builder
