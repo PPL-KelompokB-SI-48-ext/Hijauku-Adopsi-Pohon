@@ -61,4 +61,11 @@ class CareRecordPolicy extends ManagerOnlyPolicy
             && $user->isManager()
             && (int) $model->performed_by !== (int) $user->getKey();
     }
+
+    public function resubmit(User $user, CareRecord $record): bool
+    {
+        return $user->isFieldStaff()
+            && (int) $record->performed_by === (int) $user->getKey()
+            && $record->status === 'returned';
+    }
 }

@@ -70,6 +70,7 @@ class CareRecord extends Model
                         'care_record.verified' => 'Verifikasi Diterima',
                         'care_record.returned' => 'Dikembalikan untuk Perbaikan',
                         'care_record.corrected' => 'Koreksi Data Tercatat',
+                        'care_record.resubmitted' => 'Diajukan Ulang setelah Perbaikan',
                         default => $log->action,
                     },
                     'from_status' => $log->from_status,

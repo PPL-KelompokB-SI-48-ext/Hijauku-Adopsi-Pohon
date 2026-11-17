@@ -3,9 +3,11 @@
 namespace Tests\Feature;
 
 use App\Actions\CareRecords\CorrectCareRecord;
+use App\Actions\CareRecords\ResubmitCareRecord;
 use App\Actions\CareRecords\ReturnCareRecord;
 use App\Actions\CareRecords\VerifyCareRecord;
 use App\Enums\UserRole;
+use App\Filament\FieldStaff\Resources\CareRecords\Pages\ListCareRecords;
 use App\Filament\Manager\Resources\CareRecords\Pages\ListCareRecords as ManagerListCareRecords;
 use App\Models\CareRecord;
 use App\Models\Plot;
@@ -278,5 +280,113 @@ class CareRecordCorrectionTest extends TestCase
 
         $this->assertSame('Koreksi volume pupuk yang sebenarnya digunakan.', $summary[2]['note']);
         $this->assertSame('Pohon menunjukkan gejala daun menguning pasca pemupukan, mohon cek keasaman tanah.', $summary[3]['note']);
+    }
+
+    // ------------------------------------------------------------------ Tahap 3: Petugas mendapat status yang jelas
+
+    public function test_field_staff_can_resubmit_returned_record_with_corrections(): void
+    {
+        $staff = $this->fieldStaff();
+        $manager = $this->manager();
+        $tree = $this->createTree('PH-RESUBMIT-01');
+
+        $record = CareRecord::query()->create([
+            'tree_id' => $tree->id,
+            'performed_by' => $staff->id,
+            'performed_on' => '2026-11-12',
+            'action' => 'Penyiraman 1 liter.',
+            'status' => 'returned',
+            'verified_by' => $manager->id,
+            'review_note' => 'Penyiraman musim kemarau minimal 5 liter per pohon.',
+        ]);
+
+        $resubmitted = app(ResubmitCareRecord::class)->handle($staff, $record, [
+            'action' => 'Penyiraman diperbanyak menjadi 5 liter di sekeliling perakaran dan diberi mulsa daun.',
+        ]);
+
+        $this->assertSame('submitted', $resubmitted->status);
+        $this->assertSame('Penyiraman diperbanyak menjadi 5 liter di sekeliling perakaran dan diberi mulsa daun.', $resubmitted->action);
+
+        $this->assertDatabaseHas('activity_logs', [
+            'actor_id' => $staff->id,
+            'action' => 'care_record.resubmitted',
+            'subject_id' => $record->id,
+            'from_status' => 'returned',
+            'to_status' => 'submitted',
+        ]);
+    }
+
+    public function test_cannot_resubmit_if_not_returned_status(): void
+    {
+        $staff = $this->fieldStaff();
+        $tree = $this->createTree('PH-RESUBMIT-02');
+
+        $record = CareRecord::query()->create([
+            'tree_id' => $tree->id,
+            'performed_by' => $staff->id,
+            'performed_on' => '2026-11-12',
+            'action' => 'Penyiraman.',
+            'status' => 'submitted',
+        ]);
+
+        $this->expectException(AuthorizationException::class);
+
+        app(ResubmitCareRecord::class)->handle($staff, $record, [
+            'action' => 'Mencoba ajukan ulang padahal belum dikembalikan.',
+        ]);
+    }
+
+    public function test_cannot_resubmit_by_different_staff(): void
+    {
+        $staffA = $this->fieldStaff();
+        $staffB = $this->fieldStaff();
+        $tree = $this->createTree('PH-RESUBMIT-03');
+
+        $record = CareRecord::query()->create([
+            'tree_id' => $tree->id,
+            'performed_by' => $staffA->id,
+            'performed_on' => '2026-11-12',
+            'action' => 'Penyiraman.',
+            'status' => 'returned',
+            'review_note' => 'Perbaiki foto.',
+        ]);
+
+        $this->expectException(AuthorizationException::class);
+
+        app(ResubmitCareRecord::class)->handle($staffB, $record, [
+            'action' => 'Staff lain mencoba ajukan ulang.',
+        ]);
+    }
+
+    public function test_field_staff_can_execute_resubmit_via_livewire_action(): void
+    {
+        $staff = $this->fieldStaff();
+        $manager = $this->manager();
+        $tree = $this->createTree('PH-RESUBMIT-04');
+
+        $record = CareRecord::query()->create([
+            'tree_id' => $tree->id,
+            'performed_by' => $staff->id,
+            'performed_on' => '2026-11-12',
+            'action' => 'Pemangkasan dahan bawah.',
+            'status' => 'returned',
+            'verified_by' => $manager->id,
+            'review_note' => 'Harap rapikan potongan bekas pangkasan.',
+        ]);
+
+        $this->actingAs($staff);
+        Filament::setCurrentPanel('petugas');
+
+        Livewire::test(ListCareRecords::class)
+            ->assertTableActionVisible('resubmit', $record)
+            ->callTableAction('resubmit', $record, [
+                'action' => 'Pemangkasan dahan bawah dan pembersihan seluruh bekas potongan ranting.',
+                'performed_on' => '2026-11-13',
+            ])
+            ->assertHasNoTableActionErrors();
+
+        $fresh = $record->fresh();
+        $this->assertSame('submitted', $fresh->status);
+        $this->assertSame('Pemangkasan dahan bawah dan pembersihan seluruh bekas potongan ranting.', $fresh->action);
     }
 }
