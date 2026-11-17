@@ -2,7 +2,12 @@
 
 namespace App\Filament\Citizen\Resources\Registrations\Tables;
 
+use App\Actions\Activities\CancelActivityRegistration;
 use App\Models\ActivityRegistration;
+use App\Models\User;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Textarea;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -49,6 +54,40 @@ class RegistrationsTable
                     ->dateTime('d M Y, H:i \W\I\B')
                     ->placeholder('-')
                     ->sortable(),
+            ])
+            ->actions([
+                Action::make('cancelRegistration')
+                    ->label('Tarik Pendaftaran')
+                    ->icon('heroicon-o-x-circle')
+                    ->color('danger')
+                    ->visible(fn (ActivityRegistration $record): bool => $record->status === 'registered'
+                        && ($record->activity?->starts_at?->isFuture() ?? false)
+                        && $record->activity?->status !== 'cancelled'
+                        && (auth()->user()?->can('cancel', $record) ?? false))
+                    ->requiresConfirmation()
+                    ->modalHeading('Tarik Pendaftaran Kegiatan')
+                    ->modalDescription(fn (ActivityRegistration $record): string => "Apakah Anda yakin ingin menarik pendaftaran pada kegiatan \"{$record->activity?->title}\"? Kuota pendaftaran akan kembali tersedia untuk warga lain.")
+                    ->modalSubmitActionLabel('Ya, Tarik Pendaftaran')
+                    ->form([
+                        Textarea::make('reason')
+                            ->label('Alasan Penarikan (Opsional)')
+                            ->placeholder('Contoh: Berhalangan hadir karena ada keperluan mendesak.')
+                            ->maxLength(500)
+                            ->validationMessages([
+                                'max' => 'Alasan penarikan tidak boleh melebihi 500 karakter.',
+                            ]),
+                    ])
+                    ->action(function (ActivityRegistration $record, array $data): void {
+                        $actor = auth()->user();
+                        abort_unless($actor instanceof User, 403);
+
+                        app(CancelActivityRegistration::class)->handle($actor, $record, $data);
+
+                        Notification::make()
+                            ->title('Pendaftaran kegiatan berhasil ditarik.')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->emptyStateHeading('Belum ada pendaftaran kegiatan')
             ->emptyStateDescription('Anda belum mendaftar pada kegiatan lapangan manapun.')
