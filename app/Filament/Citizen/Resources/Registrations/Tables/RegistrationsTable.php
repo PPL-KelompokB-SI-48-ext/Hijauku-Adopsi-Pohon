@@ -44,6 +44,11 @@ class RegistrationsTable
                         'cancelled' => 'danger',
                         default => 'gray',
                     }),
+                TextColumn::make('attended_at')
+                    ->label('Waktu Kehadiran')
+                    ->dateTime('d M Y, H:i \W\I\B')
+                    ->placeholder('-')
+                    ->sortable(),
             ])
             ->emptyStateHeading('Belum ada pendaftaran kegiatan')
             ->emptyStateDescription('Anda belum mendaftar pada kegiatan lapangan manapun.')

@@ -221,6 +221,19 @@ class ActivitiesTable
                                 ->danger()
                                 ->send();
                         }),
+
+                    Action::make('attendance')
+                        ->label('Kehadiran Peserta')
+                        ->icon('heroicon-o-clipboard-document-check')
+                        ->color('info')
+                        ->visible(fn (): bool => auth()->user()?->isManager() ?? false)
+                        ->url(fn (Activity $record): string => \App\Filament\Manager\Resources\Registrations\RegistrationResource::getUrl('index', [
+                            'tableFilters' => [
+                                'activity_id' => [
+                                    'value' => $record->getKey(),
+                                ],
+                            ],
+                        ])),
                 ])
                     ->icon('heroicon-m-ellipsis-horizontal')
                     ->tooltip('Aksi Kegiatan'),
