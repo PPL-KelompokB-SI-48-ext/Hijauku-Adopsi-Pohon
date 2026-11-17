@@ -10,7 +10,7 @@ class ActivityRegistrationPolicy extends ManagerOnlyPolicy
 {
     protected function managerRestrictedAbilities(): array
     {
-        return ['create', 'delete', 'restore', 'forceDelete'];
+        return ['create', 'cancel', 'withdraw', 'delete', 'restore', 'forceDelete'];
     }
 
     public function viewAny(User $user): bool
@@ -50,5 +50,15 @@ class ActivityRegistrationPolicy extends ManagerOnlyPolicy
     public function correctAttendance(User $user, ActivityRegistration $registration): bool
     {
         return $user->isManager();
+    }
+
+    public function cancel(User $user, ActivityRegistration $registration): bool
+    {
+        return $user->isCitizen() && (int) $registration->user_id === (int) $user->getKey();
+    }
+
+    public function withdraw(User $user, ActivityRegistration $registration): bool
+    {
+        return $this->cancel($user, $registration);
     }
 }
