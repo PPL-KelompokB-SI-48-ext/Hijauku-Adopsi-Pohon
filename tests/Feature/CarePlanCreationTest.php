@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Actions\CarePlans\CreateCarePlan;
 use App\Enums\UserRole;
 use App\Filament\Manager\Resources\CarePlans\Pages\CreateCarePlan as CreateCarePlanPage;
+use App\Filament\Manager\Resources\CarePlans\Pages\ListCarePlans;
+use App\Models\Activity;
 use App\Models\CarePlan;
 use App\Models\FieldAssignment;
 use App\Models\Plot;
@@ -133,7 +135,7 @@ class CarePlanCreationTest extends TestCase
         $staff = $this->fieldStaff();
         $tree = $this->createTree('PH-002');
 
-        $activity = \App\Models\Activity::query()->create([
+        $activity = Activity::query()->create([
             'site_id' => $tree->plot->site_id,
             'title' => 'Perawatan Rutin',
             'kind' => 'care',
@@ -206,7 +208,7 @@ class CarePlanCreationTest extends TestCase
         $treeB = $this->createTree('PH-102');
         $staff = $this->fieldStaff();
 
-        $activity = \App\Models\Activity::query()->create([
+        $activity = Activity::query()->create([
             'site_id' => $treeB->plot->site_id,
             'title' => 'Perawatan Rutin B',
             'kind' => 'care',
@@ -271,7 +273,7 @@ class CarePlanCreationTest extends TestCase
             'status' => 'draft',
         ]);
 
-        Livewire::test(\App\Filament\Manager\Resources\CarePlans\Pages\ListCarePlans::class)
+        Livewire::test(ListCarePlans::class)
             ->callTableAction('publish', $plan);
 
         $this->assertSame('published', $plan->fresh()->status);
@@ -299,7 +301,7 @@ class CarePlanCreationTest extends TestCase
             'status' => 'draft',
         ]);
 
-        Livewire::test(\App\Filament\Manager\Resources\CarePlans\Pages\ListCarePlans::class)
+        Livewire::test(ListCarePlans::class)
             ->callTableAction('delete_draft', $plan);
 
         $this->assertDatabaseMissing('care_plans', [
@@ -320,7 +322,7 @@ class CarePlanCreationTest extends TestCase
             'status' => 'published',
         ]);
 
-        Livewire::test(\App\Filament\Manager\Resources\CarePlans\Pages\ListCarePlans::class)
+        Livewire::test(ListCarePlans::class)
             ->assertTableActionVisible('view', $publishedPlan)
             ->assertTableActionVisible('edit', $publishedPlan)
             ->assertTableActionHidden('edit_draft', $publishedPlan)
@@ -329,4 +331,3 @@ class CarePlanCreationTest extends TestCase
             ->assertTableActionHidden('delete_more', $publishedPlan);
     }
 }
-
