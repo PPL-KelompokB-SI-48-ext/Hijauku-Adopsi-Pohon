@@ -85,7 +85,7 @@ class CreateCareRecord
             $record->performed_on = $data['performed_on'];
             $record->action = $data['action'];
             $record->photo_path = $photoPath;
-            $record->status = $attributes['status'] ?? 'submitted';
+            $record->status = 'submitted'; // Status awal selalu submitted; tidak membaca input.
             $record->save();
 
             $record->activityLogs()->create([

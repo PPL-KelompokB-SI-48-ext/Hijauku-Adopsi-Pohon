@@ -401,4 +401,39 @@ class CareRecordCreationTest extends TestCase
             ->get('/app/care-plans')
             ->assertForbidden();
     }
+
+    public function test_status_cannot_be_overridden_via_input(): void
+    {
+        // Regresi: petugas tidak boleh melewati verifikasi dengan mengirim status palsu.
+        // Meski 'status' => 'verified' dikirim di attributes, record harus tetap 'submitted'.
+        Storage::fake('private');
+
+        $staff = $this->fieldStaff();
+        $tree = $this->createTree('PH-070');
+        $this->createAssignment($staff, $tree);
+
+        foreach (['verified', 'returned', 'draft'] as $fakeStatus) {
+            $record = app(CreateCareRecord::class)->handle($staff, [
+                'tree_id'      => $tree->id,
+                'plan_id'      => null,
+                'performed_on' => '2026-11-18',
+                'action'       => "Percobaan status palsu: {$fakeStatus}.",
+                'photo'        => null,
+                'status'       => $fakeStatus, // input palsu — harus diabaikan
+            ]);
+
+            $this->assertSame(
+                'submitted',
+                $record->status,
+                "Record seharusnya berstatus 'submitted', bukan '{$fakeStatus}'."
+            );
+
+            $this->assertDatabaseHas('care_records', [
+                'id'     => $record->id,
+                'status' => 'submitted',
+            ]);
+
+            $record->forceDelete();
+        }
+    }
 }
