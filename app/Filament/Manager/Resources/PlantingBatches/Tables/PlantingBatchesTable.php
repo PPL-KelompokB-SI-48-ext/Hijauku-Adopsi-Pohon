@@ -37,7 +37,7 @@ class PlantingBatchesTable
                     ->sortable(),
 
                 TextColumn::make('trees_count')
-                    ->label('Pohon Terdaftar')
+                    ->label('Pohon')
                     ->counts('trees')
                     ->sortable(),
 
@@ -55,7 +55,7 @@ class PlantingBatchesTable
             ])
             ->recordActionsColumnLabel('Aksi')
             ->recordActions([
-                // 1. View Trees (AC 3 HAP-20 / AC 2 HAP-21)
+                // 1. Daftar pohon per kelompok
                 Action::make('viewTrees')
                     ->label('Daftar Pohon')
                     ->icon(Heroicon::OutlinedEye)
@@ -99,18 +99,20 @@ class PlantingBatchesTable
                                                 <tr>
                                                     <th class='py-2 px-3'>Kode Pohon</th>
                                                     <th class='py-2 px-3'>Jenis Pohon</th>
-                                                    <th class='py-2 px-3'>Kondisi Awal</th>
+                                                    <th class='py-2 px-3'>Kondisi</th>
                                                     <th class='py-2 px-3'>Tanggal Tanam</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>{$rows}</tbody>
+                                            <tbody>
+                                                {$rows}
+                                            </tbody>
                                         </table>
                                     </div>
                                 ");
                             }),
                     ]),
 
-                // 2. Edit Action: buka halaman edit untuk koreksi beralasan
+                // 2. Edit kelompok dengan alasan
                 EditAction::make()
                     ->label('Edit')
                     ->button()
@@ -118,7 +120,7 @@ class PlantingBatchesTable
                     ->color('gray')
                     ->size('xs'),
 
-                // 3. Delete Action: hanya tampil jika kelompok belum berisi pohon (AC 3)
+                // 3. Hapus kelompok (hanya tampil jika belum ada pohon terdaftar)
                 DeleteAction::make()
                     ->label('Hapus')
                     ->button()
@@ -127,17 +129,17 @@ class PlantingBatchesTable
                     ->size('xs')
                     ->visible(fn (PlantingBatch $record): bool => (int) $record->trees_count === 0)
                     ->modalHeading('Hapus Kelompok Penanaman')
-                    ->modalDescription(fn (PlantingBatch $record): string => "Hapus kelompok \"{$record->code}\" secara permanen? Kelompok belum memiliki pohon terdaftar.")
+                    ->modalDescription(fn (PlantingBatch $record): string => "Hapus kelompok \"{$record->code}\" secara permanen? Tindakan ini tidak dapat dibatalkan.")
                     ->modalSubmitActionLabel('Ya, Hapus')
                     ->using(function (PlantingBatch $record): bool {
                         $actor = auth()->user();
                         abort_unless($actor instanceof User, 403);
 
                         try {
-                            app(DeletePlantingBatch::class)->handle($actor, $record, 'Dihapus melalui panel pengelola.');
+                            app(DeletePlantingBatch::class)->handle($actor, $record);
 
                             return true;
-                        } catch (ValidationException) {
+                        } catch (ValidationException $e) {
                             return false;
                         }
                     })

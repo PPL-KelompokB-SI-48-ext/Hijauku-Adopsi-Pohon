@@ -9,8 +9,5 @@ class ListPlantingBatches extends ListRecords
 {
     protected static string $resource = PlantingBatchResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [];
-    }
+    protected static ?string $title = 'Kelompok Penanaman';
 }

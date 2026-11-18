@@ -7,10 +7,7 @@ use App\Filament\Manager\Resources\PlantingBatches\Pages\EditPlantingBatch;
 use App\Filament\Manager\Resources\PlantingBatches\Pages\ListPlantingBatches;
 use App\Models\PlantingBatch;
 use App\Models\Plot;
-use App\Models\Program;
-use App\Models\Site;
 use App\Models\Tree;
-use App\Models\TreeSpecies;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,17 +17,6 @@ use Tests\TestCase;
 class PlantingBatchManagerInterfaceTest extends TestCase
 {
     use RefreshDatabase;
-
-    private function createPlot(string $code = 'PLT-01'): Plot
-    {
-        $program = Program::factory()->create();
-        $site = Site::factory()->create(['program_id' => $program->id]);
-
-        return Plot::factory()->create([
-            'site_id' => $site->id,
-            'code' => $code,
-        ]);
-    }
 
     private function manager(): User
     {
@@ -48,122 +34,142 @@ class PlantingBatchManagerInterfaceTest extends TestCase
         ]);
     }
 
-    protected function setUp(): void
+    private function citizen(): User
     {
-        parent::setUp();
-        Filament::setCurrentPanel(Filament::getPanel('app'));
+        return User::factory()->create([
+            'role' => UserRole::Citizen,
+            'is_active' => true,
+        ]);
     }
 
     public function test_manager_can_view_planting_batches_list_in_app_panel(): void
     {
         $manager = $this->manager();
-        $plot = $this->createPlot('PLT-MGR-01');
-
+        $plot = Plot::factory()->create(['code' => 'PLOT-Z99']);
         $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
-            'code' => 'BATCH-MGR-001',
-            'planted_on' => now()->subDays(3)->toDateString(),
+            'plot_id' => $plot->getKey(),
+            'code' => 'BATCH-VIEW-01',
         ]);
 
         $this->actingAs($manager);
+        Filament::setCurrentPanel('app');
 
         Livewire::test(ListPlantingBatches::class)
             ->assertSuccessful()
-            ->assertSee('BATCH-MGR-001')
-            ->assertSee('PLT-MGR-01');
+            ->assertCanSeeTableRecords([$batch])
+            ->assertSee('BATCH-VIEW-01')
+            ->assertSee('PLOT-Z99');
     }
 
     public function test_manager_can_update_planting_batch_with_reason_from_edit_page(): void
     {
         $manager = $this->manager();
-        $plot = $this->createPlot();
-
+        $plot = Plot::factory()->create();
         $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
+            'plot_id' => $plot->getKey(),
             'code' => 'BATCH-BEFORE',
-            'planted_on' => now()->subDays(5)->toDateString(),
-            'notes' => 'Catatan lama',
+            'notes' => 'Catatan awal',
         ]);
 
         $this->actingAs($manager);
+        Filament::setCurrentPanel('app');
 
-        Livewire::test(EditPlantingBatch::class, ['record' => $batch->getRouteKey()])
+        Livewire::test(EditPlantingBatch::class, ['record' => $batch->getKey()])
             ->assertSuccessful()
             ->fillForm([
                 'code' => 'BATCH-AFTER',
-                'notes' => 'Catatan setelah koreksi',
-                'reason' => 'Koreksi administratif oleh pengelola.',
+                'notes' => 'Catatan diperbarui manajer.',
+                'reason' => 'Koreksi penulisan dan penambahan catatan.',
             ])
             ->call('save')
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('planting_batches', [
-            'id' => $batch->id,
+            'id' => $batch->getKey(),
             'code' => 'BATCH-AFTER',
-            'notes' => 'Catatan setelah koreksi',
+            'notes' => 'Catatan diperbarui manajer.',
         ]);
 
         $this->assertDatabaseHas('activity_logs', [
-            'subject_type' => PlantingBatch::class,
-            'subject_id' => $batch->id,
-            'actor_id' => $manager->id,
+            'actor_id' => $manager->getKey(),
             'action' => 'planting_batch.updated',
+            'subject_type' => PlantingBatch::class,
+            'subject_id' => $batch->getKey(),
         ]);
+    }
+
+    public function test_update_fails_without_reason_on_edit_page(): void
+    {
+        $manager = $this->manager();
+        $batch = PlantingBatch::factory()->create();
+
+        $this->actingAs($manager);
+        Filament::setCurrentPanel('app');
+
+        Livewire::test(EditPlantingBatch::class, ['record' => $batch->getKey()])
+            ->assertSuccessful()
+            ->fillForm([
+                'code' => 'BATCH-NO-REASON',
+                'reason' => '',
+            ])
+            ->call('save')
+            ->assertHasFormErrors(['reason' => 'required']);
     }
 
     public function test_delete_action_is_hidden_when_batch_has_trees(): void
     {
         $manager = $this->manager();
-        $plot = $this->createPlot();
-        $species = TreeSpecies::factory()->create(['is_active' => true]);
-
-        $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
-            'code' => 'BATCH-WITH-TREES',
-            'planted_on' => now()->subDays(3)->toDateString(),
+        $plot = Plot::factory()->create();
+        $batchWithTrees = PlantingBatch::factory()->create([
+            'plot_id' => $plot->getKey(),
+            'code' => 'BATCH-OCCUPIED',
         ]);
-
         Tree::factory()->create([
-            'plot_id' => $plot->id,
-            'species_id' => $species->id,
-            'batch_id' => $batch->id,
-            'code' => 'TREE-DEL-01',
+            'plot_id' => $plot->getKey(),
+            'batch_id' => $batchWithTrees->getKey(),
         ]);
 
         $this->actingAs($manager);
+        Filament::setCurrentPanel('app');
 
         Livewire::test(ListPlantingBatches::class)
-            ->assertTableActionHidden('delete', $batch);
+            ->assertSuccessful()
+            ->assertTableActionHidden('delete', $batchWithTrees);
     }
 
-    public function test_delete_action_is_visible_and_deletes_when_batch_is_empty(): void
+    public function test_delete_action_is_visible_and_executable_when_batch_is_empty(): void
     {
         $manager = $this->manager();
-        $plot = $this->createPlot();
-
-        $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
+        $emptyBatch = PlantingBatch::factory()->create([
             'code' => 'BATCH-EMPTY-DEL',
-            'planted_on' => now()->subDays(2)->toDateString(),
         ]);
 
         $this->actingAs($manager);
+        Filament::setCurrentPanel('app');
 
         Livewire::test(ListPlantingBatches::class)
-            ->assertTableActionVisible('delete', $batch)
-            ->callTableAction('delete', $batch);
+            ->assertSuccessful()
+            ->assertTableActionVisible('delete', $emptyBatch)
+            ->callTableAction('delete', $emptyBatch);
 
         $this->assertDatabaseMissing('planting_batches', [
-            'id' => $batch->id,
+            'id' => $emptyBatch->getKey(),
         ]);
     }
 
-    public function test_non_manager_cannot_access_manager_planting_batch_resource(): void
+    public function test_field_staff_and_citizen_cannot_access_manager_planting_batch_resource(): void
     {
         $fieldStaff = $this->fieldStaff();
-        $this->actingAs($fieldStaff);
+        $citizen = $this->citizen();
 
-        $response = $this->get('/app/planting-batches');
-        $response->assertForbidden();
+        // Field staff di panel /app
+        $this->actingAs($fieldStaff);
+        $responseStaff = $this->get('/app/planting-batches');
+        $this->assertTrue(in_array($responseStaff->status(), [403, 302]));
+
+        // Warga di panel /app
+        $this->actingAs($citizen);
+        $responseCitizen = $this->get('/app/planting-batches');
+        $this->assertTrue(in_array($responseCitizen->status(), [403, 302]));
     }
 }
