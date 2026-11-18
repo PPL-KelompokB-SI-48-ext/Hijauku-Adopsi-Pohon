@@ -34,12 +34,12 @@ class PlantingBatchPolicy
 
     public function update(User $user, PlantingBatch $batch): bool
     {
-        return $user->role === UserRole::FieldStaff;
+        return $user->isManager() || $user->role === UserRole::FieldStaff;
     }
 
     public function delete(User $user, PlantingBatch $batch): bool
     {
-        return false;
+        return $user->isManager() && $batch->trees()->doesntExist();
     }
 }
 
