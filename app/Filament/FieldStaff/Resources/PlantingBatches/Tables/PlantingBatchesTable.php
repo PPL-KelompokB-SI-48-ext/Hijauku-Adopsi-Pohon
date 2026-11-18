@@ -9,6 +9,7 @@ use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -126,6 +127,7 @@ class PlantingBatchesTable
                             ->required()
                             ->searchable()
                             ->preload()
+                            ->live()
                             ->options(function (PlantingBatch $record) {
                                 return Tree::query()
                                     ->where('plot_id', $record->plot_id)
@@ -140,6 +142,25 @@ class PlantingBatchesTable
                                     });
                             })
                             ->helperText('Hanya pohon pada petak yang sama yang ditampilkan.'),
+
+                        Textarea::make('reason')
+                            ->label('Alasan Pemindahan / Koreksi')
+                            ->rows(2)
+                            ->placeholder('Wajib diisi jika terdapat pohon yang dipindahkan dari kelompok lain...')
+                            ->helperText('Jika memilih pohon yang saat ini terdaftar di kelompok lain, alasan pemindahan wajib diisi untuk riwayat audit.')
+                            ->required(function ($get) {
+                                $selectedTreeIds = (array) ($get('tree_ids') ?? []);
+                                if (empty($selectedTreeIds)) {
+                                    return false;
+                                }
+
+                                return Tree::whereIn('id', $selectedTreeIds)
+                                    ->whereNotNull('batch_id')
+                                    ->exists();
+                            })
+                            ->validationMessages([
+                                'required' => 'Alasan pemindahan wajib diisi karena terdapat pohon yang dipindahkan dari kelompok lain.',
+                            ]),
                     ])
                     ->action(function (PlantingBatch $record, array $data): void {
                         $actor = auth()->user();
@@ -148,7 +169,8 @@ class PlantingBatchesTable
                         app(AssignTreesToPlantingBatch::class)->handle(
                             $actor,
                             $record,
-                            array_map('intval', (array) ($data['tree_ids'] ?? []))
+                            array_map('intval', (array) ($data['tree_ids'] ?? [])),
+                            $data['reason'] ?? null
                         );
                     })
                     ->successNotificationTitle('Pohon berhasil ditambahkan ke kelompok penanaman.'),

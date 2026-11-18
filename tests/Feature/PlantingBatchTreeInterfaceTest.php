@@ -107,4 +107,61 @@ class PlantingBatchTreeInterfaceTest extends TestCase
             'batch_id' => $batch->getKey(),
         ]);
     }
+
+    public function test_creating_tree_fails_when_batch_id_does_not_belong_to_selected_plot(): void
+    {
+        $staff = $this->fieldStaff();
+        $species = TreeSpecies::factory()->create(['is_active' => true]);
+        $plotA = Plot::factory()->create();
+        $plotB = Plot::factory()->create();
+        $batchB = PlantingBatch::factory()->create(['plot_id' => $plotB->getKey()]);
+
+        $this->openFieldStaffPanelAs($staff);
+
+        Livewire::test(CreateTree::class)
+            ->fillForm([
+                'species_id' => $species->getKey(),
+                'plot_id' => $plotA->getKey(),
+                'batch_id' => $batchB->getKey(),
+                'code' => 'PHN-INVALID-PLOT',
+                'planted_on' => now()->toDateString(),
+                'initial_condition' => 'baik',
+            ])
+            ->call('create')
+            ->assertHasFormErrors(['batch_id']);
+    }
+
+    public function test_field_staff_must_provide_reason_when_assigning_tree_from_another_batch(): void
+    {
+        $staff = $this->fieldStaff();
+        $plot = Plot::factory()->create();
+        $batch1 = PlantingBatch::factory()->create(['plot_id' => $plot->getKey()]);
+        $batch2 = PlantingBatch::factory()->create(['plot_id' => $plot->getKey()]);
+
+        $treeFromBatch1 = Tree::factory()->create([
+            'plot_id' => $plot->getKey(),
+            'batch_id' => $batch1->getKey(),
+            'code' => 'TREE-BATCH-1',
+        ]);
+
+        $this->openFieldStaffPanelAs($staff);
+
+        // Jika alasan kosong saat memindahkan dari batch lain, harus error
+        Livewire::test(ListPlantingBatches::class)
+            ->callTableAction('assignTrees', $batch2, data: [
+                'tree_ids' => [$treeFromBatch1->getKey()],
+                'reason' => '',
+            ])
+            ->assertHasTableActionErrors(['reason' => 'required']);
+
+        // Jika alasan diisi, pemindahan berhasil
+        Livewire::test(ListPlantingBatches::class)
+            ->callTableAction('assignTrees', $batch2, data: [
+                'tree_ids' => [$treeFromBatch1->getKey()],
+                'reason' => 'Dipindahkan untuk penyesuaian rotasi perawatan.',
+            ])
+            ->assertHasNoTableActionErrors();
+
+        $this->assertSame($batch2->getKey(), $treeFromBatch1->fresh()->batch_id);
+    }
 }

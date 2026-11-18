@@ -83,8 +83,8 @@ class PlantingBatchTreeGroupingTest extends TestCase
         $staff = $this->fieldStaff();
         $plot = Plot::factory()->create();
 
-        $batch1 = PlantingBatch::factory()->create(['plot_id' => $plot->getKey()]);
-        $batch2 = PlantingBatch::factory()->create(['plot_id' => $plot->getKey()]);
+        $batch1 = PlantingBatch::factory()->create(['plot_id' => $plot->getKey(), 'code' => 'BATCH-SRC']);
+        $batch2 = PlantingBatch::factory()->create(['plot_id' => $plot->getKey(), 'code' => 'BATCH-DST']);
 
         $tree = Tree::factory()->create(['plot_id' => $plot->getKey(), 'batch_id' => $batch1->getKey()]);
 
@@ -92,10 +92,33 @@ class PlantingBatchTreeGroupingTest extends TestCase
         $this->assertSame($batch1->getKey(), $tree->batch_id);
 
         $action = app(AssignTreesToPlantingBatch::class);
-        $action->handle($staff, $batch2, [$tree->getKey()]);
 
-        // Berpindah ke batch2, tidak mungkin di batch1 dan batch2 bersamaan
+        // Tanpa alasan, pemindahan dari batch lain ditolak
+        try {
+            $action->handle($staff, $batch2, [$tree->getKey()]);
+            $this->fail('Harusnya melempar ValidationException jika memindahkan pohon tanpa alasan.');
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('reason', $e->errors());
+        }
+
+        // Dengan alasan, pemindahan berhasil dan mencatat audit di kedua batch
+        $action->handle($staff, $batch2, [$tree->getKey()], 'Pemindahan pohon untuk penataan petak.');
+
         $this->assertSame($batch2->getKey(), $tree->fresh()->batch_id);
+
+        // Audit log pada batch asal (pohon dipindahkan keluar)
+        $this->assertDatabaseHas('activity_logs', [
+            'subject_type' => PlantingBatch::class,
+            'subject_id' => $batch1->getKey(),
+            'action' => 'planting_batch.tree_reassigned',
+        ]);
+
+        // Audit log pada batch tujuan (pohon diterima)
+        $this->assertDatabaseHas('activity_logs', [
+            'subject_type' => PlantingBatch::class,
+            'subject_id' => $batch2->getKey(),
+            'action' => 'planting_batch.trees_assigned',
+        ]);
     }
 
     public function test_field_staff_can_remove_tree_from_batch(): void

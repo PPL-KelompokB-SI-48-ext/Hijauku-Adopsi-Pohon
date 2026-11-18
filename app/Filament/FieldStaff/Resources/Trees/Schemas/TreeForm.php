@@ -38,6 +38,7 @@ class TreeForm
                     ->searchable()
                     ->preload()
                     ->live()
+                    ->afterStateUpdated(fn ($set) => $set('batch_id', null))
                     ->validationMessages([
                         'required' => 'Petak tanam wajib dipilih.',
                     ])
@@ -58,6 +59,13 @@ class TreeForm
                     ->searchable()
                     ->preload()
                     ->nullable()
+                    ->rules([
+                        fn ($get) => \Illuminate\Validation\Rule::exists('planting_batches', 'id')
+                            ->where('plot_id', $get('plot_id')),
+                    ])
+                    ->validationMessages([
+                        'exists' => 'Kelompok penanaman yang dipilih harus berada pada petak yang sama.',
+                    ])
                     ->helperText('Pohon hanya dapat dikelompokkan pada kelompok penanaman di petak yang sama.')
                     ->columnSpanFull(),
 
