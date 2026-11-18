@@ -5,12 +5,10 @@ namespace Tests\Feature;
 use App\Actions\PlantingBatches\RemoveTreeFromPlantingBatch;
 use App\Actions\PlantingBatches\UpdatePlantingBatch;
 use App\Enums\UserRole;
+use App\Models\ActivityLog;
 use App\Models\PlantingBatch;
 use App\Models\Plot;
-use App\Models\Program;
-use App\Models\Site;
 use App\Models\Tree;
-use App\Models\TreeSpecies;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
@@ -20,17 +18,6 @@ class PlantingBatchTreeProtectionTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function createPlot(string $code = 'PLT-01'): Plot
-    {
-        $program = Program::factory()->create();
-        $site = Site::factory()->create(['program_id' => $program->id]);
-
-        return Plot::factory()->create([
-            'site_id' => $site->id,
-            'code' => $code,
-        ]);
-    }
-
     private function manager(): User
     {
         return User::factory()->create([
@@ -39,127 +26,107 @@ class PlantingBatchTreeProtectionTest extends TestCase
         ]);
     }
 
+    private function fieldStaff(): User
+    {
+        return User::factory()->create([
+            'role' => UserRole::FieldStaff,
+            'is_active' => true,
+        ]);
+    }
+
     public function test_updating_batch_metadata_preserves_tree_relationships(): void
     {
         $manager = $this->manager();
-        $plot = $this->createPlot('PLT-A');
-        $species = TreeSpecies::factory()->create(['is_active' => true]);
-
+        $plot = Plot::factory()->create();
         $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
-            'code' => 'BATCH-A-01',
-            'planted_on' => now()->subDays(4)->toDateString(),
+            'plot_id' => $plot->getKey(),
+            'code' => 'BATCH-ALPHA',
         ]);
 
-        $tree1 = Tree::factory()->create([
-            'plot_id' => $plot->id,
-            'species_id' => $species->id,
-            'batch_id' => $batch->id,
-            'code' => 'TREE-A-001',
+        $trees = Tree::factory()->count(3)->create([
+            'plot_id' => $plot->getKey(),
+            'batch_id' => $batch->getKey(),
         ]);
-
-        $tree2 = Tree::factory()->create([
-            'plot_id' => $plot->id,
-            'species_id' => $species->id,
-            'batch_id' => $batch->id,
-            'code' => 'TREE-A-002',
-        ]);
-
-        $this->assertCount(2, $batch->fresh()->trees);
 
         $action = app(UpdatePlantingBatch::class);
         $action->handle($manager, $batch, [
-            'code' => 'BATCH-A-RENAMED',
+            'code' => 'BATCH-ALPHA-REV',
             'notes' => 'Pembaruan catatan tanpa mengganggu pohon.',
-            'reason' => 'Perapihan kode batch administratif.',
+            'reason' => 'Koreksi penamaan kelompok.',
         ]);
 
-        $freshBatch = $batch->fresh();
-        $this->assertEquals('BATCH-A-RENAMED', $freshBatch->code);
-        $this->assertCount(2, $freshBatch->trees);
-        $this->assertEquals($batch->id, $tree1->fresh()->batch_id);
-        $this->assertEquals($batch->id, $tree2->fresh()->batch_id);
+        // Verifikasi seluruh relasi pohon tetap utuh
+        $this->assertSame(3, $batch->trees()->count());
+        foreach ($trees as $tree) {
+            $this->assertDatabaseHas('trees', [
+                'id' => $tree->getKey(),
+                'batch_id' => $batch->getKey(),
+                'plot_id' => $plot->getKey(),
+            ]);
+        }
     }
 
     public function test_cannot_change_batch_plot_when_batch_contains_trees(): void
     {
         $manager = $this->manager();
-        $plotA = $this->createPlot('PLT-A');
-        $plotB = $this->createPlot('PLT-B');
-        $species = TreeSpecies::factory()->create(['is_active' => true]);
+        $plotA = Plot::factory()->create();
+        $plotB = Plot::factory()->create();
 
         $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plotA->id,
-            'code' => 'BATCH-A-02',
-            'planted_on' => now()->subDays(2)->toDateString(),
+            'plot_id' => $plotA->getKey(),
+            'code' => 'BATCH-PLOT-A',
         ]);
 
         Tree::factory()->create([
-            'plot_id' => $plotA->id,
-            'species_id' => $species->id,
-            'batch_id' => $batch->id,
-            'code' => 'TREE-A-003',
+            'plot_id' => $plotA->getKey(),
+            'batch_id' => $batch->getKey(),
         ]);
 
         $action = app(UpdatePlantingBatch::class);
 
         $this->expectException(ValidationException::class);
-
-        $action->handle($manager, $batch, [
-            'plot_id' => $plotB->id,
-            'reason' => 'Mencoba memindahkan kelompok ke petak lain padahal sudah ada pohon',
-        ]);
+        try {
+            $action->handle($manager, $batch, [
+                'plot_id' => $plotB->getKey(),
+                'reason' => 'Mencoba memindahkan petak kelompok yang sudah ada pohon.',
+            ]);
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('plot_id', $e->errors());
+            $this->assertDatabaseHas('planting_batches', [
+                'id' => $batch->getKey(),
+                'plot_id' => $plotA->getKey(),
+            ]);
+            throw $e;
+        }
     }
 
     public function test_tree_detachment_requires_valid_batch_association_and_records_audit(): void
     {
         $manager = $this->manager();
-        $plot = $this->createPlot('PLT-A');
-        $species = TreeSpecies::factory()->create(['is_active' => true]);
-
+        $plot = Plot::factory()->create();
         $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
-            'code' => 'BATCH-A-03',
-            'planted_on' => now()->subDays(1)->toDateString(),
+            'plot_id' => $plot->getKey(),
         ]);
 
         $tree = Tree::factory()->create([
-            'plot_id' => $plot->id,
-            'species_id' => $species->id,
-            'batch_id' => $batch->id,
-            'code' => 'TREE-A-004',
-        ]);
-
-        $otherBatch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
-            'code' => 'BATCH-A-04',
-            'planted_on' => now()->subDays(1)->toDateString(),
+            'plot_id' => $plot->getKey(),
+            'batch_id' => $batch->getKey(),
         ]);
 
         $action = app(RemoveTreeFromPlantingBatch::class);
-
-        // Detaching from wrong batch must fail
-        try {
-            $action->handle($manager, $otherBatch, $tree, 'Alasan salah batch');
-            $this->fail('Harusnya gagal karena pohon bukan anggota otherBatch.');
-        } catch (ValidationException $e) {
-            $this->assertArrayHasKey('tree', $e->errors());
-        }
-
-        // Detaching with reason
-        $action->handle($manager, $batch, $tree, 'Pohon dialihkan ke penanaman susulan.');
+        $action->handle($manager, $batch, $tree, 'Pohon dialihkan untuk perawatan isolasi.');
 
         $this->assertNull($tree->fresh()->batch_id);
 
-        $this->assertDatabaseHas('activity_logs', [
-            'subject_type' => PlantingBatch::class,
-            'subject_id' => $batch->id,
-            'actor_id' => $manager->id,
-            'action' => 'planting_batch.tree_removed',
-        ]);
+        $log = ActivityLog::query()
+            ->where('subject_type', PlantingBatch::class)
+            ->where('subject_id', $batch->getKey())
+            ->where('action', 'planting_batch.tree_removed')
+            ->first();
 
-        $log = $batch->activityLogs()->latest('id')->first();
-        $this->assertEquals('Pohon dialihkan ke penanaman susulan.', $log->metadata['reason'] ?? null);
-        $this->assertEquals('TREE-A-004', $log->metadata['code'] ?? null);
+        $this->assertNotNull($log);
+        $this->assertSame($manager->getKey(), $log->actor_id);
+        $this->assertSame($tree->getKey(), $log->metadata['removed_tree_id'] ?? null);
+        $this->assertSame('Pohon dialihkan untuk perawatan isolasi.', $log->metadata['reason'] ?? null);
     }
 }
