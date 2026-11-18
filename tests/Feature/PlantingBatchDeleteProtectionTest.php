@@ -99,28 +99,16 @@ class PlantingBatchDeleteProtectionTest extends TestCase
         $this->assertSame('Alasan penghapusan kelompok.', $log->metadata['reason'] ?? null);
     }
 
-    public function test_policy_forbids_deleting_batch_with_trees(): void
+    public function test_policy_authorizes_delete_for_manager_only(): void
     {
         $manager = $this->manager();
         $fieldStaff = $this->fieldStaff();
-        $plot = Plot::factory()->create();
+        $emptyBatch = PlantingBatch::factory()->create();
 
-        $batchWithTrees = PlantingBatch::factory()->create([
-            'plot_id' => $plot->getKey(),
-        ]);
-        Tree::factory()->create([
-            'plot_id' => $plot->getKey(),
-            'batch_id' => $batchWithTrees->getKey(),
-        ]);
-
-        $emptyBatch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->getKey(),
-        ]);
-
-        // Manager memiliki izin hapus kelompok
+        // Manager memiliki otorisasi hapus kelompok
         $this->assertTrue(Gate::forUser($manager)->allows('delete', $emptyBatch));
 
-        // Field staff tidak pernah boleh hapus
+        // Field staff tidak memiliki otorisasi hapus
         $this->assertFalse(Gate::forUser($fieldStaff)->allows('delete', $emptyBatch));
     }
 }
