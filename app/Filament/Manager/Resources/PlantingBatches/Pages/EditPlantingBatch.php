@@ -46,3 +46,4 @@ class EditPlantingBatch extends EditRecord
         return parent::getCancelFormAction()->label('Batal');
     }
 }
+

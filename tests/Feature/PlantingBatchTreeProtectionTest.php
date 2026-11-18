@@ -130,3 +130,4 @@ class PlantingBatchTreeProtectionTest extends TestCase
         $this->assertSame('Pohon dialihkan untuk perawatan isolasi.', $log->metadata['reason'] ?? null);
     }
 }
+

@@ -11,3 +11,4 @@ class ListPlantingBatches extends ListRecords
 
     protected static ?string $title = 'Kelompok Penanaman';
 }
+

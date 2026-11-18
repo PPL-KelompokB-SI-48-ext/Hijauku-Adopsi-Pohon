@@ -173,3 +173,4 @@ class PlantingBatchManagerInterfaceTest extends TestCase
         $this->assertTrue(in_array($responseCitizen->status(), [403, 302]));
     }
 }
+
