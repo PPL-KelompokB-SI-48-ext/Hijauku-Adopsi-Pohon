@@ -132,3 +132,4 @@ class PlantingBatchTreeGroupingTest extends TestCase
         $action->handle($citizen, $batch, [$tree->getKey()]);
     }
 }
+
