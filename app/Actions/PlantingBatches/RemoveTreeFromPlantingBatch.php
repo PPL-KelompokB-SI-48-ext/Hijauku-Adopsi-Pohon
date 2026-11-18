@@ -14,11 +14,18 @@ class RemoveTreeFromPlantingBatch
     /**
      * Lepaskan pohon dari kelompok penanaman.
      */
-    public function handle(User $actor, PlantingBatch $batch, Tree $tree): void
+    public function handle(User $actor, PlantingBatch $batch, Tree $tree, ?string $reason = null): void
     {
         Gate::forUser($actor)->authorize('update', $batch);
 
-        DB::transaction(function () use ($actor, $batch, $tree): void {
+        if ($reason !== null) {
+            $reason = trim($reason);
+            if ($reason === '') {
+                $reason = null;
+            }
+        }
+
+        DB::transaction(function () use ($actor, $batch, $tree, $reason): void {
             $lockedBatch = PlantingBatch::query()
                 ->lockForUpdate()
                 ->findOrFail($batch->getKey());
@@ -36,15 +43,21 @@ class RemoveTreeFromPlantingBatch
             $lockedTree->batch_id = null;
             $lockedTree->save();
 
+            $metadata = [
+                'removed_tree_id' => $lockedTree->getKey(),
+                'code' => $lockedTree->code,
+            ];
+
+            if ($reason !== null) {
+                $metadata['reason'] = $reason;
+            }
+
             $lockedBatch->activityLogs()->create([
                 'actor_id' => $actor->getKey(),
                 'action' => 'planting_batch.tree_removed',
                 'from_status' => null,
                 'to_status' => null,
-                'metadata' => [
-                    'removed_tree_id' => $lockedTree->getKey(),
-                    'code' => $lockedTree->code,
-                ],
+                'metadata' => $metadata,
             ]);
         });
     }
