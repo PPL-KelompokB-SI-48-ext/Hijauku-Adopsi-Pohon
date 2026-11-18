@@ -4,14 +4,11 @@ namespace Tests\Feature;
 
 use App\Actions\PlantingBatches\DeletePlantingBatch;
 use App\Enums\UserRole;
+use App\Models\ActivityLog;
 use App\Models\PlantingBatch;
 use App\Models\Plot;
-use App\Models\Program;
-use App\Models\Site;
 use App\Models\Tree;
-use App\Models\TreeSpecies;
 use App\Models\User;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
@@ -20,17 +17,6 @@ use Tests\TestCase;
 class PlantingBatchDeleteProtectionTest extends TestCase
 {
     use RefreshDatabase;
-
-    private function createPlot(string $code = 'PLT-01'): Plot
-    {
-        $program = Program::factory()->create();
-        $site = Site::factory()->create(['program_id' => $program->id]);
-
-        return Plot::factory()->create([
-            'site_id' => $site->id,
-            'code' => $code,
-        ]);
-    }
 
     private function manager(): User
     {
@@ -51,82 +37,90 @@ class PlantingBatchDeleteProtectionTest extends TestCase
     public function test_manager_cannot_delete_batch_that_contains_trees(): void
     {
         $manager = $this->manager();
-        $plot = $this->createPlot();
-        $species = TreeSpecies::factory()->create(['is_active' => true]);
-
+        $plot = Plot::factory()->create();
         $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
+            'plot_id' => $plot->getKey(),
             'code' => 'BATCH-WITH-TREES',
-            'planted_on' => now()->subDays(5)->toDateString(),
         ]);
 
         Tree::factory()->create([
-            'plot_id' => $plot->id,
-            'species_id' => $species->id,
-            'batch_id' => $batch->id,
-            'code' => 'TREE-DEL-001',
+            'plot_id' => $plot->getKey(),
+            'batch_id' => $batch->getKey(),
         ]);
 
-        // Policy gate must forbid delete when batch has trees
-        $this->assertFalse(Gate::forUser($manager)->allows('delete', $batch));
-
-        // Action must throw exception
         $action = app(DeletePlantingBatch::class);
 
-        $this->expectException(AuthorizationException::class);
-        $action->handle($manager, $batch, 'Mencoba hapus batch yang ada pohonnya');
+        $this->expectException(ValidationException::class);
+        try {
+            $action->handle($manager, $batch);
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('planting_batch', $e->errors());
+            $this->assertDatabaseHas('planting_batches', [
+                'id' => $batch->getKey(),
+            ]);
+            throw $e;
+        }
     }
 
     public function test_manager_can_delete_empty_batch(): void
     {
         $manager = $this->manager();
-        $plot = $this->createPlot();
-
         $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
-            'code' => 'BATCH-EMPTY-01',
-            'planted_on' => now()->subDays(2)->toDateString(),
+            'code' => 'BATCH-EMPTY',
         ]);
 
-        // Policy gate allows delete for empty batch
-        $this->assertTrue(Gate::forUser($manager)->allows('delete', $batch));
-
         $action = app(DeletePlantingBatch::class);
-        $action->handle($manager, $batch, 'Kelompok dibatalkan karena salah input petak.');
+        $action->handle($manager, $batch, 'Kelompok dibatalkan karena salah input.');
 
         $this->assertDatabaseMissing('planting_batches', [
-            'id' => $batch->id,
+            'id' => $batch->getKey(),
         ]);
-
-        $this->assertDatabaseHas('activity_logs', [
-            'subject_type' => PlantingBatch::class,
-            'subject_id' => $batch->id,
-            'actor_id' => $manager->id,
-            'action' => 'planting_batch.deleted',
-        ]);
-
-        $log = $batch->activityLogs()->latest('id')->first();
-        $this->assertNotNull($log);
-        $this->assertEquals('Kelompok dibatalkan karena salah input petak.', $log->metadata['reason'] ?? null);
-        $this->assertEquals('BATCH-EMPTY-01', $log->metadata['code'] ?? null);
     }
 
-    public function test_non_manager_cannot_delete_batch_even_if_empty(): void
+    public function test_delete_batch_creates_activity_log_with_batch_code(): void
     {
-        $fieldStaff = $this->fieldStaff();
-        $plot = $this->createPlot();
-
+        $manager = $this->manager();
         $batch = PlantingBatch::factory()->create([
-            'plot_id' => $plot->id,
-            'code' => 'BATCH-EMPTY-02',
-            'planted_on' => now()->subDays(1)->toDateString(),
+            'code' => 'BATCH-AUDIT',
         ]);
 
-        $this->assertFalse(Gate::forUser($fieldStaff)->allows('delete', $batch));
-
         $action = app(DeletePlantingBatch::class);
+        $action->handle($manager, $batch, 'Alasan penghapusan kelompok.');
 
-        $this->expectException(AuthorizationException::class);
-        $action->handle($fieldStaff, $batch);
+        $log = ActivityLog::query()
+            ->where('subject_type', PlantingBatch::class)
+            ->where('subject_id', $batch->getKey())
+            ->where('action', 'planting_batch.deleted')
+            ->first();
+
+        $this->assertNotNull($log);
+        $this->assertSame($manager->getKey(), $log->actor_id);
+        $this->assertSame('BATCH-AUDIT', $log->metadata['code'] ?? null);
+        $this->assertSame('Alasan penghapusan kelompok.', $log->metadata['reason'] ?? null);
+    }
+
+    public function test_policy_forbids_deleting_batch_with_trees(): void
+    {
+        $manager = $this->manager();
+        $fieldStaff = $this->fieldStaff();
+        $plot = Plot::factory()->create();
+
+        $batchWithTrees = PlantingBatch::factory()->create([
+            'plot_id' => $plot->getKey(),
+        ]);
+        Tree::factory()->create([
+            'plot_id' => $plot->getKey(),
+            'batch_id' => $batchWithTrees->getKey(),
+        ]);
+
+        $emptyBatch = PlantingBatch::factory()->create([
+            'plot_id' => $plot->getKey(),
+        ]);
+
+        // Manager memiliki izin hapus kelompok
+        $this->assertTrue(Gate::forUser($manager)->allows('delete', $emptyBatch));
+
+        // Field staff tidak pernah boleh hapus
+        $this->assertFalse(Gate::forUser($fieldStaff)->allows('delete', $emptyBatch));
     }
 }

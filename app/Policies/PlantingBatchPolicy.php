@@ -39,7 +39,7 @@ class PlantingBatchPolicy
 
     public function delete(User $user, PlantingBatch $batch): bool
     {
-        return $user->isManager() && $batch->trees()->doesntExist();
+        return $user->isManager();
     }
 }
 
