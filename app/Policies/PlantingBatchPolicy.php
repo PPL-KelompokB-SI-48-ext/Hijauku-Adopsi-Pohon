@@ -34,7 +34,7 @@ class PlantingBatchPolicy
 
     public function update(User $user, PlantingBatch $batch): bool
     {
-        return false;
+        return $user->role === UserRole::FieldStaff;
     }
 
     public function delete(User $user, PlantingBatch $batch): bool
