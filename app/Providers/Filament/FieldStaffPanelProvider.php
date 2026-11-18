@@ -2,14 +2,14 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\RedirectToSharedLogin;
+use App\Providers\Filament\Concerns\ConfiguresHijaukuPanel;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -20,14 +20,14 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class FieldStaffPanelProvider extends PanelProvider
 {
+    use ConfiguresHijaukuPanel;
+
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return $this->configureHijaukuPanel($panel, 'Petugas Lapangan')
             ->id('petugas')
             ->path('petugas')
-            ->brandName('Hijauku - Petugas')
-            ->login()
-            ->colors(['primary' => Color::Green])
+            ->login(null)
             ->discoverResources(in: app_path('Filament/FieldStaff/Resources'), for: 'App\\Filament\\FieldStaff\\Resources')
             ->discoverPages(in: app_path('Filament/FieldStaff/Pages'), for: 'App\\Filament\\FieldStaff\\Pages')
             ->pages([Dashboard::class])
@@ -44,6 +44,6 @@ class FieldStaffPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([Authenticate::class]);
+            ->authMiddleware([RedirectToSharedLogin::class]);
     }
 }

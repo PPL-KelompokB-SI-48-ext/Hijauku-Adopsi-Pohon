@@ -2,6 +2,8 @@
 
 Audit ini membandingkan proposal Google Docs, desain Canva, 25 frame Stitch, migration/model pada branch `yoga`, serta 45 story dan kalender sprint Jira. Ini adalah catatan revisi, bukan penerimaan seluruh fitur atau bukti bahwa semua ketentuan kuliah sudah terpenuhi.
 
+Jadwal dan pembagian sprint yang dicatat di audit proposal adalah rancangan pada 25 Oktober 2026. Jira kemudian diperbarui pada 11 November: lima modul dimajukan utuh ke Sprint 1. Gunakan [jadwal backlog terkini](task-schedule.md) untuk tanggal dan sprint kerja; pertahankan isi proposal sebagai gambaran rancangan awal.
+
 ## Dokumen kerja
 
 - [Proposal yang direvisi langsung](https://docs.google.com/document/d/15zow58NyAsJvCN3hsBPSb4X-FUX8PYT_9a4qTHgzYE0/edit).
@@ -52,7 +54,7 @@ Komentar lama pada proposal tetap menjadi riwayat diskusi. Beberapa tautannya te
 1. Dosen mengonfirmasi roster lima orang karena PDF dan LMS memuat batas jumlah anggota yang berbeda.
 2. Pemilik modul dan PM menilai kompleksitas sedang/tinggi menurut rubrik. Sembilan PBI per orang bukan bukti otomatis pemenuhan kompleksitas.
 3. Pemilik modul menyepakati kontrak data dan fixture untuk dependensi dari modul Sprint 2. Jika acceptance tidak bisa diuji pada sprint yang sama, jadwal diperbaiki sebelum coding.
-4. PR #4 sudah di-merge setelah CI lulus; HAP-61, HAP-1, dan HAP-7 diterima PM dan berstatus Done. PR dokumentasi #7 juga merged setelah CI lulus. PR #5 ditutup tanpa merge. PR #3 Rofii ditutup dengan perubahan yang diminta. PR pengganti #6 dibuka di branch personal `rofii`, tetapi perlu Dusk M04 dan sinkronisasi dengan `main` terbaru. HAP-16 dan HAP-25 aktif; epic HAP-2 dan HAP-3 berstatus In Progress.
+4. Riwayat saat audit proposal: PR #4 sudah merged setelah CI lulus, PR dokumentasi #7 merged, dan PR #5 ditutup tanpa merge. Untuk status terbaru, gunakan [audit sumber](source-audit.md): PR #12, #14, dan #15 sudah ditutup tanpa merge; pemiliknya perlu menyinkronkan branch personal dan membuka PR pengganti setelah acceptance, tes, serta CI siap.
 5. Mockup berisi data contoh. Perilaku seperti validasi, izin record, locking, dan unggahan privat harus dibuktikan melalui implementasi serta tes, bukan tangkapan layar.
 6. HAP-61 mempertahankan Original estimate 18 jam dengan remaining 0 jam. HAP-7 mempertahankan Original estimate 4 jam dengan remaining 0 jam. Tidak ada work log yang direkayasa.
 

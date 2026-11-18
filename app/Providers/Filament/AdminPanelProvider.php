@@ -2,14 +2,14 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\RedirectToSharedLogin;
+use App\Providers\Filament\Concerns\ConfiguresHijaukuPanel;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -20,17 +20,15 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
+    use ConfiguresHijaukuPanel;
+
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return $this->configureHijaukuPanel($panel, 'Pengelola')
             ->default()
             ->id('app')
             ->path('app')
-            ->brandName('Hijauku')
-            ->login()
-            ->colors([
-                'primary' => Color::Green,
-            ])
+            ->login(null)
             ->discoverResources(in: app_path('Filament/Manager/Resources'), for: 'App\Filament\Manager\Resources')
             ->discoverPages(in: app_path('Filament/Manager/Pages'), for: 'App\Filament\Manager\Pages')
             ->pages([
@@ -52,7 +50,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+                RedirectToSharedLogin::class,
             ]);
     }
 }

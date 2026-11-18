@@ -1,6 +1,6 @@
 # Arsitektur Hijauku - Rev 2
 
-**Status:** Baseline arsitektur untuk starter Sprint 0.
+**Status:** Baseline arsitektur aplikasi dan implementasi yang sudah masuk ke `main`, diperiksa 11 November 2026 setelah PR #19.
 **Berlaku:** Scope aktif 15 modul, lima anggota, Laravel 13 + Filament 5.
 **Pemilik keputusan proyek:** Yoga (PM). Perubahan berikutnya dicatat pada Jira dan pull request.
 
@@ -14,14 +14,14 @@ Backlog aktif berisi 15 modul M01 sampai M15 dan 45 story HJK-001 sampai HJK-045
 
 ## 2. Gambaran sistem
 
-Pengguna publik membuka halaman Blade + Vite. Pengelola, Petugas, dan Warga masuk ke panel Filament yang berbeda. Ketiga panel memakai satu aplikasi Laravel 13 dan satu database MySQL; Eloquent mengakses data. Policy, query scope, validasi, dan service menjaga aturan akses serta proses bisnis. Foto dan bukti disimpan di Laravel Storage privat.
+Pengguna publik membuka halaman Blade + Vite. Pengelola, Petugas, dan Warga memakai satu halaman masuk `/login`; setelah autentikasi, sistem mengarahkan mereka ke panel Filament sesuai role. Ketiga panel tetap terpisah di `/app`, `/petugas`, dan `/warga`. Satu aplikasi Laravel 13 dan satu database MySQL dipakai bersama; Eloquent mengakses data. Policy, query scope, validasi, dan service menjaga aturan akses serta proses bisnis. Foto dan bukti disimpan di Laravel Storage privat.
 
 ![Diagram arsitektur Hijauku dengan satu aplikasi Laravel modular dan tiga panel](diagrams/system-design/exports/architecture.png)
 
 Alur request:
 
 1. Route publik atau panel Filament menerima request.
-2. Request panel berakun melewati middleware autentikasi. Route publik hanya menyajikan field yang diizinkan untuk publik dan tidak mewajibkan login.
+2. Form `/login` memeriksa akun aktif dengan Laravel session guard, membatasi percobaan masuk, meregenerasi session setelah berhasil, lalu mengarahkan pengguna berdasarkan role. Request panel tanpa akun diarahkan kembali ke `/login`. Route publik hanya menyajikan field yang diizinkan untuk publik dan tidak mewajibkan login.
 3. Untuk panel, User::canAccessPanel() hanya membuka panel yang cocok dengan role dan status aktif.
 4. Policy memutuskan izin untuk aksi dan record. Query list juga dibatasi ke data yang boleh dilihat.
 5. Validasi memeriksa input dan aturan lintas field.
@@ -41,6 +41,7 @@ Panel gate bukan pengganti Policy. Model baru harus memiliki Policy sebelum Reso
 ### Policy dasar yang sudah dipasang
 
 - Master data dan akun: pengelola saja.
+- Program M01: hanya pengelola yang dapat membuat draf, mengaktifkan program yang datanya lengkap, atau mengarsipkan program berstatus selesai. Aktivasi dan pengarsipan memakai service transaksional serta mencatat aktor, alasan, waktu, dan perubahan status pada `activity_logs`. Arsip tidak menghapus lokasi atau pohon yang terkait.
 - Penugasan: petugas boleh melihat penugasan dengan assignee_id miliknya; tidak dapat mengubah assignment.
 - Pendaftaran kegiatan: warga dapat membuat dan melihat pendaftaran miliknya.
 - Kehadiran M08 direncanakan untuk pengelola pada HAP-29. `ActivityRegistrationPolicy::viewAny()` pada scaffold masih membatasi daftar ke warga; implementasi HAP-29 harus menyesuaikan izin/query yang diperlukan dan menguji manager serta batas record. Panel manager saja tidak mengizinkan daftar secara otomatis.
@@ -50,7 +51,7 @@ Panel gate bukan pengganti Policy. Model baru harus memiliki Policy sebelum Reso
 - Rencana perawatan: petugas hanya dapat membaca rencana dari assignment miliknya.
 - Realisasi dan pengamatan: petugas dapat membuat dan membaca kirimannya sendiri; verifikasi hanya pengelola yang bukan pengirim.
 
-Aksi review, accept, dan verify adalah izin khusus. UI/service yang mengimplementasikannya tetap harus mengubah field yang tepat dan menolak perubahan field lain. Sebelum Resource tersedia, query list, validasi input, dan service transaksi masih menjadi pekerjaan PBI.
+Aksi review, accept, dan verify adalah izin khusus. UI/service yang mengimplementasikannya tetap harus mengubah field yang tepat dan menolak perubahan field lain. HJK-002 dan HJK-003 berjalan melalui action Filament pada panel `/app` dan request Livewire; kedua story ini tidak menetapkan REST API terpisah. API baru perlu acceptance criteria dan dokumentasi tersendiri sebelum ditambahkan.
 
 ## 4. Modul aktif dan pembagian pemilik
 
@@ -97,11 +98,17 @@ Rancangan awal mengusulkan PostgreSQL 18. Untuk starter Sprint 0, PM menetapkan 
 
 ## 8. Yang sudah tersedia dan yang belum
 
-**Sudah tersedia:** skeleton Laravel/Filament, tiga panel dan gate role, Policy dasar, model/migration awal, seeder demo, halaman beranda publik, Resource manager untuk pencatatan program HJK-001, dokumentasi, dan workflow CI.
+**Sudah tersedia di `main`:** fondasi Laravel/Filament, tiga panel dan gate role, Policy dasar, model/migration awal, seeder demo, beranda publik, serta alur M01 untuk membuat draf, mengaktifkan program, dan mengarsipkan program selesai (HJK-001-HJK-003). M07 HJK-019 menyediakan pencatatan rencana kegiatan. M13 HJK-037 sampai HJK-039 menyediakan penyusunan rencana, prioritas, koreksi, dan pembatalan rencana dengan riwayat. Dokumentasi dan CI juga tersedia.
 
-**Belum dianggap selesai:** Resource untuk story aktif lainnya, filter ownership untuk setiap Resource, service transaksi untuk aturan bisnis lintas modul, upload bukti privat, dashboard berisi metrik, workflow lengkap per story, desain Stitch halaman lain, deployment, dan integrasi notifikasi. Pekerjaan itu masuk ke story M01-M15; fitur tidak dianggap selesai hanya karena tabel/model atau shell panel tersedia.
+**Sudah tersedia di `main`:** HAP-10-HAP-12 / HJK-004-HJK-006 masuk melalui PR #20. Resource lokasi memakai `SitePolicy`, form dan tabel Filament reusable, serta action terpisah untuk membuat, mengubah, dan menghapus lokasi. Validasi dan otorisasi ada di server. Perubahan memakai transaksi dan audit log; relasi petak/kegiatan mencegah penghapusan lokasi yang masih dipakai. Schema `sites` dan foreign key sudah tersedia, sehingga story ini tidak memerlukan migration. Detail acuan Stitch dan batas kesetaraan UI ada di `docs/ui-design.md`.
 
-HJK-001 menambahkan alur pembuatan program pada panel manager. Program adalah master data yang bisa dilihat lintas pengelola, sementara `created_by` tetap mencatat siapa yang membuatnya. Status awal ditetapkan server sebagai `draft`; event pencatatan program disimpan bersama record dalam transaksi. Pengubahan/penghapusan program dan perubahan status tetap di luar HJK-001.
+**Belum diterima di `main`:** pekerjaan M04 HAP-16/17/18, M07 HAP-26/27, dan M10 HAP-34/35 masih perlu memenuhi acceptance dan tes masing-masing. PR #12, #14, dan #15 ditutup tanpa merge. Pemilik mempertahankan commit unik di branch personal, menyinkronkan `main`, meninjau temuan lama yang masih berlaku, lalu membuka PR pengganti untuk review dan CI baru. Cakupan HAP-18 perlu dipastikan dengan pemilik modul.
+
+**Belum dianggap selesai:** story lain yang masih To Do, filter ownership untuk setiap Resource, workflow transaksi di modul yang belum diterima, upload bukti privat, dashboard berisi metrik, layar Stitch yang belum diimplementasikan, deployment, dan integrasi notifikasi. Pekerjaan ini masuk ke story M01-M15; fitur tidak dianggap selesai hanya karena tabel/model atau shell panel tersedia.
+
+HJK-001 menambahkan alur pembuatan program pada panel manager. Program adalah master data yang bisa dilihat lintas pengelola, sementara `created_by` tetap mencatat siapa yang membuatnya. Status awal ditetapkan server sebagai `draft`; event pencatatan program disimpan bersama record dalam transaksi. HJK-002 hanya mengizinkan aktivasi dari status `draft` setelah nama, tujuan, dan periode lolos validasi. HJK-003 hanya mengizinkan pengarsipan status `completed`; record tetap tersimpan supaya relasi lokasi dan pohon aman. Kedua transisi mengambil aktor dari sesi, meminta alasan, dan menulis audit log dalam transaksi. Pengubahan data program dan penghapusan tetap tidak tersedia karena bukan acceptance story saat ini.
+
+M01 memakai Resource Filament dan request Livewire. Tidak ada REST API terpisah untuk CRUD dalam acceptance HJK-001 sampai HJK-003. Tambahkan API hanya setelah requirement Jira menjelaskan pemakai, autentikasi, request/response, error, dan tesnya.
 
 ## 9. Perubahan arsitektur
 

@@ -2,7 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - yoga
+      - bitaridamar
+      - arif
+      - ayuwira
+      - Rofii
+      - rofii
   pull_request:
     branches: [main]
 

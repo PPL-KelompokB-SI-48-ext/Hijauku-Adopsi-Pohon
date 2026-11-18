@@ -28,6 +28,10 @@ class RolePolicyTest extends TestCase
         self::assertTrue(Gate::forUser($manager)->allows('create', Activity::class));
         self::assertFalse(Gate::forUser($fieldStaff)->allows('create', Activity::class));
         self::assertFalse(Gate::forUser($citizen)->allows('viewAny', Activity::class));
+
+        self::assertTrue(Gate::forUser($manager)->allows('viewAny', \App\Models\CarePlan::class));
+        self::assertFalse(Gate::forUser($fieldStaff)->allows('viewAny', \App\Models\CarePlan::class));
+        self::assertFalse(Gate::forUser($citizen)->allows('viewAny', \App\Models\CarePlan::class));
     }
 
     public function test_field_staff_can_only_view_their_own_assignment(): void
