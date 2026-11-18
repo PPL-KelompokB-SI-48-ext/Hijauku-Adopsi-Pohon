@@ -37,9 +37,28 @@ class TreeForm
                     ->required()
                     ->searchable()
                     ->preload()
+                    ->live()
                     ->validationMessages([
                         'required' => 'Petak tanam wajib dipilih.',
                     ])
+                    ->columnSpanFull(),
+
+                Select::make('batch_id')
+                    ->label('Kelompok penanaman (opsional)')
+                    ->options(function ($get) {
+                        $plotId = $get('plot_id');
+                        if (! $plotId) {
+                            return [];
+                        }
+
+                        return \App\Models\PlantingBatch::query()
+                            ->where('plot_id', $plotId)
+                            ->pluck('code', 'id');
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->nullable()
+                    ->helperText('Pohon hanya dapat dikelompokkan pada kelompok penanaman di petak yang sama.')
                     ->columnSpanFull(),
 
                 TextInput::make('code')
