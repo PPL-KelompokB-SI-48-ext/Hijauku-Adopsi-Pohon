@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 class DeletePlantingBatch
 {
     /**
-     * Hapus kelompok penanaman kosong dan catat jejak audit.
+     * Menghapus kelompok penanaman yang belum berisi pohon dan mencatat riwayat audit.
      */
     public function handle(User $actor, PlantingBatch $batch, ?string $reason = null): void
     {
@@ -31,7 +31,7 @@ class DeletePlantingBatch
 
             if ($lockedBatch->trees()->exists()) {
                 throw ValidationException::withMessages([
-                    'planting_batch' => 'Kelompok penanaman tidak dapat dihapus karena masih berisi pohon. Lepaskan atau pindahkan pohon terlebih dahulu.',
+                    'planting_batch' => 'Kelompok penanaman tidak dapat dihapus karena masih memiliki pohon terhubung.',
                 ]);
             }
 

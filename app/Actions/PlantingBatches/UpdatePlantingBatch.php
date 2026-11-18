@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 class UpdatePlantingBatch
 {
     /**
-     * Koreksi data kelompok penanaman dan catat jejak audit.
+     * Memperbarui data kelompok penanaman dengan alasan dan pencatatan riwayat audit.
      *
      * @param  array<string, mixed>  $attributes
      */
@@ -21,13 +21,10 @@ class UpdatePlantingBatch
     {
         Gate::forUser($actor)->authorize('update', $batch);
 
-        $reason = isset($attributes['reason']) && is_string($attributes['reason'])
-            ? trim($attributes['reason'])
-            : '';
-
-        if ($reason === '' || mb_strlen($reason) < 3) {
+        $reason = trim((string) ($attributes['reason'] ?? ''));
+        if (mb_strlen($reason) < 3) {
             throw ValidationException::withMessages([
-                'reason' => 'Alasan koreksi kelompok wajib diisi minimal 3 karakter.',
+                'reason' => 'Alasan perubahan kelompok wajib diisi minimal 3 karakter.',
             ]);
         }
 
@@ -52,7 +49,7 @@ class UpdatePlantingBatch
         }
 
         $validated = Validator::make($input, [
-            'plot_id' => ['sometimes', 'required', 'integer', 'exists:plots,id'],
+            'plot_id' => ['sometimes', 'required', 'exists:plots,id'],
             'code' => [
                 'sometimes',
                 'required',
@@ -63,15 +60,15 @@ class UpdatePlantingBatch
                     ->ignore($batch->getKey()),
             ],
             'planted_on' => ['sometimes', 'required', 'date', 'before_or_equal:today'],
-            'notes' => ['nullable', 'string', 'max:5000'],
+            'notes' => ['nullable', 'string'],
         ], [
             'code.required' => 'Kode kelompok wajib diisi.',
             'code.unique' => 'Kode kelompok sudah digunakan pada petak ini.',
             'code.max' => 'Kode kelompok maksimal 40 karakter.',
             'planted_on.required' => 'Tanggal tanam wajib diisi.',
-            'planted_on.date' => 'Format tanggal tanam tidak valid.',
             'planted_on.before_or_equal' => 'Tanggal tanam tidak boleh di masa depan.',
-            'notes.max' => 'Catatan maksimal 5000 karakter.',
+            'plot_id.required' => 'Petak wajib dipilih.',
+            'plot_id.exists' => 'Petak yang dipilih tidak valid.',
         ])->validate();
 
         return DB::transaction(function () use ($actor, $batch, $validated, $reason): PlantingBatch {
@@ -79,7 +76,7 @@ class UpdatePlantingBatch
                 ->lockForUpdate()
                 ->findOrFail($batch->getKey());
 
-            // Proteksi perpindahan petak jika sudah memiliki pohon terhubung (AC2)
+            // Proteksi: jika petak diubah dan kelompok sudah memiliki pohon, tolak perubahan
             if (isset($validated['plot_id']) && (int) $validated['plot_id'] !== (int) $lockedBatch->plot_id) {
                 if ($lockedBatch->trees()->exists()) {
                     throw ValidationException::withMessages([
@@ -89,7 +86,7 @@ class UpdatePlantingBatch
             }
 
             $oldAttributes = [
-                'plot_id' => (int) $lockedBatch->plot_id,
+                'plot_id' => $lockedBatch->plot_id,
                 'code' => $lockedBatch->code,
                 'planted_on' => $lockedBatch->planted_on?->toDateString(),
                 'notes' => $lockedBatch->notes,
@@ -102,7 +99,7 @@ class UpdatePlantingBatch
                 $lockedBatch->save();
 
                 $newAttributes = [
-                    'plot_id' => (int) $lockedBatch->plot_id,
+                    'plot_id' => $lockedBatch->plot_id,
                     'code' => $lockedBatch->code,
                     'planted_on' => $lockedBatch->planted_on?->toDateString(),
                     'notes' => $lockedBatch->notes,
