@@ -17,7 +17,7 @@ class ProgramCreationTest extends DuskTestCase
         $endsOnValue = $endsOn->toDateString();
 
         $this->browse(function (Browser $browser) use ($programName, $startsOnValue, $endsOnValue, $startsOn, $endsOn): void {
-            $browser->visit('/app/login')
+            $browser->visit('/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
                 ->click('form button[type="submit"]')

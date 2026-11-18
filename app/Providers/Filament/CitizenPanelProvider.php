@@ -2,8 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\RedirectToSharedLogin;
 use App\Providers\Filament\Concerns\ConfiguresHijaukuPanel;
-use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -27,7 +27,7 @@ class CitizenPanelProvider extends PanelProvider
         return $this->configureHijaukuPanel($panel, 'Warga')
             ->id('warga')
             ->path('warga')
-            ->login()
+            ->login(null)
             ->discoverResources(in: app_path('Filament/Citizen/Resources'), for: 'App\\Filament\\Citizen\\Resources')
             ->discoverPages(in: app_path('Filament/Citizen/Pages'), for: 'App\\Filament\\Citizen\\Pages')
             ->pages([Dashboard::class])
@@ -44,6 +44,6 @@ class CitizenPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([Authenticate::class]);
+            ->authMiddleware([RedirectToSharedLogin::class]);
     }
 }

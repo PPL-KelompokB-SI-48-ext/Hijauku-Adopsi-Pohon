@@ -14,7 +14,7 @@ class SiteCreationTest extends DuskTestCase
         $address = 'Jalan Uji Browser, Bandung';
 
         $this->browse(function (Browser $browser) use ($name, $address): void {
-            $browser->visit('/app/login')
+            $browser->visit('/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
                 ->click('form button[type="submit"]')

@@ -44,10 +44,9 @@ class PanelShellTest extends DuskTestCase
     private function signInAndCheckShell(Browser $browser, string $panel, string $email, string $role): void
     {
         $browser->resize(1440, 900);
-        $browser->visit('/app/login');
         $browser->driver->manage()->deleteAllCookies();
 
-        $browser->visit("/{$panel}/login")
+        $browser->visit('/login')
             ->type('input[type="email"]', $email)
             ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
             ->click('form button[type="submit"]')

@@ -14,14 +14,14 @@ Backlog aktif berisi 15 modul M01 sampai M15 dan 45 story HJK-001 sampai HJK-045
 
 ## 2. Gambaran sistem
 
-Pengguna publik membuka halaman Blade + Vite. Pengelola, Petugas, dan Warga masuk ke panel Filament yang berbeda. Ketiga panel memakai satu aplikasi Laravel 13 dan satu database MySQL; Eloquent mengakses data. Policy, query scope, validasi, dan service menjaga aturan akses serta proses bisnis. Foto dan bukti disimpan di Laravel Storage privat.
+Pengguna publik membuka halaman Blade + Vite. Pengelola, Petugas, dan Warga memakai satu halaman masuk `/login`; setelah autentikasi, sistem mengarahkan mereka ke panel Filament sesuai role. Ketiga panel tetap terpisah di `/app`, `/petugas`, dan `/warga`. Satu aplikasi Laravel 13 dan satu database MySQL dipakai bersama; Eloquent mengakses data. Policy, query scope, validasi, dan service menjaga aturan akses serta proses bisnis. Foto dan bukti disimpan di Laravel Storage privat.
 
 ![Diagram arsitektur Hijauku dengan satu aplikasi Laravel modular dan tiga panel](diagrams/system-design/exports/architecture.png)
 
 Alur request:
 
 1. Route publik atau panel Filament menerima request.
-2. Request panel berakun melewati middleware autentikasi. Route publik hanya menyajikan field yang diizinkan untuk publik dan tidak mewajibkan login.
+2. Form `/login` memeriksa akun aktif dengan Laravel session guard, membatasi percobaan masuk, meregenerasi session setelah berhasil, lalu mengarahkan pengguna berdasarkan role. Request panel tanpa akun diarahkan kembali ke `/login`. Route publik hanya menyajikan field yang diizinkan untuk publik dan tidak mewajibkan login.
 3. Untuk panel, User::canAccessPanel() hanya membuka panel yang cocok dengan role dan status aktif.
 4. Policy memutuskan izin untuk aksi dan record. Query list juga dibatasi ke data yang boleh dilihat.
 5. Validasi memeriksa input dan aturan lintas field.

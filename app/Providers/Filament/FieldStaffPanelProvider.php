@@ -2,8 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\RedirectToSharedLogin;
 use App\Providers\Filament\Concerns\ConfiguresHijaukuPanel;
-use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -27,7 +27,7 @@ class FieldStaffPanelProvider extends PanelProvider
         return $this->configureHijaukuPanel($panel, 'Petugas Lapangan')
             ->id('petugas')
             ->path('petugas')
-            ->login()
+            ->login(null)
             ->discoverResources(in: app_path('Filament/FieldStaff/Resources'), for: 'App\\Filament\\FieldStaff\\Resources')
             ->discoverPages(in: app_path('Filament/FieldStaff/Pages'), for: 'App\\Filament\\FieldStaff\\Pages')
             ->pages([Dashboard::class])
@@ -44,6 +44,6 @@ class FieldStaffPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([Authenticate::class]);
+            ->authMiddleware([RedirectToSharedLogin::class]);
     }
 }

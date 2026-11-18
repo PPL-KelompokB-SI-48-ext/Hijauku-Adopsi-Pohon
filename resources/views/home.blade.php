@@ -28,7 +28,7 @@
             <a class="transition hover:text-[#1f6b45]" href="#kegiatan">Kegiatan</a>
         </nav>
 
-        <a class="rounded-full border border-[#c9d7ca] bg-white px-5 py-2.5 text-sm font-semibold text-[#28573e] transition hover:bg-[#eff4ec]" href="{{ url('/app') }}">
+        <a class="rounded-full border border-[#c9d7ca] bg-white px-5 py-2.5 text-sm font-semibold text-[#28573e] transition hover:bg-[#eff4ec]" href="{{ route('login') }}">
             Masuk
         </a>
     </header>

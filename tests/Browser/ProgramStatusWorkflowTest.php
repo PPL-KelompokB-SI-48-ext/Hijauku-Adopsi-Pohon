@@ -32,7 +32,7 @@ class ProgramStatusWorkflowTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($name, $program): void {
             $rowSelector = 'tr[wire\\:key$=".table.records.'.$program->getKey().'"]';
 
-            $browser->visit('/app/login')
+            $browser->visit('/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
                 ->click('form button[type="submit"]')
