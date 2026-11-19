@@ -41,6 +41,11 @@ class Tree extends Model
         return $this->hasOne(TreeAdoptionAllocation::class);
     }
 
+    public function adoptionAllocations(): HasMany
+    {
+        return $this->hasMany(TreeAdoptionAllocation::class);
+    }
+
     public function issues(): HasMany
     {
         return $this->hasMany(TreeIssue::class);

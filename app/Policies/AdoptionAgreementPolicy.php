@@ -10,7 +10,7 @@ class AdoptionAgreementPolicy extends ManagerOnlyPolicy
 {
     protected function managerRestrictedAbilities(): array
     {
-        return ['accept'];
+        return ['accept', 'terminate'];
     }
 
     public function viewAny(User $user): bool
@@ -30,8 +30,16 @@ class AdoptionAgreementPolicy extends ManagerOnlyPolicy
 
     public function accept(User $user, AdoptionAgreement $agreement): bool
     {
-        return $user->isCitizen()
+        return $user->is_active
+            && $user->isCitizen()
             && (int) $agreement->adopter_id === (int) $user->getKey()
             && $agreement->status === 'awaiting_acceptance';
+    }
+
+    public function terminate(User $user, AdoptionAgreement $agreement): bool
+    {
+        return $user->is_active
+            && $user->isManager()
+            && $agreement->status === 'active';
     }
 }
