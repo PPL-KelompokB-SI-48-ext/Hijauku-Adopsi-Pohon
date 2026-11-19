@@ -92,6 +92,7 @@ class TreeSpeciesAuditAndUpdateTest extends TestCase
         try {
             $action->handle($manager, $species, [
                 'name' => 'Mahoni',
+                'reason' => 'Mencoba ganti nama ke Mahoni',
             ]);
             $this->fail('Harus gagal validasi jika nama sama dengan jenis pohon lain.');
         } catch (ValidationException $exception) {
@@ -102,8 +103,30 @@ class TreeSpeciesAuditAndUpdateTest extends TestCase
         $updated = $action->handle($manager, $species, [
             'name' => 'Sengon',
             'care_notes' => 'Catatan baru saja',
+            'reason' => 'Perbarui catatan saja',
         ]);
         $this->assertSame('Catatan baru saja', $updated->fresh()->care_notes);
+    }
+
+    public function test_update_tree_species_fails_without_reason(): void
+    {
+        $manager = $this->manager();
+        $species = TreeSpecies::create([
+            'name' => 'Angsana',
+            'is_active' => true,
+        ]);
+
+        $action = app(UpdateTreeSpecies::class);
+
+        $this->expectException(ValidationException::class);
+        try {
+            $action->handle($manager, $species, [
+                'name' => 'Angsana Baru',
+            ]);
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('reason', $e->errors());
+            throw $e;
+        }
     }
 
     public function test_non_manager_cannot_update_tree_species(): void
@@ -118,6 +141,7 @@ class TreeSpeciesAuditAndUpdateTest extends TestCase
         $this->expectException(AuthorizationException::class);
         $action->handle($this->fieldStaff(), $species, [
             'name' => 'Beringin Baru',
+            'reason' => 'Coba update sebagai staff',
         ]);
     }
 }

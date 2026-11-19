@@ -150,9 +150,41 @@ class PlantingBatchManagerInterfaceTest extends TestCase
         Livewire::test(ListPlantingBatches::class)
             ->assertSuccessful()
             ->assertTableActionVisible('delete', $emptyBatch)
-            ->callTableAction('delete', $emptyBatch);
+            ->callTableAction('delete', $emptyBatch, [
+                'reason' => 'Pembatalan kelompok kosong karena salah entri.',
+            ])
+            ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseMissing('planting_batches', [
+            'id' => $emptyBatch->getKey(),
+        ]);
+
+        $this->assertDatabaseHas('activity_logs', [
+            'actor_id' => $manager->getKey(),
+            'action' => 'planting_batch.deleted',
+            'subject_type' => PlantingBatch::class,
+            'subject_id' => $emptyBatch->getKey(),
+        ]);
+    }
+
+    public function test_delete_action_requires_reason(): void
+    {
+        $manager = $this->manager();
+        $emptyBatch = PlantingBatch::factory()->create([
+            'code' => 'BATCH-EMPTY-REQ',
+        ]);
+
+        $this->actingAs($manager);
+        Filament::setCurrentPanel('app');
+
+        Livewire::test(ListPlantingBatches::class)
+            ->assertSuccessful()
+            ->callTableAction('delete', $emptyBatch, [
+                'reason' => '',
+            ])
+            ->assertHasTableActionErrors(['reason' => 'required']);
+
+        $this->assertDatabaseHas('planting_batches', [
             'id' => $emptyBatch->getKey(),
         ]);
     }

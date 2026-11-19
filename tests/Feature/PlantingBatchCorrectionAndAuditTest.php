@@ -145,6 +145,6 @@ class PlantingBatchCorrectionAndAuditTest extends TestCase
         $action = app(DeletePlantingBatch::class);
 
         $this->expectException(AuthorizationException::class);
-        $action->handle($fieldStaff, $batch);
+        $action->handle($fieldStaff, $batch, 'Alasan coba hapus kelompok');
     }
 }

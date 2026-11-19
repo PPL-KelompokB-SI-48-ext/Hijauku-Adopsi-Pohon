@@ -35,6 +35,19 @@ class TreeSpeciesForm
                     ->default(true)
                     ->helperText('Hanya jenis pohon aktif yang dapat dipilih pada inventaris pohon baru.')
                     ->columnSpanFull(),
+                Textarea::make('reason')
+                    ->label('Alasan Perubahan')
+                    ->required(fn (string $operation): bool => $operation === 'edit')
+                    ->visible(fn (string $operation): bool => $operation === 'edit')
+                    ->minLength(3)
+                    ->maxLength(1000)
+                    ->placeholder('Contoh: Penyesuaian nama varietas dan catatan perawatan lapangan.')
+                    ->helperText('Alasan perubahan jenis pohon wajib diisi untuk pencatatan riwayat audit.')
+                    ->validationMessages([
+                        'required' => 'Alasan perubahan jenis pohon wajib diisi.',
+                        'min' => 'Alasan perubahan jenis pohon minimal 3 karakter.',
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }

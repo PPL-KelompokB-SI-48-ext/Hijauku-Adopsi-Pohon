@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class UpdateTreeSpecies
 {
@@ -20,12 +21,11 @@ class UpdateTreeSpecies
     {
         Gate::forUser($actor)->authorize('update', $species);
 
-        $reason = null;
-        if (isset($attributes['reason']) && is_string($attributes['reason'])) {
-            $reason = trim($attributes['reason']);
-            if ($reason === '') {
-                $reason = null;
-            }
+        $reason = trim((string) ($attributes['reason'] ?? ''));
+        if (mb_strlen($reason) < 3) {
+            throw ValidationException::withMessages([
+                'reason' => 'Alasan perubahan jenis pohon wajib diisi minimal 3 karakter.',
+            ]);
         }
 
         $input = array_intersect_key($attributes, array_flip([

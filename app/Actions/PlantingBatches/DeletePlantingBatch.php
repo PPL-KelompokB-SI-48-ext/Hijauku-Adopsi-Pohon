@@ -13,15 +13,15 @@ class DeletePlantingBatch
     /**
      * Menghapus kelompok penanaman yang belum berisi pohon dan mencatat riwayat audit.
      */
-    public function handle(User $actor, PlantingBatch $batch, ?string $reason = null): void
+    public function handle(User $actor, PlantingBatch $batch, string $reason): void
     {
         Gate::forUser($actor)->authorize('delete', $batch);
 
-        if ($reason !== null) {
-            $reason = trim($reason);
-            if ($reason === '') {
-                $reason = null;
-            }
+        $reason = trim($reason);
+        if (mb_strlen($reason) < 3) {
+            throw ValidationException::withMessages([
+                'reason' => 'Alasan penghapusan kelompok penanaman wajib diisi minimal 3 karakter.',
+            ]);
         }
 
         DB::transaction(function () use ($actor, $batch, $reason): void {
@@ -39,11 +39,8 @@ class DeletePlantingBatch
                 'code' => $lockedBatch->code,
                 'plot_id' => $lockedBatch->plot_id,
                 'planted_on' => $lockedBatch->planted_on?->toDateString(),
+                'reason' => $reason,
             ];
-
-            if ($reason !== null) {
-                $metadata['reason'] = $reason;
-            }
 
             $lockedBatch->activityLogs()->create([
                 'actor_id' => $actor->getKey(),

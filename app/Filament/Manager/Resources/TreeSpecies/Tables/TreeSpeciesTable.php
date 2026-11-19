@@ -9,6 +9,7 @@ use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Textarea;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -67,11 +68,24 @@ class TreeSpeciesTable
                     ->modalHeading('Nonaktifkan Jenis Pohon')
                     ->modalDescription(fn (TreeSpecies $record): string => "Nonaktifkan \"{$record->name}\"? Jenis ini tidak akan bisa dipilih pada inventaris baru, namun data historis tetap aman.")
                     ->modalSubmitActionLabel('Ya, Nonaktifkan')
-                    ->action(function (TreeSpecies $record): void {
+                    ->form([
+                        Textarea::make('reason')
+                            ->label('Alasan Penonaktifan')
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(1000)
+                            ->placeholder('Contoh: Spesies sudah tidak dibudidayakan atau diganti varietas lain.')
+                            ->helperText('Alasan penonaktifan jenis pohon wajib diisi untuk pencatatan riwayat audit.')
+                            ->validationMessages([
+                                'required' => 'Alasan penonaktifan jenis pohon wajib diisi.',
+                                'min' => 'Alasan penonaktifan jenis pohon minimal 3 karakter.',
+                            ]),
+                    ])
+                    ->action(function (TreeSpecies $record, array $data): void {
                         $actor = auth()->user();
                         abort_unless($actor instanceof User, 403);
 
-                        app(DeactivateTreeSpecies::class)->handle($actor, $record);
+                        app(DeactivateTreeSpecies::class)->handle($actor, $record, (string) ($data['reason'] ?? ''));
                     })
                     ->successNotificationTitle('Jenis pohon berhasil dinonaktifkan.'),
 
@@ -86,12 +100,25 @@ class TreeSpeciesTable
                     ->modalHeading('Hapus Jenis Pohon')
                     ->modalDescription(fn (TreeSpecies $record): string => "Hapus \"{$record->name}\" secara permanen? Tindakan ini tidak dapat dibatalkan.")
                     ->modalSubmitActionLabel('Ya, Hapus')
-                    ->using(function (TreeSpecies $record): bool {
+                    ->form([
+                        Textarea::make('reason')
+                            ->label('Alasan Penghapusan')
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(1000)
+                            ->placeholder('Contoh: Duplikasi data atau kesalahan entri acuan katalog awal.')
+                            ->helperText('Alasan penghapusan jenis pohon wajib diisi untuk pencatatan riwayat audit.')
+                            ->validationMessages([
+                                'required' => 'Alasan penghapusan jenis pohon wajib diisi.',
+                                'min' => 'Alasan penghapusan jenis pohon minimal 3 karakter.',
+                            ]),
+                    ])
+                    ->using(function (TreeSpecies $record, array $data): bool {
                         $actor = auth()->user();
                         abort_unless($actor instanceof User, 403);
 
                         try {
-                            app(DeleteTreeSpecies::class)->handle($actor, $record);
+                            app(DeleteTreeSpecies::class)->handle($actor, $record, (string) ($data['reason'] ?? ''));
 
                             return true;
                         } catch (ValidationException $e) {

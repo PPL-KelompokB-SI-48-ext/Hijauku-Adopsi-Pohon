@@ -59,7 +59,7 @@ class TreeSpeciesDeactivationAndDeleteProtectionTest extends TestCase
         $action = app(DeleteTreeSpecies::class);
 
         try {
-            $action->handle($manager, $species);
+            $action->handle($manager, $species, 'Alasan hapus jenis terpakai');
             $this->fail('Seharusnya melempar ValidationException ketika menghapus jenis pohon yang sudah dipakai inventaris.');
         } catch (ValidationException $exception) {
             $this->assertArrayHasKey('tree_species', $exception->errors());
@@ -92,6 +92,51 @@ class TreeSpeciesDeactivationAndDeleteProtectionTest extends TestCase
             'subject_type' => TreeSpecies::class,
             'subject_id' => $species->id,
         ]);
+
+        $log = \App\Models\ActivityLog::where('subject_type', TreeSpecies::class)
+            ->where('subject_id', $species->id)
+            ->where('action', 'tree_species.deleted')
+            ->firstOrFail();
+        $this->assertSame($manager->getKey(), $log->actor_id);
+        $this->assertSame('Salah input data', $log->metadata['reason'] ?? null);
+    }
+
+    public function test_delete_tree_species_fails_without_reason(): void
+    {
+        $manager = $this->manager();
+        $species = TreeSpecies::create([
+            'name' => 'Spesies Tanpa Alasan Hapus',
+            'is_active' => true,
+        ]);
+
+        $action = app(DeleteTreeSpecies::class);
+
+        $this->expectException(ValidationException::class);
+        try {
+            $action->handle($manager, $species, '');
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('reason', $e->errors());
+            throw $e;
+        }
+    }
+
+    public function test_deactivate_tree_species_fails_without_reason(): void
+    {
+        $manager = $this->manager();
+        $species = TreeSpecies::create([
+            'name' => 'Spesies Tanpa Alasan Nonaktif',
+            'is_active' => true,
+        ]);
+
+        $action = app(DeactivateTreeSpecies::class);
+
+        $this->expectException(ValidationException::class);
+        try {
+            $action->handle($manager, $species, '  ');
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('reason', $e->errors());
+            throw $e;
+        }
     }
 
     public function test_used_tree_species_can_be_deactivated_instead_of_deleted(): void
@@ -140,6 +185,6 @@ class TreeSpeciesDeactivationAndDeleteProtectionTest extends TestCase
         $fieldStaff = $this->fieldStaff();
 
         $this->expectException(AuthorizationException::class);
-        app(DeleteTreeSpecies::class)->handle($fieldStaff, $species);
+        app(DeleteTreeSpecies::class)->handle($fieldStaff, $species, 'Alasan coba hapus');
     }
 }

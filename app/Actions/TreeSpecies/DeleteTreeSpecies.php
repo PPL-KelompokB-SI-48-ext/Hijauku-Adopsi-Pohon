@@ -13,15 +13,15 @@ class DeleteTreeSpecies
     /**
      * Delete an unused tree species and record its audit log.
      */
-    public function handle(User $actor, TreeSpecies $species, ?string $reason = null): void
+    public function handle(User $actor, TreeSpecies $species, string $reason): void
     {
         Gate::forUser($actor)->authorize('delete', $species);
 
-        if ($reason !== null) {
-            $reason = trim($reason);
-            if ($reason === '') {
-                $reason = null;
-            }
+        $reason = trim($reason);
+        if (mb_strlen($reason) < 3) {
+            throw ValidationException::withMessages([
+                'reason' => 'Alasan penghapusan jenis pohon wajib diisi minimal 3 karakter.',
+            ]);
         }
 
         DB::transaction(function () use ($actor, $species, $reason): void {
@@ -39,11 +39,8 @@ class DeleteTreeSpecies
                 'name' => $lockedSpecies->name,
                 'care_notes' => $lockedSpecies->care_notes,
                 'is_active' => (bool) $lockedSpecies->is_active,
+                'reason' => $reason,
             ];
-
-            if ($reason !== null) {
-                $metadata['reason'] = $reason;
-            }
 
             $lockedSpecies->activityLogs()->create([
                 'actor_id' => $actor->getKey(),

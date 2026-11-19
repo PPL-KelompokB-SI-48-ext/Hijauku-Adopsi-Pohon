@@ -9,6 +9,7 @@ use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Textarea;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -131,12 +132,25 @@ class PlantingBatchesTable
                     ->modalHeading('Hapus Kelompok Penanaman')
                     ->modalDescription(fn (PlantingBatch $record): string => "Hapus kelompok \"{$record->code}\" secara permanen? Tindakan ini tidak dapat dibatalkan.")
                     ->modalSubmitActionLabel('Ya, Hapus')
-                    ->using(function (PlantingBatch $record): bool {
+                    ->form([
+                        Textarea::make('reason')
+                            ->label('Alasan Penghapusan')
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(1000)
+                            ->placeholder('Contoh: Kesalahan input kode batch sebelum pohon ditanam.')
+                            ->helperText('Alasan penghapusan kelompok penanaman wajib diisi untuk pencatatan riwayat audit.')
+                            ->validationMessages([
+                                'required' => 'Alasan penghapusan kelompok penanaman wajib diisi.',
+                                'min' => 'Alasan penghapusan kelompok penanaman minimal 3 karakter.',
+                            ]),
+                    ])
+                    ->using(function (PlantingBatch $record, array $data): bool {
                         $actor = auth()->user();
                         abort_unless($actor instanceof User, 403);
 
                         try {
-                            app(DeletePlantingBatch::class)->handle($actor, $record);
+                            app(DeletePlantingBatch::class)->handle($actor, $record, (string) ($data['reason'] ?? ''));
 
                             return true;
                         } catch (ValidationException $e) {

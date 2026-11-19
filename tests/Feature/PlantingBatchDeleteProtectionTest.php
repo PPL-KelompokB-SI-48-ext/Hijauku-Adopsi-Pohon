@@ -52,9 +52,30 @@ class PlantingBatchDeleteProtectionTest extends TestCase
 
         $this->expectException(ValidationException::class);
         try {
-            $action->handle($manager, $batch);
+            $action->handle($manager, $batch, 'Alasan hapus batch dengan pohon');
         } catch (ValidationException $e) {
             $this->assertArrayHasKey('planting_batch', $e->errors());
+            $this->assertDatabaseHas('planting_batches', [
+                'id' => $batch->getKey(),
+            ]);
+            throw $e;
+        }
+    }
+
+    public function test_manager_cannot_delete_batch_without_reason(): void
+    {
+        $manager = $this->manager();
+        $batch = PlantingBatch::factory()->create([
+            'code' => 'BATCH-NO-REASON',
+        ]);
+
+        $action = app(DeletePlantingBatch::class);
+
+        $this->expectException(ValidationException::class);
+        try {
+            $action->handle($manager, $batch, '');
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('reason', $e->errors());
             $this->assertDatabaseHas('planting_batches', [
                 'id' => $batch->getKey(),
             ]);

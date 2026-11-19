@@ -71,6 +71,7 @@ class TreeSpeciesManagerInterfaceTest extends TestCase
             ->fillForm([
                 'name'       => 'Mahoni Baru',
                 'care_notes' => 'Catatan baru.',
+                'reason'     => 'Perubahan acuan nama dan catatan perawatan.',
             ])
             ->call('save')
             ->assertHasNoFormErrors();
@@ -80,6 +81,25 @@ class TreeSpeciesManagerInterfaceTest extends TestCase
             'actor_id' => $manager->getKey(),
             'action'   => 'tree_species.updated',
         ]);
+
+        $log = $species->activityLogs()->latest('id')->firstOrFail();
+        $this->assertSame('Perubahan acuan nama dan catatan perawatan.', $log->metadata['reason'] ?? null);
+    }
+
+    public function test_edit_page_requires_reason_to_update(): void
+    {
+        $manager = $this->manager();
+        $species = $this->species(['name' => 'Trembesi Validasi']);
+
+        $this->openManagerPanelAs($manager);
+
+        Livewire::test(EditTreeSpecies::class, ['record' => $species->getKey()])
+            ->fillForm([
+                'name'   => 'Trembesi Koreksi',
+                'reason' => '',
+            ])
+            ->call('save')
+            ->assertHasFormErrors(['reason' => 'required']);
     }
 
     // ------------------------------------------------------------------ deactivate table action
@@ -92,7 +112,9 @@ class TreeSpeciesManagerInterfaceTest extends TestCase
         $this->openManagerPanelAs($manager);
 
         Livewire::test(ListTreeSpecies::class)
-            ->callTableAction('deactivate', $species)
+            ->callTableAction('deactivate', $species, [
+                'reason' => 'Spesies diganti dengan varietas unggul lain.',
+            ])
             ->assertHasNoTableActionErrors();
 
         $this->assertFalse((bool) $species->fresh()->is_active);
@@ -102,6 +124,25 @@ class TreeSpeciesManagerInterfaceTest extends TestCase
             'from_status' => 'active',
             'to_status'   => 'inactive',
         ]);
+
+        $log = $species->activityLogs()->latest('id')->firstOrFail();
+        $this->assertSame('Spesies diganti dengan varietas unggul lain.', $log->metadata['reason'] ?? null);
+    }
+
+    public function test_deactivate_table_action_requires_reason(): void
+    {
+        $manager = $this->manager();
+        $species = $this->species(['name' => 'Cemara Aktif', 'is_active' => true]);
+
+        $this->openManagerPanelAs($manager);
+
+        Livewire::test(ListTreeSpecies::class)
+            ->callTableAction('deactivate', $species, [
+                'reason' => '',
+            ])
+            ->assertHasTableActionErrors(['reason' => 'required']);
+
+        $this->assertTrue((bool) $species->fresh()->is_active);
     }
 
     // ------------------------------------------------------------------ delete table action (unused species)
@@ -114,7 +155,9 @@ class TreeSpeciesManagerInterfaceTest extends TestCase
         $this->openManagerPanelAs($manager);
 
         Livewire::test(ListTreeSpecies::class)
-            ->callTableAction('delete', $species)
+            ->callTableAction('delete', $species, [
+                'reason' => 'Duplikasi data saat awal inisialisasi katalog.',
+            ])
             ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseMissing('tree_species', ['id' => $species->getKey()]);
@@ -122,6 +165,28 @@ class TreeSpeciesManagerInterfaceTest extends TestCase
             'actor_id' => $manager->getKey(),
             'action'   => 'tree_species.deleted',
         ]);
+
+        $log = \App\Models\ActivityLog::where('subject_type', TreeSpecies::class)
+            ->where('subject_id', $species->getKey())
+            ->where('action', 'tree_species.deleted')
+            ->firstOrFail();
+        $this->assertSame('Duplikasi data saat awal inisialisasi katalog.', $log->metadata['reason'] ?? null);
+    }
+
+    public function test_delete_table_action_requires_reason(): void
+    {
+        $manager = $this->manager();
+        $species = $this->species(['name' => 'Pohon Uji Hapus Validasi']);
+
+        $this->openManagerPanelAs($manager);
+
+        Livewire::test(ListTreeSpecies::class)
+            ->callTableAction('delete', $species, [
+                'reason' => '',
+            ])
+            ->assertHasTableActionErrors(['reason' => 'required']);
+
+        $this->assertDatabaseHas('tree_species', ['id' => $species->getKey()]);
     }
 
     // ------------------------------------------------------------------ delete table action hidden when in use
