@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Tree extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['species_id', 'plot_id', 'batch_id', 'code', 'planted_on', 'initial_condition'];
 
     protected function casts(): array
