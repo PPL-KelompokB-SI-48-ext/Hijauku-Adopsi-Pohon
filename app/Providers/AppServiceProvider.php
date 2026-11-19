@@ -33,9 +33,12 @@ use App\Policies\CareRecordPolicy;
 use App\Policies\FieldAssignmentPolicy;
 use App\Policies\GrowthObservationPolicy;
 use App\Policies\ManagerOnlyPolicy;
+use App\Policies\PlantingBatchPolicy;
 use App\Policies\ProgramPolicy;
 use App\Policies\SitePolicy;
 use App\Policies\TreeIssuePolicy;
+use App\Policies\TreePolicy;
+use App\Policies\TreeSpeciesPolicy;
 use Filament\Auth\Http\Responses\Contracts\LogoutResponse as LogoutResponseContract;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -75,7 +78,6 @@ class AppServiceProvider extends ServiceProvider
             Plot::class,
             Program::class,
             Site::class,
-            Tree::class,
             TreeAdoptionAllocation::class,
             TreeSpecies::class,
             User::class,
@@ -88,6 +90,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Program::class, ProgramPolicy::class);
         Gate::policy(Site::class, SitePolicy::class);
         Gate::policy(Activity::class, ActivityPolicy::class);
+        Gate::policy(TreeSpecies::class, TreeSpeciesPolicy::class);
+        Gate::policy(Tree::class, TreePolicy::class);
+        Gate::policy(PlantingBatch::class, PlantingBatchPolicy::class);
 
         Gate::policy(ActivityRegistration::class, ActivityRegistrationPolicy::class);
         Gate::policy(AdoptionAgreement::class, AdoptionAgreementPolicy::class);
