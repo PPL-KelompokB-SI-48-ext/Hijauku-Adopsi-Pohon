@@ -88,6 +88,66 @@ class ActivityCloseAndCancelTest extends TestCase
         $this->assertSame(2, $log->metadata['affected_registrations']);
     }
 
+    public function test_cancelling_activity_preserves_attended_participants_history(): void
+    {
+        $manager = $this->manager();
+        $site = $this->site($manager);
+
+        $activity = Activity::query()->create([
+            'site_id' => $site->getKey(),
+            'title' => 'Kegiatan Lapangan dengan Kehadiran',
+            'kind' => 'planting',
+            'starts_at' => now()->addDays(2),
+            'ends_at' => now()->addDays(2)->addHours(3),
+            'quota' => 20,
+            'status' => 'open',
+        ]);
+
+        $citizenAttended = User::factory()->create(['role' => UserRole::Citizen, 'is_active' => true]);
+        $citizenRegistered = User::factory()->create(['role' => UserRole::Citizen, 'is_active' => true]);
+        $citizenCancelled = User::factory()->create(['role' => UserRole::Citizen, 'is_active' => true]);
+
+        $attendedTime = now()->subHour()->startOfSecond();
+
+        $regAttended = ActivityRegistration::query()->create([
+            'activity_id' => $activity->getKey(),
+            'user_id' => $citizenAttended->getKey(),
+            'status' => 'attended',
+            'attended_at' => $attendedTime,
+        ]);
+        $regRegistered = ActivityRegistration::query()->create([
+            'activity_id' => $activity->getKey(),
+            'user_id' => $citizenRegistered->getKey(),
+            'status' => 'registered',
+        ]);
+        $regCancelled = ActivityRegistration::query()->create([
+            'activity_id' => $activity->getKey(),
+            'user_id' => $citizenCancelled->getKey(),
+            'status' => 'cancelled',
+        ]);
+
+        $cancelled = app(CancelActivity::class)->handle($manager, $activity, [
+            'reason' => 'Kegiatan dibatalkan mendadak karena kondisi darurat di lokasi.',
+        ]);
+
+        $this->assertSame('cancelled', $cancelled->status);
+
+        // Peserta yang sudah berstatus attended riwayat kehadirannya TETAP DIPERTAHANKAN
+        $freshAttended = $regAttended->fresh();
+        $this->assertSame('attended', $freshAttended->status);
+        $this->assertSame($attendedTime->toIso8601String(), $freshAttended->attended_at->toIso8601String());
+
+        // Peserta yang masih registered dibatalkan (cancelled)
+        $this->assertSame('cancelled', $regRegistered->fresh()->status);
+
+        // Peserta yang sudah cancelled tetap cancelled
+        $this->assertSame('cancelled', $regCancelled->fresh()->status);
+
+        // Hanya 1 pendaftaran (yang tadinya registered) yang diubah statusnya
+        $log = $activity->activityLogs()->where('action', 'activity.cancelled')->sole();
+        $this->assertSame(1, $log->metadata['affected_registrations']);
+    }
+
     public function test_manager_can_cancel_a_draft_activity_with_reason(): void
     {
         $manager = $this->manager();

@@ -182,6 +182,38 @@ class ActivityRegistrationTest extends TestCase
         $this->assertDatabaseCount('activity_registrations', 1);
     }
 
+    public function test_citizen_cannot_re_register_if_previous_registration_status_is_attended(): void
+    {
+        $citizen = $this->citizen();
+        $activity = $this->openActivity(quota: 5);
+        $attendedAt = now()->subHours(2)->startOfSecond();
+
+        // Pendaftaran lama yang sudah berstatus dihadiri (attended)
+        $reg = ActivityRegistration::query()->create([
+            'activity_id' => $activity->getKey(),
+            'user_id' => $citizen->getKey(),
+            'status' => 'attended',
+            'attended_at' => $attendedAt,
+        ]);
+
+        try {
+            app(RegisterForActivity::class)->handle($citizen, $activity);
+            $this->fail('Seharusnya pendaftaran ulang ditolak untuk pendaftar yang sudah berstatus attended.');
+        } catch (ValidationException $e) {
+            $this->assertArrayHasKey('activity', $e->errors());
+            $this->assertSame(
+                'Anda sudah tercatat hadir pada kegiatan ini dan tidak dapat mendaftar ulang.',
+                $e->errors()['activity'][0],
+            );
+        }
+
+        // Pastikan catatan kehadiran tidak terhapus atau berubah
+        $fresh = $reg->fresh();
+        $this->assertSame('attended', $fresh->status);
+        $this->assertSame($attendedAt->toIso8601String(), $fresh->attended_at->toIso8601String());
+        $this->assertDatabaseCount('activity_registrations', 1);
+    }
+
     public function test_filament_citizen_panel_lists_available_activities_and_allows_registration(): void
     {
         $citizen = $this->citizen();
