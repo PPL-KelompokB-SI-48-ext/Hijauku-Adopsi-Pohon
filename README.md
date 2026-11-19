@@ -20,6 +20,7 @@ Status berikut dicek pada 11 November 2026. Jira menjadi sumber status dan tangg
 | M02 | HJK-004 sampai HJK-006: catat lokasi, cari/filter per program, dan ubah atau hapus lokasi dengan batas relasi | Selesai, PR #20; CI run 42930124355 lulus |
 | M07 | HJK-019: catat rencana kegiatan | Selesai, PR #11 |
 | M13 | HJK-037 sampai HJK-039: susun rencana perawatan, atur prioritas, koreksi atau batalkan rencana | Selesai, PR #13 dan #16 |
+| M14 | HJK-040 sampai HJK-042: catat realisasi perawatan dan bukti foto, verifikasi laporan, serta kembalikan atau koreksi realisasi | Selesai, PR #29 |
 
 Story lain belum otomatis selesai hanya karena tabel atau panel dasarnya sudah tersedia. PR #12, #14, dan #15 sudah ditutup tanpa merge. Branch personal pemiliknya masih menyimpan commit unik dan perlu disinkronkan ke `main` sebelum PR pengganti dibuat. Snapshot commit dan jarak branch ada di [audit sumber](docs/source-audit.md).
 
