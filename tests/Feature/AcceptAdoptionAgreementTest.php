@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Actions\Adoptions\AcceptAdoptionAgreementAction;
+use App\Actions\Adoptions\CreateAdoptionAgreementAction;
 use App\Enums\UserRole;
 use App\Models\AdoptionAgreement;
 use App\Models\AdoptionRequest;
@@ -26,6 +27,11 @@ class AcceptAdoptionAgreementTest extends TestCase
     {
         $agreement = $this->agreement();
         $citizen = User::query()->findOrFail($agreement->adopter_id);
+        $allocation = $agreement->allocation()->firstOrFail();
+        $reservedAt = $allocation->reserved_at?->toDateTimeString();
+
+        $this->assertSame('awaiting_acceptance', $allocation->status);
+        $this->assertNotNull($reservedAt);
 
         $accepted = app(AcceptAdoptionAgreementAction::class)
             ->handle($citizen, $agreement);
@@ -34,11 +40,21 @@ class AcceptAdoptionAgreementTest extends TestCase
         $this->assertNotNull($accepted->accepted_at);
 
         $this->assertDatabaseHas('tree_adoption_allocations', [
+            'id' => $allocation->id,
             'tree_id' => $agreement->tree_id,
             'request_id' => $agreement->request_id,
             'agreement_id' => $agreement->id,
             'status' => 'active',
         ]);
+
+        $this->assertDatabaseCount('tree_adoption_allocations', 1);
+
+        $updatedAllocation = TreeAdoptionAllocation::query()->findOrFail($allocation->id);
+
+        $this->assertSame(
+            $reservedAt,
+            $updatedAllocation->reserved_at?->toDateTimeString()
+        );
 
         $this->assertDatabaseHas('activity_logs', [
             'actor_id' => $citizen->id,
@@ -64,7 +80,12 @@ class AcceptAdoptionAgreementTest extends TestCase
             $agreement->fresh()->status
         );
 
-        $this->assertDatabaseCount('tree_adoption_allocations', 0);
+        $this->assertDatabaseCount('tree_adoption_allocations', 1);
+
+        $this->assertDatabaseHas('tree_adoption_allocations', [
+            'agreement_id' => $agreement->id,
+            'status' => 'awaiting_acceptance',
+        ]);
     }
 
     public function test_manager_cannot_accept_citizen_agreement(): void
@@ -78,7 +99,12 @@ class AcceptAdoptionAgreementTest extends TestCase
 
         $this->assertAuthorizationDenied($manager, $agreement);
 
-        $this->assertDatabaseCount('tree_adoption_allocations', 0);
+        $this->assertDatabaseCount('tree_adoption_allocations', 1);
+
+        $this->assertDatabaseHas('tree_adoption_allocations', [
+            'agreement_id' => $agreement->id,
+            'status' => 'awaiting_acceptance',
+        ]);
     }
 
     public function test_agreement_cannot_be_accepted_twice(): void
@@ -96,10 +122,9 @@ class AcceptAdoptionAgreementTest extends TestCase
         $this->assertDatabaseCount('tree_adoption_allocations', 1);
     }
 
-    public function test_tree_cannot_be_allocated_to_another_agreement(): void
+    public function test_tree_with_pending_reservation_cannot_have_another_agreement(): void
     {
         $firstAgreement = $this->agreement();
-        $citizen = User::query()->findOrFail($firstAgreement->adopter_id);
 
         $secondCitizen = User::factory()->create([
             'role' => UserRole::Citizen,
@@ -113,24 +138,27 @@ class AcceptAdoptionAgreementTest extends TestCase
             'status' => 'approved',
         ]);
 
-        $secondAgreement = $this->createAgreement($secondRequest);
+        $manager = User::factory()->create([
+            'role' => UserRole::Manager,
+            'is_active' => true,
+        ]);
 
-        app(AcceptAdoptionAgreementAction::class)->handle(
-            $citizen,
-            $firstAgreement
-        );
+        try {
+            app(CreateAdoptionAgreementAction::class)->handle($manager, [
+                'request_id' => $secondRequest->id,
+                'starts_on' => '2026-11-20',
+                'ends_on' => '2027-11-20',
+                'terms' => 'Pengadopsi wajib merawat pohon secara rutin.',
+            ]);
+        } catch (ValidationException $exception) {
+            $this->assertArrayHasKey('request_id', $exception->errors());
+            $this->assertDatabaseCount('adoption_agreements', 1);
+            $this->assertDatabaseCount('tree_adoption_allocations', 1);
 
-        $this->assertValidationError(
-            $secondCitizen,
-            $secondAgreement
-        );
+            return;
+        }
 
-        $this->assertDatabaseCount('tree_adoption_allocations', 1);
-
-        $this->assertSame(
-            'awaiting_acceptance',
-            $secondAgreement->fresh()->status
-        );
+        $this->fail('Pohon yang sedang direservasi tidak boleh dibuatkan kesepakatan kedua.');
     }
 
     private function assertAuthorizationDenied(
@@ -181,7 +209,7 @@ class AcceptAdoptionAgreementTest extends TestCase
     private function createAgreement(
         AdoptionRequest $request
     ): AdoptionAgreement {
-        return AdoptionAgreement::query()->create([
+        $agreement = AdoptionAgreement::query()->create([
             'request_id' => $request->id,
             'tree_id' => $request->tree_id,
             'adopter_id' => $request->requester_id,
@@ -190,6 +218,16 @@ class AcceptAdoptionAgreementTest extends TestCase
             'ends_on' => '2027-11-20',
             'status' => 'awaiting_acceptance',
         ]);
+
+        TreeAdoptionAllocation::query()->create([
+            'tree_id' => $request->tree_id,
+            'request_id' => $request->id,
+            'agreement_id' => $agreement->id,
+            'status' => 'awaiting_acceptance',
+            'reserved_at' => now(),
+        ]);
+
+        return $agreement;
     }
 
     private function tree(): Tree

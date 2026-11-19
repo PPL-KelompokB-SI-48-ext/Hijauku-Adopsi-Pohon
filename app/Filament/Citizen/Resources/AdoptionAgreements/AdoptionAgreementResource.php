@@ -23,6 +23,11 @@ class AdoptionAgreementResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Kesepakatan Saya';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
@@ -82,8 +87,7 @@ class AdoptionAgreementResource extends Resource
                     ->modalHeading('Terima Kesepakatan Adopsi')
                     ->modalDescription('Apakah kamu yakin ingin menerima kesepakatan adopsi ini?')
                     ->modalSubmitActionLabel('Terima Kesepakatan')
-                    ->visible(fn (AdoptionAgreement $record): bool =>
-                        $record->status === 'awaiting_acceptance'
+                    ->visible(fn (AdoptionAgreement $record): bool => $record->status === 'awaiting_acceptance'
                         && auth()->user()?->can('accept', $record)
                     )
                     ->action(function (AdoptionAgreement $record): void {

@@ -3,6 +3,7 @@
 namespace App\Filament\Manager\Resources\AdoptionAgreements\Schemas;
 
 use App\Models\AdoptionRequest;
+use App\Models\TreeAdoptionAllocation;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -20,6 +21,13 @@ class AdoptionAgreementForm
                         ->with(['tree.species', 'requester'])
                         ->where('status', 'approved')
                         ->whereDoesntHave('agreement')
+                        ->whereDoesntHave(
+                            'tree.adoptionAllocations',
+                            fn ($query) => $query->whereIn(
+                                'status',
+                                TreeAdoptionAllocation::VALID_STATUSES
+                            )
+                        )
                         ->get()
                         ->mapWithKeys(fn (AdoptionRequest $request): array => [
                             $request->id => $request->tree->code
@@ -31,7 +39,7 @@ class AdoptionAgreementForm
                     ->native(false)
                     ->required()
                     ->columnSpanFull()
-                    ->helperText('Hanya permohonan yang sudah disetujui dan belum memiliki kesepakatan yang dapat dipilih.'),
+                    ->helperText('Hanya permohonan yang disetujui, belum memiliki kesepakatan, dan pohonnya belum direservasi yang dapat dipilih.'),
 
                 DatePicker::make('starts_on')
                     ->label('Tanggal Mulai Adopsi')

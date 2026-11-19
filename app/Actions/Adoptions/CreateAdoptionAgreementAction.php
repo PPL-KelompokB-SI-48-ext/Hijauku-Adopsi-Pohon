@@ -4,6 +4,8 @@ namespace App\Actions\Adoptions;
 
 use App\Models\AdoptionAgreement;
 use App\Models\AdoptionRequest;
+use App\Models\Tree;
+use App\Models\TreeAdoptionAllocation;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -15,17 +17,12 @@ class CreateAdoptionAgreementAction
     /**
      * @param  array<string, mixed>  $attributes
      */
-    public function handle(
-        User $actor,
-        array $attributes
-    ): AdoptionAgreement {
+    public function handle(User $actor, array $attributes): AdoptionAgreement
+    {
         Gate::forUser($actor)->authorize('create', AdoptionAgreement::class);
 
         $attributes = array_intersect_key($attributes, array_flip([
-            'request_id',
-            'starts_on',
-            'ends_on',
-            'terms',
+            'request_id', 'starts_on', 'ends_on', 'terms',
         ]));
 
         if (isset($attributes['terms']) && is_string($attributes['terms'])) {
@@ -65,15 +62,40 @@ class CreateAdoptionAgreementAction
                 ]);
             }
 
+            $tree = Tree::query()
+                ->whereKey($request->tree_id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            $hasBlockingAllocation = $tree->adoptionAllocations()
+                ->whereIn('status', TreeAdoptionAllocation::VALID_STATUSES)
+                ->exists();
+
+            if ($hasBlockingAllocation) {
+                throw ValidationException::withMessages([
+                    'request_id' => 'Pohon sudah memiliki reservasi atau alokasi adopsi.',
+                ]);
+            }
+
+            $now = now();
+
             $agreement = AdoptionAgreement::query()->create([
                 'request_id' => $request->getKey(),
-                'tree_id' => $request->tree_id,
+                'tree_id' => $tree->getKey(),
                 'adopter_id' => $request->requester_id,
                 'terms' => $data['terms'],
                 'starts_on' => $data['starts_on'],
                 'ends_on' => $data['ends_on'],
                 'status' => 'awaiting_acceptance',
                 'accepted_at' => null,
+            ]);
+
+            $allocation = TreeAdoptionAllocation::query()->create([
+                'tree_id' => $tree->getKey(),
+                'request_id' => $request->getKey(),
+                'agreement_id' => $agreement->getKey(),
+                'status' => 'awaiting_acceptance',
+                'reserved_at' => $now,
             ]);
 
             $agreement->activityLogs()->create([
@@ -83,8 +105,9 @@ class CreateAdoptionAgreementAction
                 'to_status' => 'awaiting_acceptance',
                 'metadata' => [
                     'request_id' => $request->getKey(),
-                    'tree_id' => $request->tree_id,
+                    'tree_id' => $tree->getKey(),
                     'adopter_id' => $request->requester_id,
+                    'allocation_id' => $allocation->getKey(),
                     'starts_on' => $data['starts_on'],
                     'ends_on' => $data['ends_on'],
                 ],

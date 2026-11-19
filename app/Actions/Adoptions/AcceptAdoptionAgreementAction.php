@@ -33,26 +33,22 @@ class AcceptAdoptionAgreementAction
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            $hasBlockingAllocation = TreeAdoptionAllocation::query()
+            $allocation = TreeAdoptionAllocation::query()
+                ->where('agreement_id', $agreement->getKey())
+                ->where('request_id', $agreement->request_id)
                 ->where('tree_id', $tree->getKey())
-                ->whereIn('status', TreeAdoptionAllocation::VALID_STATUSES)
-                ->exists();
+                ->lockForUpdate()
+                ->first();
 
-            if ($hasBlockingAllocation) {
+            if (! $allocation || $allocation->status !== 'awaiting_acceptance') {
                 throw ValidationException::withMessages([
-                    'agreement' => 'Pohon sudah dialokasikan kepada pihak lain.',
+                    'agreement' => 'Reservasi pohon tidak ditemukan atau sudah tidak berlaku.',
                 ]);
             }
 
             $now = now();
 
-            $allocation = TreeAdoptionAllocation::create([
-                'tree_id' => $tree->getKey(),
-                'request_id' => $agreement->request_id,
-                'agreement_id' => $agreement->getKey(),
-                'status' => 'active',
-                'reserved_at' => $now,
-            ]);
+            $allocation->update(['status' => 'active']);
 
             $agreement->update([
                 'status' => 'active',
