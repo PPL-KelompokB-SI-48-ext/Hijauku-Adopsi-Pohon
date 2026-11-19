@@ -49,9 +49,10 @@ class CancelActivity
         return DB::transaction(function () use ($actor, $activity, $validated): Activity {
             $fromStatus = $activity->status;
 
-            // Kriteria 2: Peserta yang sudah daftar mendapat status yang tepat (cancelled)
+            // Kriteria 2: Peserta yang masih terdaftar (registered) mendapat status dibatalkan (cancelled),
+            // sedangkan peserta yang sudah hadir (attended) tetap dipertahankan riwayat kehadirannya.
             $affectedRegistrations = $activity->registrations()
-                ->where('status', '!=', 'cancelled')
+                ->where('status', 'registered')
                 ->update(['status' => 'cancelled']);
 
             $activity->forceFill([

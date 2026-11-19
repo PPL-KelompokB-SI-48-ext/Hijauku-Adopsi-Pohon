@@ -45,6 +45,18 @@ class RegisterForActivity
                     ]);
                 }
 
+                if ($existing->status === 'attended') {
+                    throw ValidationException::withMessages([
+                        'activity' => 'Anda sudah tercatat hadir pada kegiatan ini dan tidak dapat mendaftar ulang.',
+                    ]);
+                }
+
+                if ($existing->status !== 'cancelled') {
+                    throw ValidationException::withMessages([
+                        'activity' => 'Status pendaftaran saat ini tidak mengizinkan pendaftaran ulang.',
+                    ]);
+                }
+
                 // Jika pendaftaran sebelumnya dibatalkan, apakah diizinkan daftar ulang jika kuota tersedia?
                 // Cek kuota sebelum mengaktifkan kembali
                 if ($lockedActivity->quota !== null) {
