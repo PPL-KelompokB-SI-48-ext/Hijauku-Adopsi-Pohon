@@ -46,3 +46,4 @@ class TreeSpeciesManagementTest extends DuskTestCase
         });
     }
 }
+
