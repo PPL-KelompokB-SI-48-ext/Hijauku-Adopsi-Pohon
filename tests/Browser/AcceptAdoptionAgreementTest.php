@@ -2,14 +2,15 @@
 
 namespace Tests\Browser;
 
+use App\Enums\UserRole;
 use App\Models\AdoptionAgreement;
 use App\Models\AdoptionRequest;
-use App\Models\Tree;
 use App\Models\Plot;
 use App\Models\Program;
 use App\Models\Site;
-use App\Models\TreeSpecies;
+use App\Models\Tree;
 use App\Models\TreeAdoptionAllocation;
+use App\Models\TreeSpecies;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
@@ -19,19 +20,16 @@ class AcceptAdoptionAgreementTest extends DuskTestCase
 {
     public function test_citizen_can_accept_adoption_agreement_from_browser(): void
     {
-
         $citizen = User::factory()->create([
             'name' => 'Warga Pengujian HAP-38',
             'email' => 'warga-hap38-'.Str::lower(Str::random(8)).'@test.local',
             'password' => bcrypt('password'),
-            'role' => \App\Enums\UserRole::Citizen,
+            'role' => UserRole::Citizen,
             'is_active' => true,
         ]);
 
-        $treeCode = 'DUSK-H38-'.Str::upper(Str::random(6));
-
         $manager = User::factory()->create([
-            'role' => \App\Enums\UserRole::Manager,
+            'role' => UserRole::Manager,
             'is_active' => true,
         ]);
 
@@ -67,7 +65,7 @@ class AcceptAdoptionAgreementTest extends DuskTestCase
             'species_id' => $species->getKey(),
             'plot_id' => $plot->getKey(),
             'batch_id' => null,
-            'code' => $treeCode,
+            'code' => 'DUSK-H38-'.Str::upper(Str::random(6)),
             'initial_condition' => 'healthy',
         ]);
 
@@ -76,7 +74,7 @@ class AcceptAdoptionAgreementTest extends DuskTestCase
             'requester_id' => $citizen->getKey(),
             'reason' => 'Pengujian penerimaan kesepakatan HAP-38.',
             'status' => 'approved',
-
+            'reviewer_id' => $manager->getKey(),
         ]);
 
         $agreement = AdoptionAgreement::query()->create([
@@ -89,28 +87,39 @@ class AcceptAdoptionAgreementTest extends DuskTestCase
             'status' => 'awaiting_acceptance',
         ]);
 
+        TreeAdoptionAllocation::query()->create([
+            'tree_id' => $tree->getKey(),
+            'request_id' => $request->getKey(),
+            'agreement_id' => $agreement->getKey(),
+            'status' => 'awaiting_acceptance',
+            'reserved_at' => now(),
+        ]);
+
+        $treeCode = $tree->code;
+
+        $rowSelector = 'tr[wire\\:key$=".table.records.'.$agreement->getKey().'"]';
+
         $this->browse(function (Browser $browser) use (
             $citizen,
             $treeCode,
+            $rowSelector,
         ): void {
-            $browser->visit('/login')
-                ->type('input[type="email"]', $citizen->email)
-                ->type('input[type="password"]', 'password')
-                ->click('form button[type="submit"]')
-                ->waitForLocation('/warga')
+            $browser->loginAs($citizen)
                 ->visit('/warga/adoption-agreements')
-                ->waitForText($treeCode, 15)
-                ->assertSee('Menunggu Persetujuan')
-                ->press('Terima Kesepakatan')
-                ->waitForText('Terima Kesepakatan Adopsi', 10);
+                ->waitFor($rowSelector, 15)
+                ->with($rowSelector, function (Browser $row) use ($treeCode): void {
+                    $row->assertSee($treeCode)
+                        ->assertSee('Menunggu Persetujuan')
+                        ->press('Terima Kesepakatan');
+                });
 
-            $browser->script("
-                Array.from(document.querySelectorAll('.fi-modal-footer-actions button'))
-                    .find(button => button.innerText.trim() === 'Terima Kesepakatan')
-                    ?.click();
-            ");
-
-            $browser->pause(1000);
+            $browser->waitForText('Terima Kesepakatan Adopsi', 10)
+                ->with('.fi-modal', function (Browser $modal): void {
+                    $modal->press('Terima Kesepakatan');
+                })
+                ->waitUntilMissingText('Terima Kesepakatan Adopsi', 15)
+                ->assertSee($treeCode)
+                ->assertSee('Aktif');
         });
 
         $this->assertSame('active', $agreement->fresh()->status);
