@@ -89,7 +89,7 @@ jobs:
           export APP_ENV=testing
           export APP_URL=http://127.0.0.1:8000
           export DB_CONNECTION=sqlite
-          export DB_DATABASE="$RUNNER_TEMP/hijauku-dusk.sqlite"
+          export DB_DATABASE="$GITHUB_WORKSPACE/database/dusk.sqlite"
           export CACHE_STORE=array
           export SESSION_DRIVER=file
           export QUEUE_CONNECTION=sync
@@ -107,8 +107,16 @@ jobs:
           done
 
           curl --fail --silent http://127.0.0.1:8000 > /dev/null
-          php artisan dusk
-
+          if php artisan dusk --testsuite=Browser; then
+            :
+          else
+            dusk_status=$?
+            echo "=== LARAVEL SERVER LOG ==="
+            cat /tmp/hijauku-server.log || true
+            echo "=== SERVER PROCESS STATUS ==="
+            ps aux | grep '[p]hp artisan serve' || true
+            exit "$dusk_status"
+          fi
       - name: Upload Dusk screenshots on failure
         if: failure()
         uses: actions/upload-artifact@v4

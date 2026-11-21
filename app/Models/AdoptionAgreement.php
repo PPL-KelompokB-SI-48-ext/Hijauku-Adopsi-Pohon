@@ -5,10 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AdoptionAgreement extends Model
 {
-    protected $fillable = ['request_id', 'tree_id', 'adopter_id', 'terms', 'starts_on', 'ends_on', 'status', 'accepted_at'];
+    protected $fillable = [
+        'request_id',
+        'tree_id',
+        'adopter_id',
+        'terms',
+        'starts_on',
+        'ends_on',
+        'status',
+        'accepted_at',
+    ];
 
     protected function casts(): array
     {
@@ -37,5 +47,10 @@ class AdoptionAgreement extends Model
     public function allocation(): HasOne
     {
         return $this->hasOne(TreeAdoptionAllocation::class, 'agreement_id');
+    }
+
+    public function activityLogs(): MorphMany
+    {
+        return $this->morphMany(ActivityLog::class, 'subject');
     }
 }

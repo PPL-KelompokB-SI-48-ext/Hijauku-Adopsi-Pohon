@@ -10,7 +10,7 @@ class AdoptionRequestPolicy extends ManagerOnlyPolicy
 {
     protected function managerRestrictedAbilities(): array
     {
-        return ['review', 'update'];
+        return ['create', 'review', 'update', 'withdraw'];
     }
 
     public function viewAny(User $user): bool
@@ -37,6 +37,12 @@ class AdoptionRequestPolicy extends ManagerOnlyPolicy
     {
         return $user->isManager()
             && (int) $request->requester_id !== (int) $user->getKey();
+    }
+
+    public function withdraw(User $user, AdoptionRequest $request): bool
+    {
+        return $user->isCitizen()
+            && (int) $request->requester_id === (int) $user->getKey();
     }
 
     public function update(User $user, Model $model): bool
