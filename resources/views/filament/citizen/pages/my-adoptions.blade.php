@@ -23,251 +23,359 @@
     @endphp
 
     <style>
+    .m11-page {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .m11-summary {
+        position: absolute;
+        top: -57px;
+        right: 170px;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .m11-summary-card {
+        display: flex;
+        min-width: 150px;
+        min-height: 48px;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 14px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0 1px 2px rgb(15 23 42 / 4%);
+    }
+
+    .m11-summary-card p {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .m11-summary-card strong {
+        display: block;
+        color: #1f2937;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+
+    .m11-tabs {
+        display: flex;
+        min-height: 42px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 5px 10px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: white;
+    }
+
+    .m11-tab-list {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .m11-tab {
+        display: inline-flex;
+        min-height: 32px;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 7px;
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: background .15s ease;
+    }
+
+    .m11-tab svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    .m11-tab:hover {
+        background: #f1f5f9;
+    }
+
+    .m11-tab-active,
+    .m11-tab-active:hover {
+        background: #15803d;
+        color: white;
+    }
+
+    .m11-tab-count {
+        display: inline-flex;
+        min-width: 18px;
+        height: 18px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 5px;
+        border-radius: 999px;
+        background: #e2e8f0;
+        color: #475569;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .m11-tab-active .m11-tab-count {
+        background: rgb(255 255 255 / 22%);
+        color: white;
+    }
+
+    .m11-verification {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.4;
+        white-space: nowrap;
+    }
+
+    .m11-verification svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    .m11-table-card {
+        overflow: hidden;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: white;
+    }
+
+    .m11-account {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 7px;
+        padding: 10px 16px 0;
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .m11-table-content {
+        min-width: 0;
+        padding: 8px 12px 12px;
+    }
+
+    .m11-table-content .fi-ta-header-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px !important;
+        padding: 8px 10px !important;
+    }
+
+    .m11-table-content .fi-ta-header-cell {
+        padding: 11px 12px !important;
+        font-size: 10px !important;
+        font-weight: 600;
+        letter-spacing: .035em;
+    }
+
+    .m11-table-content .fi-ta-cell {
+        padding: 12px 14px !important;
+        font-size: 13px !important;
+        line-height: 1.5;
+    }
+
+    .m11-table-content .fi-ta-cell span,
+    .m11-table-content .fi-ta-cell a,
+    .m11-table-content .fi-ta-cell p {
+        font-size: 13px !important;
+    }
+
+    .m11-table-content .fi-ta-cell .fi-badge {
+        font-size: 12px !important;
+    }
+
+    .m11-table-content .fi-input-wrp,
+    .m11-table-content input,
+    .m11-table-content select {
+        min-height: 40px !important;
+        font-size: 12px !important;
+    }
+
+    .m11-table-content .fi-ta-content {
+        overflow-x: auto;
+    }
+
+    .m11-table-content table {
+        min-width: 860px;
+    }
+
+    .m11-information {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .m11-information-card {
+        display: flex;
+        min-height: 84px;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: white;
+    }
+
+    .m11-information-icon {
+        display: flex;
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+
+    .m11-information-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .m11-information-card h3 {
+        margin: 1px 0 5px;
+        color: #1f2937;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.35;
+    }
+
+    .m11-information-card p {
+        margin: 0;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .dark .m11-summary-card,
+    .dark .m11-tabs,
+    .dark .m11-table-card,
+    .dark .m11-information-card {
+        border-color: #374151;
+        background: #111827;
+    }
+
+    .dark .m11-summary-card strong,
+    .dark .m11-information-card h3 {
+        color: #f9fafb;
+    }
+
+    .dark .m11-information-card p {
+        color: #9ca3af;
+    }
+
+    @media (max-width: 1023px) {
+        .m11-summary {
+            position: static;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .m11-summary-card {
+            flex: 1 1 180px;
+        }
+    }
+
+    @media (max-width: 767px) {
         .m11-page {
-            position: relative;
-            display: flex;
-            flex-direction: column;
             gap: 14px;
         }
 
         .m11-summary {
-            position: absolute;
-            top: -57px;
-            right: 170px;
-            z-index: 5;
-            display: flex;
-            align-items: center;
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 100%;
             gap: 8px;
         }
 
         .m11-summary-card {
-            display: flex;
-            min-width: 126px;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 10px;
-            border: 1px solid #e5e7eb;
-            border-radius: 9px;
-            background: white;
-            box-shadow: 0 1px 2px rgb(15 23 42 / 4%);
-        }
-
-        .m11-summary-card p {
-            margin: 0;
-            font-size: 10px;
-            line-height: 1.3;
-        }
-
-        .m11-summary-card strong {
-            display: block;
-            color: #1f2937;
-            font-size: 11px;
-            font-weight: 600;
+            width: 100%;
+            min-width: 0;
         }
 
         .m11-tabs {
-            display: flex;
-            min-height: 36px;
-            align-items: center;
-            justify-content: space-between;
+            align-items: stretch;
+            flex-direction: column;
             gap: 10px;
-            padding: 4px 9px;
-            border: 1px solid #e5e7eb;
-            border-radius: 9px;
-            background: white;
+            padding: 10px;
         }
 
         .m11-tab-list {
-            display: flex;
-            align-items: center;
-            gap: 7px;
+            display: grid;
+            width: 100%;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
         }
 
         .m11-tab {
-            display: inline-flex;
-            min-height: 27px;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 10px;
-            border-radius: 6px;
-            color: #64748b;
-            font-size: 11px;
-            font-weight: 500;
-            white-space: nowrap;
-            transition: background .15s ease;
-        }
-
-        .m11-tab:hover {
-            background: #f1f5f9;
-        }
-
-        .m11-tab-active,
-        .m11-tab-active:hover {
-            background: #15803d;
-            color: white;
-        }
-
-        .m11-tab-count {
-            display: inline-flex;
-            min-width: 15px;
-            height: 15px;
-            align-items: center;
-            justify-content: center;
-            padding: 0 4px;
-            border-radius: 999px;
-            background: #e2e8f0;
-            color: #475569;
-            font-size: 9px;
-        }
-
-        .m11-tab-active .m11-tab-count {
-            background: rgb(255 255 255 / 22%);
-            color: white;
+            min-height: 42px;
+            padding: 8px 10px;
+            font-size: 12px;
+            white-space: normal;
+            text-align: center;
         }
 
         .m11-verification {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #64748b;
-            font-size: 10px;
-            white-space: nowrap;
-        }
-
-        .m11-table-card {
-            overflow: hidden;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            background: white;
+            align-items: flex-start;
+            white-space: normal;
+            font-size: 11px;
         }
 
         .m11-account {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 6px;
-            padding: 9px 14px 0;
-            color: #64748b;
-            font-size: 10px;
+            justify-content: flex-start;
+            padding: 10px 12px 0;
+            font-size: 11px;
         }
 
         .m11-table-content {
-            padding: 3px 9px 8px;
+            padding: 6px 8px 10px;
         }
 
         .m11-table-content .fi-ta-header-toolbar {
-            padding: 5px 7px !important;
-            gap: 7px !important;
+            align-items: stretch;
         }
 
-        .m11-table-content .fi-ta-header-cell {
-            padding: 8px 9px !important;
-            font-size: 9px !important;
-            letter-spacing: .035em;
-        }
-
-        .m11-table-content .fi-ta-cell {
-            padding: 9px !important;
-            font-size: 11px !important;
-        }
-
-        .m11-table-content .fi-input-wrp,
-        .m11-table-content input,
-        .m11-table-content select {
-            min-height: 31px !important;
-            font-size: 10px !important;
+        .m11-table-content .fi-ta-header-toolbar > * {
+            max-width: 100%;
         }
 
         .m11-information {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px;
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
 
         .m11-information-card {
-            display: flex;
-            min-height: 72px;
-            align-items: flex-start;
-            gap: 9px;
-            padding: 10px 12px;
-            border: 1px solid #e5e7eb;
-            border-radius: 9px;
-            background: white;
+            min-height: 0;
+            padding: 14px;
         }
+    }
 
-        .m11-information-icon {
-            display: flex;
-            width: 25px;
-            height: 25px;
-            flex: 0 0 25px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
+    @media (max-width: 420px) {
+        .m11-tab-list {
+            grid-template-columns: 1fr;
         }
-
-        .m11-information-card h3 {
-            margin: 1px 0 3px;
-            color: #1f2937;
-            font-size: 12px;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-
-        .m11-information-card p {
-            margin: 0;
-            color: #64748b;
-            font-size: 10px;
-            line-height: 1.4;
-        }
-
-        .dark .m11-summary-card,
-        .dark .m11-tabs,
-        .dark .m11-table-card,
-        .dark .m11-information-card {
-            border-color: #374151;
-            background: #111827;
-        }
-
-        .dark .m11-summary-card strong,
-        .dark .m11-information-card h3 {
-            color: #f9fafb;
-        }
-
-        .dark .m11-information-card p {
-            color: #9ca3af;
-        }
-
-        @media (max-width: 1023px) {
-            .m11-summary {
-                position: static;
-                justify-content: flex-end;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .m11-information {
-                grid-template-columns: 1fr;
-            }
-
-            .m11-tabs {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .m11-tab-list {
-                flex-wrap: wrap;
-            }
-
-            .m11-verification {
-                white-space: normal;
-            }
-
-            .m11-summary {
-                justify-content: flex-start;
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+    }
+</style>
 
     <div class="m11-page">
 
