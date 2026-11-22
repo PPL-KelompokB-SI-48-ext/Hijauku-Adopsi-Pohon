@@ -14,6 +14,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use UnitEnum;
@@ -39,6 +40,13 @@ class MyAdoptions extends Page implements HasTable
         return $this->activeTab === 'agreements'
             ? 'Kesepakatan Adopsi Saya'
             : 'Permohonan Adopsi Saya';
+    }
+
+    public function getHeader(): ?View
+    {
+        return $this->activeTab === 'agreements'
+            ? view('filament.citizen.pages.my-adoptions-header')
+            : null;
     }
 
     public function getSubheading(): ?string
@@ -250,6 +258,7 @@ class MyAdoptions extends Page implements HasTable
                 ->requiresConfirmation()
                 ->modalHeading('Terima Kesepakatan Adopsi')
                 ->modalDescription('Dengan menerima kesepakatan ini, Anda menyetujui komitmen dan periode adopsi yang tercantum.')
+                ->modalSubmitActionLabel('Terima Kesepakatan')
                 ->visible(fn (AdoptionAgreement $record): bool => $record->status === 'awaiting_acceptance'
                     && auth()->user()->can('accept', $record))
                 ->action(function (AdoptionAgreement $record): void {

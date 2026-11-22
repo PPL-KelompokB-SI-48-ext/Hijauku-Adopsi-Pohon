@@ -87,7 +87,7 @@ class AcceptAdoptionAgreementTest extends DuskTestCase
             'status' => 'awaiting_acceptance',
         ]);
 
-        TreeAdoptionAllocation::query()->create([
+        $allocation = TreeAdoptionAllocation::query()->create([
             'tree_id' => $tree->getKey(),
             'request_id' => $request->getKey(),
             'agreement_id' => $agreement->getKey(),
@@ -105,11 +105,18 @@ class AcceptAdoptionAgreementTest extends DuskTestCase
             $rowSelector,
         ): void {
             $browser->loginAs($citizen)
-                ->visit('/warga/adoption-agreements')
+                ->visit('/warga/adopsi-saya')
+                ->waitForText('Dokumen Legalitas & Komitmen', 15)
+                ->assertSee('Kesepakatan Adopsi Saya')
+                ->assertSee('POHON')
+                ->assertSee('NO. KESEPAKATAN')
+                ->assertSee('PERIODE ADOPSI')
+                ->assertSee('KETENTUAN (RINGKAS)')
+                ->assertSee('STATUS KESEPAKATAN')
                 ->waitFor($rowSelector, 15)
                 ->with($rowSelector, function (Browser $row) use ($treeCode): void {
                     $row->assertSee($treeCode)
-                        ->assertSee('Menunggu Persetujuan')
+                        ->assertSee('Menunggu Persetujuan Warga')
                         ->press('Terima Kesepakatan');
                 });
 
@@ -118,14 +125,18 @@ class AcceptAdoptionAgreementTest extends DuskTestCase
                     $modal->press('Terima Kesepakatan');
                 })
                 ->waitUntilMissingText('Terima Kesepakatan Adopsi', 15)
-                ->assertSee($treeCode)
-                ->assertSee('Aktif');
+                ->with($rowSelector, function (Browser $row) use ($treeCode): void {
+                    $row->assertSee($treeCode)
+                        ->assertSee('Aktif')
+                        ->assertDontSee('Menunggu Persetujuan Warga');
+                });
         });
 
         $this->assertSame('active', $agreement->fresh()->status);
         $this->assertNotNull($agreement->fresh()->accepted_at);
 
         $this->assertDatabaseHas('tree_adoption_allocations', [
+            'id' => $allocation->getKey(),
             'tree_id' => $tree->getKey(),
             'request_id' => $request->getKey(),
             'agreement_id' => $agreement->getKey(),
