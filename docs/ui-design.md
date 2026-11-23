@@ -90,6 +90,12 @@ M08 mengikuti HAP-28/HAP-30: warga mendaftar dan menarik pendaftaran sendiri; pe
 
 Frame pengelola M09-M11 juga ada pada proposal. Frame 16 adalah login; 17-19 dashboard pengelola/petugas/warga; 20 katalog publik; 21 beranda; 22 detail pohon. Angka 16-25 adalah nomor layar, bukan modul bisnis baru M16-M25.
 
+### M11 - Kesepakatan Saya, Warga
+
+- Halaman kesepakatan yang mengikuti Frame 24 adalah `MyAdoptions` di `/warga/adopsi-saya`. Browser acceptance harus membuka halaman ini dan menampilkan satu kesepakatan menunggu agar kolom serta aksi Terima dapat diperiksa.
+- Header menampilkan ikon perisai dan label kecil **Dokumen Legalitas & Komitmen** di atas judul.
+- Frame 24 juga menampilkan aksi Tolak, tetapi acceptance HAP-38 yang tercatat hanya mencakup penerimaan kesepakatan milik warga. Aksi dan transisi penolakan tidak disediakan sampai PM memperbarui acceptance Jira.
+
 Render yang dipakai pada presentasi tersedia di `docs/assets/mockups/`, dengan label data contoh. Diagram proposal ada di `docs/diagrams/`. Kolom/aksi dalam mockup adalah sasaran desain, bukan bukti migration atau workflow sudah tersedia. Misalnya prioritas M13 memerlukan migration HAP-44.
 
 ## Cara membawa frame ke kode
