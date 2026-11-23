@@ -8,6 +8,7 @@ use App\Models\AdoptionRequest;
 use App\Models\CarePlan;
 use App\Models\CareRecord;
 use App\Models\FieldAssignment;
+use App\Models\GrowthObservation;
 use App\Models\Program;
 use App\Models\TreeIssue;
 use App\Models\User;
@@ -89,6 +90,32 @@ class RolePolicyTest extends TestCase
         self::assertTrue(Gate::forUser($manager)->allows('verify', $otherRecord));
         self::assertFalse(Gate::forUser($manager)->allows('update', $ownRecord));
         self::assertTrue(Gate::forUser($manager)->allows('update', $otherRecord));
+    }
+
+    public function test_field_staff_and_manager_policies_for_growth_observations(): void
+    {
+        $manager = $this->user(60, UserRole::Manager);
+        $staffA = $this->user(61, UserRole::FieldStaff);
+        $staffB = $this->user(62, UserRole::FieldStaff);
+        $citizen = $this->user(63, UserRole::Citizen);
+
+        $obsA = new GrowthObservation;
+        $obsA->forceFill(['observed_by' => 61]);
+
+        $obsManager = new GrowthObservation;
+        $obsManager->forceFill(['observed_by' => 60]);
+
+        self::assertTrue(Gate::forUser($staffA)->allows('create', GrowthObservation::class));
+        self::assertFalse(Gate::forUser($manager)->allows('create', GrowthObservation::class));
+        self::assertFalse(Gate::forUser($citizen)->allows('create', GrowthObservation::class));
+
+        self::assertTrue(Gate::forUser($staffA)->allows('view', $obsA));
+        self::assertFalse(Gate::forUser($staffB)->allows('view', $obsA));
+        self::assertTrue(Gate::forUser($staffA)->allows('downloadPhoto', $obsA));
+        self::assertFalse(Gate::forUser($staffB)->allows('downloadPhoto', $obsA));
+
+        self::assertTrue(Gate::forUser($manager)->allows('verify', $obsA));
+        self::assertFalse(Gate::forUser($manager)->allows('verify', $obsManager));
     }
 
     private function user(int $id, UserRole $role): User
