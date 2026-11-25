@@ -6,7 +6,6 @@ use App\Enums\UserRole;
 use App\Models\AdoptionRequest;
 use App\Models\Tree;
 use App\Models\User;
-use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -67,67 +66,43 @@ class AdoptionRequestDecisionTest extends DuskTestCase
         ]);
 
         $this->browse(function (Browser $browser) use (
-            $approvalReason,
-            $rejectionReason,
-            $decisionReason
+
+            $decisionReason,
+            $approvalRequest,
+            $rejectionRequest,
         ): void {
+            $approvalRow = 'tr[wire\\:key$=".table.records.'.$approvalRequest->getKey().'"]';
+            $rejectionRow = 'tr[wire\\:key$=".table.records.'.$rejectionRequest->getKey().'"]';
+
             $browser->visit('/app/login')
                 ->type('input[type="email"]', 'pengelola@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
                 ->click('form button[type="submit"]')
                 ->waitForLocation('/app')
                 ->visit('/app/adoption-requests')
-                ->waitForText($approvalReason)
-                ->waitForText($rejectionReason);
-
-            $approvalRows = array_values(array_filter(
-                $browser->elements('table tbody tr'),
-                fn ($row) => str_contains($row->getText(), $approvalReason),
-            ));
-
-            $this->assertCount(1, $approvalRows);
-
-            $approvalRows[0]->findElement(
-                WebDriverBy::xpath('.//button[contains(., "Setujui")]')
-            )->click();
+                ->waitUsing(30, 0.2, fn (): bool => $approvalRequest->fresh()->status === 'submitted')
+                ->waitUsing(30, 0.2, fn (): bool => $rejectionRequest->fresh()->status === 'submitted')
+                ->waitFor($approvalRow, 30)
+                ->waitFor($rejectionRow, 30)
+                ->with($approvalRow, function (Browser $row): void {
+                    $row->press('Setujui');
+                });
 
             $browser->waitForText('Apakah Anda yakin ingin menyetujui permohonan adopsi ini?')
                 ->press('Ya, Setujui');
 
-            $browser->waitUsing(15, 0.1, function () use ($browser, $approvalReason): bool {
-                foreach ($browser->elements('table tbody tr') as $row) {
-                    if (str_contains($row->getText(), $approvalReason)) {
-                        return str_contains($row->getText(), 'Disetujui');
-                    }
-                }
+            $browser->waitUsing(15, 0.1, fn (): bool => $approvalRequest->fresh()->status === 'approved');
 
-                return false;
-            });
-
-            $rejectionRows = array_values(array_filter(
-                $browser->elements('table tbody tr'),
-                fn ($row) => str_contains($row->getText(), $rejectionReason),
-            ));
-
-            $this->assertCount(1, $rejectionRows);
-
-            $rejectionRows[0]->findElement(
-                WebDriverBy::xpath('.//button[contains(., "Tolak")]')
-            )->click();
+            $browser->waitFor($rejectionRow, 15)
+                ->with($rejectionRow, function (Browser $row): void {
+                    $row->press('Tolak');
+                });
 
             $browser->waitForText('Alasan Penolakan')
                 ->type('textarea', $decisionReason)
                 ->press('Tolak Permohonan');
 
-            $browser->waitUsing(15, 0.1, function () use ($browser, $rejectionReason): bool {
-                foreach ($browser->elements('table tbody tr') as $row) {
-                    if (str_contains($row->getText(), $rejectionReason)) {
-                        return str_contains($row->getText(), 'Ditolak');
-                    }
-                }
-
-                return false;
-            });
+            $browser->waitUsing(15, 0.1, fn (): bool => $rejectionRequest->fresh()->status === 'rejected');
         });
 
         $this->assertDatabaseHas('adoption_requests', [
