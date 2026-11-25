@@ -20,7 +20,7 @@ Migrasi domain membuat 20 tabel: 16 tabel untuk modul aktif M01-M15 (M11 menggun
 | adoption_requests | Pohon, pemohon, alasan, keputusan dan reviewer | M10 |
 | adoption_agreements | Syarat/periode satu permohonan yang disetujui | M11 |
 | tree_adoption_allocations | Lock satu pohon untuk mencegah persetujuan bersamaan | M11 |
-| tree_issues | Laporan masalah, bukti privat, severity, resolusi | M12 |
+| tree_issues | Laporan masalah, bukti privat, severity, petugas tindak lanjut, resolusi | M12 |
 | care_plans | Rencana tindakan untuk pohon dan `assignment_id` opsional | M13 |
 | care_records | Realisasi, pelaksana, bukti, status dan verifikator | M14 |
 | growth_observations | Ukuran/kondisi pohon, bukti dan verifikasi | M15 |
@@ -61,6 +61,7 @@ File diagrams/system-design/erd-schema.mysql.sql berisi perintah CREATE TABLE sa
 - Foreign key gabungan memastikan pohon dan batch berada pada petak yang sama.
 - Pendaftaran unik pada kombinasi kegiatan dan warga.
 - Satu agreement per permohonan dan satu allocation per pohon.
+- `tree_issues.assignee_id` menyimpan petugas lapangan aktif yang ditugaskan untuk laporan berstatus ditangani; perubahan status dan penugasan dicatat di `activity_logs`.
 - Pengamatan unik untuk pohon pada tanggal yang sama.
 - Indeks status/tanggal/owner disiapkan untuk query umum.
 

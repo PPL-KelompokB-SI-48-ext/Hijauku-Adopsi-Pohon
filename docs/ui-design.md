@@ -20,7 +20,8 @@ Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 | M02, Pengelola | HAP-10-HAP-12 sudah masuk `main` melalui PR #20. Toolbar pencarian/filter dan tabel mengikuti bagian utama frame **M02 - Lokasi Tanam**. | Frame menampilkan kontrol filter lanjutan yang belum punya perilaku pada acceptance, jadi belum dibuat. Kode lokasi contoh tidak tersedia di skema; halaman memakai ID database sebenarnya. |
 | M07, Pengelola | Pencatatan rencana kegiatan HJK-019 tersedia di `main` | HJK-020/021 masih perlu implementasi dan penerimaan. PR #15 ditutup tanpa merge, jadi diff PR lama bukan fitur yang tersedia bagi pengguna `main`. |
 | M13, Pengelola | Rencana perawatan, prioritas, koreksi, dan pembatalan HJK-037-HJK-039 tersedia di `main` | Realisasi HJK-040-HJK-042 dan pengamatan HJK-043-HJK-045 masih belum dikerjakan. |
-| Petugas dan Warga | Panel Filament `/petugas` dan `/warga` sudah memiliki login/dashboard dasar | Resource kerja dan alur di panel ini harus dibuat per story. PR #14 untuk M10 ditutup tanpa merge; pekerjaan yang belum masuk `main` harus diverifikasi melalui story dan PR pengganti. |
+| M12, Pengelola, Warga, dan Petugas | HJK-034/HJK-035 pada branch `arif` menyediakan form dan daftar laporan warga/petugas, serta antrean tindak lanjut manager. | Warga hanya dapat memilih pohon dengan alokasi adopsi aktif; petugas hanya dapat memilih pohon yang ditugaskan kepadanya. Manager dapat menolak laporan dengan alasan atau memilih petugas aktif dan menandai laporan ditangani. HJK-036 untuk penyelesaian belum termasuk. PR #14 untuk M10 ditutup tanpa merge; pekerjaan M10 yang belum masuk `main` tetap perlu diverifikasi melalui story dan PR pengganti. |
+| Petugas dan Warga | Panel Filament `/petugas` dan `/warga` sudah memiliki login/dashboard dasar | Resource kerja lain tetap dibuat per story. |
 
 ## Kesesuaian visual M01 dengan Stitch
 
@@ -95,6 +96,15 @@ Frame pengelola M09-M11 juga ada pada proposal. Frame 16 adalah login; 17-19 das
 - Halaman kesepakatan yang mengikuti Frame 24 adalah `MyAdoptions` di `/warga/adopsi-saya`. Browser acceptance harus membuka halaman ini dan menampilkan satu kesepakatan menunggu agar kolom serta aksi Terima dapat diperiksa.
 - Header menampilkan ikon perisai dan label kecil **Dokumen Legalitas & Komitmen** di atas judul.
 - Frame 24 juga menampilkan aksi Tolak, tetapi acceptance HAP-38 yang tercatat hanya mencakup penerimaan kesepakatan milik warga. Aksi dan transisi penolakan tidak disediakan sampai PM memperbarui acceptance Jira.
+
+### M12 - Laporan masalah pohon
+
+- HJK-034/HJK-035 pada branch `arif` menyediakan daftar dan form di panel `/warga` serta `/petugas`, dan antrean tindak lanjut di `/app`. Halaman memakai shell dan komponen Filament bersama; detail form mengikuti pola Filament karena tidak ada frame form terpisah.
+- Warga hanya dapat melaporkan pohon dengan alokasi dan kesepakatan adopsi berstatus aktif. Petugas hanya dapat melaporkan pohon yang ditugaskan ke akunnya.
+- Foto wajib diunggah dalam format JPG, PNG, atau WebP dengan ukuran maksimal 5 MB. File disimpan privat dan unduhannya dibatasi ke pelapor.
+- Tingkat penanganan yang tersedia adalah Rendah, Normal, Tinggi, dan Mendesak. HJK-036 untuk tindak lanjut dan pencatatan penyelesaian belum dibuat.
+- HJK-035 mengizinkan manager menolak laporan `submitted` dengan alasan wajib, atau memilih satu petugas lapangan aktif dan mengubah status menjadi `in_progress`. Perubahan actor, waktu, status, alasan, dan petugas tercatat di `activity_logs`; HJK-036 untuk penyelesaian laporan belum dibuat.
+- Frame M12 sudah dipetakan, tetapi perbandingan visual halaman implementasi terhadap frame belum dicatat. Jangan mengklaim kesesuaian 1:1 sebelum pemeriksaan visual dilakukan.
 
 Render yang dipakai pada presentasi tersedia di `docs/assets/mockups/`, dengan label data contoh. Diagram proposal ada di `docs/diagrams/`. Kolom/aksi dalam mockup adalah sasaran desain, bukan bukti migration atau workflow sudah tersedia. Misalnya prioritas M13 memerlukan migration HAP-44.
 
