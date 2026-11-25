@@ -69,8 +69,11 @@ class TreeIssueCreationTest extends DuskTestCase
                     ->waitForLocation('/warga')
                     ->visit('/warga/laporan-pohon/create')
                     ->waitFor('select[id="form.tree_id"]')
-                    ->attach('input[type="file"]', $evidencePath)
-                    ->waitForText('Pengunggahan selesai', 10)
+                    ->waitUntil("document.querySelector('input[type=file]') !== null", 10);
+
+                $browser->attach('input[type="file"]', $evidencePath);
+
+                $browser->waitForText('Pengunggahan selesai', 10)
                     ->select('select[id="form.tree_id"]', (string) $tree->getKey())
                     ->select('select[id="form.severity"]', 'urgent')
                     ->type('textarea[wire\\:model="data.description"]', $description)
