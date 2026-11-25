@@ -18,7 +18,7 @@ abstract class DuskTestCase extends BaseTestCase
 
         config([
             'database.default' => 'sqlite',
-            'database.connections.sqlite.database' => database_path('dusk.sqlite'),
+            'database.connections.sqlite.database' => env('DUSK_DATABASE_PATH', database_path('dusk.sqlite')),
             'database.connections.sqlite.url' => null,
         ]);
 

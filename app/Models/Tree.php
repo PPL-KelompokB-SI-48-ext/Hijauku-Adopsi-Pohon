@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,6 +50,11 @@ class Tree extends Model
         return $this->hasMany(TreeAdoptionAllocation::class);
     }
 
+    public function fieldAssignments(): HasMany
+    {
+        return $this->hasMany(FieldAssignment::class);
+    }
+
     public function issues(): HasMany
     {
         return $this->hasMany(TreeIssue::class);
@@ -67,5 +73,27 @@ class Tree extends Model
     public function growthObservations(): HasMany
     {
         return $this->hasMany(GrowthObservation::class);
+    }
+
+    public function scopeReportableBy(Builder $query, User $reporter): Builder
+    {
+        if ($reporter->isCitizen()) {
+            return $query->whereHas('adoptionAllocations', function (Builder $allocation) use ($reporter): void {
+                $allocation
+                    ->where('status', 'active')
+                    ->whereHas('agreement', fn (Builder $agreement) => $agreement
+                        ->where('adopter_id', $reporter->getKey())
+                        ->where('status', 'active'));
+            });
+        }
+
+        if ($reporter->isFieldStaff()) {
+            return $query->whereHas(
+                'fieldAssignments',
+                fn (Builder $assignment) => $assignment->where('assignee_id', $reporter->getKey())
+            );
+        }
+
+        return $query->whereIn('trees.id', []);
     }
 }

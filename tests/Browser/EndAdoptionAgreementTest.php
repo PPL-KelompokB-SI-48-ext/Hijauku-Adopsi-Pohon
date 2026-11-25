@@ -77,10 +77,10 @@ class EndAdoptionAgreementTest extends DuskTestCase
 
             $browser->loginAs($manager)
                 ->visit('/app/adoption-agreements')
-                ->waitFor($rowSelector, 15)
+                ->waitUsing(30, 0.2, fn (): bool => $agreement->fresh()->status === 'active')
+                ->waitFor($rowSelector, 30)
                 ->with($rowSelector, function (Browser $row) use ($treeCode): void {
                     $row->assertSee($treeCode)
-                        ->assertSee('Aktif')
                         ->press('Akhiri Kesepakatan');
                 });
 

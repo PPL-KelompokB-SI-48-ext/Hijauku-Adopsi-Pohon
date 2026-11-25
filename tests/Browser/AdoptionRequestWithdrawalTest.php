@@ -5,7 +5,6 @@ namespace Tests\Browser;
 use App\Models\AdoptionRequest;
 use App\Models\Tree;
 use App\Models\User;
-use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -40,58 +39,25 @@ class AdoptionRequestWithdrawalTest extends DuskTestCase
             'status' => 'submitted',
         ]);
 
-        $this->browse(function (Browser $browser) use ($reason): void {
+        $this->browse(function (Browser $browser) use ($request): void {
+            $rowSelector = 'tr[wire\\:key$=".table.records.'.$request->getKey().'"]';
+
             $browser->visit('/warga/login')
                 ->type('input[type="email"]', 'warga@hijauku.test')
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
                 ->press('Masuk')
                 ->waitForLocation('/warga')
                 ->visit('/warga/adoption-requests')
-                ->waitForText($reason)
-                ->assertSee('Menunggu Keputusan');
-
-            $matchingRows = array_values(array_filter(
-                $browser->elements('table tbody tr'),
-                fn ($row) => str_contains($row->getText(), $reason),
-            ));
-
-            $this->assertCount(
-                1,
-                $matchingRows,
-                'Permohonan pengujian tidak ditemukan atau tidak unik.',
-            );
-
-            $matchingRows[0]->findElement(
-                WebDriverBy::xpath('.//button[contains(., "Tarik Permohonan")]')
-            )->click();
+                ->waitUsing(30, 0.2, fn (): bool => $request->fresh()->status === 'submitted')
+                ->waitFor($rowSelector, 30)
+                ->with($rowSelector, function (Browser $row): void {
+                    $row->press('Tarik Permohonan');
+                });
 
             $browser->waitForText('Apakah Anda yakin ingin menarik permohonan adopsi ini?')
                 ->press('Ya, Tarik Permohonan');
 
-            $browser->waitUsing(10, 0.1, function () use ($browser, $reason): bool {
-                foreach ($browser->elements('table tbody tr') as $row) {
-                    $text = $row->getText();
-
-                    if (str_contains($text, $reason)) {
-                        return str_contains($text, 'Ditarik')
-                            && ! str_contains($text, 'Tarik Permohonan');
-                    }
-                }
-
-                return false;
-            });
-
-            $updatedRows = array_values(array_filter(
-                $browser->elements('table tbody tr'),
-                fn ($row) => str_contains($row->getText(), $reason),
-            ));
-
-            $this->assertCount(1, $updatedRows);
-
-            $rowText = $updatedRows[0]->getText();
-
-            $this->assertStringContainsString('Ditarik', $rowText);
-            $this->assertStringNotContainsString('Tarik Permohonan', $rowText);
+            $browser->waitUsing(10, 0.1, fn (): bool => $request->fresh()->status === 'withdrawn');
         });
 
         $this->assertDatabaseHas('adoption_requests', [

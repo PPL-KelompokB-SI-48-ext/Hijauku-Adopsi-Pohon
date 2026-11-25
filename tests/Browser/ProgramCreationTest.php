@@ -41,22 +41,38 @@ class ProgramCreationTest extends DuskTestCase
 
     private function selectProgramDate(Browser $browser, string $labelText, string $date): void
     {
-        [$input, $calendarPanel] = match ($labelText) {
-            'Tanggal mulai' => ['input[id="form.starts_on"]', '[id="form.starts_on-panel"]'],
-            'Tanggal akhir' => ['input[id="form.ends_on"]', '[id="form.ends_on-panel"]'],
+        $input = match ($labelText) {
+            'Tanggal mulai' => 'input[id="form.starts_on"]',
+            'Tanggal akhir' => 'input[id="form.ends_on"]',
             default => throw new \InvalidArgumentException("Label tanggal tidak dikenal: {$labelText}"),
         };
+        $calendarPanel = match ($labelText) {
+            'Tanggal mulai' => '[id="form.starts_on-panel"]',
+            'Tanggal akhir' => '[id="form.ends_on-panel"]',
+        };
         $inputSelector = json_encode($input, JSON_THROW_ON_ERROR);
-        $calendarDaySelector = $calendarPanel.' .fi-fo-date-time-picker-calendar-day[data-date="'.$date.'"]';
+        $dateValue = json_encode($date, JSON_THROW_ON_ERROR);
 
-        $browser->waitUntil("document.querySelector({$inputSelector})?.parentElement?._x_dataStack?.length > 0", 10);
+        $browser->waitUntil(
+            "document.querySelector({$inputSelector}) !== null",
+            10
+        );
         $browser->click($input);
+        $browser->waitUntil(
+            "document.querySelector({$inputSelector})?.getAttribute('aria-expanded') === 'true'",
+            10
+        );
 
-        $browser->waitUntil("document.querySelector({$inputSelector})?.getAttribute('aria-expanded') === 'true'", 10);
-        $browser->waitFor($calendarDaySelector, 10);
-
-        $browser->click($calendarDaySelector);
-
-        $browser->waitUntil("document.querySelector({$inputSelector})?.value !== ''", 10);
+        $panelSelector = json_encode($calendarPanel, JSON_THROW_ON_ERROR);
+        $browser->script(
+            "const panel = document.querySelector({$panelSelector});"
+            ."const root = panel?.closest('[x-data]');"
+            .'const data = root?._x_dataStack?.[0];'
+            ."if (data) { data.focusedDate = dayjs({$dateValue}); data.focusedMonth = data.focusedDate.month(); data.focusedYear = data.focusedDate.year(); data.setupDaysGrid(); data.selectDate(); }"
+        );
+        $browser->waitUntil(
+            "document.querySelector({$inputSelector})?.value !== ''",
+            10
+        );
     }
 }

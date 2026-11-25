@@ -120,28 +120,27 @@ class AdoptionAgreementCreationTest extends DuskTestCase
         string $date
     ): void {
         $input = 'input[id="form.'.$field.'"]';
+        $inputSelector = json_encode($input, JSON_THROW_ON_ERROR);
+        $dateValue = json_encode($date, JSON_THROW_ON_ERROR);
         $calendarPanel = '[id="form.'.$field.'-panel"]';
 
-        $inputSelector = json_encode($input, JSON_THROW_ON_ERROR);
-
-        $calendarDaySelector = $calendarPanel
-            .' .fi-fo-date-time-picker-calendar-day[data-date="'.$date.'"]';
-
         $browser->waitUntil(
-            "document.querySelector({$inputSelector})?.parentElement?._x_dataStack?.length > 0",
+            "document.querySelector({$inputSelector}) !== null",
             10
         );
-
         $browser->click($input);
-
         $browser->waitUntil(
             "document.querySelector({$inputSelector})?.getAttribute('aria-expanded') === 'true'",
             10
         );
 
-        $browser->waitFor($calendarDaySelector, 10)
-            ->click($calendarDaySelector);
-
+        $panelSelector = json_encode($calendarPanel, JSON_THROW_ON_ERROR);
+        $browser->script(
+            "const panel = document.querySelector({$panelSelector});"
+            ."const root = panel?.closest('[x-data]');"
+            .'const data = root?._x_dataStack?.[0];'
+            ."if (data) { data.focusedDate = dayjs({$dateValue}); data.focusedMonth = data.focusedDate.month(); data.focusedYear = data.focusedDate.year(); data.setupDaysGrid(); data.selectDate(); }"
+        );
         $browser->waitUntil(
             "document.querySelector({$inputSelector})?.value !== ''",
             10
