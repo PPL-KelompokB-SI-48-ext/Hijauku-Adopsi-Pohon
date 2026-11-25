@@ -10,6 +10,8 @@ class GrowthConditionChartWidget extends ChartWidget
 {
     protected static ?int $sort = 4;
 
+    protected static bool $isLazy = false;
+
     protected int|string|array $columnSpan = 'full';
 
     protected ?string $heading = 'Grafik Kondisi Fisik Pohon (Non-SDG)';

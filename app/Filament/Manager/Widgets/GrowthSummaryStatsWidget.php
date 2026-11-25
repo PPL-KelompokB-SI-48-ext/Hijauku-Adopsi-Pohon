@@ -11,6 +11,8 @@ class GrowthSummaryStatsWidget extends StatsOverviewWidget
 {
     protected static ?int $sort = 3;
 
+    protected static bool $isLazy = false;
+
     protected int|string|array $columnSpan = 'full';
 
     protected ?string $heading = 'Ringkasan Perkembangan Pohon (Terverifikasi)';

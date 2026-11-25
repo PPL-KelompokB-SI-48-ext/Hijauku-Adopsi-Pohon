@@ -52,13 +52,14 @@ class GrowthObservationVerificationTest extends DuskTestCase
             $browser->loginAs($manager)
                 ->visit('/app/growth-observations')
                 ->waitForText($tree->code, 15)
-                ->assertSee('Grafik Kondisi Fisik Pohon (Non-SDG)')
+                ->waitForText('Grafik Kondisi Fisik Pohon (Non-SDG)', 15)
                 ->assertSee('tidak mengklaim angka atau capaian SDG')
-                ->assertSee('Pohon Belum Terpantau (>30 Hari)');
+                ->waitForText('Pohon Belum Terpantau (>30 Hari)', 15);
 
             $rows = array_values(array_filter(
                 $browser->elements('table tbody tr'),
-                fn ($row) => str_contains($row->getText(), $tree->code),
+                fn ($row) => str_contains($row->getText(), $tree->code)
+                    && str_contains($row->getText(), 'Diajukan'),
             ));
 
             $this->assertNotEmpty($rows);
@@ -72,8 +73,8 @@ class GrowthObservationVerificationTest extends DuskTestCase
 
             $browser->waitUsing(15, 0.2, function () use ($browser, $tree): bool {
                 foreach ($browser->elements('table tbody tr') as $row) {
-                    if (str_contains($row->getText(), $tree->code)) {
-                        return str_contains($row->getText(), 'Terverifikasi');
+                    if (str_contains($row->getText(), $tree->code) && str_contains($row->getText(), 'Terverifikasi')) {
+                        return true;
                     }
                 }
 
