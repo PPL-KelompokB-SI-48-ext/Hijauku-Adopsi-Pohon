@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -67,5 +68,31 @@ class Tree extends Model
     public function growthObservations(): HasMany
     {
         return $this->hasMany(GrowthObservation::class);
+    }
+
+    /**
+     * Pengamatan pertumbuhan terverifikasi paling baru untuk pohon ini.
+     */
+    public function latestVerifiedObservation(): HasOne
+    {
+        return $this->hasOne(GrowthObservation::class)
+            ->ofMany(
+                ['observed_on' => 'max', 'id' => 'max'],
+                fn (Builder $query): Builder => $query->where('status', 'verified')
+            );
+    }
+
+    /**
+     * Pohon yang lebih dari N hari (default 30 hari) belum memiliki pengamatan terverifikasi.
+     */
+    public function scopeUnmonitored(Builder $query, int $days = 30): Builder
+    {
+        $cutoffDate = now()->subDays($days)->toDateString();
+
+        return $query->whereDoesntHave('growthObservations', function (Builder $observationQuery) use ($cutoffDate): void {
+            $observationQuery
+                ->where('status', 'verified')
+                ->whereDate('observed_on', '>=', $cutoffDate);
+        });
     }
 }

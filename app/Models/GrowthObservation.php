@@ -119,4 +119,12 @@ class GrowthObservation extends Model
 
         return $query->where('observed_by', $id);
     }
+
+    /**
+     * Batasi query hanya ke pengamatan yang telah terverifikasi pengelola.
+     */
+    public function scopeVerified(Builder $query): Builder
+    {
+        return $query->where('status', 'verified');
+    }
 }
