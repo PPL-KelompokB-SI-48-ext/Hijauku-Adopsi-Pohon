@@ -128,6 +128,10 @@
     z-index: 40;
 }
 
+.fi-modal-close-overlay {
+    z-index: 55;
+}
+
 .fi-modal-window-ctn {
     z-index: 60;
 }
