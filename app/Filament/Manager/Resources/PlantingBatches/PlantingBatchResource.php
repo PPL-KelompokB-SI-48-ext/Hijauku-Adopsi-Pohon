@@ -23,7 +23,7 @@ class PlantingBatchResource extends Resource
 
     protected static ?string $navigationLabel = 'Kelompok Penanaman';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Data Dasar Pohon';
+    protected static string|UnitEnum|null $navigationGroup = 'Inventaris Pohon';
 
     protected static ?int $navigationSort = 3;
 
@@ -56,4 +56,3 @@ class PlantingBatchResource extends Resource
         ];
     }
 }
-

@@ -32,7 +32,7 @@ Panel Filament sekarang memakai satu tema bersama yang mengikuti shell pada Stit
 | Warna utama | `#15803D`, hover `#14532D` |
 | Latar isi | `#F8FAFC`; kartu dan sidebar `#FFFFFF` |
 | Teks | `#131B2E`; teks sekunder `#64748B`; garis `#E2E8F0` |
-| Sidebar | Lebar 256 px, putih, menu berjarak tetap, aktif hijau |
+| Sidebar | Lebar 256 px, putih, menu berjarak tetap, menu aktif berlatar hijau muda dengan teks hijau tua |
 | Topbar | Tinggi 64 px, putih transparan, breadcrumb dan konteks akun |
 | Konten | Lebar penuh, padding 24 px; layar kecil memakai padding 16 px |
 | Komponen | Radius kartu 12 px, field 8 px, tombol 40 px, ikon sekitar 18 px |
@@ -122,6 +122,14 @@ Render yang dipakai pada presentasi tersedia di `docs/assets/mockups/`, dengan l
 - Frame menampilkan kode seperti `SIT-BDG-001`, tetapi tabel `sites` tidak mempunyai kolom kode. Implementasi menampilkan ID database yang nyata dan tidak membuat kode contoh seolah-olah data resmi.
 - Stitch hanya memberi frame daftar. Form tambah memakai halaman Filament; ubah dan detail memakai modal Filament dengan form yang sama. Karena tidak ada frame pembanding untuk ketiga tampilan itu, keduanya mengikuti komponen bersama tanpa klaim 1:1.
 - Perubahan lokasi meminta alasan dan menyimpan aktor serta nilai sebelum/sesudah pada `activity_logs`. Penghapusan ditolak bila lokasi masih dipakai petak atau kegiatan. Tidak ada REST API baru karena acceptance HJK-004-HJK-006 memakai alur panel Filament/Livewire.
+
+## Pemetaan M03
+
+- HJK-007 sampai HJK-009 memakai frame **M03 - Petak Tanam**. Daftar HJK-007 di `/app/plots` memakai shell panel bersama, empat ringkasan kapasitas, pencarian kode, filter lokasi, tombol reset, tabel kapasitas dan jumlah pohon, indikator persentase, status, aksi lihat, serta pagination.
+- HJK-007 menyediakan pencatatan petak dengan lokasi induk, kode unik pada lokasi, dan kapasitas bilangan positif. Kode disimpan dalam huruf kapital agar nilai seperti `a-01` dan `A-01` tidak menjadi dua kode berbeda. Validasi dilakukan di server, akses dibatasi ke pengelola, dan indeks unik database tetap menjadi perlindungan terakhir.
+- Form tambah dan tampilan detail mengikuti komponen Filament bersama karena frame hanya menunjukkan daftar. Keduanya tidak diklaim 1:1 terhadap frame yang tidak tersedia.
+- Tombol ekspor, ubah, tutup petak, dan hapus draf pada mockup belum termasuk perilaku HJK-007, jadi belum ditambahkan. Angka serta nama pada frame adalah data contoh, bukan data seed aplikasi.
+- Pada layar kecil, ringkasan tersusun satu kolom dan tabel dapat digulir mendatar di dalam area tabel. Tes Dusk memeriksa pembuatan, penolakan kode duplikat, tampilan ringkasan, filter, dan lebar halaman ponsel.
 
 ## Batas scope dan penerimaan
 

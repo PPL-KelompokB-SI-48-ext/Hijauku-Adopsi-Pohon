@@ -24,7 +24,7 @@ class TreeSpeciesResource extends Resource
 
     protected static ?string $navigationLabel = 'Jenis Pohon';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Data Dasar Pohon';
+    protected static string|UnitEnum|null $navigationGroup = 'Inventaris Pohon';
 
     protected static ?int $navigationSort = 1;
 
@@ -57,9 +57,9 @@ class TreeSpeciesResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListTreeSpecies::route('/'),
+            'index' => ListTreeSpecies::route('/'),
             'create' => CreateTreeSpecies::route('/create'),
-            'edit'   => EditTreeSpecies::route('/{record}/edit'),
+            'edit' => EditTreeSpecies::route('/{record}/edit'),
         ];
     }
 }
