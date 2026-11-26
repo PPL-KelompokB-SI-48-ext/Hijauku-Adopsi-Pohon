@@ -2,13 +2,16 @@
 
 namespace App\Filament\FieldStaff\Resources\Trees\Schemas;
 
+use App\Models\PlantingBatch;
+use App\Models\Plot;
 use App\Models\Tree;
 use App\Models\TreeSpecies;
-use Closure;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Validation\Rule;
 
 class TreeForm
 {
@@ -23,7 +26,7 @@ class TreeForm
                     ->searchable()
                     ->preload()
                     ->rules([
-                        \Illuminate\Validation\Rule::exists('tree_species', 'id')->where('is_active', true),
+                        Rule::exists('tree_species', 'id')->where('is_active', true),
                     ])
                     ->validationMessages([
                         'required' => 'Jenis pohon wajib dipilih.',
@@ -33,12 +36,22 @@ class TreeForm
 
                 Select::make('plot_id')
                     ->label('Petak tanam')
-                    ->relationship('plot', 'code')
+                    ->relationship(
+                        'plot',
+                        'code',
+                        modifyQueryUsing: fn (Builder $query): Builder => $query
+                            ->where('plots.status', 'open')
+                            ->whereRaw('plots.capacity > (SELECT COUNT(*) FROM trees WHERE trees.plot_id = plots.id)')
+                            ->withCount('trees')
+                            ->orderBy('plots.code'),
+                    )
+                    ->getOptionLabelFromRecordUsing(fn (Plot $record): string => "{$record->code} ({$record->trees_count}/{$record->capacity})")
                     ->required()
                     ->searchable()
                     ->preload()
                     ->live()
                     ->afterStateUpdated(fn ($set) => $set('batch_id', null))
+                    ->helperText('Petak yang sudah penuh tidak tersedia. Kapasitas tetap diperiksa kembali saat pohon disimpan.')
                     ->validationMessages([
                         'required' => 'Petak tanam wajib dipilih.',
                     ])
@@ -52,7 +65,7 @@ class TreeForm
                             return [];
                         }
 
-                        return \App\Models\PlantingBatch::query()
+                        return PlantingBatch::query()
                             ->where('plot_id', $plotId)
                             ->pluck('code', 'id');
                     })
@@ -60,7 +73,7 @@ class TreeForm
                     ->preload()
                     ->nullable()
                     ->rules([
-                        fn ($get) => \Illuminate\Validation\Rule::exists('planting_batches', 'id')
+                        fn ($get) => Rule::exists('planting_batches', 'id')
                             ->where('plot_id', $get('plot_id')),
                     ])
                     ->validationMessages([

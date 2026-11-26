@@ -47,6 +47,9 @@ class PlotsTable
                         'percentage' => $record->capacity > 0
                             ? (int) round(($record->trees_count / $record->capacity) * 100)
                             : 0,
+                        'warning' => $record->capacity > 0
+                            && $record->trees_count < $record->capacity
+                            && ($record->trees_count * 100) >= ($record->capacity * 90),
                     ])
                     ->sortable(query: fn ($query, string $direction) => $query->orderBy('trees_count', $direction)),
                 TextColumn::make('status')
