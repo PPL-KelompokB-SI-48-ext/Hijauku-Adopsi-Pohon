@@ -234,6 +234,19 @@ class ActivitiesTable
                                 ],
                             ],
                         ])),
+
+                    Action::make('assignments')
+                        ->label('Penugasan Petugas')
+                        ->icon('heroicon-o-clipboard-document-list')
+                        ->color('warning')
+                        ->visible(fn (): bool => auth()->user()?->isManager() ?? false)
+                        ->url(fn (Activity $record): string => \App\Filament\Manager\Resources\FieldAssignments\FieldAssignmentResource::getUrl('index', [
+                            'tableFilters' => [
+                                'activity_id' => [
+                                    'value' => $record->getKey(),
+                                ],
+                            ],
+                        ])),
                 ])
                     ->icon('heroicon-m-ellipsis-horizontal')
                     ->tooltip('Aksi Kegiatan'),
