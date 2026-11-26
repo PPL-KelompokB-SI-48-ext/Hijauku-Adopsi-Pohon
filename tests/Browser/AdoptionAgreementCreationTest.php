@@ -46,7 +46,9 @@ class AdoptionAgreementCreationTest extends DuskTestCase
             'reviewer_id' => $manager->getKey(),
         ]);
 
-        $startsOn = now()->addDays(3)->startOfDay();
+        // Keep both test dates in the same calendar month so the date picker
+        // does not need a month-navigation step near the end of a month.
+        $startsOn = now()->startOfMonth()->addDay();
         $endsOn = $startsOn->copy()->addDays(3);
 
         $startsOnValue = $startsOn->toDateString();

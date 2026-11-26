@@ -16,11 +16,13 @@ Arahan yang terlihat di kanvas Stitch menetapkan batas berikut:
 | Area | Implementasi sekarang | Batas saat ini |
 | --- | --- | --- |
 | Beranda publik | `resources/views/home.blade.php` memakai identitas hijau, headline Frame 21, ilustrasi pohon, CTA, dan alur tiga langkah | Belum tersambung ke katalog, hitungan, atau data pohon. Angka dan daftar pada frame Stitch tidak boleh disajikan sebagai fakta produksi sebelum sumber datanya tersedia. |
-| M01, Pengelola | `main` menyediakan daftar, pembuatan draf, aktivasi, dan pengarsipan program untuk HJK-001-HJK-003. PR #20 merapikan daftar dengan filter status. | Aktivasi hanya muncul pada draf dan meminta alasan. Pengarsipan hanya muncul pada program selesai dan tidak menghapus lokasi/pohon. Edit dan hapus tidak termasuk acceptance saat ini. |
+| M01, Pengelola | `main` menyediakan daftar, pembuatan draf, aktivasi, dan pengarsipan program untuk HJK-001-HJK-003. Daftar memakai status dan aksi sesuai alur program. | Aktivasi hanya muncul pada draf dan meminta alasan. Pengarsipan hanya muncul pada program selesai dan tidak menghapus lokasi/pohon. Edit dan hapus tidak termasuk acceptance saat ini. |
 | M02, Pengelola | HAP-10-HAP-12 sudah masuk `main` melalui PR #20. Toolbar pencarian/filter dan tabel mengikuti bagian utama frame **M02 - Lokasi Tanam**. | Frame menampilkan kontrol filter lanjutan yang belum punya perilaku pada acceptance, jadi belum dibuat. Kode lokasi contoh tidak tersedia di skema; halaman memakai ID database sebenarnya. |
-| M07, Pengelola | Pencatatan rencana kegiatan HJK-019 tersedia di `main` | HJK-020/021 masih perlu implementasi dan penerimaan. PR #15 ditutup tanpa merge, jadi diff PR lama bukan fitur yang tersedia bagi pengguna `main`. |
-| M13, Pengelola | Rencana perawatan, prioritas, koreksi, dan pembatalan HJK-037-HJK-039 tersedia di `main` | Realisasi HJK-040-HJK-042 dan pengamatan HJK-043-HJK-045 masih belum dikerjakan. |
-| Petugas dan Warga | Panel Filament `/petugas` dan `/warga` sudah memiliki login/dashboard dasar | Resource kerja dan alur di panel ini harus dibuat per story. PR #14 untuk M10 ditutup tanpa merge; pekerjaan yang belum masuk `main` harus diverifikasi melalui story dan PR pengganti. |
+| M03, Pengelola dan Petugas | HJK-007/HAP-13 dan HJK-008/HAP-14 sudah selesai pada branch `yoga`; tes Feature, Dusk, dan CI terbaru lulus. Daftar petak mengikuti frame **M03 - Petak Tanam**. | Belum masuk `main` karena PR Sprint 2 dijadwalkan saat integrasi. HJK-009/HAP-15 masih To Do. Frame hanya menyediakan daftar; form dan detail memakai pola Filament bersama. |
+| M07-M08, Pengelola dan Warga | HJK-019-HJK-024/HAP-25-HAP-30 sudah masuk `main` melalui PR #30. Pengelola mengatur kegiatan dan kehadiran; warga mendaftar atau menarik pendaftaran. | Petugas lapangan bukan pendaftar M08. Batas UI dan perilaku yang tidak ditetapkan Stitch mengikuti acceptance Jira. |
+| M10-M11, Pengelola dan Warga | HJK-028-HJK-033/HAP-34-HAP-39 sudah masuk `main` melalui PR #28. | Alur warga dan pengelola harus tetap mengikuti Policy, ownership, serta status yang disepakati di Jira; jangan menyimpulkan REST API terpisah tersedia. |
+| M13-M14, Pengelola dan Petugas | HJK-037-HJK-042/HAP-43-HAP-48 sudah masuk `main` melalui PR #29. | HJK-043-HJK-045/M15 masih berlangsung di Sprint 2. Uji integrasi lintas modul dilakukan lagi setelah seluruh PR Sprint 2 digabung. |
+| Petugas dan Warga | Panel Filament `/petugas` dan `/warga` memakai shell, tema, breadcrumb, akun, dan pola keluar yang sama dengan panel pengelola. Resource bisnis tersedia sesuai modul Sprint 1 yang sudah merged. | Panel tidak memberi izin otomatis. Periksa Policy dan kepemilikan data pada setiap fitur; layar tanpa frame Stitch memakai pola Filament bersama, bukan klaim 1:1. |
 
 ## Kesesuaian visual M01 dengan Stitch
 
@@ -32,7 +34,7 @@ Panel Filament sekarang memakai satu tema bersama yang mengikuti shell pada Stit
 | Warna utama | `#15803D`, hover `#14532D` |
 | Latar isi | `#F8FAFC`; kartu dan sidebar `#FFFFFF` |
 | Teks | `#131B2E`; teks sekunder `#64748B`; garis `#E2E8F0` |
-| Sidebar | Lebar 256 px, putih, menu berjarak tetap, aktif hijau |
+| Sidebar | Lebar 256 px, putih, menu berjarak tetap, menu aktif berlatar hijau muda dengan teks hijau tua |
 | Topbar | Tinggi 64 px, putih transparan, breadcrumb dan konteks akun |
 | Konten | Lebar penuh, padding 24 px; layar kecil memakai padding 16 px |
 | Komponen | Radius kartu 12 px, field 8 px, tombol 40 px, ikon sekitar 18 px |
@@ -122,6 +124,16 @@ Render yang dipakai pada presentasi tersedia di `docs/assets/mockups/`, dengan l
 - Frame menampilkan kode seperti `SIT-BDG-001`, tetapi tabel `sites` tidak mempunyai kolom kode. Implementasi menampilkan ID database yang nyata dan tidak membuat kode contoh seolah-olah data resmi.
 - Stitch hanya memberi frame daftar. Form tambah memakai halaman Filament; ubah dan detail memakai modal Filament dengan form yang sama. Karena tidak ada frame pembanding untuk ketiga tampilan itu, keduanya mengikuti komponen bersama tanpa klaim 1:1.
 - Perubahan lokasi meminta alasan dan menyimpan aktor serta nilai sebelum/sesudah pada `activity_logs`. Penghapusan ditolak bila lokasi masih dipakai petak atau kegiatan. Tidak ada REST API baru karena acceptance HJK-004-HJK-006 memakai alur panel Filament/Livewire.
+
+## Pemetaan M03
+
+- HJK-007 sampai HJK-009 memakai frame **M03 - Petak Tanam**. Daftar HJK-007 di `/app/plots` memakai shell panel bersama, empat ringkasan kapasitas, pencarian kode, filter lokasi, tombol reset, tabel kapasitas dan jumlah pohon, indikator persentase, status, aksi lihat, serta pagination.
+- HJK-007 menyediakan pencatatan petak dengan lokasi induk, kode unik pada lokasi, dan kapasitas bilangan positif. Kode disimpan dalam huruf kapital agar nilai seperti `a-01` dan `A-01` tidak menjadi dua kode berbeda. Validasi dilakukan di server, akses dibatasi ke pengelola, dan indeks unik database tetap menjadi perlindungan terakhir.
+- HJK-008 memakai kembali kolom jumlah pohon pada daftar yang sama. Peringatan tampil saat jumlah pohon mencapai sekurangnya 90% dari kapasitas sebenarnya; warna indikator dan label **Hampir penuh** membantu pengelola mengenalinya. Angka persentase yang dibulatkan hanya untuk tampilan dan tidak menentukan ambang peringatan.
+- Pencatatan pohon tetap berada di panel petugas `/petugas`. Form hanya menawarkan petak yang terbuka dan belum penuh, lalu memeriksa ulang kapasitas di server dalam transaksi dengan penguncian petak. Ini mencegah dua pencatatan bersamaan melewati batas kapasitas. Tidak ada perubahan skema atau endpoint REST untuk HJK-008.
+- Form tambah dan tampilan detail mengikuti komponen Filament bersama karena frame hanya menunjukkan daftar. Keduanya tidak diklaim 1:1 terhadap frame yang tidak tersedia.
+- Tombol ekspor, ubah, tutup petak, dan hapus draf pada mockup belum termasuk perilaku HJK-007, jadi belum ditambahkan. Angka serta nama pada frame adalah data contoh, bukan data seed aplikasi.
+- Pada layar kecil, ringkasan tersusun satu kolom dan tabel dapat digulir mendatar di dalam area tabel. Tes Dusk memeriksa pembuatan, penolakan kode duplikat, tampilan ringkasan, filter, dan lebar halaman ponsel.
 
 ## Batas scope dan penerimaan
 

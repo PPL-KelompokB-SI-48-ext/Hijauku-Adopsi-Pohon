@@ -1,6 +1,34 @@
 # Audit sumber dan status proyek
 
-Bagian awal dokumen ini mencatat kondisi Jira/GitHub setelah PR #20 dan pembaruan dokumentasi PR #21 pada 11 November 2026. Jira menjadi sumber status dan jadwal, GitHub menjadi sumber branch/commit/PR/CI, sedangkan proposal dan bahan kuliah menjadi sumber rancangan. Catatan di bawah kondisi terkini adalah snapshot historis sebelum merge PR #20; jangan memakai status lama di sana untuk keputusan baru.
+## Pemeriksaan terbaru Sprint 2, 26 November 2026
+
+Jira: HAP-13/HJK-007 dan HAP-14/HJK-008 sudah Done setelah acceptance, tes, CI pada commit terbaru, dan pemeriksaan PM. HAP-15/HJK-009 tetap To Do. HAP-14 memiliki original estimate 6 jam, remaining estimate 0, dan tidak memiliki work log; jam aktual tidak dicatat.
+
+GitHub: `origin/main` berada pada `8bc3b1b925d7af87a922f9ada8a1fd9b5bb7c160`. Kode HAP-14 yang diperiksa ada pada commit branch Yoga `13ad2a885f454067cc6108da63ceae526d4bb24e`, yang saat pemeriksaan sudah mencakup `origin/main` dan belum memiliki PR Sprint 2. Commit HAP-13 `78d08d6`, stabilisasi tes `54215e9`, implementasi HAP-14 `966a66d`, dan pembaruan audit sebelumnya `6dce507` ada pada branch itu. CI lulus pada commit kode tersebut di [run 45808233081](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/45808233081), termasuk migrasi/seeder SQLite dan MySQL, route panel, build aset, 11 tes Unit, 308 tes Feature, serta 17 tes Dusk. Jira Development panel menautkan HAP-14 ke commit dan build CI yang lulus. HAP-14 tetap menunggu PR integrasi Sprint 2 sesuai jadwal tim.
+
+Pemeriksaan HAP-14 di branch `yoga`: Pint, 10 tes Feature terkait (49 assertion), 2 tes Dusk (6 assertion), dan `npm run build` lulus. Dusk lokal dijalankan terhadap SQLite khusus di worktree sementara dengan PHP `intl` aktif lewat konfigurasi sementara; `.env` dan MySQL pemilik tidak disentuh. Playwright memeriksa daftar kapasitas, batas 90%, pencatatan pohon terakhir, status penuh, pilihan petak penuh, dan lebar layar 390 px tanpa overflow. Layar daftar M03 dibandingkan dengan frame Stitch. Frame hanya mencakup daftar; form pencatatan pohon mengikuti pola Filament bersama dan tidak diklaim 1:1 terhadap frame yang tidak tersedia.
+
+Sprint 1 sudah ditutup. Jira berisi 37/37 item berstatus Done: 30 story, 5 task persiapan PR anggota, serta HAP-71/HAP-72 untuk integrasi dan penutupan. PR integrasi Sprint 1 #20 (Yoga), #24 (Rofii), #30 (Bitari), #28 (Arif), dan #29 (Wira) sudah merged. CI pada head PR dan CI `main` terkini lulus. Uraian per orang, bukti, cakupan UAT, dan sisa pemeriksaan ada di [laporan audit Sprint 1 dan HAP-14](sprint-1-audit-uat-2026-11-26.md).
+
+`origin/main` diuji pada worktree terpisah dengan SQLite khusus: 11 tes Unit/11 assertion dan 295 tes Feature/1.269 assertion lulus setelah PHP `intl` diaktifkan untuk proses tes. Dusk lengkap pada main lulus di CI run [45127557638](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/45127557638). Pengulangan Dusk lokal main lulus 12 dari 14 tes; halaman kesepakatan warga terkena batas eksekusi PHP 30 detik, sementara tes tanggal kesepakatan mengasumsikan kalender masih di bulan yang sama. Tes Dusk terarah HAP-14 lulus 2/2 dengan PHP intl aktif. Detail dan usulan perbaikan ada di [laporan audit Sprint 1 dan HAP-14](sprint-1-audit-uat-2026-11-26.md). Jangan menyamakan hasil lokal yang sebagian gagal dengan hasil CI yang hijau.
+
+Bagian setelah ini adalah snapshot historis sesuai tanggal judulnya. Jika ada perbedaan, gunakan pemeriksaan 26 November di atas dan periksa Jira/GitHub live sebelum melakukan perubahan.
+
+## Riwayat akses merge GitHub, diperiksa 19 November 2026
+
+Penyebab anggota tidak bisa merge adalah aturan proteksi `main` membatasi siapa yang boleh memperbarui branch dan hanya mencantumkan akun Yoga. Akun GitHub untuk Yoga, Bitari, Arif, Wira, dan Rofii sekarang semuanya tercantum di daftar tersebut, dan kelimanya memiliki akses Write. Pengaturan ini tidak menonaktifkan kewajiban PR: satu approval dari reviewer yang memiliki akses Write, status `install-and-build` yang lulus, percakapan review yang selesai, dan branch yang mengikuti `main` tetap diwajibkan. PM mengatur urutan dan memberi approval; penulis PR boleh merge setelah semua syarat terpenuhi. Push langsung tidak boleh dipakai untuk melewati pemeriksaan PR.
+
+PR #24 milik Rofii sudah merged pada 19 November 2026. `main` sekarang berada di `4362eb8`; CI setelah merge lulus pada [run 44490955465](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/44490955465).
+
+PR #30 Bitari masih terbuka pada head `4844b91`, sudah mengikuti `main` `4362eb8`, dan CI terbaru pada head tersebut lulus di [run 44531481441](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/44531481441). Dua temuan review tentang pendaftaran ulang peserta hadir dan pembatalan kegiatan sudah diperbaiki, dengan tes regresi. PM sudah memberi approval; penulis PR dapat merge setelah memastikan gate GitHub masih lulus. Judul PR masih menggandakan ringkasan dan deskripsinya masih menyebut baseline PR #19, jadi rapikan teks itu agar tidak membingungkan.
+
+PR #28 milik Arif belum siap merge. Head tetap `843106c`, satu commit di depan tetapi 37 commit di belakang `main`, dan review masih berstatus meminta perubahan. CI run `44436425639` lulus pada head itu sebelum `main` maju, jadi belum menjadi bukti CI untuk branch yang sudah tersinkron. Temuan yang belum diselesaikan: reservasi alokasi pohon saat kesepakatan menunggu penerimaan, kesesuaian tampilan M11 dengan frame Stitch 24 atau persetujuan perubahan acceptance, serta pencantuman HAP-34/35/36 di deskripsi PR. Arif perlu mengambil `main` terbaru, menyelesaikan konflik bila ada, memperbaiki temuan, push, menunggu CI terbaru, lalu meminta review ulang.
+
+Ada undangan Write terpisah yang masih menunggu untuk akun `kyeiki`. Akun itu bukan bagian dari roster lima anggota yang tercatat. Undangan tersebut tidak ditambahkan ke daftar pengguna yang diizinkan mengubah `main`; pastikan pemilik repo mengenali undangan itu sebelum menerimanya.
+
+Panduan lain yang lebih lama di bawah mencatat keadaan saat audit sebelumnya. Jika berbeda, bagian akses GitHub 19 November ini dan status live GitHub menjadi acuan terbaru.
+
+Catatan setelah pembaruan akses 19 November di atas merangkum kondisi Jira/GitHub pada 11-12 November 2026. Jira menjadi sumber status dan jadwal, GitHub sumber branch/commit/PR/CI, sedangkan proposal dan bahan kuliah sumber rancangan. Catatan tersebut adalah snapshot historis, bukan status live. Jika berbeda, gunakan bagian akses 19 November ini untuk aturan merge dan periksa Jira/GitHub langsung untuk status terbaru.
 
 ## Pembaruan CI dan GitHub, diperiksa 12 November 2026
 
@@ -12,7 +40,7 @@ Branch protection `main` sekarang mewajibkan status `install-and-build`, satu ap
 
 PR #24 Rofii masih terbuka dan sekarang 11 commit di depan serta 2 commit di belakang `main`. GitHub menandainya `BEHIND`; CI run lama [42960780438](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42960780438) lulus pada head sebelumnya, tetapi tidak cukup untuk merge setelah `main` berubah. Pemilik perlu menyinkronkan branch, memeriksa ulang review lama, lalu menunggu CI terbaru dan approval PM. Branch `rofii` huruf kecil terpisah, dengan 2 commit unik dan 35 commit di belakang `main`; jangan menghapus atau mengganti namanya sebelum pemilik memastikan commit tersebut sudah dipindahkan.
 
-## Kondisi terkini, diperiksa 11 November 2026 setelah PR #20 dan PR #21
+## Riwayat status pada 11 November 2026 setelah PR #20 dan PR #21
 
 PR #20 Yoga sudah digabung ke `main` pada 11 November 2026. Merge commit fitur adalah `232e6a213897f87d1e081274767efa61dff6c63c`; CI run [42930124355](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42930124355) lulus pada head `99176cd`. PR #21 lalu menggabungkan pembaruan dokumentasi setelah CI run [42932759405](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42932759405) lulus. Branch `yoga` di-fast-forward ke `main` setelah PR #21. Jira menampilkan HAP-10/11/12 dan HAP-62 sebagai Done. Dari 45 story aktif, 10 Done, 7 In Progress, dan 28 To Do; HAP-1 Done, HAP-2 sampai HAP-5 In Progress. Total 45 story dan pembagian sembilan story per anggota tidak berubah. PR #12, #14, dan #15 tetap ditutup tanpa merge.
 
@@ -52,7 +80,7 @@ Shell tiga panel Filament menggunakan tema bersama yang mengikuti font, palet, s
 | --- | --- |
 | Ketentuan Proyek PPL dan Modul 1 | PDF menyebut kelompok 6-7 orang, sedangkan teks LMS menyebut 5-6 orang. Tim berisi lima orang; konfirmasi dosen masih diperlukan. |
 | Rancangan arsitektur, proposal, dan bahan requirement/Scrum | Cocokkan kebutuhan, arsitektur, modul, jadwal, pengujian, dan batas fitur. Koreksi proposal dicatat pada [audit proposal](proposal-audit.md). |
-| Jira | Ada 5 epic dan 45 story aktif HJK-001-HJK-045 untuk M01-M15. Sprint 0 sudah ditutup, Sprint 1 aktif, Sprint 2 masih future. |
+| Jira | Ada 5 epic dan 45 story aktif HJK-001-HJK-045 untuk M01-M15. Pada pemeriksaan 26 November, Sprint 0 dan Sprint 1 sudah ditutup, Sprint 2 aktif. |
 | GitHub | Repo `PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon`, branch personal, pull request, protection, dan CI diperiksa. |
 | Stitch | Ada 25 frame. Pemetaan mockup ke 15 modul aktif ada di [panduan UI](ui-design.md). Mockup bukan bukti implementasi. |
 | Canva dan proposal | Proposal Google Docs diperbarui dengan kalimat yang lebih mudah dibaca. Presentasi 27 slide sudah disimpan setelah persetujuan PM. |
@@ -82,7 +110,7 @@ PR #17 menggabungkan HAP-8/HAP-9 ke `main` pada 10 November dengan merge commit 
 
 ## Riwayat GitHub dan branch sampai 25 Oktober 2026
 
-Rincian di bawah adalah riwayat pada 25 Oktober, bukan status PR terbaru. Untuk kondisi setelah PR #19 dan status PR #12/#14/#15, gunakan bagian **Kondisi terkini, diperiksa 11 November 2026** di awal dokumen.
+Rincian di bawah adalah riwayat pada 25 Oktober, bukan status PR terbaru. Untuk kondisi terbaru, gunakan pemeriksaan 26 November di awal dokumen.
 
 PR #7 digabung pada 25 Oktober 2026 dengan merge commit `d59db13`. PR #9 digabung pada tanggal yang sama dengan merge commit `55b4724`.
 
@@ -96,7 +124,7 @@ PR #7 digabung pada 25 Oktober 2026 dengan merge commit `d59db13`. PR #9 digabun
 - Branch lama `feature/HAP-16-jenis-pohon` masih dipertahankan sampai pemilik memastikan PR #6 aman dan tidak ada perubahan yang hilang. Jangan menghapus atau mengganti branch anggota saat PR pengganti belum diterima.
 - Branch personal tetap `yoga`, `bitari`, `arif`, `wira`, dan `rofii`. Commit dan PR tetap mencantumkan key HAP kapital agar bisa ditautkan ke Jira.
 
-## Pengujian dan kondisi implementasi
+## Pengujian dan kondisi implementasi pada snapshot 25 Oktober 2026
 
 Stack aplikasi adalah Laravel 13, Filament 5, Blade, Vite, Eloquent, dan MySQL 8+. Panel manager `/app`, field staff `/petugas`, dan citizen `/warga` berbagi satu aplikasi. Policy dasar dan autentikasi sudah ada; fitur bisnis selain yang tercatat pada issue yang selesai tetap dikerjakan melalui PBI masing-masing.
 
@@ -111,6 +139,6 @@ CI PR #6 Rofii juga lulus pada head-nya, tetapi hasil itu tidak membuktikan alur
 1. Minta dosen memastikan apakah roster lima orang memenuhi ketentuan, karena PDF dan LMS menyebut jumlah anggota yang berbeda.
 2. Tinjau kompleksitas fitur per anggota terhadap rubrik kelas. Jumlah sembilan story per orang saja belum membuktikan syarat tersebut.
 3. Sepakati data contoh dan urutan integrasi untuk dependensi antar modul sebelum story terkait mulai dikerjakan.
-4. Pemilik branch Rofii, Arif, dan Bitari mempertahankan commit unik dari PR #12/#14/#15 yang ditutup tanpa merge, menyinkronkan `main`, menyelesaikan konflik, memperbaiki temuan review yang masih berlaku, lalu membuka PR pengganti. Setiap PR perlu tes dan CI baru pada head terbaru. PM menerima setelah acceptance terpenuhi dan hanya PM yang merge.
+4. Pada snapshot 12 November, pemilik branch Rofii, Arif, dan Bitari diminta mempertahankan commit unik dari PR #12/#14/#15 yang ditutup tanpa merge, menyinkronkan `main`, menyelesaikan konflik, memperbaiki temuan review yang masih berlaku, lalu membuka PR pengganti. Setiap PR perlu tes dan CI baru pada head terbaru. Saat itu PM menerima dan menggabungkan PR. Kebijakan tersebut diganti pada 19 November: PM memberi approval, lalu pemilik PR menggabungkan setelah seluruh gate lulus.
 
 Audit tidak mengubah waktu kerja aktual dan tidak menjalankan migration pada database pemilik.

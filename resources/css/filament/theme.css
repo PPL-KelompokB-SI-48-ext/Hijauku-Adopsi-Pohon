@@ -105,13 +105,13 @@
 }
 
 .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
-    background: var(--hijauku-primary);
-    color: #ffffff;
+    background: #dcfce7;
+    color: #166534;
 }
 
 .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-icon,
 .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-sidebar-item-label {
-    color: #ffffff;
+    color: #166534;
 }
 
 .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover,
@@ -121,11 +121,15 @@
 
 .fi-sidebar-item.fi-active.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover,
 .fi-sidebar-item.fi-active.fi-sidebar-item-has-url > .fi-sidebar-item-btn:focus-visible {
-    background: var(--hijauku-primary-dark);
+    background: #bbf7d0;
 }
 
 .fi-topbar-ctn {
     z-index: 40;
+}
+
+.fi-modal-window-ctn {
+    z-index: 60;
 }
 
 .fi-topbar {
@@ -403,6 +407,93 @@
 
 .fi-ta-pagination {
     border-top: 1px solid var(--hijauku-border);
+}
+
+.fi-page.fi-resource-plots .fi-ta-header-ctn .fi-input-wrp {
+    background: #eef2ff;
+    border-color: transparent;
+}
+
+.fi-page.fi-resource-plots .fi-ta-header-ctn .fi-input-wrp:focus-within {
+    border-color: #15803d;
+    box-shadow: 0 0 0 1px #15803d;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat {
+    min-height: 78px;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgb(15 23 42 / 4%);
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat .fi-wi-stats-overview-stat-content {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 6px;
+    row-gap: 2px;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat .fi-wi-stats-overview-stat-label-ctn {
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-height: 20px;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat .fi-wi-stats-overview-stat-label {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat .fi-wi-stats-overview-stat-label-ctn > .fi-icon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    box-sizing: content-box;
+    width: 18px;
+    height: 18px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat .fi-wi-stats-overview-stat-value {
+    grid-column: 1;
+    grid-row: 2;
+    color: var(--hijauku-text);
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat .fi-wi-stats-overview-stat-description {
+    grid-column: 2;
+    grid-row: 2;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat-capacity .fi-icon {
+    background: #eef2ff;
+    color: #15803d;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat-occupied .fi-icon {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat-ready .fi-icon {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.fi-page.fi-resource-plots .fi-wi-stats-overview-stat.plot-stat-drafts .fi-icon {
+    background: #fef3c7;
+    color: #b45309;
 }
 
 @media (min-width: 1024px) {

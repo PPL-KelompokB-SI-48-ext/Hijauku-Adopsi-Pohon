@@ -37,6 +37,7 @@ class ProgramStatusWorkflowTest extends DuskTestCase
                 ->type('input[type="password"]', (string) env('DEMO_PASSWORD', 'demo-hijauku'))
                 ->click('form button[type="submit"]')
                 ->waitForLocation('/app')
+                ->resize(1024, 768)
                 ->visit('/app/programs')
                 ->assertSee($name);
 
@@ -45,6 +46,7 @@ class ProgramStatusWorkflowTest extends DuskTestCase
             });
 
             $browser->waitForText('Alasan aktivasi')
+                ->assertScript('(() => { const modal = document.querySelector(".fi-modal-window-ctn"); const sidebar = document.querySelector(".fi-sidebar"); return modal && sidebar && Number(getComputedStyle(modal).zIndex) > Number(getComputedStyle(sidebar).zIndex); })()')
                 ->type('textarea', 'Data program sudah diverifikasi melalui browser.')
                 ->press('Ya, Aktifkan')
                 ->waitUntilMissingText('Alasan aktivasi', 15)
