@@ -69,7 +69,37 @@ class SiteCreationTest extends DuskTestCase
                     $row->press('Edit');
                 })
                 ->waitForText('Ubah lokasi tanam')
-                ->assertScript('(() => { const modal = document.querySelector(".fi-modal-window-ctn"); const sidebar = document.querySelector(".fi-sidebar"); return modal && sidebar && Number(getComputedStyle(modal).zIndex) > Number(getComputedStyle(sidebar).zIndex); })()')
+                ->assertScript(<<<'JS'
+                    (() => {
+                        const overlay = document.querySelector('.fi-modal-close-overlay');
+                        const modal = document.querySelector('.fi-modal-window-ctn');
+                        const sidebar = document.querySelector('.fi-sidebar');
+                        const topbar = document.querySelector('.fi-topbar-ctn');
+
+                        if (!overlay || !modal || !sidebar || !topbar) {
+                            return false;
+                        }
+
+                        const overlayStyle = getComputedStyle(overlay);
+                        const overlayRect = overlay.getBoundingClientRect();
+                        const overlayZ = Number(overlayStyle.zIndex);
+                        const modalZ = Number(getComputedStyle(modal).zIndex);
+                        const sidebarZ = Number(getComputedStyle(sidebar).zIndex);
+                        const topbarZ = Number(getComputedStyle(topbar).zIndex);
+                        const coversViewport = overlayRect.left <= 0
+                            && overlayRect.top <= 0
+                            && overlayRect.right >= window.innerWidth
+                            && overlayRect.bottom >= window.innerHeight;
+                        const isVisible = overlayStyle.backgroundColor !== 'transparent'
+                            && overlayStyle.backgroundColor !== 'rgba(0, 0, 0, 0)';
+
+                        return coversViewport
+                            && isVisible
+                            && overlayZ > sidebarZ
+                            && overlayZ > topbarZ
+                            && modalZ > overlayZ;
+                    })()
+                    JS)
                 ->press('Batal')
                 ->waitUntilMissingText('Ubah lokasi tanam', 15);
         });
