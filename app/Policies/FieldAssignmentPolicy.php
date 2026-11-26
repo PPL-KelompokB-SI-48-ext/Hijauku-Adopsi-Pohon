@@ -10,7 +10,7 @@ class FieldAssignmentPolicy extends ManagerOnlyPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->isFieldStaff();
+        return $user->isManager() || $user->isFieldStaff();
     }
 
     public function view(User $user, Model $model): bool
@@ -19,8 +19,22 @@ class FieldAssignmentPolicy extends ManagerOnlyPolicy
             return false;
         }
 
+        if ($user->isManager()) {
+            return true;
+        }
+
         return $user->isFieldStaff()
             && $model->assignee_id !== null
             && (int) $model->assignee_id === (int) $user->getKey();
+    }
+
+    public function create(User $user, ?Model $model = null): bool
+    {
+        return $user->isManager();
+    }
+
+    public function update(User $user, Model $model): bool
+    {
+        return $user->isManager();
     }
 }
