@@ -4,11 +4,17 @@
 
 Jira: HAP-13/HJK-007 dan HAP-14/HJK-008 sudah Done setelah acceptance, tes, CI pada commit terbaru, dan pemeriksaan PM. HAP-15/HJK-009 tetap To Do. HAP-14 memiliki original estimate 6 jam, remaining estimate 0, dan tidak memiliki work log; jam aktual tidak dicatat.
 
-GitHub: branch personal `yoga` memuat perubahan HAP-13, HAP-14, dan audit dokumen yang belum masuk ke `main`. Branch ini sudah mencakup `origin/main` pada `8bc3b1b`. Commit HAP-13 `78d08d6` dan stabilisasi tesnya `54215e9` ada di branch ini; CI terbaru HAP-13 lulus pada [run 45799509916](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/45799509916). HAP-14 ada pada commit `966a66d`; CI [run 45805091781](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/45805091781) lulus. Pembaruan audit dokumen pada `6dce507` juga lulus CI pada [run 45807482423](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/45807482423). Jira Development panel menampilkan commit HAP-14 dan build CI #179 berhasil. Belum ada PR HAP-14; sesuai alur tim, penulis membuka satu PR berisi seluruh pekerjaan sprintnya pada akhir sprint. Perubahan branch ini belum masuk ke `main`.
+GitHub: `origin/main` berada pada `8bc3b1b925d7af87a922f9ada8a1fd9b5bb7c160`. Kode HAP-14 yang diperiksa ada pada commit branch Yoga `13ad2a885f454067cc6108da63ceae526d4bb24e`, yang saat pemeriksaan sudah mencakup `origin/main` dan belum memiliki PR Sprint 2. Commit HAP-13 `78d08d6`, stabilisasi tes `54215e9`, implementasi HAP-14 `966a66d`, dan pembaruan audit sebelumnya `6dce507` ada pada branch itu. CI lulus pada commit kode tersebut di [run 45808233081](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/45808233081), termasuk migrasi/seeder SQLite dan MySQL, route panel, build aset, 11 tes Unit, 308 tes Feature, serta 17 tes Dusk. Jira Development panel menautkan HAP-14 ke commit dan build CI yang lulus. HAP-14 tetap menunggu PR integrasi Sprint 2 sesuai jadwal tim.
 
-Pemeriksaan lokal HAP-14: Pint lulus, tes Feature terkait 10 tes/49 assertion, tes Dusk 2 tes/6 assertion, dan `npm run build` lulus. CI pada commit yang sama melaporkan 11 Unit/11 assertion, 308 Feature/1.320 assertion, 17 Dusk/116 assertion, pemeriksaan migrasi dan seeder SQLite serta MySQL lulus, pemeriksaan route panel lulus, dan build aset lulus. Layar daftar M03 diperiksa terhadap frame Stitch; peringatan kapasitas 90% memakai indikator amber. Frame Stitch hanya mencakup daftar, jadi form pencatatan pohon memakai pola Filament bersama dan tidak diklaim 1:1 terhadap frame yang tidak tersedia.
+Pemeriksaan HAP-14 di branch `yoga`: Pint, 10 tes Feature terkait (49 assertion), 2 tes Dusk (6 assertion), dan `npm run build` lulus. Dusk lokal dijalankan terhadap SQLite khusus di worktree sementara dengan PHP `intl` aktif lewat konfigurasi sementara; `.env` dan MySQL pemilik tidak disentuh. Playwright memeriksa daftar kapasitas, batas 90%, pencatatan pohon terakhir, status penuh, pilihan petak penuh, dan lebar layar 390 px tanpa overflow. Layar daftar M03 dibandingkan dengan frame Stitch. Frame hanya mencakup daftar; form pencatatan pohon mengikuti pola Filament bersama dan tidak diklaim 1:1 terhadap frame yang tidak tersedia.
 
-## Akses merge GitHub, diperiksa 19 November 2026
+Sprint 1 sudah ditutup. Jira berisi 37/37 item berstatus Done: 30 story, 5 task persiapan PR anggota, serta HAP-71/HAP-72 untuk integrasi dan penutupan. PR integrasi Sprint 1 #20 (Yoga), #24 (Rofii), #30 (Bitari), #28 (Arif), dan #29 (Wira) sudah merged. CI pada head PR dan CI `main` terkini lulus. Uraian per orang, bukti, cakupan UAT, dan sisa pemeriksaan ada di [laporan audit Sprint 1 dan HAP-14](sprint-1-audit-uat-2026-11-26.md).
+
+`origin/main` diuji pada worktree terpisah dengan SQLite khusus: 11 tes Unit/11 assertion dan 295 tes Feature/1.269 assertion lulus setelah PHP `intl` diaktifkan untuk proses tes. Dusk lengkap pada main lulus di CI run [45127557638](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/45127557638). Pengulangan Dusk lokal main lulus 12 dari 14 tes; halaman kesepakatan warga terkena batas eksekusi PHP 30 detik, sementara tes tanggal kesepakatan mengasumsikan kalender masih di bulan yang sama. Tes Dusk terarah HAP-14 lulus 2/2 dengan PHP intl aktif. Detail dan usulan perbaikan ada di [laporan audit Sprint 1 dan HAP-14](sprint-1-audit-uat-2026-11-26.md). Jangan menyamakan hasil lokal yang sebagian gagal dengan hasil CI yang hijau.
+
+Bagian setelah ini adalah snapshot historis sesuai tanggal judulnya. Jika ada perbedaan, gunakan pemeriksaan 26 November di atas dan periksa Jira/GitHub live sebelum melakukan perubahan.
+
+## Riwayat akses merge GitHub, diperiksa 19 November 2026
 
 Penyebab anggota tidak bisa merge adalah aturan proteksi `main` membatasi siapa yang boleh memperbarui branch dan hanya mencantumkan akun Yoga. Akun GitHub untuk Yoga, Bitari, Arif, Wira, dan Rofii sekarang semuanya tercantum di daftar tersebut, dan kelimanya memiliki akses Write. Pengaturan ini tidak menonaktifkan kewajiban PR: satu approval dari reviewer yang memiliki akses Write, status `install-and-build` yang lulus, percakapan review yang selesai, dan branch yang mengikuti `main` tetap diwajibkan. PM mengatur urutan dan memberi approval; penulis PR boleh merge setelah semua syarat terpenuhi. Push langsung tidak boleh dipakai untuk melewati pemeriksaan PR.
 
@@ -34,7 +40,7 @@ Branch protection `main` sekarang mewajibkan status `install-and-build`, satu ap
 
 PR #24 Rofii masih terbuka dan sekarang 11 commit di depan serta 2 commit di belakang `main`. GitHub menandainya `BEHIND`; CI run lama [42960780438](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42960780438) lulus pada head sebelumnya, tetapi tidak cukup untuk merge setelah `main` berubah. Pemilik perlu menyinkronkan branch, memeriksa ulang review lama, lalu menunggu CI terbaru dan approval PM. Branch `rofii` huruf kecil terpisah, dengan 2 commit unik dan 35 commit di belakang `main`; jangan menghapus atau mengganti namanya sebelum pemilik memastikan commit tersebut sudah dipindahkan.
 
-## Kondisi terkini, diperiksa 11 November 2026 setelah PR #20 dan PR #21
+## Riwayat status pada 11 November 2026 setelah PR #20 dan PR #21
 
 PR #20 Yoga sudah digabung ke `main` pada 11 November 2026. Merge commit fitur adalah `232e6a213897f87d1e081274767efa61dff6c63c`; CI run [42930124355](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42930124355) lulus pada head `99176cd`. PR #21 lalu menggabungkan pembaruan dokumentasi setelah CI run [42932759405](https://github.com/PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon/actions/runs/42932759405) lulus. Branch `yoga` di-fast-forward ke `main` setelah PR #21. Jira menampilkan HAP-10/11/12 dan HAP-62 sebagai Done. Dari 45 story aktif, 10 Done, 7 In Progress, dan 28 To Do; HAP-1 Done, HAP-2 sampai HAP-5 In Progress. Total 45 story dan pembagian sembilan story per anggota tidak berubah. PR #12, #14, dan #15 tetap ditutup tanpa merge.
 
@@ -74,7 +80,7 @@ Shell tiga panel Filament menggunakan tema bersama yang mengikuti font, palet, s
 | --- | --- |
 | Ketentuan Proyek PPL dan Modul 1 | PDF menyebut kelompok 6-7 orang, sedangkan teks LMS menyebut 5-6 orang. Tim berisi lima orang; konfirmasi dosen masih diperlukan. |
 | Rancangan arsitektur, proposal, dan bahan requirement/Scrum | Cocokkan kebutuhan, arsitektur, modul, jadwal, pengujian, dan batas fitur. Koreksi proposal dicatat pada [audit proposal](proposal-audit.md). |
-| Jira | Ada 5 epic dan 45 story aktif HJK-001-HJK-045 untuk M01-M15. Sprint 0 sudah ditutup, Sprint 1 aktif, Sprint 2 masih future. |
+| Jira | Ada 5 epic dan 45 story aktif HJK-001-HJK-045 untuk M01-M15. Pada pemeriksaan 26 November, Sprint 0 dan Sprint 1 sudah ditutup, Sprint 2 aktif. |
 | GitHub | Repo `PPL-KelompokB-SI-48-ext/Hijauku-Adopsi-Pohon`, branch personal, pull request, protection, dan CI diperiksa. |
 | Stitch | Ada 25 frame. Pemetaan mockup ke 15 modul aktif ada di [panduan UI](ui-design.md). Mockup bukan bukti implementasi. |
 | Canva dan proposal | Proposal Google Docs diperbarui dengan kalimat yang lebih mudah dibaca. Presentasi 27 slide sudah disimpan setelah persetujuan PM. |
@@ -104,7 +110,7 @@ PR #17 menggabungkan HAP-8/HAP-9 ke `main` pada 10 November dengan merge commit 
 
 ## Riwayat GitHub dan branch sampai 25 Oktober 2026
 
-Rincian di bawah adalah riwayat pada 25 Oktober, bukan status PR terbaru. Untuk kondisi setelah PR #19 dan status PR #12/#14/#15, gunakan bagian **Kondisi terkini, diperiksa 11 November 2026** di awal dokumen.
+Rincian di bawah adalah riwayat pada 25 Oktober, bukan status PR terbaru. Untuk kondisi terbaru, gunakan pemeriksaan 26 November di awal dokumen.
 
 PR #7 digabung pada 25 Oktober 2026 dengan merge commit `d59db13`. PR #9 digabung pada tanggal yang sama dengan merge commit `55b4724`.
 
@@ -118,7 +124,7 @@ PR #7 digabung pada 25 Oktober 2026 dengan merge commit `d59db13`. PR #9 digabun
 - Branch lama `feature/HAP-16-jenis-pohon` masih dipertahankan sampai pemilik memastikan PR #6 aman dan tidak ada perubahan yang hilang. Jangan menghapus atau mengganti branch anggota saat PR pengganti belum diterima.
 - Branch personal tetap `yoga`, `bitari`, `arif`, `wira`, dan `rofii`. Commit dan PR tetap mencantumkan key HAP kapital agar bisa ditautkan ke Jira.
 
-## Pengujian dan kondisi implementasi
+## Pengujian dan kondisi implementasi pada snapshot 25 Oktober 2026
 
 Stack aplikasi adalah Laravel 13, Filament 5, Blade, Vite, Eloquent, dan MySQL 8+. Panel manager `/app`, field staff `/petugas`, dan citizen `/warga` berbagi satu aplikasi. Policy dasar dan autentikasi sudah ada; fitur bisnis selain yang tercatat pada issue yang selesai tetap dikerjakan melalui PBI masing-masing.
 

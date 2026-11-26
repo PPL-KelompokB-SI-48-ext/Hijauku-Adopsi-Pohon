@@ -1,6 +1,6 @@
 # Arsitektur Hijauku - Rev 2
 
-**Status:** Baseline arsitektur aplikasi dan implementasi yang sudah masuk ke `main`, diperiksa 11 November 2026 setelah PR #19.
+**Status:** Baseline arsitektur aplikasi. Status implementasi disegarkan 26 November 2026; lihat [audit sumber](source-audit.md) untuk snapshot Jira, GitHub, dan CI terbaru.
 **Berlaku:** Scope aktif 15 modul, lima anggota, Laravel 13 + Filament 5.
 **Pemilik keputusan proyek:** Yoga (PM). Perubahan berikutnya dicatat pada Jira dan pull request.
 
@@ -98,13 +98,11 @@ Rancangan awal mengusulkan PostgreSQL 18. Untuk starter Sprint 0, PM menetapkan 
 
 ## 8. Yang sudah tersedia dan yang belum
 
-**Sudah tersedia di `main`:** fondasi Laravel/Filament, tiga panel dan gate role, Policy dasar, model/migration awal, seeder demo, beranda publik, serta alur M01 untuk membuat draf, mengaktifkan program, dan mengarsipkan program selesai (HJK-001-HJK-003). M07 HJK-019 menyediakan pencatatan rencana kegiatan. M13 HJK-037 sampai HJK-039 menyediakan penyusunan rencana, prioritas, koreksi, dan pembatalan rencana dengan riwayat. Dokumentasi dan CI juga tersedia.
+**Sudah tersedia di `main`:** fondasi Laravel/Filament, tiga panel dan gate role, Policy dasar, model/migration awal, seeder demo, beranda publik, serta modul Sprint 1 yang sudah diterima. M01-M02 ada di PR sebelumnya dan PR #20; M04-M05 masuk melalui PR #24; M07-M08 melalui PR #30; M10-M11 melalui PR #28; M13-M14 melalui PR #29. Lima PR anggota tersebut sudah merged dan pemeriksaan CI `main` terbaru lulus. Rincian tampilan per modul dan batas frame Stitch ada di `docs/ui-design.md`.
 
-**Sudah tersedia di `main`:** HAP-10-HAP-12 / HJK-004-HJK-006 masuk melalui PR #20. Resource lokasi memakai `SitePolicy`, form dan tabel Filament reusable, serta action terpisah untuk membuat, mengubah, dan menghapus lokasi. Validasi dan otorisasi ada di server. Perubahan memakai transaksi dan audit log; relasi petak/kegiatan mencegah penghapusan lokasi yang masih dipakai. Schema `sites` dan foreign key sudah tersedia, sehingga story ini tidak memerlukan migration. Detail acuan Stitch dan batas kesetaraan UI ada di `docs/ui-design.md`.
+**Belum masuk `main`:** M03 HJK-007/HJK-008 (HAP-13/HAP-14) sudah selesai dan CI pada branch Yoga lulus, tetapi menunggu PR integrasi Sprint 2 sesuai jadwal. HJK-009/HAP-15 belum dikerjakan. M06, M09, M12, dan M15 juga masih dikerjakan di Sprint 2. Jangan membaca status Jira Done pada branch pribadi sebagai bukti bahwa perubahan sudah ada di `main`.
 
-**Belum diterima di `main`:** pekerjaan M04 HAP-16/17/18, M07 HAP-26/27, dan M10 HAP-34/35 masih perlu memenuhi acceptance dan tes masing-masing. PR #12, #14, dan #15 ditutup tanpa merge. Pemilik mempertahankan commit unik di branch personal, menyinkronkan `main`, meninjau temuan lama yang masih berlaku, lalu membuka PR pengganti untuk review dan CI baru. Cakupan HAP-18 perlu dipastikan dengan pemilik modul.
-
-**Belum dianggap selesai:** story lain yang masih To Do, filter ownership untuk setiap Resource, workflow transaksi di modul yang belum diterima, upload bukti privat, dashboard berisi metrik, layar Stitch yang belum diimplementasikan, deployment, dan integrasi notifikasi. Pekerjaan ini masuk ke story M01-M15; fitur tidak dianggap selesai hanya karena tabel/model atau shell panel tersedia.
+**Belum dianggap selesai:** story Sprint 2 yang masih In Progress/To Do, tes UAT lintas modul setelah integrasi PR, pemeriksaan deploy dan dokumentasi rilis. Pekerjaan tambahan seperti filter ownership, upload bukti privat, dashboard berisi metrik, dan notifikasi hanya dikerjakan jika acceptance story mencakupnya. Fitur tidak dianggap selesai hanya karena tabel/model atau shell panel tersedia.
 
 HJK-001 menambahkan alur pembuatan program pada panel manager. Program adalah master data yang bisa dilihat lintas pengelola, sementara `created_by` tetap mencatat siapa yang membuatnya. Status awal ditetapkan server sebagai `draft`; event pencatatan program disimpan bersama record dalam transaksi. HJK-002 hanya mengizinkan aktivasi dari status `draft` setelah nama, tujuan, dan periode lolos validasi. HJK-003 hanya mengizinkan pengarsipan status `completed`; record tetap tersimpan supaya relasi lokasi dan pohon aman. Kedua transisi mengambil aktor dari sesi, meminta alasan, dan menulis audit log dalam transaksi. Pengubahan data program dan penghapusan tetap tidak tersedia karena bukan acceptance story saat ini.
 
